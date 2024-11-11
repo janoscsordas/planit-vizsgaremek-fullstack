@@ -20,6 +20,10 @@ const config: Config = {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
   			},
+  			emerald: {
+				DEFAULT: 'hsl(var(--emerald))',
+				hover: 'hsl(var(--emerald-hover))'
+			},
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
