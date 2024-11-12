@@ -7,7 +7,10 @@ import Link from "next/link";
 
 export default function Login() {
     return (
-      <div className="min-h-screen w-full flex justify-center items-center">
+      <div className="min-h-screen w-full flex flex-col gap-8 justify-center items-center">
+        <Link href={"/"}>
+          <Image src="/icon.png" alt="Icon" width={68} height={68} />
+        </Link>
         <div className="border border-border p-8 w-[350px] rounded-lg">
           <h1 className="text-2xl font-bold text-center mb-1">Üdv újra itt!</h1>
           <p className="text-sm text-muted-foreground text-center mb-3">
