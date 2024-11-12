@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hu">
+    <html lang="hu" className="dark">
       <body
         className={`${GeistSans.className} antialiased`}
       >
