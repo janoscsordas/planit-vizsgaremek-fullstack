@@ -5,7 +5,7 @@ import {
   Heading,
   Text,
   Link,
-  // Img,
+  Img,
   Tailwind,
 } from "@react-email/components"
 import * as React from "react"
@@ -33,46 +33,27 @@ export default function TestEmail({ name, verificationLink }: TestEmailProps) {
       <Html>
         <Container className="max-w-[600px] w-full flex justify-center items-center font-sans pt-8 pb-16">
           <Container className="w-full text-center">
-            {/* <Img
-            src="./logo.png"
-            width="65"
-            height="65"
-            alt="Planitapp"
-            style={{ margin: "0 auto" }}
-          /> */}
-
-            {/* TODO: szöveget képre kicserélni ez egy teszt szöveg!!! */}
-            <Text
-              style={{
-                color: "#45CB85",
-                fontSize: 24,
-                fontWeight: "bold",
-                fontFamily: "sans-serif",
-                marginInline: "auto",
-              }}
-            >
-              Planitapp
-            </Text>
+            <Img
+              src="/full-logo.png"
+              width="65"
+              height="65"
+              alt="Planitapp"
+              style={{ margin: "0 auto" }}
+            />
             <Heading style={h1}>Sikeres regisztráció!</Heading>
             <Heading style={h2}>Kedves {name}!</Heading>
             <Heading style={h3}>
               Köszönjük, hogy regisztrált a planitapp.hu-n!
             </Heading>
 
-            <Button
-              href={verificationLink || "https://planitapp.hu"}
-              style={button}
-            >
+            <Button href={verificationLink} style={button}>
               Tovább a hitelesítéshez
             </Button>
 
             <Text style={{ ...commonText, marginTop: "30px" }}>
               Ha a gomb nem működik, kattintson ide:{" "}
-              <Link
-                style={links}
-                href={verificationLink || "https://planitapp.hu"}
-              >
-                {verificationLink || "https://planitapp.hu"}
+              <Link style={links} href={verificationLink}>
+                {verificationLink}
               </Link>
             </Text>
 
@@ -91,7 +72,7 @@ export default function TestEmail({ name, verificationLink }: TestEmailProps) {
 
             <Container style={footerContainer}>
               <Text style={simpleParagraph}>
-                Üdvözlettel, a PlanItapp csapata!
+                Üdvözlettel, a Planitapp csapata!
               </Text>
               <Text style={dateParagraph}>{date}</Text>
               <Text style={italicParagraph}>
