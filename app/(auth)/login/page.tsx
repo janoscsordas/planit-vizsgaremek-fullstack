@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button"
 import LoginForm from "./login-form";
 import Image from "next/image";
-import Github from "@/public/github.svg";
-import Google from "@/public/google.svg";
 import Link from "next/link";
+import GithubLoginButton from "../github-login-button";
+import GoogleLoginButton from "../google-login-button";
 
-export default function Login() {
+export default async function Login({ params }: { params?: { verified: boolean } }) {
     return (
       <div className="min-h-screen w-full flex flex-col gap-8 justify-center items-center">
         <Link href={"/"}>
@@ -17,7 +16,7 @@ export default function Login() {
             Jelentkezz be a fiókodba
           </p>
           
-          <LoginForm />
+          <LoginForm verified={params?.verified || false} />
 
           <div className="relative my-3">
             <div className="absolute inset-0 flex items-center">
@@ -29,18 +28,10 @@ export default function Login() {
               </span>
             </div>
           </div>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Github} alt="Github" width={16} height={16} />
-              Github
-            </Button>
-          </form>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Google} alt="Google" width={16} height={16} />
-              Google
-            </Button>
-          </form>
+
+          <GithubLoginButton />
+          <GoogleLoginButton />
+
           <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
             Nincs még fiókod? 
             <Link href="/signup" className="text-emerald underline">Regisztrálj!</Link>
