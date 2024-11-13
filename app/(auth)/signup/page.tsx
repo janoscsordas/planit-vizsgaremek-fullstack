@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button"
 import SignUpForm from "./signup-form";
 import Image from "next/image";
-import Github from "@/public/github.svg";
-import Google from "@/public/google.svg";
 import Link from "next/link";
+import GithubLoginButton from "../github-login-button";
+import GoogleLoginButton from "../google-login-button";
 
 export default function SignUp() {
     return (
@@ -29,18 +28,10 @@ export default function SignUp() {
               </span>
             </div>
           </div>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Github} alt="Github" width={16} height={16} />
-              Github
-            </Button>
-          </form>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Google} alt="Google" width={16} height={16} />
-              Google
-            </Button>
-          </form>
+          
+          <GithubLoginButton />
+          <GoogleLoginButton />
+
           <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
             Van már fiókod? 
             <Link href="/login" className="text-emerald underline">Jelentkezz be!</Link>
