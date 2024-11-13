@@ -10,9 +10,13 @@ import { loginSchema } from "@/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 
+type FieldErrors = {
+  [key: string]: string;
+}
 
 export default function LoginForm({ verified }: { verified: boolean }) {
   const [isLoading, setIsLoading] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const router = useRouter()
 
   const { toast } = useToast()
@@ -28,6 +32,7 @@ export default function LoginForm({ verified }: { verified: boolean }) {
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true)
+    setFieldErrors({}) // Reset errors on new submission
 
     const data = Object.fromEntries(formData.entries()) as z.infer<typeof loginSchema>
 
@@ -35,12 +40,12 @@ export default function LoginForm({ verified }: { verified: boolean }) {
     const result = loginSchema.safeParse(data)
 
     if (!result.success) {
-      toast({
-        title: "Sikertelen bejelentkezés",
-        description: result.error.message,
-        duration: 5000,
-        variant: "destructive",
-      })
+      const zodErrors = result.error.errors.reduce((acc: FieldErrors, curr) => {
+        const field = curr.path[0]?.toString() || 'general'
+        acc[field] = curr.message
+        return acc
+      }, {})
+      setFieldErrors(zodErrors)
       setIsLoading(false)
       return
     }
@@ -48,12 +53,18 @@ export default function LoginForm({ verified }: { verified: boolean }) {
     const res = await login(data)
 
     if (!res.success) {
-      toast({
-        title: "Sikertelen bejelentkezés",
-        description: res.message,
-        duration: 5000,
-        variant: "destructive",
-      })
+      if (res.message) {
+        // Handle field-specific errors from the server
+        setFieldErrors(res.message as FieldErrors)
+      } else {
+        // Handle general error
+        toast({
+          title: "Sikertelen bejelentkezés",
+          description: res.message,
+          duration: 5000,
+          variant: "destructive",
+        })
+      }
       setIsLoading(false)
       return
     }
@@ -67,7 +78,7 @@ export default function LoginForm({ verified }: { verified: boolean }) {
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
-          className="mb-2"
+          className={`mb-2 ${fieldErrors.email ? 'border-red-500' : ''}`}
           type="email"
           name="email"
           id="email"
@@ -75,11 +86,14 @@ export default function LoginForm({ verified }: { verified: boolean }) {
           required
           disabled={isLoading}
         />
+        {fieldErrors.email && (
+          <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="password">Jelszó</Label>
         <Input
-          className="mb-2"
+          className={`mb-2 ${fieldErrors.password ? 'border-red-500' : ''}`}
           type="password"
           name="password"
           id="password"
@@ -87,6 +101,9 @@ export default function LoginForm({ verified }: { verified: boolean }) {
           required
           disabled={isLoading}
         />
+        {fieldErrors.password && (
+          <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
+        )}
       </div>
       <Button className="w-full bg-emerald hover:bg-emerald-hover" disabled={isLoading}>
         {isLoading ? "Bejelentkezés folyamatban..." : "Bejelentkezés"}

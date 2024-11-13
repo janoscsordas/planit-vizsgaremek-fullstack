@@ -13,7 +13,11 @@ import { sendVerificationEmail } from "./email.action";
 import { ZodError } from "zod";
 
 // Get user from database by email
-export async function getUserFromDb(email: string, password: string) {
+export async function getUserFromDb(email: string, password: string): Promise<{
+    success: boolean;
+    data?: any;
+    message?: string;
+}> {
     try {
         // Querying user from database by email
         const [userData] = await db
@@ -46,13 +50,6 @@ export async function getUserFromDb(email: string, password: string) {
             data: userData,
         }
     } catch (error: any) {
-        if (error instanceof ZodError) {
-            const errorMessage = error.errors.map(err => err.message).join(', ');
-            return {
-                success: false,
-                message: errorMessage
-            }
-        }
         if (error instanceof CredentialsSignin) {
             switch (error.type) {
               case 'CredentialsSignin':
@@ -81,7 +78,11 @@ export async function login({
 }: {
     email: string,
     password: string,
-}) {
+}): Promise<{
+    success: boolean;
+    data?: any;
+    message?: Record<string, string> | string;
+}> {
     try {
         // Validate login data
         await loginSchema.parseAsync({ email, password })
@@ -91,6 +92,10 @@ export async function login({
 
         if (!userExists.success) {
             throw new Error(userExists.message || "A felhasználó nem található az adatbázisban")
+        }
+
+        if (!userExists.data?.emailVerified) {
+            throw new Error("Kérlek erősítsd meg a regisztrált email címed!")
         }
 
         // Sign in user
@@ -104,17 +109,25 @@ export async function login({
             success: true,
             data: res,
         }
-    } catch (error: any) {
+    } catch (error) {
         if (error instanceof ZodError) {
-            const errorMessage = error.errors.map(err => err.message).join(', ');
+            // More detailed Zod error handling
+            const formattedErrors = error.errors.reduce((acc: Record<string, string>, curr) => {
+                // Get the field path (e.g., "email", "password")
+                const field = curr.path[0]?.toString() || 'general'
+                acc[field] = curr.message
+                return acc
+            }, {})
+            
             return {
                 success: false,
-                message: errorMessage
+                message: formattedErrors
             }
         }
+        
         return {
             success: false,
-            message: error.message
+            message: error instanceof Error ? error.message : "Hiba történt a bejelentkezés során"
         }
     }
 }
@@ -128,7 +141,11 @@ export async function signup({
     name: string,
     email: string,
     password: string,
-}) {
+}): Promise<{
+    success: boolean;
+    data?: any;
+    message?: Record<string, string> | string;
+}> {
     try {
         await signupSchema.parseAsync({ email, password, name })
 
@@ -182,22 +199,31 @@ export async function signup({
             success: true,
             data: user,
         }
-    } catch (error: any) {
+    } catch (error) {
         if (error instanceof ZodError) {
-            const errorMessage = error.errors.map(err => err.message).join(', ');
+            const formattedErrors = error.errors.reduce((acc: Record<string, string>, curr) => {
+                const field = curr.path[0]?.toString() || 'general'
+                acc[field] = curr.message
+                return acc
+            }, {})
+            
             return {
                 success: false,
-                message: errorMessage
+                message: formattedErrors
             }
         }
+        
         return {
             success: false,
-            message: error.message
+            message: error instanceof Error ? error.message : "Hiba történt a regisztráció során"
         }
     }
 }
 
-export async function verifyEmail(token: string) {
+export async function verifyEmail(token: string): Promise<{
+    success: boolean;
+    message: string;
+}> {
     try {
         // Find the verification token
         const [verificationToken] = await db

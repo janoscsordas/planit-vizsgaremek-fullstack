@@ -10,27 +10,31 @@ import { signupSchema } from "@/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 
+type FieldErrors = {
+  [key: string]: string;
+}
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const router = useRouter()
-
   const { toast } = useToast()
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true)
+    setFieldErrors({}) // Reset errors on new submission
 
     const data = Object.fromEntries(formData.entries()) as z.infer<typeof signupSchema>
 
     const result = signupSchema.safeParse(data)
 
     if (!result.success) {
-      toast({
-        title: "Sikertelen regisztráció",
-        description: result.error.message,
-        duration: 5000,
-        variant: "destructive",
-      })
+      const zodErrors = result.error.errors.reduce((acc: FieldErrors, curr) => {
+        const field = curr.path[0]?.toString() || 'general'
+        acc[field] = curr.message
+        return acc
+      }, {})
+      setFieldErrors(zodErrors)
       setIsLoading(false)
       return
     }
@@ -38,6 +42,13 @@ export default function SignUpForm() {
     const res = await signup(data)
 
     if (!res.success) {
+      if (res.message) {
+        // Handle field-specific errors from the server
+        setFieldErrors(res.message as FieldErrors)
+        setIsLoading(false)
+        return
+      }
+      // Handle general error
       toast({
         title: "Sikertelen regisztráció",
         description: res.message,
@@ -63,10 +74,10 @@ export default function SignUpForm() {
 
   return (
     <form action={async (formData: FormData) => await handleSubmit(formData)}>
-        <div>
+      <div>
         <Label htmlFor="name">Felhasználónév</Label>
         <Input
-          className="mb-2"
+          className={`mb-2 ${fieldErrors.name ? 'border-red-500' : ''}`}
           type="text"
           name="name"
           id="name"
@@ -74,11 +85,14 @@ export default function SignUpForm() {
           required
           disabled={isLoading}
         />
+        {fieldErrors.name && (
+          <p className="text-sm text-red-500 mt-1">{fieldErrors.name}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
-          className="mb-2"
+          className={`mb-2 ${fieldErrors.email ? 'border-red-500' : ''}`}
           type="email"
           name="email"
           id="email"
@@ -86,11 +100,14 @@ export default function SignUpForm() {
           required
           disabled={isLoading}
         />
+        {fieldErrors.email && (
+          <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
+        )}
       </div>
       <div>
         <Label htmlFor="password">Jelszó</Label>
         <Input
-          className="mb-2"
+          className={`mb-2 ${fieldErrors.password ? 'border-red-500' : ''}`}
           type="password"
           name="password"
           id="password"
@@ -98,10 +115,16 @@ export default function SignUpForm() {
           required
           disabled={isLoading}
         />
+        {fieldErrors.password && (
+          <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
+        )}
       </div>
-      <Button className="w-full bg-emerald hover:bg-emerald-hover" disabled={isLoading}>
+      <Button 
+        className="w-full bg-emerald hover:bg-emerald-hover" 
+        disabled={isLoading}
+      >
         {isLoading ? "Regisztráció folyamatban..." : "Regisztráció"}
       </Button>
     </form>
-  );
+  )
 }

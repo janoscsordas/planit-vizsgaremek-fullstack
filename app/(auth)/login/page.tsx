@@ -1,8 +1,7 @@
 import LoginForm from "./login-form";
 import Image from "next/image";
 import Link from "next/link";
-import GithubLoginButton from "../github-login-button";
-import GoogleLoginButton from "../google-login-button";
+import AuthButtons from "@/components/auth/AuthButtons";
 
 export default async function Login({ params }: { params?: { verified: boolean } }) {
     return (
@@ -29,8 +28,7 @@ export default async function Login({ params }: { params?: { verified: boolean }
             </div>
           </div>
 
-          <GithubLoginButton />
-          <GoogleLoginButton />
+          <AuthButtons />
 
           <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
             Nincs még fiókod? 
