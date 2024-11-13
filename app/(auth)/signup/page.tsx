@@ -1,8 +1,7 @@
 import SignUpForm from "./signup-form";
 import Image from "next/image";
 import Link from "next/link";
-import GithubLoginButton from "../github-login-button";
-import GoogleLoginButton from "../google-login-button";
+import AuthButtons from "@/components/auth/AuthButtons";
 
 export default function SignUp() {
     return (
@@ -29,8 +28,7 @@ export default function SignUp() {
             </div>
           </div>
           
-          <GithubLoginButton />
-          <GoogleLoginButton />
+          <AuthButtons />
 
           <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
             Van már fiókod? 

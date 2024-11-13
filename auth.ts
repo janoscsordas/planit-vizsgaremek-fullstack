@@ -1,5 +1,5 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
-import NextAuth, { CredentialsSignin, NextAuthConfig, User } from "next-auth"
+import NextAuth, { AuthError, NextAuthConfig, User } from "next-auth"
 import { encode as defaultEncode } from "next-auth/jwt"
 import { db } from "./database/index"
 import GitHub from "next-auth/providers/github"
@@ -7,6 +7,8 @@ import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { v4 as uuid } from "uuid"
 import { getUserFromDb } from "./actions/user.action"
+import { eq } from "drizzle-orm"
+import { AccountsTable } from "@/database/schema/user"
 
 const adapter = DrizzleAdapter(db)
 
@@ -40,6 +42,23 @@ export const authConfig = {
 
             return token
         },
+        async signIn({ user, account }) {
+            // Check if user already exists with a different provider
+            if (user.email && user.id) {
+                const existingAccount = await db
+                    .select()
+                    .from(AccountsTable)
+                    .where(eq(AccountsTable.userId, user.id))
+                    .limit(1)
+                    .then(rows => rows[0])
+                
+                if (existingAccount && existingAccount.provider !== account?.provider) {
+                    throw new Error(`Please sign in with ${existingAccount.provider} instead.`)
+                }
+            }
+            
+            return true
+        }
     },
     jwt: {
         encode: async function(params) {
