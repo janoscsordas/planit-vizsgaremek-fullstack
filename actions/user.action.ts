@@ -11,11 +11,12 @@ import { nanoid } from "nanoid";
 import { add } from "date-fns";
 import { sendVerificationEmail } from "./email.action";
 import { ZodError } from "zod";
+import { UserData } from "@/lib/definitions/user-types";
 
 // Get user from database by email
 export async function getUserFromDb(email: string, password: string): Promise<{
     success: boolean;
-    data?: any;
+    data?: UserData;
     message?: string;
 }> {
     try {
@@ -41,13 +42,13 @@ export async function getUserFromDb(email: string, password: string): Promise<{
 
         // If password is not valid, throw an error
         if (!isPasswordValid) {
-            throw new Error("Hibás jelszó")
+            throw new Error("Hibás email cím vagy jelszó")
         }
 
         // Return user data
         return {
             success: true,
-            data: userData,
+            data: userData as UserData,
         }
     } catch (error: any) {
         if (error instanceof CredentialsSignin) {
@@ -80,7 +81,7 @@ export async function login({
     password: string,
 }): Promise<{
     success: boolean;
-    data?: any;
+    data?: UserData;
     message?: Record<string, string> | string;
 }> {
     try {
@@ -91,10 +92,16 @@ export async function login({
         const userExists = await getUserFromDb(email, password)
 
         if (!userExists.success) {
-            throw new Error(userExists.message || "A felhasználó nem található az adatbázisban")
+            throw new Error(userExists.message)
         }
 
-        if (!userExists.data?.emailVerified) {
+        if (!userExists.data) {
+            throw new Error(userExists.message)
+        }
+
+        const userData: UserData = userExists.data
+
+        if (userData.emailVerified === null) {
             throw new Error("Kérlek erősítsd meg a regisztrált email címed!")
         }
 
@@ -109,7 +116,7 @@ export async function login({
             success: true,
             data: res,
         }
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof ZodError) {
             // More detailed Zod error handling
             const formattedErrors = error.errors.reduce((acc: Record<string, string>, curr) => {
@@ -127,7 +134,7 @@ export async function login({
         
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba történt a bejelentkezés során"
+            message: error.message
         }
     }
 }
@@ -143,7 +150,7 @@ export async function signup({
     password: string,
 }): Promise<{
     success: boolean;
-    data?: any;
+    data?: unknown;
     message?: Record<string, string> | string;
 }> {
     try {

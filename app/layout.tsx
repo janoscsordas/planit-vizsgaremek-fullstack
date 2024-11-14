@@ -1,7 +1,9 @@
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next"
 import "./globals.css"
 import { GeistSans } from "geist/font/sans"
 import { Toaster } from "@/components/ui/toaster";
+import { Theme } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +20,10 @@ export default function RootLayout({
       <body
         className={`${GeistSans.className} antialiased`}
       >
-        {children}
-        <Toaster />
+        <Theme>
+          {children}
+          <Toaster />
+        </Theme>
       </body>
     </html>
   )
