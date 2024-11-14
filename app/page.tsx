@@ -32,7 +32,9 @@ export default function Home() {
           <div className="relative flex justify-end">
             <div className="-z-[2] absolute -top-16 border border-emerald h-12 w-36 "></div>
             <Link className="absolute -top-16" href={"/login"}>
-              <Button className="flex items-center w-36 text-lg p-6 px-10 uppercase transition transform translate-x-[4px] translate-y-[4px] hover:translate-x-0 hover:translate-y-0 bg-emerald hover:bg-emerald rounded-none"><LogIn /> Belépés</Button>
+              <Button className="flex items-center w-36 text-lg p-6 px-10 uppercase transition transform translate-x-[4px] translate-y-[4px] hover:translate-x-0 hover:translate-y-0 bg-emerald hover:bg-emerald rounded-none select-none">
+                <LogIn /> Belépés
+              </Button>
             </Link>
           </div>
           <h1 className="mt-28 text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center font-bold">
@@ -46,7 +48,6 @@ export default function Home() {
             csapatoknak a feladatok és munkafolyamatok nyomon követésében és
             rendszerezésében.{" "}
           </p>
-
           <div className="py-24 md:pt-24 lg:pt-64">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="md:order-2">

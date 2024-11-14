@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button"
 import LoginForm from "./login-form";
 import Image from "next/image";
-import Github from "@/public/github.svg";
-import Google from "@/public/google.svg";
 import Link from "next/link";
+import AuthButtons from "@/components/auth/AuthButtons";
 
-export default function Login() {
+
+export default async function Login() {
     return (
-      <div className="min-h-screen w-full flex flex-col gap-8 justify-center items-center">
+      <div className="py-12 min-h-screen w-full flex flex-col gap-8 justify-center items-center">
         <Link href={"/"}>
           <Image src="/icon.png" alt="Icon" width={68} height={68} />
         </Link>
@@ -29,18 +28,9 @@ export default function Login() {
               </span>
             </div>
           </div>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Github} alt="Github" width={16} height={16} />
-              Github
-            </Button>
-          </form>
-          <form action="" className="mt-2">
-            <Button className="w-full" type="submit" variant="outline">
-              <Image src={Google} alt="Google" width={16} height={16} />
-              Google
-            </Button>
-          </form>
+
+          <AuthButtons />
+
           <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
             Nincs még fiókod? 
             <Link href="/signup" className="text-emerald underline">Regisztrálj!</Link>
