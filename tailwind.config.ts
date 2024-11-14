@@ -10,13 +10,16 @@ const config: Config = {
   theme: {
   	extend: {
 		animation: {
-			'bounce-slow': 'bounce-slow 5s ease-in-out infinite',
+			'bounce-first-object': 'bounce-slow 5s ease-in-out infinite',
+			'bounce-second-object': 'bounce-slow 7s ease-in-out infinite',
+			'bounce-third-object': 'bounce-slow 9s ease-in-out infinite',
 		},
 		keyframes: {
 			'bounce-slow': {
 			  '0%, 100%': { transform: 'translateY(-10px)' },
 			  '50%': { transform: 'translateY(10px)' },
 			},
+ 
 		},
   		colors: {
   			background: 'hsl(var(--background))',
