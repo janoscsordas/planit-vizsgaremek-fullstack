@@ -19,7 +19,7 @@ export const signupSchema = z.object({
         .min(1, { message: "Email cím megadása kötelező" })
         .max(64, { message: "Email cím maximum 64 karakter lehet" }),
     password: z.string()
-        .min(1, { message: "Jelszó megadása kötelező" })
+        .min(8, { message: "Jelszó minimum 8 karakter lehet" })
         .max(32, { message: "Jelszó maximum 32 karakter lehet" })
         .regex(/[!@#$%^&*(),.?":{}|<>-]/, { message: "A jelszónak tartalmaznia kell legalább egy speciális karaktert" }),
 })

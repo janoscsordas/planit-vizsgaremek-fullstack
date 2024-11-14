@@ -10,6 +10,8 @@ import { signupSchema } from "@/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from 'react-dom'
+import SignupPasswordInput from "@/components/auth/SignupPasswordInput"
+import { Spinner } from "@radix-ui/themes"
 
 type FieldErrors = {
   [key: string]: string;
@@ -24,7 +26,7 @@ function SubmitButton() {
       className="w-full bg-emerald hover:bg-emerald-hover" 
       disabled={pending}
     >
-      {pending ? "Regisztráció folyamatban..." : "Regisztráció"}
+      {pending ? <Spinner /> : "Regisztráció"}
     </Button>
   )
 }
@@ -112,15 +114,7 @@ export default function SignUpForm() {
         )}
       </div>
       <div>
-        <Label htmlFor="password">Jelszó</Label>
-        <Input
-          className={`mb-2 ${typeof fieldErrors === 'object' && fieldErrors.password ? 'border-red-500' : ''}`}
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Jelszó"
-          required
-        />
+        <SignupPasswordInput name="password" />
         {typeof fieldErrors === 'object' && fieldErrors.password && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
         )}

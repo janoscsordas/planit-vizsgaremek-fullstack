@@ -10,6 +10,7 @@ import { loginSchema } from "@/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from "react-dom"
+import { Spinner } from "@radix-ui/themes"
 
 
 type FieldErrors = {
@@ -24,7 +25,7 @@ function SubmitButton() {
       className="w-full bg-emerald hover:bg-emerald-hover" 
       disabled={pending}
     >
-      {pending ? "Bejelentkezés folyamatban..." : "Bejelentkezés"}
+      {pending ? <Spinner /> : "Bejelentkezés"}
     </Button>
   )
 }
@@ -98,6 +99,8 @@ export default function LoginForm() {
           name="password"
           id="password"
           placeholder="Jelszó"
+          minLength={8}
+          maxLength={32}
           required
         />
         {typeof fieldErrors === 'object' && fieldErrors.password && (

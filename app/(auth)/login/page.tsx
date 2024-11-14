@@ -6,7 +6,7 @@ import AuthButtons from "@/components/auth/AuthButtons";
 
 export default async function Login() {
     return (
-      <div className="min-h-screen w-full flex flex-col gap-8 justify-center items-center">
+      <div className="py-12 min-h-screen w-full flex flex-col gap-8 justify-center items-center">
         <Link href={"/"}>
           <Image src="/icon.png" alt="Icon" width={68} height={68} />
         </Link>
