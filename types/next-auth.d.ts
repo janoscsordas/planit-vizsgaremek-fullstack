@@ -5,7 +5,7 @@ declare module "next-auth" {
         user: {
             id: string
             emailVerified: Date | null
-            role: string
+            tier: string
             birthDate: Date | null
             createdAt: Date
         } & DefaultSession["user"]

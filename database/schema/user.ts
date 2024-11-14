@@ -11,7 +11,7 @@ import type { AdapterAccountType } from "next-auth/adapters"
 import { db } from "@/database/index"
    
 // Enum for user roles
-export const userRoleEnum = pgEnum('user_role', ['free', 'paid'])
+export const userTierEnum = pgEnum('user_tier', ['free', 'paid'])
    
 // User table for storing user information
 export const UsersTable = pgTable("user", {
@@ -23,7 +23,7 @@ export const UsersTable = pgTable("user", {
     emailVerified: timestamp("emailVerified", { mode: "date", withTimezone: true }),
     password: text("password"),
     birthDate: timestamp("birthDate", { mode: "date", withTimezone: true }),
-    role: userRoleEnum("role").notNull().default("free"),
+    tier: userTierEnum("tier").notNull().default("free"),
     image: text("image"),
     createdAt: timestamp("createdAt", { mode: "date", withTimezone: true }).notNull().defaultNow(),
 })
