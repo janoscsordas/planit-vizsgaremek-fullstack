@@ -147,7 +147,10 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
-        <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
+        <div
+          id="pricing"
+          className="relative isolate px-6 py-24 sm:py-32 lg:px-8"
+        >
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-base/7 font-semibold text-emerald">Árazás</h2>
             <p className="mt-2 text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
@@ -372,18 +375,24 @@ export default function Home() {
                   szolgáltatások
                 </h3>
                 <ul className="space-y-2">
-                  {["Árazás", "Funkciók", "Támogatás", "Kapcsolat"].map(
-                    (service) => (
-                      <li key={service}>
-                        <Link
-                          href="#"
-                          className="hover:text-white transition-colors"
-                        >
-                          {service}
-                        </Link>
-                      </li>
-                    )
-                  )}
+                  <li>
+                    <Link
+                      href="#pricing"
+                      className="hover:text-white transition-colors"
+                    >
+                      Árazás
+                    </Link>
+                  </li>
+                  {["Funkciók", "Támogatás", "Kapcsolat"].map((service) => (
+                    <li key={service}>
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
+                        {service}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div>
