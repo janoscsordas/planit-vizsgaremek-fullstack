@@ -12,8 +12,8 @@ export const loginSchema = z.object({
 
 export const signupSchema = z.object({
     name: z.string()
-        .min(1, { message: "Név megadása kötelező" })
-        .max(48, { message: "Név maximum 48 karakter lehet" }),
+        .min(3, { message: "A név minimum 3 karakter lehet" })
+        .max(48, { message: "A név maximum 48 karakter lehet" }),
     email: z.string()
         .email()
         .min(1, { message: "Email cím megadása kötelező" })

@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import { Spinner } from '@radix-ui/themes'
 
 export default function AuthButtons() {
   const [isLoading, setIsLoading] = useState(false)
@@ -56,8 +57,10 @@ export default function AuthButtons() {
         onClick={() => handleOAuthSignIn("google")}
         disabled={isLoading}
       >
-        <Image src="/google.svg" alt="Google" width={16} height={16} />
-        Google
+        {isLoading ? 
+          <Spinner /> : 
+          (<><Image src="/google.svg" alt="Google" width={16} height={16} /> Google</>)
+        }
       </Button>
 
       <Button
@@ -67,8 +70,10 @@ export default function AuthButtons() {
         onClick={() => handleOAuthSignIn("github")}
         disabled={isLoading}
       >
-        <Image src="/github.svg" alt="Github" width={16} height={16} />
-        Github
+        {isLoading ? 
+          <Spinner /> : 
+          (<><Image src="/github.svg" alt="Github" width={16} height={16} /> Github</>)
+        }
       </Button>
     </div>
   );

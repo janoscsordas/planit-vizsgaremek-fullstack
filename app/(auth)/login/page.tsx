@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthButtons from "@/components/auth/AuthButtons";
 
-export default async function Login({ params }: { params?: { verified: boolean } }) {
+
+export default async function Login() {
     return (
       <div className="min-h-screen w-full flex flex-col gap-8 justify-center items-center">
         <Link href={"/"}>
@@ -15,7 +16,7 @@ export default async function Login({ params }: { params?: { verified: boolean }
             Jelentkezz be a fiókodba
           </p>
           
-          <LoginForm verified={params?.verified || false} />
+          <LoginForm />
 
           <div className="relative my-3">
             <div className="absolute inset-0 flex items-center">
