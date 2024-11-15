@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ClipboardList, FolderGit2, LogIn, MessagesSquare } from "lucide-react"
+import CookieConsent from "@/components/CookieConsent"
 
 export default function Home() {
   return (
@@ -22,7 +23,7 @@ export default function Home() {
             height={68}
           />
           <Image
-            className="mt-16 block sm:hidden select-none"
+            className="block sm:hidden select-none"
             src="/icon.png"
             alt="Logo"
             width={68}
@@ -343,13 +344,15 @@ export default function Home() {
               <button
                 aria-describedby="tier-enterprise"
                 disabled
-                className="w-full mt-8 block rounded-md bg-emerald px-3.5 py-2.5 text-center text-sm font-semibold dark:text-black text-white shadow-sm cursor-not-allowed"
+                className="w-full mt-8 block rounded-md bg-emerald px-3.5 py-2.5 text-center text-sm font-semibold text-black shadow-sm cursor-not-allowed"
               >
                 Hamarosan...
               </button>
             </div>
           </div>
         </div>
+
+        <CookieConsent />
 
         <footer className="bg-card text-muted-foreground border-t-2 py-12 left-0 right-0 absolute">
           <div className="container flex flex-col items-center justify-center mx-auto px-4">
@@ -400,18 +403,24 @@ export default function Home() {
                   szabályzat
                 </h3>
                 <ul className="space-y-2">
-                  {["ÁSZF", "Adatvédelmi szabályzat", "Süti szabályzat"].map(
-                    (item) => (
-                      <li key={item}>
-                        <Link
-                          href="#"
-                          className="hover:text-white transition-colors"
-                        >
-                          {item}
-                        </Link>
-                      </li>
-                    )
-                  )}
+                  <li>
+                    <Link
+                      href="/privacy-policy"
+                      className="hover:text-white transition-colors"
+                    >
+                      Adatvédelmi szabályzat
+                    </Link>
+                  </li>
+                  {["ÁSZF", "Süti szabályzat"].map((item) => (
+                    <li key={item}>
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
