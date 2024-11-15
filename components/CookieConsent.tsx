@@ -8,7 +8,7 @@ const CookieConsent = () => {
   const [isClosing, setIsClosing] = useState(false)
 
   useEffect(() => {
-    const consent = localStorage.getItem("cookieConsent")
+    const consent = localStorage.getItem("token")
     if (!consent) {
       setTimeout(() => setIsVisible(true), 1000)
     }
@@ -16,7 +16,7 @@ const CookieConsent = () => {
 
   const handleAccept = () => {
     setIsClosing(true)
-    localStorage.setItem("cookieConsent", "true")
+    localStorage.setItem("token", "true")
     setTimeout(() => setIsVisible(false), 500)
   }
 
@@ -57,12 +57,6 @@ const CookieConsent = () => {
       </p>
 
       <div className="flex gap-4 justify-end">
-        <button
-          onClick={handleDecline}
-          className="px-4 py-2 text-sm font-medium hover:text-foreground text-muted-foreground transition-colors"
-        >
-          Elutasítom
-        </button>
         <button
           onClick={handleAccept}
           className="bg-emerald hover:bg-emerald/90 px-6 py-2 text-sm font-medium rounded-md text-black transition-colors"
