@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { X, Cookie } from "lucide-react"
+import { Cookie } from "lucide-react"
 
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -20,26 +20,14 @@ const CookieConsent = () => {
     setTimeout(() => setIsVisible(false), 500)
   }
 
-  const handleDecline = () => {
-    setIsClosing(true)
-    setTimeout(() => setIsVisible(false), 500)
-  }
-
   if (!isVisible) return null
 
   return (
     <div
-      className={`fixed md:bottom-8 md:right-8 bottom-2 max-w-2xl w-[95%] p-6 bg-card border-2 rounded-xl shadow-lg text-left z-50 transition-all duration-500 ease-out ${
+      className={`fixed md:bottom-6 md:right-6 bottom-2 max-w-2xl w-[95%] p-6 bg-card border-2 rounded-xl shadow-lg text-left z-50 transition-all duration-500 ease-out ${
         isClosing ? "opacity-0 translate-y-10" : "opacity-100 translate-y-0"
       }`}
     >
-      <button
-        onClick={handleDecline}
-        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <X size={20} />
-      </button>
-
       <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
         <Cookie size={20} /> Süti beállítások
       </h3>
