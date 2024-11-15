@@ -14,7 +14,7 @@ export default function Home() {
           <div className="-z-10 hidden lg:block absolute left-[45rem] top-44 w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-second-object"></div>
           <div className="-z-10 absolute hidden md:block md:left-[43.5rem] lg:left-[45rem] xl:left-[57rem] 2xl:left-[65rem] top-[28rem] w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-third-object"></div>
         </div>
-        <Link className="block w-max" href={"/"}>
+        <Link className="block w-max pointer-events-none" href={"/"}>
           <Image
             className="hidden sm:block select-none"
             src="/full-logo.png"
@@ -57,7 +57,7 @@ export default function Home() {
                 width={600}
                 height={400}
                 alt="placeholder"
-                className="rounded-lg shadow-md block mx-auto md:mx-0 rotate-1"
+                className="rounded-lg shadow-md block mx-auto md:mx-0 rotate-1 pointer-events-none"
               />
             </div>
             <div className="md:order-1">
@@ -358,7 +358,10 @@ export default function Home() {
           <div className="container flex flex-col items-center justify-center mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="mb-4 md:mb-0 flex flex-col gap-4">
-                <Link href="/" className="flex items-center mb-2">
+                <Link
+                  href="/"
+                  className="flex items-center mb-2 pointer-events-none"
+                >
                   <Image
                     src="/full-logo.png"
                     alt="Logo"
