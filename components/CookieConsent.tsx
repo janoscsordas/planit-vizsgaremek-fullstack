@@ -8,7 +8,7 @@ const CookieConsent = () => {
   const [isClosing, setIsClosing] = useState(false)
 
   useEffect(() => {
-    const consent = localStorage.getItem("token")
+    const consent = localStorage.getItem("cookiesAllowed")
     if (!consent) {
       setTimeout(() => setIsVisible(true), 1000)
     }
@@ -16,7 +16,7 @@ const CookieConsent = () => {
 
   const handleAccept = () => {
     setIsClosing(true)
-    localStorage.setItem("token", "true")
+    localStorage.setItem("cookiesAllowed", "true")
     setTimeout(() => setIsVisible(false), 500)
   }
 

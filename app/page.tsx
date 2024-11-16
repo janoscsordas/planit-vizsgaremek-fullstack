@@ -384,21 +384,35 @@ export default function Home() {
                   <li>
                     <Link
                       href="#pricing"
-                      className="hover:text-white transition-colors"
+                      className="hover:text-foreground transition-colors"
                     >
                       Árazás
                     </Link>
                   </li>
-                  {["Funkciók", "Támogatás", "Kapcsolat"].map((service) => (
-                    <li key={service}>
-                      <Link
-                        href="#"
-                        className="hover:text-white transition-colors"
-                      >
-                        {service}
-                      </Link>
-                    </li>
-                  ))}
+                  <li>
+                    <Link
+                      href="#"
+                      className="hover:text-foreground transition-colors"
+                    >
+                      Funkciók
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="hover:text-foreground transition-colors"
+                    >
+                      Támogatás
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="hover:text-foreground transition-colors"
+                    >
+                      Kapcsolat
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div>
@@ -409,7 +423,7 @@ export default function Home() {
                   <li>
                     <Link
                       href="/privacy-policy"
-                      className="hover:text-white transition-colors"
+                      className="hover:text-foreground transition-colors"
                     >
                       Adatvédelmi szabályzat
                     </Link>
@@ -418,7 +432,7 @@ export default function Home() {
                     <li key={item}>
                       <Link
                         href="#"
-                        className="hover:text-white transition-colors"
+                        className="hover:text-foreground transition-colors"
                       >
                         {item}
                       </Link>

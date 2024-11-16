@@ -4,7 +4,6 @@ import {
   Head,
   Heading,
   Html,
-  Img,
   Link,
   Tailwind,
   Text,
@@ -16,7 +15,7 @@ import * as React from "react"
 const styles = {
   verificationButton: {
     backgroundColor: "#45CB85",
-    border: "none", 
+    border: "none",
     borderRadius: "8px",
     boxShadow: "0 4px 6px rgba(69, 203, 133, 0.2)",
     color: "#ffffff",
