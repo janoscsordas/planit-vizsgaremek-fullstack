@@ -23,7 +23,7 @@ export default async function Login() {
               <span className="w-full border-t"></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase my-4">
-              <span className="bg-card px-2 text-muted-foreground">
+              <span className="bg-background px-2 text-muted-foreground">
                 Vagy
               </span>
             </div>
