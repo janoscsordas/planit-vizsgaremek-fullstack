@@ -91,18 +91,20 @@ export async function login({
         // Check if user exists in database
         const userExists = await getUserFromDb(email, password)
 
-        if (!userExists.success) {
-            throw new Error(userExists.message)
-        }
-
-        if (!userExists.data) {
-            throw new Error(userExists.message)
+        if (!userExists.success || !userExists.data) {
+            return {
+                success: false,
+                message: { credentials: "Hibás email cím vagy jelszó" }
+            }
         }
 
         const userData: UserData = userExists.data
 
         if (userData.emailVerified === null) {
-            throw new Error("Kérlek erősítsd meg a regisztrált email címed!")
+            return {
+                success: false,
+                message: { email: "Kérlek erősítsd meg a regisztrált email címed!" }
+            }
         }
 
         // Sign in user
@@ -118,10 +120,8 @@ export async function login({
         }
     } catch (error: any) {
         if (error instanceof ZodError) {
-            // More detailed Zod error handling
             const formattedErrors = error.errors.reduce((acc: Record<string, string>, curr) => {
-                // Get the field path (e.g., "email", "password")
-                const field = curr.path[0]?.toString() || 'general'
+                const field = curr.path[0]?.toString() || 'credentials'
                 acc[field] = curr.message
                 return acc
             }, {})
@@ -134,7 +134,7 @@ export async function login({
         
         return {
             success: false,
-            message: error.message
+            message: { credentials: "Hiba történt a bejelentkezés során" }
         }
     }
 }
