@@ -16,7 +16,7 @@ export default function AuthButtons() {
       setIsLoading(true)
       const result = await signIn(provider, {
         redirect: false,
-        callbackUrl: '/dashboard' // or wherever you want to redirect after success
+        callbackUrl: '/projects' // or wherever you want to redirect after success
       })
 
       if (result?.error) {
