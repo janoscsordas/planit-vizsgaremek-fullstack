@@ -1,5 +1,4 @@
 import {
-    boolean,
     timestamp,
     pgTable,
     text,
@@ -8,7 +7,6 @@ import {
     pgEnum,
 } from "drizzle-orm/pg-core"
 import type { AdapterAccountType } from "next-auth/adapters"
-import { db } from "@/database/index"
    
 // Enum for user roles
 export const userTierEnum = pgEnum('user_tier', ['free', 'paid'])
