@@ -127,7 +127,6 @@ export type State = {
 export async function createProject(prevState: State, formData: FormData) {
     const user = await checkUserSession();
     
-    // Validate input before database operation
     const validatedData = createProjectSchema.safeParse({
         name: formData.get("name")
     })
@@ -141,14 +140,25 @@ export async function createProject(prevState: State, formData: FormData) {
 
     const { name } = validatedData.data
 
-    const [projectExists] = await db
+    // Single query to get all user's projects
+    const userProjects = await db
         .select()
         .from(ProjectsTable)
-        .where(and(eq(ProjectsTable.name, name), eq(ProjectsTable.userId, user.id)))
+        .where(eq(ProjectsTable.userId, user.id))
 
-    if (projectExists) {
+    // Check both conditions using the query result
+    const hasProjectWithSameName = userProjects.some(project => project.name === name);
+    const hasMaxProjects = userProjects.length >= 5;
+
+    if (hasProjectWithSameName) {
         return {
             message: "A megadott névvel már készített projektet!"
+        }
+    }
+
+    if (hasMaxProjects) {
+        return {
+            message: "Nem hozhat létre több projektet! Frissítsen Paid verzióra, hogy több projektet hozhasson létre."
         }
     }
 

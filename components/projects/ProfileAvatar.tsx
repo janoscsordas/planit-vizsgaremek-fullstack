@@ -27,6 +27,7 @@ import {
 import { redirect } from "next/navigation"
 import Image from "next/image"
 import DialogLogoutButton from "./DialogLogoutButton"
+import { LogOutIcon, UserIcon } from "lucide-react"
 
 export default async function ProfileAvatar() {
   const session = await auth()
@@ -58,13 +59,21 @@ export default async function ProfileAvatar() {
           )}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>Profil Menü</DropdownMenuLabel>
+          <DropdownMenuLabel>
+            Profil Menü
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Link href="/profile" className="no-underline">
-            <DropdownMenuItem>Profil</DropdownMenuItem>
+            <DropdownMenuItem>
+              <UserIcon className="w-4 h-4 mr-2" />
+              Profil
+            </DropdownMenuItem>
           </Link>
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white">Kijelentkezés</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white">
+              <LogOutIcon className="w-4 h-4 mr-2" />
+              Kijelentkezés
+            </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>

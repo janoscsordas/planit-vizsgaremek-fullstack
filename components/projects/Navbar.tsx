@@ -20,9 +20,9 @@ export default async function Navbar() {
 
       <div className="flex items-center gap-4">
         {/* notifications */}
-        <IconButton variant="ghost" color="gray" className="cursor-pointer">
+        <IconButton variant="ghost" color="gray" className="cursor-pointer group">
           <Link href="/notifications">
-            <Bell width="18" height="18" className="text-muted-foreground" />
+            <Bell width="18" height="18" className="text-muted-foreground group-hover:-rotate-12 transition-transform duration-300" />
           </Link>
         </IconButton>
 
