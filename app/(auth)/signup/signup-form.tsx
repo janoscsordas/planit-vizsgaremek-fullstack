@@ -55,15 +55,15 @@ export default function SignUpForm() {
 
     const res = await signup(data)
 
-    if (!res.success) {
-      if (res.message) {
+    if (!res.success && res.message) {
+      if (typeof res.message === 'object') {
         // Handle field-specific errors from the server
         setFieldErrors(res.message)
         
         // Handle general error
         toast({
           title: "Sikertelen regisztráció",
-          description: res.message as string,
+          description: Object.values(res.message)[0],
           duration: 5000,
           variant: "destructive",
         })

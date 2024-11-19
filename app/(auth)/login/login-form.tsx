@@ -56,15 +56,15 @@ export default function LoginForm() {
 
     const res = await login(data)
 
-    if (!res.success) {
-      if (res.message) {
-        // Handle field-specific errors from the server
+    if (!res.success && res.message) {
+      if (typeof res.message === 'object') {
         setFieldErrors(res.message)
         
-        // Handle general error
+        // Show the first error message in the toast
+        const firstError = Object.values(res.message)[0]
         toast({
           title: "Sikertelen bejelentkezés",
-          description: res.message as string,
+          description: firstError,
           duration: 5000,
           variant: "destructive",
         })

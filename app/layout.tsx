@@ -1,9 +1,10 @@
-import "@radix-ui/themes/styles.css";
-import type { Metadata } from "next";
-import "./globals.css";
-import { GeistSans } from "geist/font/sans";
-import { Toaster } from "@/components/ui/toaster";
-import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css"
+import type { Metadata } from "next"
+import "./globals.css"
+import { GeistSans } from "geist/font/sans"
+import { Toaster } from "@/components/ui/toaster"
+import { Theme } from "@radix-ui/themes"
+import { Providers } from '@/lib/providers/providers'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,10 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hu" className={`${GeistSans.className} antialiased dark`}>
-      <body>
-        <Theme hasBackground={false} className="font-sans">
-          {children}
+    <html lang="hu" className="dark">
+      <body className={`${GeistSans.className} antialiased`}>
+        <Theme hasBackground={false}>
+          <Providers>
+            {children}
+          </Providers>
           <Toaster />
         </Theme>
       </body>
