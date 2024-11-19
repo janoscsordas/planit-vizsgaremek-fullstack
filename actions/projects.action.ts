@@ -21,7 +21,7 @@ async function checkUserSession() {
 
 type ProjectResponse = {
     success: boolean;
-    data?: Project[];
+    data?: Project[] | Project;
     message?: string;
 }
 
@@ -88,6 +88,34 @@ export async function getProjectsWhereUserIsMember(): Promise<ProjectResponse> {
     }
 }
 
+export async function getProjectById(projectId: string): Promise<ProjectResponse> {
+    try {
+        const [foundProject] = await db
+            .select()
+            .from(ProjectsTable)
+            .where(eq(ProjectsTable.id, projectId))
+
+        if (!foundProject) {
+            return {
+                success: false,
+                message: "Nem található projekt a megadott azonosítóval!"
+            }
+        }
+
+        return {
+            success: true,
+            data: foundProject
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error 
+                ? error.message 
+                : "Hiba történt a projekt lekérése közben!"
+        }
+    }
+}
+
 export type State = {
     errors?: {
       name?: string[];
@@ -112,6 +140,17 @@ export async function createProject(prevState: State, formData: FormData) {
     }
 
     const { name } = validatedData.data
+
+    const [projectExists] = await db
+        .select()
+        .from(ProjectsTable)
+        .where(eq(ProjectsTable.name, name))
+
+    if (projectExists) {
+        return {
+            message: "A megadott névvel már létezik projekt!"
+        }
+    }
 
     try {
         await db

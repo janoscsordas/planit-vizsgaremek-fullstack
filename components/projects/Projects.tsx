@@ -2,8 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { useState, useMemo } from "react"
-import { Spinner } from "@radix-ui/themes"
-import SearchFilters from "@/components/projects/Search-filter"
+import SearchFilter from "@/components/projects/SearchFilter"
 import ProjectList from "@/components/projects/ProjectList"
 import { Project } from "@/lib/definitions/projects"
 import { User } from "next-auth"
@@ -35,7 +34,7 @@ export default function Projects({ userSession }: { userSession: User }) {
         memberProjects: Project[]
       }
     },
-    staleTime: 60 * 10000,
+    staleTime: 60 * 1000, // 1 minute
     refetchOnWindowFocus: false,
   })
 
@@ -65,7 +64,7 @@ export default function Projects({ userSession }: { userSession: User }) {
   // Render the main UI
   return (
     <div className="space-y-6 w-[95%] mx-auto">
-      <SearchFilters
+      <SearchFilter
         searchTerm={searchTerm}
         statusFilter={statusFilter}
         onSearchChange={setSearchTerm}
@@ -73,21 +72,19 @@ export default function Projects({ userSession }: { userSession: User }) {
       />
 
       <div className="space-y-6">
-        {/* Display loading spinner while fetching projects */}
-        {isLoading ? (
-          <Spinner size="3" className="mx-auto" />
-        ) : (
-          <>
-            <ProjectList
-              title={userSession?.name + " Projektjei"}
-              projects={filteredProjects.ownedProjects as Project[]}
-            />
-            <ProjectList
-              title="Tagja vagy a következő projekteknek:"
-              projects={filteredProjects.memberProjects as Project[]}
-            />
-          </>
-        )}
+        {/* Display projects */}
+        <ProjectList
+          title={userSession?.name + " Projektjei"}
+          projects={filteredProjects.ownedProjects as Project[]}
+          isLoading={isLoading}
+          isOwnedProjects={true}
+        />
+        <ProjectList
+          title="Tagja vagy a következő projekteknek:"
+          projects={filteredProjects.memberProjects as Project[]}
+          isLoading={isLoading}
+          isOwnedProjects={false}
+        />
       </div>
     </div>
   )

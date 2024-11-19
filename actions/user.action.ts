@@ -270,17 +270,3 @@ export async function verifyEmail(token: string): Promise<{
         };
     }
 }
-
-export async function logOut() {
-    try {
-        await signOut({
-            redirect: true,
-            redirectTo: "/login",
-        })
-    } catch (error) {
-        return {
-            success: false,
-            message: "Hiba történt a kijelentkezés során",
-        }
-    }
-}

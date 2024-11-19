@@ -1,5 +1,4 @@
 import { Project } from "@/lib/definitions/projects"
-import clsx from "clsx"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@radix-ui/themes"

@@ -1,14 +1,32 @@
-import { auth, signOut } from "@/auth"
+import { auth } from "@/auth"
+import {
+  Avatar,
+  Link,
+} from "@radix-ui/themes"
+
 import {
   AlertDialog,
-  Avatar,
-  Button,
-  Flex,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+import {
   DropdownMenu,
-} from "@radix-ui/themes"
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import { redirect } from "next/navigation"
 import Image from "next/image"
-import { logOut } from "@/actions/user.action"
+import DialogLogoutButton from "./DialogLogoutButton"
 
 export default async function ProfileAvatar() {
   const session = await auth()
@@ -18,56 +36,51 @@ export default async function ProfileAvatar() {
   }
 
   return (
-    <div>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
+    <div className="flex justify-end items-center">
+      <AlertDialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
           {session.user.image ? (
             <Image
               src={session.user.image}
               alt="Profilkép"
-              width={38}
+              width={32}
               height={32}
               className="rounded-full cursor-pointer hover:opacity-80 transition-opacity"
+              style={{ width: "auto", height: "auto" }}
             />
           ) : (
             <Avatar
               radius="full"
-              fallback={session.user.name?.[0] || "?"}
+              fallback={session.user.name?.charAt(0) || "?"}
               className="cursor-pointer hover:opacity-80 transition-opacity"
             />
           )}
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content variant="soft" color="green">
-          <DropdownMenu.Item>Profil</DropdownMenu.Item>
-          <DropdownMenu.Separator />
-          <AlertDialog.Root>
-            <AlertDialog.Trigger>
-              <Button variant="soft" color="red">
-                Kijelentkezés
-              </Button>
-            </AlertDialog.Trigger>
-            <AlertDialog.Content maxWidth="450px">
-              <AlertDialog.Title>Kijelentkezés</AlertDialog.Title>
-              <AlertDialog.Description size="2">
-                Biztosan ki szeretnél jelentkezni?
-              </AlertDialog.Description>
-
-              <Flex gap="3" mt="4" justify="end">
-                <AlertDialog.Cancel>
-                  <Button variant="soft" color="gray" type="button">
-                    Mégsem
-                  </Button>
-                </AlertDialog.Cancel>
-                <AlertDialog.Action>
-                  <Button variant="solid" color="red" type="submit">
-                    Kijelentkezés
-                  </Button>
-                </AlertDialog.Action>
-              </Flex>
-            </AlertDialog.Content>
-          </AlertDialog.Root>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Profil Menü</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <Link href="/profile" className="no-underline">
+            <DropdownMenuItem>Profil</DropdownMenuItem>
+          </Link>
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white">Kijelentkezés</DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+              <AlertDialogTitle>Biztosan ki szeretnél jelentkezni?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Ha most kijelentkezel, bármikor vissza léphetsz.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Mégse</AlertDialogCancel>
+              <DialogLogoutButton />
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

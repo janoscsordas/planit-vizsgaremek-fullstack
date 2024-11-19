@@ -3,7 +3,7 @@ import { Bell } from "lucide-react"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import NavbarBreadcrumb from "./Navbar-breadcrumb"
+import NavbarBreadcrumb from "./NavbarBreadcrumb"
 import ProfileAvatar from "./ProfileAvatar"
 
 export default async function Navbar() {
