@@ -35,7 +35,7 @@ const ProjectList = ({ title, projects, isLoading, isOwnedProjects }: ProjectLis
             <p className="text-primary text-lg font-medium">
               Még nem készítettél projektet
             </p>
-            <p className="text-muted-foreground text-md">
+            <p className="text-muted-foreground text-sm">
               Készíts egy új projektet
             </p>
             <Link href="/projects/create">
@@ -54,7 +54,7 @@ const ProjectList = ({ title, projects, isLoading, isOwnedProjects }: ProjectLis
             <p className="text-primary text-lg font-medium">
               Még nem vagy tag egy projektben sem
             </p>
-            <p className="text-muted-foreground text-md">
+            <p className="text-muted-foreground text-sm">
               Ide kerülnek a projektek, amelyekbe meghívtak
             </p>
             </div>

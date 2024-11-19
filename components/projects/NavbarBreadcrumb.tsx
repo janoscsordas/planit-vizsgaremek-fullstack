@@ -9,6 +9,7 @@ import {
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 
 export default async function NavbarBreadcrumb() {
   const session = await auth()
@@ -23,13 +24,15 @@ export default async function NavbarBreadcrumb() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbPage>
-              <Image
-                className="block select-none"
-                src="/icon.png"
-                alt="Logo"
-                width={32}
-                height={32}
-              />
+              <Link href="/" title="Főoldal">
+                <Image
+                  className="block select-none"
+                  src="/icon.png"
+                  alt="Logo"
+                  width={32}
+                  height={32}
+                />
+              </Link>
             </BreadcrumbPage>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

@@ -2,7 +2,6 @@ import { Button, Select, TextField } from "@radix-ui/themes"
 import { Filter, Search } from "lucide-react"
 import Link from "next/link"
 
-
 type SearchFiltersProps = {
   searchTerm: string
   statusFilter: string
@@ -23,11 +22,12 @@ export default function SearchFilter({
           size="2"
           variant="outline"
           color="green"
-          className="bg-[#00A36C] hover:bg-[#00A36C]/90 text-primary font-medium w-max cursor-pointer"
+          className="bg-[#00A36C] hover:bg-[#00A36C]/50 transition-colors text-primary font-medium w-max cursor-pointer"
         >
           Új projekt
         </Button>
       </Link>
+
       <TextField.Root
         type="text"
         value={searchTerm}
@@ -38,7 +38,7 @@ export default function SearchFilter({
         color="green"
       >
         <TextField.Slot>
-          <Search height="16" width="16" className="text-muted-foreground" />
+          <Search height="16" width="16" />
         </TextField.Slot>
       </TextField.Root>
 
@@ -47,10 +47,7 @@ export default function SearchFilter({
         onValueChange={(value) => onStatusChange(value)}
         size="2"
       >
-        <Select.Trigger
-          variant="soft"
-          color="green"
-        />
+        <Select.Trigger variant="soft" color="green" />
         <Select.Content color="green">
           <Select.Group>
             <Select.Item value="all">
