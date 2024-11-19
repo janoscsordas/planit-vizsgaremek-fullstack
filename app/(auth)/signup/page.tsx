@@ -2,8 +2,16 @@ import SignUpForm from "./signup-form";
 import Image from "next/image";
 import Link from "next/link";
 import AuthButtons from "@/components/auth/AuthButtons";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-export default function SignUp() {
+export default async function SignUp() {
+  const session = await auth()
+
+  if (session?.user) {
+    return redirect("/projects")
+  }
+
     return (
       <div className="py-12 min-h-screen w-full flex flex-col gap-8 justify-center items-center">
         <Link href={"/"}>
