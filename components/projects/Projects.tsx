@@ -1,32 +1,94 @@
-"use client";
+"use client"
 
-import { Button } from "@radix-ui/themes";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import { useQuery } from "@tanstack/react-query"
+import { useState, useMemo } from "react"
+import { Spinner } from "@radix-ui/themes"
+import SearchFilters from "@/components/projects/Search-filter"
+import ProjectList from "@/components/projects/ProjectList"
+import { Project } from "@/lib/definitions/projects"
+import { User } from "next-auth"
 
-export default function Projects() {
+export default function Projects({ userSession }: { userSession: User }) {
+  // State for search and status filters
+  const [searchTerm, setSearchTerm] = useState("")
+  const [statusFilter, setStatusFilter] = useState<string>("all")
+
+  // Fetch user's projects from the database using Tanstack Query via API route
+  // Avoiding leaking secrets to the client
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["projects"],
+    queryFn: async () => {
+      const response = await fetch("/api/projects", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      if (!response.ok) {
+        const errorMessage = await response.json()
+        throw new Error(errorMessage.error)
+      }
+      const { ownedProjects, memberProjects } = await response.json()
+
+      return { ownedProjects, memberProjects } as {
+        ownedProjects: Project[]
+        memberProjects: Project[]
+      }
+    },
+    staleTime: 60 * 10000,
+    refetchOnWindowFocus: false,
+  })
+
+  // Filter projects based on search term and status
+  // This is the essential part of the filtering logic
+  const filteredProjects = useMemo(() => {
+    const ownedProjects =
+      data?.ownedProjects?.filter(
+        (project: Project) =>
+          project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          (statusFilter === "all" || project.status === statusFilter)
+      ) || []
+
+    const memberProjects =
+      data?.memberProjects?.filter(
+        (project: Project) =>
+          project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          (statusFilter === "all" || project.status === statusFilter)
+      ) || []
+
+    return { ownedProjects, memberProjects }
+  }, [data, searchTerm, statusFilter])
+
+  // Display error message if there's an error
+  if (error) return <div>Error: {error.message}</div>
+
+  // Render the main UI
   return (
-    <div className="flex flex-wrap justify-center items-center gap-4 p-4 w-[95%] sm:w-3/4 mx-auto border-2 border-dashed border-foreground/10 rounded-lg">
-      {/* TODO: projects */}
-      <div className="flex flex-col gap-2 items-center">
-        <p className="text-primary text-lg font-medium">
-          Még nem készített projektet
-        </p>
-        <p className="text-muted-foreground text-md">
-          Készíts egy új projektet
-        </p>
-        <Link href="/projects/create">
-          <Button
-            size="2"
-            variant="outline"
-            color="green"
-            className="bg-[#00A36C] hover:bg-[#00A36C]/90 text-primary font-medium w-max mt-2 cursor-pointer"
-          >
-            <Plus width="14" height="14" />
-            Új projekt
-          </Button>
-        </Link>
+    <div className="space-y-6 w-[95%] mx-auto">
+      <SearchFilters
+        searchTerm={searchTerm}
+        statusFilter={statusFilter}
+        onSearchChange={setSearchTerm}
+        onStatusChange={setStatusFilter}
+      />
+
+      <div className="space-y-6">
+        {/* Display loading spinner while fetching projects */}
+        {isLoading ? (
+          <Spinner size="3" className="mx-auto" />
+        ) : (
+          <>
+            <ProjectList
+              title={userSession?.name + " Projektjei"}
+              projects={filteredProjects.ownedProjects as Project[]}
+            />
+            <ProjectList
+              title="Tagja vagy a következő projekteknek:"
+              projects={filteredProjects.memberProjects as Project[]}
+            />
+          </>
+        )}
       </div>
     </div>
-  );
+  )
 }
