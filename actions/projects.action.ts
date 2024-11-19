@@ -3,7 +3,7 @@
 import { db } from "@/database/index";
 import { ProjectMembersTable, ProjectsTable } from "@/database/schema/projects";
 import { eq, inArray, and } from "drizzle-orm";
-import { createProjectSchema, updateProjectSchema } from "@/schemas/projectsSchema";
+import { createProjectSchema, updateProjectSchema } from "@/lib/schemas/projectsSchema";
 import { auth } from "@/auth"
 import { Project } from "@/lib/definitions/projects";
 import { revalidatePath } from "next/cache";

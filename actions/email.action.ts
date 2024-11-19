@@ -1,7 +1,7 @@
 "use server"
 
 import { Resend } from "resend"
-import VerificationEmail from '@/emails/email-succesful';
+import VerificationEmail from '@/lib/emails/email-succesful';
 
 
 export async function sendVerificationEmail(email: string, name: string, verificationLink: string) {

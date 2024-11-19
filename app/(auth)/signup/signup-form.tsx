@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { signup } from "@/actions/user.action"
-import { signupSchema } from "@/schemas/userSchema"
+import { signupSchema } from "@/lib/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from 'react-dom'

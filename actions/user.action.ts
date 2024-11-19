@@ -3,7 +3,7 @@
 import { signIn, signOut } from "@/auth";
 import { db } from "@/database"
 import { UsersTable, VerificationTokensTable } from "@/database/schema/user"
-import { loginSchema, signupSchema } from "@/schemas/userSchema";
+import { loginSchema, signupSchema } from "@/lib/schemas/userSchema";
 import { compare, hash } from "bcryptjs";
 import { eq } from "drizzle-orm"
 import { CredentialsSignin } from "next-auth";
