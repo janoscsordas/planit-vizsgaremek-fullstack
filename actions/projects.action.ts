@@ -2,7 +2,7 @@
 
 import { db } from "@/database/index";
 import { ProjectMembersTable, ProjectsTable } from "@/database/schema/projects";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, and } from "drizzle-orm";
 import { createProjectSchema, updateProjectSchema } from "@/schemas/projectsSchema";
 import { auth } from "@/auth"
 import { Project } from "@/lib/definitions/projects";
@@ -144,11 +144,11 @@ export async function createProject(prevState: State, formData: FormData) {
     const [projectExists] = await db
         .select()
         .from(ProjectsTable)
-        .where(eq(ProjectsTable.name, name))
+        .where(and(eq(ProjectsTable.name, name), eq(ProjectsTable.userId, user.id)))
 
     if (projectExists) {
         return {
-            message: "A megadott névvel már létezik projekt!"
+            message: "A megadott névvel már készített projektet!"
         }
     }
 
