@@ -160,6 +160,7 @@ export async function signup({
             .select()
             .from(UsersTable)
             .where(eq(UsersTable.email, email))
+            .limit(1)
 
         // If user exists, throw an error
         if (userExists) {

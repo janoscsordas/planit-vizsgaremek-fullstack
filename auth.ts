@@ -60,17 +60,16 @@ export const authConfig = {
                             .limit(1)
                             .then(rows => rows[0]);
 
-                    if (existingAccount && existingAccount.provider !== account?.provider) {
-                        // Changed error throwing syntax
-                        return `/error?error=OAuthAccountNotLinked&message=${encodeURIComponent(
-                            `Már készített fiókot a következővel: ${existingAccount.provider}. Jelentkezzen be azzal a provider-rel.`
-                        )}`
-                    }
+                        if (existingAccount && existingAccount.provider !== account?.provider) {
+                            return `/login?errorMessage=${encodeURIComponent(
+                                `Már van felhasználói fiókod a következővel: "${existingAccount.provider.toUpperCase()}". Jelentkezz be azzal a folytatáshoz.`
+                            )}`
+                        }
                     }
                 }
                 return true;
             } catch (error) {
-                return `/error?error=Default&message=${encodeURIComponent(
+                return `/login?errorMessage=${encodeURIComponent(
                     "Hiba történt az autentikáció során."
                 )}`
             }
@@ -103,8 +102,7 @@ export const authConfig = {
     },
     secret: process.env.AUTH_SECRET as string,
     pages: {
-        signIn: "/login",
-        error: "/error"
+        signIn: "/login"
     },
     trustHost: true,
 } satisfies NextAuthConfig

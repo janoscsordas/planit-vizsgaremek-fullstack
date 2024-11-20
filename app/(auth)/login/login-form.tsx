@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { login } from "@/actions/user.action"
 import { loginSchema } from "@/lib/schemas/userSchema"
@@ -30,11 +30,23 @@ function SubmitButton() {
   )
 }
 
-export default function LoginForm() {
+export default function LoginForm({ errorMessage, message }: { errorMessage: string | undefined, message: string | undefined }) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors | string>({})
   const router = useRouter()
+  const [showMessage, setShowMessage] = useState(!!errorMessage)
 
   const { toast } = useToast()
+
+  useEffect(() => {
+    if (errorMessage || message) {
+      setShowMessage(true)
+      const timer = setTimeout(() => {
+        setShowMessage(false)
+      }, 5000) // 5 seconds
+
+      return () => clearTimeout(timer)
+    }
+  }, [errorMessage, message])
 
   async function handleSubmit(formData: FormData) {
     setFieldErrors({}) // Reset errors on new submission
@@ -77,6 +89,16 @@ export default function LoginForm() {
 
   return (
     <form action={async (formData: FormData) => await handleSubmit(formData)}>
+      {showMessage && errorMessage && (
+        <div className="fixed bottom-4 right-4 p-4 max-w-[350px] bg-red-800 text-red-50 rounded-lg shadow-md animate-in fade-in slide-in-from-top-4">
+          {decodeURIComponent(errorMessage)}
+        </div>
+      )}
+      {showMessage && message && (
+        <div className="fixed bottom-4 right-4 p-4 max-w-[350px] bg-emerald-800 text-emerald-50 rounded-lg shadow-md animate-in fade-in slide-in-from-top-4">
+          {decodeURIComponent(message)}
+        </div>
+      )}
       <div>
         <Label htmlFor="email">Email</Label>
         <Input

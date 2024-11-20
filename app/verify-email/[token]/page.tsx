@@ -17,8 +17,8 @@ export default async function VerifyEmailPage({ params }: Props) {
   const result = await verifyEmail(token);
   
   if (result.success) {
-    redirect('/login?verified=true');
+    redirect(`/login?message=${encodeURIComponent("Email cím sikeresen megerősítve")}`);
   } else {
-    redirect('/login?verified=false');
+    redirect(`/login?errorMessage=${encodeURIComponent("Email cím megerősítése sikertelen")}`);
   }
 }

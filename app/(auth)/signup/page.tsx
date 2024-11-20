@@ -17,7 +17,7 @@ export default async function SignUp() {
         <Link href={"/"}>
           <Image src="/icon.png" alt="Icon" width={68} height={68} />
         </Link>
-        <div className="border border-border p-8 w-[350px] rounded-lg">
+        <div className="border border-border p-8 w-[85%] sm:w-[350px] rounded-lg">
           <h1 className="text-2xl font-bold text-center mb-1">Fiók létrehozása</h1>
           <p className="text-sm text-muted-foreground text-center mb-3">
             Készíts egy fiókot
