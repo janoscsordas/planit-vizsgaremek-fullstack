@@ -20,7 +20,7 @@ export default function ProfileNavbar() {
                         const isActive = (href: string) => pathname.startsWith(href);
 
                         return (
-                            <Link href={link.href} key={link.name} className={`text-sm font-medium rounded-md px-4 py-2 ${isActive(link.href) ? "bg-[#272729]" : ""}`}>
+                            <Link href={link.href} key={link.name} className={`text-sm font-medium rounded-md px-4 py-2 ${isActive(link.href) ? "bg-emerald-hover" : "hover:bg-[#272729]"}`}>
                                 {link.name}
                             </Link>
                         )
