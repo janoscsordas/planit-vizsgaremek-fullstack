@@ -1,6 +1,6 @@
 "use server"
 
-import { signIn, signOut } from "@/auth";
+import { signIn } from "@/auth";
 import { db } from "@/database"
 import { UsersTable, VerificationTokensTable } from "@/database/schema/user"
 import { loginSchema, signupSchema } from "@/lib/schemas/userSchema";
@@ -156,11 +156,14 @@ export async function signup({
     try {
         await signupSchema.parseAsync({ email, password, name })
 
-        const userExists = await getUserFromDb(email, password)
+        const [userExists] = await db
+            .select()
+            .from(UsersTable)
+            .where(eq(UsersTable.email, email))
 
         // If user exists, throw an error
-        if (userExists.success) {
-            throw new Error("A felhasználó már létezik")
+        if (userExists) {
+            throw new Error("A felhasználó már létezik ezzel az email címmel!")
         }
 
         // Hashing password with bcryptjs

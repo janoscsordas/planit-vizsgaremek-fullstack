@@ -16,12 +16,12 @@ export default function AuthButtons() {
       setIsLoading(true)
       const result = await signIn(provider, {
         redirect: false,
-        callbackUrl: '/projects' // or wherever you want to redirect after success
+        redirectTo: '/projects' // or wherever you want to redirect after success
       })
 
       if (result?.error) {
         // Handle the error from auth.ts
-        if (result.error.includes('Please sign in with')) {
+        if (result.error.includes('Már készített fiókot a következővel:')) {
             toast({
                 title: 'Error',
                 description: result.error,

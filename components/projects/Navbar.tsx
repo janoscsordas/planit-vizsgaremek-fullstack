@@ -29,7 +29,7 @@ export default async function Navbar() {
             <Bell
               width="18"
               height="18"
-              className="text-muted-foreground group-hover:-rotate-12 transition-transform duration-300"
+              className="text-muted-foreground"
             />
           </Link>
         </IconButton>
