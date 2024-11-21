@@ -51,11 +51,13 @@ export default function UserForm({ userData }: { userData: UserData }) {
             toast({
                 title: "Sikeres módosítás",
                 description: data.message,
+                className: "border-emerald-hover bg-emerald text-primary",
             });
         } catch (error) {
             toast({
                 title: "Hiba történt",
                 description: "A felhasználónév módosítása sikertelen.",
+                variant: "destructive",
             });
         } finally {
             setFormState(prev => ({ ...prev, isLoading: false }));
@@ -65,6 +67,7 @@ export default function UserForm({ userData }: { userData: UserData }) {
     return (
         <form  
             className="border border-muted rounded-md p-4"
+            onSubmit={handleSubmit}
         >
             <h4 className="font-medium text-sm">Felhasználónév</h4>
             <Input 
