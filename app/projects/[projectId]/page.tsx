@@ -1,10 +1,15 @@
+// TODO:
+
 import { getProjectById } from "@/actions/projects.action"
 import DeleteAccount from "./DeleteAccount"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 
-
-export default async function ProjectPage({ params }: { params: Promise<{ projectId: string }> }) {
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ projectId: string }>
+}) {
   const session = await auth()
 
   if (!session || !session.user) {
@@ -19,13 +24,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
     return <div>{project.message}</div>
   }
 
-  const projectData = Array.isArray(project.data) ? project.data[0] : project.data
-  return (
-    <div>
-      {projectData.name}
-      <div>
-        <DeleteAccount />
-      </div>
-    </div>
-  )
+  const projectData = Array.isArray(project.data)
+    ? project.data[0]
+    : project.data
+  return <div>{projectData.name}</div>
 }
