@@ -29,6 +29,13 @@
       "when": 1731931697231,
       "tag": "0003_thick_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732202361385,
+      "tag": "0004_lumpy_frank_castle",
+      "breakpoints": true
     }
   ]
 }

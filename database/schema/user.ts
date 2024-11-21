@@ -23,6 +23,8 @@ export const UsersTable = pgTable("user", {
     birthDate: timestamp("birthDate", { mode: "date", withTimezone: true }),
     tier: userTierEnum("tier").notNull().default("free"),
     image: text("image"),
+    nameChangedAt: timestamp("nameChangedAt", { mode: "date", withTimezone: true }),
+    imageChangedAt: timestamp("imageChangedAt", { mode: "date", withTimezone: true }),
     createdAt: timestamp("createdAt", { mode: "date", withTimezone: true }).notNull().defaultNow(),
 })
    

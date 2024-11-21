@@ -3,6 +3,43 @@ import { auth } from "@/auth"
 import { eq } from "drizzle-orm"
 import { db } from "@/database"
 import { NextResponse } from "next/server"
+import { userChangeFormSchema } from '@/lib/schemas/userSchema';
+import { differenceInDays } from 'date-fns';
+
+export async function PUT(request: Request) {
+    try {
+        const session = await auth()
+
+        if (!session || !session.user) {
+            return NextResponse.json({ error: "Nincs bejelentkezve" }, { status: 401 })
+        }
+
+        const { name } = await request.json()
+        const validatedData = userChangeFormSchema.safeParse({ name })
+
+        if (!validatedData.success) {
+            return NextResponse.json({ error: "Hibás adatok" }, { status: 400 })
+        }
+
+        if (validatedData.data.name === session.user.name) {
+            return NextResponse.json({ error: "Nem adhatod meg ugyanazt a nevet!" }, { status: 400 })
+        }
+
+        if (session.user.nameChangedAt && differenceInDays(new Date(), session.user.nameChangedAt) < 90) {
+            return NextResponse.json({ error: `Legközelebb csak ${(90 - differenceInDays(new Date(), session.user.nameChangedAt))} nap múlva módosíthatod a neved!` }, { status: 400 })
+        }
+
+        await db
+            .update(UsersTable)
+            .set({ name: validatedData.data.name, nameChangedAt: new Date() })
+            .where(eq(UsersTable.id, session.user.id))
+
+        return NextResponse.json({ message: "Profil sikeresen szerkesztve!" }, { status: 200 })
+    } catch (error) {
+        console.error("Profil szerkesztése sikertelen", error)
+        return NextResponse.json({ error: "Profil szerkesztése sikertelen" }, { status: 500 })
+    } 
+}
 
 export async function DELETE(request: Request) {
     try {

@@ -8,6 +8,8 @@ declare module "next-auth" {
             tier: string
             birthDate: Date | null
             createdAt: Date
+            nameChangedAt: Date | null
+            imageChangedAt: Date | null
         } & DefaultSession["user"]
     }
 }

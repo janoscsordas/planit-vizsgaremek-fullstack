@@ -5,7 +5,9 @@ export type UserData = {
     image: string | null
     name: string
     password: string | null
-    tier: string | null
+    tier: "free" | "paid"
     birthDate: Date | null
     createdAt: Date
+    nameChangedAt: Date | null
+    imageChangedAt: Date | null
 }
