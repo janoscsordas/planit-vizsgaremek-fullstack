@@ -18,10 +18,6 @@ export async function DELETE(request: Request) {
             .where(eq(AccountsTable.userId, session.user.id))
             .limit(1)
     
-        if (!account) {
-            return NextResponse.json({ error: "Nem található fiók" }, { status: 404 })
-        }
-    
         // Checking if the account is connected to Google or GitHub
         // If it is, revoking the user's access
         if (account) {
