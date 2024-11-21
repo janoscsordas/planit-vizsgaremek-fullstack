@@ -4,18 +4,12 @@ import { Button } from "@/components/ui/button"
 import { signOut } from "next-auth/react"
 import { useState } from "react"
 
-export default function DeleteAccount() {
-    const [isDeleting, setIsDeleting] = useState(false)
+export default function DeleteAccountButton({ disabled }: { disabled: boolean }) {
     const [error, setError] = useState<string | null>(null)
 
     const handleAccountDeletion = async () => {
         setError(null)
-
-        if (!confirm("Biztosan törlöd a fiókod?")) {
-            return
-        }
-
-        setIsDeleting(true)
+        disabled = true
 
         try {
             const response = await fetch("/api/user", {
@@ -35,18 +29,18 @@ export default function DeleteAccount() {
         } catch (error) {
             setError("Fiók törlése sikertelen")
         } finally {
-            setIsDeleting(false)
+            disabled = false
         }
     }
 
     return (
         <div>
-            <Button 
-                onClick={handleAccountDeletion} 
-                disabled={isDeleting}
+            <Button
+                onClick={handleAccountDeletion}
+                disabled={disabled}
                 className="bg-red-500 hover:bg-red-600 text-white"
             >
-                {isDeleting ? "Fiók törlése folyamatban..." : "Fiók törlése"}
+                Fiók törlése
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>

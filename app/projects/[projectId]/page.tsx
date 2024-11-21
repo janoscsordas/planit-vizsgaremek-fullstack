@@ -1,5 +1,4 @@
 import { getProjectById } from "@/actions/projects.action"
-import DeleteAccount from "./DeleteAccount"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 
@@ -24,7 +23,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
     <div>
       {projectData.name}
       <div>
-        <DeleteAccount />
       </div>
     </div>
   )
