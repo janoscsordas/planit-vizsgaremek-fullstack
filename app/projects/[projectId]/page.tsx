@@ -1,7 +1,4 @@
-// TODO:
-
 import { getProjectById } from "@/actions/projects.action"
-import DeleteAccount from "./DeleteAccount"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 
@@ -27,5 +24,10 @@ export default async function ProjectPage({
   const projectData = Array.isArray(project.data)
     ? project.data[0]
     : project.data
-  return <div>{projectData.name}</div>
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">{projectData.name}</h1>
+    </div>
+  )
 }

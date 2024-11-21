@@ -2,7 +2,7 @@
 
 import { Bell, ChevronsUpDown, LogOut, Sparkles, User } from "lucide-react"
 
-import { Avatar, Spinner } from "@radix-ui/themes"
+import { Avatar } from "@radix-ui/themes"
 
 import {
   DropdownMenu,
@@ -30,7 +30,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="outline-none">
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -55,7 +55,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                 <span className="truncate font-semibold">
                   {userSession.user.name}
                 </span>
-                <span className="truncate text-xs">
+                <span className="truncate text-muted-foreground text-[10px]">
                   {userSession.user.email}
                 </span>
               </div>
@@ -90,7 +90,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <span className="truncate font-semibold">
                     {userSession.user.name}
                   </span>
-                  <span className="truncate text-xs">
+                  <span className="truncate text-muted-foreground text-xs">
                     {userSession.user.email}
                   </span>
                 </div>

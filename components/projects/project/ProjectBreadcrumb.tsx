@@ -1,3 +1,5 @@
+import React from "react"
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,7 +24,7 @@ export default async function ProjectBreadcrumb({
       <Breadcrumb>
         <BreadcrumbList>
           {breadcrumbs.map((breadcrumb, index) => (
-            <>
+            <React.Fragment key={index}>
               <BreadcrumbItem className="hidden md:block">
                 <BreadcrumbLink href={breadcrumb.href} className={breadcrumb.active ? "text-emerald" : ""}>
                   {breadcrumb.label}
@@ -31,10 +33,11 @@ export default async function ProjectBreadcrumb({
               {index < breadcrumbs.length - 1 && (
                 <BreadcrumbSeparator className="hidden md:block" />
               )}
-            </>
+            </React.Fragment>
           ))}
         </BreadcrumbList>
       </Breadcrumb>
     </>
   )
 }
+

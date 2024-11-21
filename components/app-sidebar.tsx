@@ -4,14 +4,11 @@ import * as React from "react"
 import {
   AudioWaveform,
   BookOpen,
-  Bot,
+  MessageCircle,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
   Settings2,
-  SquareTerminal,
+  ClipboardList,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -26,36 +23,33 @@ import {
 } from "@/components/ui/sidebar"
 import { Session } from "next-auth"
 
-// This is sample data.
 const data = {
   teams: [
     {
-      name: "Acme Inc",
+      name: "Villámcsapat",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
+      name: "Harcosok",
       logo: AudioWaveform,
-      plan: "Startup",
     },
+
     {
-      name: "Evil Corp.",
+      name: "Csillagvadászok",
       logo: Command,
-      plan: "Free",
     },
   ],
   navMain: [
     {
       title: "Feladatok",
       url: "#",
-      icon: SquareTerminal,
+      icon: ClipboardList,
       isActive: true,
     },
     {
       title: "Üzenetek",
       url: "#",
-      icon: Bot,
+      icon: MessageCircle,
     },
     {
       title: "Dokumentáció",
