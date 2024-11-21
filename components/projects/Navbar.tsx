@@ -26,11 +26,7 @@ export default async function Navbar() {
           className="cursor-pointer group hover:bg-emerald/15"
         >
           <Link href="/notifications">
-            <Bell
-              width="18"
-              height="18"
-              className="text-muted-foreground"
-            />
+            <Bell width="18" height="18" className="text-muted-foreground" />
           </Link>
         </IconButton>
 

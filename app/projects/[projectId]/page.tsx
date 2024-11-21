@@ -2,8 +2,11 @@ import { getProjectById } from "@/actions/projects.action"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 
-
-export default async function ProjectPage({ params }: { params: Promise<{ projectId: string }> }) {
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ projectId: string }>
+}) {
   const session = await auth()
 
   if (!session || !session.user) {
@@ -18,12 +21,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
     return <div>{project.message}</div>
   }
 
-  const projectData = Array.isArray(project.data) ? project.data[0] : project.data
+  const projectData = Array.isArray(project.data)
+    ? project.data[0]
+    : project.data
+
   return (
-    <div>
-      {projectData.name}
-      <div>
-      </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">{projectData.name}</h1>
     </div>
   )
 }

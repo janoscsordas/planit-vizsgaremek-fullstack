@@ -23,7 +23,7 @@ export default function RootLayout({
           <Providers>{children}</Providers>
           <Toaster />
         </Theme>
-      </body> 
+      </body>
     </html>
   )
 }
