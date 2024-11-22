@@ -37,7 +37,14 @@ export function NavMain({
                 asChild
                 className={item.isActive ? "bg-emerald-hover" : ""}
               >
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className={
+                    item.isActive
+                      ? "text-black dark:text-black"
+                      : "text-black dark:text-muted-foreground"
+                  }
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                 </SidebarMenuButton>
