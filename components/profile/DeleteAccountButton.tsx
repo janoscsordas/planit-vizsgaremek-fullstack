@@ -1,9 +1,9 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Spinner } from "@radix-ui/themes"
 import { signOut } from "next-auth/react"
 import { useState } from "react"
+import {Loader2} from "lucide-react";
 
 export default function DeleteAccountButton({ disabled }: { disabled: boolean }) {
     const [error, setError] = useState<string | null>(null)
@@ -44,7 +44,10 @@ export default function DeleteAccountButton({ disabled }: { disabled: boolean })
                 disabled={disabled || isLoading}
                 className="bg-red-500 hover:bg-red-600 text-white"
             >
-                {isLoading ? <Spinner /> : "Fiók törlése"}
+                {isLoading ? <span className="flex items-center gap-2">
+                    <Loader2 className="animate-spin" />
+                    Fiók törlése folyamatban...
+                </span> : "Fiók törlése"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>

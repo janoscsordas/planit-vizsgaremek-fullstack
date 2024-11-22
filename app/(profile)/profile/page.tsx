@@ -11,6 +11,7 @@ import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { UsersTable } from "@/database/schema/user";
 import { UserData } from "@/lib/definitions/user-types";
+import UserPasswordForm from "@/components/profile/forms/UserPasswordForm";
 
 
 export default async function ProfilePage() {
@@ -75,12 +76,9 @@ export default async function ProfilePage() {
                         <Input id="file" type="file" className="mt-2" />
                         <Button className="mb-10 md:mb-0 mt-10 bg-emerald hover:bg-emerald-hover" type="submit">Mentés</Button>
                     </form>
-                    <form action="" className="border border-muted rounded-md p-4 mt-6">
-                        <h4 className="font-medium text-sm">Jelszó</h4>
-                        <Input className="mt-2 text-sm" type="password" placeholder="Új jelszó" />
-                        <Input className="mt-2 text-sm" type="password" placeholder="Új jelszó megerősítése" />
-                        <Button className="mb-10 md:mb-0 mt-10 bg-emerald hover:bg-emerald-hover" type="submit">Mentés</Button>
-                    </form>
+
+                    {userData.password ? <UserPasswordForm /> : null}
+
                     <section className="mt-6 border border-red-600 rounded-md p-4 mb-10">
                         <h4 className="font-medium text-md text-red-500">Veszélyes zóna!</h4>
                         <p className="text-muted-foreground text-sm">Amit itt tehetsz abból nincs visszaút!</p>

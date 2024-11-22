@@ -10,33 +10,28 @@ export async function POST(request: Request) {
     try {
         const session = await auth()
 
-        if (!session || !session.user) {
-            return NextResponse.json({ error: "Nincs bejelentkezve" }, { status: 401 })
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Nincs bejelentkezve!" });
         }
 
-        const { birthDate } = await request.json()
+        const { password, confirmPassword } = await request.json();
 
-        if (!birthDate) {
-            return NextResponse.json({ error: "Nincs megadva születési dátum" }, { status: 400 })
+        if (password !== confirmPassword) {
+            return NextResponse.json({ error: "A megadott jelszavak nem egyeznek!" });
         }
 
-        if (session.user.birthDate) {
-            return NextResponse.json({ error: "A születési dátum már be van állítva" }, { status: 400 })
-        }
-
-        const updatedUser = await db
+        const updatePassword = await db
             .update(UsersTable)
-            .set({ birthDate })
+            .set({ password: password })
             .where(eq(UsersTable.id, session.user.id))
 
-        if (!updatedUser) {
-            return NextResponse.json({ error: "Születési dátum módosítása sikertelen" }, { status: 500 })
+        if (!updatePassword) {
+            return NextResponse.json({ error: "Hiba a jelszóváltoztatás közben!" });
         }
 
-        return NextResponse.json({ message: "Születési dátum sikeresen módosítva" }, { status: 200 })
-    } catch (error) {
-        console.error("Születési dátum módosítása sikertelen", error)
-        return NextResponse.json({ error: "Születési dátum módosítása sikertelen" }, { status: 500 })
+        return NextResponse.json({ message: "Sikeres jelszóváltoztatás!" })
+    } catch (error: any | unknown) {
+        return NextResponse.json({ error: error.error });
     }
 }
 
