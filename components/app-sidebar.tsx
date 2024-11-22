@@ -9,6 +9,8 @@ import {
   GalleryVerticalEnd,
   Settings2,
   ClipboardList,
+  VenetianMaskIcon,
+  Binoculars,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -41,10 +43,15 @@ const data = {
   ],
   navMain: [
     {
+      title: "Áttekintés",
+      url: "#",
+      icon: Binoculars,
+      isActive: true,
+    },
+    {
       title: "Feladatok",
       url: "#",
       icon: ClipboardList,
-      isActive: true,
     },
     {
       title: "Üzenetek",

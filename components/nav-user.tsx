@@ -28,9 +28,10 @@ export function NavUser({ userSession }: { userSession: Session }) {
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem>
+      <SidebarMenuItem
+      >
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="outline-none">
+          <DropdownMenuTrigger asChild className="outline-none bg-sidebar-accent dark:bg-sidebar-accent-dark border-t border-sidebar-accent-dark rounded-lg">
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"

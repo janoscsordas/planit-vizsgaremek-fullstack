@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${GeistSans.className} antialiased`}>
         <Theme hasBackground={false}>
           <Providers>{children}</Providers>
-          <Toaster />
+          <Toaster /> 
         </Theme>
       </body>
     </html>
