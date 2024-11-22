@@ -1,13 +1,16 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@radix-ui/themes"
 import { signOut } from "next-auth/react"
 import { useState } from "react"
 
 export default function DeleteAccountButton({ disabled }: { disabled: boolean }) {
     const [error, setError] = useState<string | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleAccountDeletion = async () => {
+        setIsLoading(true)
         setError(null)
         disabled = true
 
@@ -30,6 +33,7 @@ export default function DeleteAccountButton({ disabled }: { disabled: boolean })
             setError("Fiók törlése sikertelen")
         } finally {
             disabled = false
+            setIsLoading(false)
         }
     }
 
@@ -37,10 +41,10 @@ export default function DeleteAccountButton({ disabled }: { disabled: boolean })
         <div>
             <Button
                 onClick={handleAccountDeletion}
-                disabled={disabled}
+                disabled={disabled || isLoading}
                 className="bg-red-500 hover:bg-red-600 text-white"
             >
-                Fiók törlése
+                {isLoading ? <Spinner /> : "Fiók törlése"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>

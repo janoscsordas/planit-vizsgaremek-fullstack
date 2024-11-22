@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import UserForm from "@/components/profile/forms/UserNameForm";
-import UserBirthDate from "@/components/profile/forms/UserBirthDate";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { UsersTable } from "@/database/schema/user";
@@ -70,8 +69,7 @@ export default async function ProfilePage() {
                     
                     {/* User Form where the user can change their name and birthday */}
                     <UserForm userData={userData} />
-                    <UserBirthDate />
-
+                    
                     <form action="" className="border border-muted rounded-md p-4 mt-6">
                         <h4 className="font-medium text-sm">Profilkép</h4>
                         <Input id="file" type="file" className="mt-2" />

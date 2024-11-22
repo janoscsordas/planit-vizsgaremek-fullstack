@@ -248,7 +248,7 @@ export default function Home() {
               </h3>
               <p className="mt-4 flex items-baseline gap-x-2">
                 <span className="text-5xl font-semibold tracking-tight text-white">
-                  7.999 HUF
+                  7.990 HUF
                 </span>
                 <span className="text-base text-gray-400">/hó</span>
               </p>

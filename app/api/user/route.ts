@@ -6,6 +6,40 @@ import { NextResponse } from "next/server"
 import { userChangeFormSchema } from '@/lib/schemas/userSchema';
 import { differenceInDays } from 'date-fns';
 
+export async function POST(request: Request) {
+    try {
+        const session = await auth()
+
+        if (!session || !session.user) {
+            return NextResponse.json({ error: "Nincs bejelentkezve" }, { status: 401 })
+        }
+
+        const { birthDate } = await request.json()
+
+        if (!birthDate) {
+            return NextResponse.json({ error: "Nincs megadva születési dátum" }, { status: 400 })
+        }
+
+        if (session.user.birthDate) {
+            return NextResponse.json({ error: "A születési dátum már be van állítva" }, { status: 400 })
+        }
+
+        const updatedUser = await db
+            .update(UsersTable)
+            .set({ birthDate })
+            .where(eq(UsersTable.id, session.user.id))
+
+        if (!updatedUser) {
+            return NextResponse.json({ error: "Születési dátum módosítása sikertelen" }, { status: 500 })
+        }
+
+        return NextResponse.json({ message: "Születési dátum sikeresen módosítva" }, { status: 200 })
+    } catch (error) {
+        console.error("Születési dátum módosítása sikertelen", error)
+        return NextResponse.json({ error: "Születési dátum módosítása sikertelen" }, { status: 500 })
+    }
+}
+
 export async function PUT(request: Request) {
     try {
         const session = await auth()

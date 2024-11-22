@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-// import { DateTimePicker } from "../DatePicker";
 import { useEffect, useState } from "react";
 import { differenceInDays } from "date-fns";
 import { userChangeFormSchema } from "@/lib/schemas/userSchema";
@@ -80,9 +79,15 @@ export default function UserForm({ userData }: { userData: UserData }) {
                 onChange={(e) => setFormState(prev => ({ ...prev, name: e.target.value }))}
                 disabled={formState.disabled}
             />
-            <p className="text-muted-foreground text-xs pt-2">
-                {formState.disabled ? `${formState.nameChangedAt && (90 - differenceInDays(formState.nameChangedAt, new Date()))} nap múlva lehet módosítani a felhasználónevet.` : "A felhasználónevet 90 naponta egyszer lehet módosítani."}
-            </p>
+            {formState.disabled ? (
+                <p className="text-red-500 text-xs pt-2">
+                    {`${formState.nameChangedAt && (90 - differenceInDays(formState.nameChangedAt, new Date()))} nap múlva lehet módosítani a felhasználónevet legközelebb.`}
+                </p>
+            ) : (
+                <p className="text-muted-foreground text-xs pt-2">
+                    Módosíthatod a felhasználónevedet.
+                </p>
+            )}
             <Button 
                 className="mb-10 md:mb-0 mt-10 bg-emerald hover:bg-emerald-hover" 
                 type="submit"
