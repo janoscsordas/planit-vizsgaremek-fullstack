@@ -139,7 +139,7 @@ const UserForm = ({ userData }: { userData: UserData }) => {
                     </p>
                 ) : (
                     <p className="text-muted-foreground text-xs">
-                        Módosíthatod a felhasználóneved. A következő módosításra {COOLDOWN_DAYS} napot kell várni.
+                        Módosíthatod a felhasználóneved. A következő módosításra {COOLDOWN_DAYS} nap múlva kerülhet sor.
                     </p>
                 )}
             </div>

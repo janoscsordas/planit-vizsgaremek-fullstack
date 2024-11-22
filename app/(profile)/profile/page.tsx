@@ -12,6 +12,7 @@ import { eq } from "drizzle-orm";
 import { UsersTable } from "@/database/schema/user";
 import { UserData } from "@/lib/definitions/user-types";
 import UserPasswordForm from "@/components/profile/forms/UserPasswordForm";
+import ProfilePictureForm from "@/components/profile/forms/ProfilePictureForm";
 
 
 export default async function ProfilePage() {
@@ -71,11 +72,7 @@ export default async function ProfilePage() {
                     {/* User Form where the user can change their name and birthday */}
                     <UserForm userData={userData} />
                     
-                    <form action="" className="border border-muted rounded-md p-4 mt-6">
-                        <h4 className="font-medium text-sm">Profilkép</h4>
-                        <Input id="file" type="file" className="mt-2" />
-                        <Button className="mb-10 md:mb-0 mt-10 bg-emerald hover:bg-emerald-hover" type="submit">Mentés</Button>
-                    </form>
+                    <ProfilePictureForm />
 
                     {userData.password ? <UserPasswordForm /> : null}
 
