@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ClipboardList, FolderGit2, LogIn, MessagesSquare } from "lucide-react"
 import CookieConsent from "@/components/CookieConsent"
+import BackToTop from "@/components/back-to-top"
 
 export default function Home() {
   return (
@@ -11,9 +12,12 @@ export default function Home() {
       <div className="w-[95%] lg:w-[65%] mx-auto">
         <div className="relative max-w-screen-xl px-5 mx-auto">
           <div className="-z-10 absolute lg:left-30 xl:left-24 top-80 w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-first-object"></div>
-          <div className="-z-10 hidden lg:block absolute left-[45rem] top-44 w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-second-object"></div>
-          <div className="-z-10 absolute hidden md:block md:left-[43.5rem] lg:left-[45rem] xl:left-[57rem] 2xl:left-[65rem] top-[28rem] w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-third-object"></div>
+          <div className="-z-10 hidden lg:block absolute left-[40rem] top-44 w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-second-object"></div>
+          <div className="-z-10 absolute hidden md:block md:left-[43.5rem] lg:left-[45rem] xl:left-[52rem] 2xl:left-[60rem] top-[28rem] w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-third-object"></div>
         </div>
+
+        <BackToTop />
+
         <Link className="block w-max pointer-events-none" href={"/"}>
           <Image
             className="hidden sm:block select-none"

@@ -19,7 +19,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import Image from "next/image"
 import { Session } from "next-auth"
 import Link from "next/link"
 
@@ -28,28 +27,28 @@ export function NavUser({ userSession }: { userSession: Session }) {
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem
-      >
+      <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="outline-none bg-sidebar-accent dark:bg-sidebar-accent-dark border-t border-sidebar-accent-dark rounded-lg">
+          <DropdownMenuTrigger
+            asChild
+            className="outline-none bg-sidebar-accent dark:bg-sidebar-accent-dark border-t border-sidebar-accent-dark rounded-lg"
+          >
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               {userSession.user.image ? (
-                <Image
+                <Avatar
                   src={userSession.user.image}
                   alt="Profilkép"
-                  width={32}
-                  height={32}
-                  className="rounded-full focus-visible:outline-none"
-                  style={{ width: "auto", height: "auto" }}
+                  className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-9 h-9"
+                  fallback={userSession.user.name?.charAt(0) || "?"}
                 />
               ) : (
                 <Avatar
                   radius="full"
                   fallback={userSession.user.name?.charAt(0) || "?"}
-                  className="cursor-pointer"
+                  className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-9 h-9"
                 />
               )}
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -72,19 +71,17 @@ export function NavUser({ userSession }: { userSession: Session }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 {userSession.user.image ? (
-                  <Image
+                  <Avatar
                     src={userSession.user.image}
                     alt="Profilkép"
-                    width={32}
-                    height={32}
-                    className="rounded-full focus-visible:outline-none"
-                    style={{ width: "auto", height: "auto" }}
+                    className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-9 h-9"
+                    fallback={userSession.user.name?.charAt(0) || "?"}
                   />
                 ) : (
                   <Avatar
                     radius="full"
                     fallback={userSession.user.name?.charAt(0) || "?"}
-                    className="cursor-pointer"
+                    className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-9 h-9"
                   />
                 )}
                 <div className="grid flex-1 text-left text-sm leading-tight">
