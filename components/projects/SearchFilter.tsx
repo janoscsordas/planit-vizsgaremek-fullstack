@@ -47,11 +47,15 @@ export default function SearchFilter({
         onValueChange={(value) => onStatusChange(value)}
         size="2"
       >
-        <Select.Trigger variant="soft" color="green" />
+        <Select.Trigger
+          variant="soft"
+          color="green"
+          className="appearance-none [&>svg]:hidden"
+        />
         <Select.Content color="green">
           <Select.Group>
-            <Select.Item value="all">
-              <Filter height="16" width="16" />
+            <Select.Item value="all" disabled>
+              <Filter height="18" width="18" />
             </Select.Item>
             <Select.Item value="active">Aktív</Select.Item>
             <Select.Item value="completed">Befejezett</Select.Item>

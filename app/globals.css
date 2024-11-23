@@ -92,3 +92,28 @@ body {
 :focus {
   outline: none;
 }
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* variant 2 */
+
+/* ::-webkit-scrollbar {
+  max-width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background: inherit;
+  margin: 0.15em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(149 56% 32%);
+  border-radius: 100vw;
+} */

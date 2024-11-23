@@ -1,11 +1,7 @@
 import ProfileNavbar from "@/components/profile/ProfileNavbar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import DialogForAccountDeletion from "@/components/profile/DialogForAccountDeletion";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import UserForm from "@/components/profile/forms/UserNameForm";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";

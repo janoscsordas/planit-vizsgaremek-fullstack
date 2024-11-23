@@ -58,6 +58,10 @@ export default async function Layout({
                 <ProjectBreadcrumb
                   breadcrumbs={[
                     {
+                      label: "projektek",
+                      href: `/projects`,
+                    },
+                    {
                       label: projectData.name,
                       href: `/projects/${projectId}`,
                     },
