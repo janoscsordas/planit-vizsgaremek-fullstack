@@ -6,6 +6,7 @@ import { NextResponse } from "next/server"
 import { userChangeFormSchema } from '@/lib/schemas/userSchema';
 import { differenceInDays } from 'date-fns';
 
+// API Route for updating the user's password
 export async function POST(request: Request) {
     try {
         const session = await auth()
@@ -35,6 +36,7 @@ export async function POST(request: Request) {
     }
 }
 
+// PUT Route for updating the user's name
 export async function PUT(request: Request) {
     try {
         const session = await auth()
@@ -54,8 +56,14 @@ export async function PUT(request: Request) {
             return NextResponse.json({ error: "Nem adhatod meg ugyanazt a nevet!" }, { status: 400 })
         }
 
-        if (session.user.nameChangedAt && differenceInDays(new Date(), session.user.nameChangedAt) < 90) {
-            return NextResponse.json({ error: `Legközelebb csak ${(90 - differenceInDays(new Date(), session.user.nameChangedAt))} nap múlva módosíthatod a neved!` }, { status: 400 })
+        const [fetchNameChangedAt] = await db
+            .select()
+            .from(UsersTable)
+            .where(eq(UsersTable.id, session.user.id))
+            .limit(1)
+
+        if (fetchNameChangedAt.nameChangedAt && differenceInDays(new Date(), fetchNameChangedAt.nameChangedAt) < 90) {
+            return NextResponse.json({ error: `Legközelebb csak ${(90 - differenceInDays(new Date(), fetchNameChangedAt.nameChangedAt))} nap múlva módosíthatod a neved!` }, { status: 400 })
         }
 
         await db
@@ -70,6 +78,7 @@ export async function PUT(request: Request) {
     } 
 }
 
+// DELETE Route for deleting the user
 export async function DELETE(request: Request) {
     try {
         const session = await auth()

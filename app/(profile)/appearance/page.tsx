@@ -1,16 +1,15 @@
 import ProfileNavbar from "@/components/profile/ProfileNavbar";
 import { Button } from "@/components/ui/button";
-import { Flex, RadioCards, Text } from "@radix-ui/themes";
+import { Flex, RadioCards } from "@radix-ui/themes";
+import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import ProfileHeader from "../ProfileHeader";
 
 export default function AppearancePage() {
   return (
     <div className="w-[90%] mx-auto pt-8 md:pt-16">
-      <h2 className="text-2xl font-bold">Fiókbeállítások</h2>
-      <p className="text-muted-foreground pt-2">
-        Fiókbeállítások kezelése és testreszabása.
-      </p>
-      <hr className="my-6" />
+      <ProfileHeader />
       <div className="flex flex-col md:flex-row">
         <ProfileNavbar />
         <div className="ml-0 md:ml-12 mt-2 w-full md:w-[50%]">

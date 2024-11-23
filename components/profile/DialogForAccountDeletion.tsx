@@ -23,7 +23,7 @@ export default function DialogForAccountDeletion({ userName }: { userName: strin
         <Dialog>
             <DialogTrigger asChild>
                 <Button 
-                    className="border-red-500 hover:bg-red-500 text-white mt-2"
+                    className="border-red-500 hover:bg-red-500 text-primary mt-2"
                     variant="outline"
                 >
                     Fiók törlése

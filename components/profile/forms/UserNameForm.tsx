@@ -20,6 +20,7 @@ interface FormState {
     isLoading: boolean;
     error: string | null;
     disabled: boolean;
+    submitDisabled: boolean;
 }
 
 const COOLDOWN_DAYS = 90;
@@ -32,6 +33,7 @@ const UserForm = ({ userData }: { userData: UserData }) => {
         isLoading: false,
         error: null,
         disabled: false,
+        submitDisabled: false,
     });
 
     // Calculate remaining days for username change
@@ -43,10 +45,15 @@ const UserForm = ({ userData }: { userData: UserData }) => {
     // Check if username change is allowed
     useEffect(() => {
         const remainingDays = getRemainingDays();
-        if (remainingDays && remainingDays > 0) {
+        if (userData.name === formState.name) {
+            setFormState(prev => ({ ...prev, submitDisabled: true }));
+        } else {
+            setFormState(prev => ({ ...prev, submitDisabled: false }));
+        }
+        if ((remainingDays && remainingDays > 0)) {
             setFormState(prev => ({ ...prev, disabled: true }));
         }
-    }, [userData.nameChangedAt]);
+    }, [userData.nameChangedAt, formState.name]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
@@ -153,13 +160,13 @@ const UserForm = ({ userData }: { userData: UserData }) => {
             <Button
                 type="submit"
                 className="w-max bg-emerald hover:bg-emerald-hover"
-                disabled={formState.disabled || formState.isLoading}
+                disabled={formState.disabled || formState.isLoading || formState.submitDisabled}
             >
                 {formState.isLoading ? (
                     <span className="flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Feldolgozás...
-          </span>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Feldolgozás...
+                    </span>
                 ) : (
                     'Mentés'
                 )}

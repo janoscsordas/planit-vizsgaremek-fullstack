@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { userPasswordChangeSchema } from '@/lib/schemas/userSchema';
 
 const PasswordChangeForm = () => {
     const [formData, setFormData] = useState({
@@ -32,18 +33,15 @@ const PasswordChangeForm = () => {
         });
     };
 
-    const validatePasswords = () => {
-        if (!formData.password || !formData.confirmPassword) {
-            throw new Error('Minden adatmezőt ki kell tölteni!');
-        }
-
+    const validatePasswords = async () => {
         if (formData.password !== formData.confirmPassword) {
-            throw new Error('Nem egyeznek a megadott jelszavak!');
+            throw new Error("A jelszavak nem egyeznek!")
         }
 
-        // Add password strength validation here if needed
-        if (formData.password.length < 8) {
-            throw new Error('A jelszónak legalább 8 karakter hosszúnak kell lennie!');
+        const validatePasswords = await userPasswordChangeSchema.safeParseAsync(formData)
+
+        if (!validatePasswords.success) {
+            throw new Error(validatePasswords.error.errors[0].message)
         }
     };
 
@@ -63,11 +61,13 @@ const PasswordChangeForm = () => {
         e.preventDefault();
 
         try {
+            // Set the status to loading
             setStatus({ loading: true, error: '' });
 
             // Validate inputs
-            validatePasswords();
+            await validatePasswords();
 
+            // Send POST request to the api endpoint
             const response = await fetch('/api/user', {
                 method: 'POST',
                 headers: {
@@ -76,25 +76,31 @@ const PasswordChangeForm = () => {
                 body: JSON.stringify(formData),
             });
 
+            // Check if the response sent back is not OK
             if (!response.ok) {
                 const error = await response.json();
                 throw new Error(error.message || 'Hiba a jelszó átállítása közben!');
             }
 
+            // Get the data from the response
             const data = await response.json();
-
+                
+            // Show success message to the user
             toast({
                 title: 'Sikeres jelszóváltoztatás',
                 description: data.message || 'A jelszavad sikeresen megváltozott.',
                 className: 'bg-emerald text-primary border-emerald-hover',
             });
 
+            // Reset the form
             resetForm();
         } catch (error) {
+            // Set status to error with specific or hard coded message
             setStatus({
                 loading: false,
                 error: error instanceof Error ? error.message : 'Váratlan hiba történt',
             });
+            // Reset the password fields
             setFormData(prev => ({
                 ...prev,
                 password: '',
@@ -144,9 +150,9 @@ const PasswordChangeForm = () => {
             >
                 {status.loading ? (
                     <span className="flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Feldolgozás...
-          </span>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Feldolgozás...
+                    </span>
                 ) : (
                     'Mentés'
                 )}

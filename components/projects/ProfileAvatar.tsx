@@ -1,5 +1,6 @@
 import { auth } from "@/auth"
-import { Avatar, Link } from "@radix-ui/themes"
+import { Avatar } from "@radix-ui/themes"
+import Link from "next/link"
 
 import {
   AlertDialog,
@@ -39,13 +40,11 @@ export default async function ProfileAvatar() {
         <DropdownMenu>
           <DropdownMenuTrigger className="outline-none">
             {session.user.image ? (
-              <Image
+              <Avatar
+                radius="full"
                 src={session.user.image}
-                alt="Profilkép"
-                width={32}
-                height={32}
-                className="rounded-full cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-none"
-                style={{ width: "auto", height: "auto" }}
+                fallback={session.user.name?.charAt(0) || "?"}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
               />
             ) : (
               <Avatar
