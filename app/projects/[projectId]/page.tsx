@@ -26,7 +26,7 @@ export default async function ProjectPage({
     : project.data
 
   return (
-    <div className="p-4">
+    <div>
       <h1 className="text-2xl font-bold">{projectData.name}</h1>
     </div>
   )
