@@ -1,7 +1,6 @@
 "use client"
-
+import Link from "next/link"
 import { type LucideIcon } from "lucide-react"
-
 import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
@@ -35,19 +34,15 @@ export function NavMain({
             <SidebarMenuItem>
               <CollapsibleTrigger
                 asChild
-                className={item.isActive ? "bg-emerald-hover" : ""}
               >
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  className={
-                    item.isActive
-                      ? "text-black dark:text-black"
-                      : "text-black dark:text-muted-foreground"
-                  }
-                >
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
+                <Link href={item.url}>
+                  <SidebarMenuButton tooltip={item.title} className={`w-full ${
+                  item.isActive ? "bg-emerald-hover text-white" : ""
+                }`}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </Link>
               </CollapsibleTrigger>
             </SidebarMenuItem>
           </Collapsible>
