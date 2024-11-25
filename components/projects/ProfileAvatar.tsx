@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { redirect } from "next/navigation"
-import Image from "next/image"
 import DialogLogoutButton from "./DialogLogoutButton"
 import { LogOutIcon, UserIcon } from "lucide-react"
 
@@ -58,13 +57,13 @@ export default async function ProfileAvatar() {
             <DropdownMenuLabel>Profil Menü</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <Link href="/profile" className="no-underline">
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <UserIcon className="w-4 h-4 mr-2" />
                 Profil
               </DropdownMenuItem>
             </Link>
             <AlertDialogTrigger asChild>
-              <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white">
+              <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white cursor-pointer">
                 <LogOutIcon className="w-4 h-4 mr-2" />
                 Kijelentkezés
               </DropdownMenuItem>

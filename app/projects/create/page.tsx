@@ -13,7 +13,23 @@ export default async function CreateProject() {
   return (
     <div>
       {/* navbar + breadcrumbs */}
-      <Navbar />
+      <Navbar breadCrumb={
+        [
+          {
+            label: "Főoldal",
+            href: "/",
+          },
+          {
+            label: `${session.user.name} projektjei`,
+            href: `/projects`,
+          },
+          {
+            label: "Új projekt készítése",
+            href: `/projects/create`,
+            active: true,
+          }
+        ]
+      } />
 
       {/* create project form */}
       <CreateForm />

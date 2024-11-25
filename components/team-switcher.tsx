@@ -30,13 +30,16 @@ export function TeamSwitcher({
   const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
 
-  // TODO: 
+  // TODO:
   // Ha nincsen csapata a felhaszn. akkot az jelenjen meg, hogy csapat készítése, különben pedig a csapatok
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="outline-none">
+          <DropdownMenuTrigger
+            asChild
+            className="outline-none focus:ring-2 focus:ring-emerald"
+          >
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"

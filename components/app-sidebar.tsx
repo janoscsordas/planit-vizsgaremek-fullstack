@@ -11,6 +11,7 @@ import {
   ClipboardList,
   VenetianMaskIcon,
   Binoculars,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -59,9 +60,11 @@ const data = {
       icon: MessageCircle,
     },
     {
-      title: "Dokumentáció",
+      // TODO:
+      // Ha a felhasználó admin, akkor a tagok is látszódjon
+      title: "Tagok",
       url: "#",
-      icon: BookOpen,
+      icon: Users,
     },
     {
       title: "Beállítások",
