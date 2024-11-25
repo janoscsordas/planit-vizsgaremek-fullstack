@@ -5,6 +5,8 @@ import { db } from "@/database"
 import { NextResponse } from "next/server"
 import { userChangeFormSchema } from '@/lib/schemas/userSchema';
 import { differenceInDays } from 'date-fns';
+import { hash } from 'bcryptjs';
+
 
 // API Route for updating the user's password
 export async function POST(request: Request) {
@@ -21,9 +23,15 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "A megadott jelszavak nem egyeznek!" });
         }
 
+        const hashedPassword = await hash(password, 10);
+
+        if (!hashedPassword) {
+            return NextResponse.json({ error: "Hiba a jelszóváltoztatásossal!" });
+        }
+
         const updatePassword = await db
             .update(UsersTable)
-            .set({ password: password })
+            .set({ password: hashedPassword })
             .where(eq(UsersTable.id, session.user.id))
 
         if (!updatePassword) {
