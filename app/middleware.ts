@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
       .limit(1);
 
     if (!projectAccess?.isOwner && !projectAccess?.isMember) {
-      return NextResponse.redirect(new URL('/unauthorized', req.url));
+      return NextResponse.redirect(new URL('/projects', req.url));
     }
   }
 
