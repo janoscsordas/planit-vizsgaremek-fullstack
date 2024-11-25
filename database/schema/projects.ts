@@ -1,5 +1,6 @@
 import { pgEnum, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { UsersTable } from "@/database/schema/user";
+import { relations } from "drizzle-orm";
 
 export const projectTierEnum = pgEnum('project_tier', ['free', 'paid'])
 export const projectStatusEnum = pgEnum('project_status', ['active', 'completed', 'archived'])
@@ -77,3 +78,44 @@ export const ProjectTaskAssignsTable = pgTable("project_task_assigns", {
     assignedAt: timestamp("assignedAt", { mode: "date", withTimezone: true })
         .defaultNow()
 })
+
+// Relations between tables
+
+export const ProjectRelations = relations(ProjectsTable, ({ one, many }) => ({
+    owner: one(UsersTable, {
+      fields: [ProjectsTable.userId],
+      references: [UsersTable.id]
+    }),
+    members: many(ProjectMembersTable),
+    tasks: many(ProjectTasksTable)
+  }));
+  
+export const ProjectMemberRelations = relations(ProjectMembersTable, ({ one }) => ({
+    project: one(ProjectsTable, {
+      fields: [ProjectMembersTable.projectId],
+      references: [ProjectsTable.id]
+    }),
+    user: one(UsersTable, {
+      fields: [ProjectMembersTable.userId],
+      references: [UsersTable.id]
+    })
+  }));
+  
+export const ProjectTaskRelations = relations(ProjectTasksTable, ({ one, many }) => ({
+    project: one(ProjectsTable, {
+      fields: [ProjectTasksTable.projectId],
+      references: [ProjectsTable.id]
+    }),
+    assigns: many(ProjectTaskAssignsTable)
+  }));
+  
+export const ProjectTaskAssignRelations = relations(ProjectTaskAssignsTable, ({ one }) => ({
+    task: one(ProjectTasksTable, {
+      fields: [ProjectTaskAssignsTable.taskId],
+      references: [ProjectTasksTable.id]
+    }),
+    user: one(UsersTable, {
+      fields: [ProjectTaskAssignsTable.userId],
+      references: [UsersTable.id]
+    })
+}));
