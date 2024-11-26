@@ -21,33 +21,38 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { Session } from "next-auth"
+import { usePathname } from "next/navigation"
 
-const generateNavItems = (projectId?: string) => [
+const generateNavItems = (projectId: string, pathName: string) => [
   {
     title: "Áttekintés",
-    url: projectId ? `/projects/${projectId}` : "#",
+    url: `/projects/${projectId}`,
     icon: Binoculars,
-    isActive: true,
+    isActive: pathName === `/projects/${projectId}` ? true : false,
   },
   {
     title: "Feladatok",
-    url: projectId ? `/projects/${projectId}/tasks` : "#",
+    url: `/projects/${projectId}/tasks`,
     icon: ClipboardList,
+    isActive: pathName === `/projects/${projectId}/tasks` ? true : false,
   },
   {
     title: "Üzenetek",
-    url: projectId ? `/projects/${projectId}/messages` : "#",
+    url: `/projects/${projectId}/messages`,
     icon: MessageCircle,
+    isActive: pathName === `/projects/${projectId}/messages` ? true : false,
   },
   {
     title: "Tagok",
-    url: projectId ? `/projects/${projectId}/members` : "#",
+    url: `/projects/${projectId}/members`,
     icon: Users,
+    isActive: pathName === `/projects/${projectId}/members` ? true : false,
   },
   {
     title: "Beállítások",
-    url: projectId ? `/projects/${projectId}/settings` : "#",
+    url: `/projects/${projectId}/settings`,
     icon: Settings2,
+    isActive: pathName === `/projects/${projectId}/settings` ? true : false,
   },
 ]
 
@@ -74,9 +79,10 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   userSession: Session
-  projectId?: string
-}) {
-  const navMain = generateNavItems(projectId)
+  projectId: string
+}) { 
+  const pathName = usePathname()
+  const navMain = generateNavItems(projectId, pathName)
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -84,7 +90,7 @@ export function AppSidebar({
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} /> {/* Pass the dynamic nav items */}
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser userSession={userSession} />
