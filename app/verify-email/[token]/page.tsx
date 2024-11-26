@@ -2,9 +2,7 @@ import { verifyEmail } from "@/actions/user.action";
 import { notFound, redirect } from "next/navigation";
 
 interface Props {
-  params: {
-    token: string;
-  };
+  params: Promise<{ token: string }>;
 }
 
 export default async function VerifyEmailPage({ params }: Props) {
