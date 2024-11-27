@@ -1,5 +1,6 @@
 import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
+import DeleteProject from './components/delete-project'
 
 export default async function Settings({
 	params,
@@ -36,6 +37,9 @@ export default async function Settings({
 			/>
 			<main className="px-6 py-2">
 				<h1 className="text-2xl font-bold">Beállítások</h1>
+				<div className="w-2/4">
+					<DeleteProject />
+				</div>
 			</main>
 		</>
 	)
