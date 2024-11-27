@@ -34,7 +34,6 @@ export default function Projects({ userSession }: { userSession: User }) {
         memberProjects: Project[]
       }
     },
-    staleTime: 60 * 1000, // 1 minute
     refetchOnWindowFocus: false,
   })
 
