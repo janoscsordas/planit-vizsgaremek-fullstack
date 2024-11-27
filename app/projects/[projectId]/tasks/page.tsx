@@ -51,8 +51,8 @@ export default async function Tasks({
         ]}
       />
       <main className="px-6 py-2">
-        <h1 className="text-2xl font-bold">Feldatok</h1>
-        <div className="w-full md:w-11/12 mx-auto px-6 py-12">
+        <h1 className="text-2xl font-bold">Feladatok</h1>
+        <div className="px-6 py-12">
           <DataTable data={projectData.tasks} columns={columns} />
         </div>
       </main>

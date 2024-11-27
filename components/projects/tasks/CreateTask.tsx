@@ -1,6 +1,6 @@
 "use client"
 
-import { createTask } from "@/actions/projectTask.action"
+import { createTask, State } from "@/actions/projectTask.action"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader } from "lucide-react"
+import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader, PlusIcon } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useActionState, useState } from "react"
 
@@ -24,10 +24,9 @@ export default function CreateTask() {
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <span className="px-3 py-1 text-sm font-medium text-primary-foreground rounded-sm h-full bg-emerald hover:bg-emerald-hover">
-                    Új feladat
-                </span>
+            <DialogTrigger className="flex gap-1 items-center text-[.8rem] px-3 py-1 font-medium text-primary rounded-md border border-emerald hover:border-emerald-hover">
+                <PlusIcon className="w-4 h-4" />
+                Új feladat
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
@@ -46,7 +45,7 @@ function TaskForm() {
     const params = useParams()
     const projectId = params.projectId
 
-    const initialState = { message: '', errors: {} }
+    const initialState: State = { message: null, errors: {} }
     const [state, formAction] = useActionState(createTask, initialState)
 
     const [numberOfCharacter, setNumberOfCharacter] = useState<number>(0)
@@ -68,8 +67,8 @@ function TaskForm() {
             aria-describedby="taskName-error"
             />
             <div id="taskName-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.taskName &&
-                state.errors.taskName.map((error: string) => (
+                {state?.errors?.taskName &&
+                state?.errors.taskName.map((error: string) => (
                     <p className="mt-2 text-sm text-red-500" key={error}>
                         {error}
                     </p>
@@ -96,8 +95,8 @@ function TaskForm() {
           </div>
 
           <div id="taskDescription-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.taskDescription &&
-                state.errors.taskDescription.map((error: string) => (
+                {state?.errors?.taskDescription &&
+                state?.errors.taskDescription.map((error: string) => (
                     <p className="mt-2 text-sm text-red-500" key={error}>
                         {error}
                     </p>
@@ -132,8 +131,8 @@ function TaskForm() {
                 </SelectContent>
             </Select>
             <div id="priority-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.priority &&
-                state.errors.priority.map((error: string) => (
+                {state?.errors?.priority &&
+                state?.errors.priority.map((error: string) => (
                     <p className="mt-2 text-sm text-red-500" key={error}>
                         {error}
                     </p>
@@ -168,15 +167,15 @@ function TaskForm() {
                 </SelectContent>
             </Select>
             <div id="status-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.status &&
-                state.errors.status.map((error: string) => (
+                {state?.errors?.status &&
+                state?.errors.status.map((error: string) => (
                     <p className="mt-2 text-sm text-red-500" key={error}>
                         {error}
                     </p>
                 ))}
             </div>
         </div>
-        {state.message && <p className="mt-2 text-sm text-red-500">{state.message}</p>}
+        {state?.message && <p className="mt-2 text-sm text-red-500">{state.message}</p>}
         <Button type="submit" className="w-1/2 mx-auto block bg-emerald hover:bg-emerald-hover font-bold">Készítés</Button>
       </form>
     )

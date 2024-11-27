@@ -20,8 +20,8 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex items-center gap-10 justify-between">
+      <div className="flex flex-1 flex-wrap gap-y-4 items-center space-x-2">
         <Input
           placeholder="Feladatok szűrése..."
           value={(table.getColumn("taskName")?.getFilterValue() as string) ?? ""}

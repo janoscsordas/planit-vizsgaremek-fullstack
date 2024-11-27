@@ -13,7 +13,7 @@ export type State = {
       status?: string[];
       priority?: string[];
     };
-    message?: string;
+    message?: string | null;
 };
 
 export async function createTask(prevState: State, formData: FormData) {
@@ -33,9 +33,9 @@ export async function createTask(prevState: State, formData: FormData) {
         }
     }
 
+    const { taskName, taskDescription, status, priority } = validatedFields.data
+    
     try {
-        const { taskName, taskDescription, status, priority } = validatedFields.data
-        
         await db.insert(ProjectTasksTable).values({
             taskName,
             taskDescription,
