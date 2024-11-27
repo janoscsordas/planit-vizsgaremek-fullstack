@@ -6,6 +6,7 @@ export const projectTierEnum = pgEnum('project_tier', ['free', 'paid'])
 export const projectStatusEnum = pgEnum('project_status', ['active', 'completed', 'archived'])
 export const projectMemberEnum = pgEnum('project_member', ['member', 'admin', 'creator'])
 export const projectTaskEnum = pgEnum('project_task', ['pending', 'in progress', 'finished'])
+export const projectTaskPriorityEnum = pgEnum('project_task_priority', ['low', 'medium', 'high'])
 
 export const ProjectsTable = pgTable("projects", {
     id: text("id")
@@ -55,13 +56,23 @@ export const ProjectTasksTable = pgTable("project_tasks", {
         .primaryKey()
         .$defaultFn(() => crypto.randomUUID()),
     projectId: text("project_id")
-        .references(() => ProjectsTable.id, { onDelete: "cascade" }),
-    taskName: text("task_name"),
-    taskDescription: text("task_description"),
+        .references(() => ProjectsTable.id, { onDelete: "cascade" })
+        .notNull(),
+    taskName: 
+        text("task_name")
+        .notNull(),
+    taskDescription: 
+        text("task_description")
+        .notNull(),
     status: projectTaskEnum("status")
-        .default("pending"),
+        .default("pending")
+        .notNull(),
+    priority: projectTaskPriorityEnum("priority")
+        .default("low")
+        .notNull(),
     createdAt: timestamp("createdAt", { mode: "date", withTimezone: true })
-        .defaultNow()
+        .notNull()
+        .defaultNow(),
 })
 
 export const ProjectTaskAssignsTable = pgTable("project_task_assigns", {
@@ -76,7 +87,8 @@ export const ProjectTaskAssignsTable = pgTable("project_task_assigns", {
         .notNull()
         .references(() => UsersTable.id, { onDelete: "cascade" }),
     assignedAt: timestamp("assignedAt", { mode: "date", withTimezone: true })
-        .defaultNow()
+        .notNull()
+        .defaultNow(),
 })
 
 // Relations between tables

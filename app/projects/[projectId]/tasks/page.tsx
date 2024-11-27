@@ -1,22 +1,11 @@
-import { promises as fs } from "fs"
-import path from "path"
-import { z } from "zod"
 import ProjectHeader from "../header"
-import { getProjectById } from "@/actions/projects.action"
 
-import { columns } from "./components/columns"
-import { DataTable } from "./components/data-table"
-import { taskSchema } from "./data/schema"
-
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "app/projects/[projectId]/tasks/data/tasks.json")
-  )
-
-  const tasks = JSON.parse(data.toString())
-
-  return z.array(taskSchema).parse(tasks)
-}
+import { columns } from "../../../../components/projects/tasks/columns"
+import { DataTable } from "../../../../components/projects/tasks/data-table"
+import { db } from "@/database"
+import { ProjectsTable } from "@/database/schema/projects"
+import { eq } from "drizzle-orm"
+import { notFound } from "next/navigation"
 
 export default async function Tasks({
   params,
@@ -26,17 +15,25 @@ export default async function Tasks({
 }>) {
   const { projectId } = await params
 
-  const project = await getProjectById(projectId)
+  const projectData = await db.query.ProjectsTable.findFirst({
+    where: eq(ProjectsTable.id, projectId),
+    with: {
+      members: {
+        with: { user: true }
+      },
+      tasks: {
+        with: { 
+          assigns: { 
+            with: { user: true } 
+          } 
+        }
+      }
+    }
+  });
 
-  if (!project.success || !project.data) {
-    return <div>{project.message}</div>
+  if (!projectData) {
+    return notFound()
   }
-
-  const projectData = Array.isArray(project.data)
-    ? project.data[0]
-    : project.data
-
-  const tasks = await getTasks()
 
   return (
     <>
@@ -56,7 +53,7 @@ export default async function Tasks({
       <main className="px-6 py-2">
         <h1 className="text-2xl font-bold">Feldatok</h1>
         <div className="w-full md:w-11/12 mx-auto px-6 py-12">
-          <DataTable data={tasks} columns={columns} />
+          <DataTable data={projectData.tasks} columns={columns} />
         </div>
       </main>
     </>
