@@ -54,7 +54,7 @@ export default function SearchFilter({
         />
         <Select.Content color="green">
           <Select.Group>
-            <Select.Item value="all" disabled>
+            <Select.Item value="all">
               <Filter height="18" width="18" />
             </Select.Item>
             <Select.Item value="active">Aktív</Select.Item>

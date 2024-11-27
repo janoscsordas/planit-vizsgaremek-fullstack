@@ -1,19 +1,12 @@
+import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
-import { redirect } from 'next/navigation'
-import { auth } from '@/auth'
-import ProjectHeader from './header'
 
-export default async function ProjectPage({
+export default async function Messages({
 	params,
-}: {
+}: Readonly<{
+	children: React.ReactNode
 	params: Promise<{ projectId: string }>
-}) {
-	const session = await auth()
-
-	if (!session || !session.user) {
-		redirect('/login')
-	}
-
+}>) {
 	const { projectId } = await params
 
 	const project = await getProjectById(projectId)
@@ -35,14 +28,14 @@ export default async function ProjectPage({
 						href: `/projects/${projectData.id}`,
 					},
 					{
-						label: 'Áttekintés',
-						href: `/projects/${projectData.id}/`,
+						label: 'Üzenetek',
+						href: `/projects/${projectData.id}/messages`,
 						active: true,
 					},
 				]}
 			/>
 			<main className="px-6 py-2">
-				<h1 className="text-2xl font-bold">{projectData.name}</h1>
+				<h1 className="text-2xl font-bold">Üzenetek</h1>
 			</main>
 		</>
 	)

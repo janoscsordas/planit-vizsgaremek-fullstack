@@ -8,13 +8,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
-interface Breadcrumb {
+export interface Breadcrumb {
   label: string
   href: string
   active?: boolean
+  isVisible?: boolean
 }
 
-export default async function ProjectBreadcrumb({
+export default function BreadcrumbComponent({
   breadcrumbs,
 }: {
   breadcrumbs: Breadcrumb[]
@@ -26,7 +27,13 @@ export default async function ProjectBreadcrumb({
           {breadcrumbs.map((breadcrumb, index) => (
             <React.Fragment key={index}>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href={breadcrumb.href} className={breadcrumb.active ? "text-emerald" : ""}>
+                <BreadcrumbLink
+                  href={breadcrumb.href}
+                  className={breadcrumb.active ? "text-emerald" : ""}
+                  style={{
+                    visibility: breadcrumb.isVisible ? "hidden" : "visible",
+                  }}
+                >
                   {breadcrumb.label}
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -40,4 +47,3 @@ export default async function ProjectBreadcrumb({
     </>
   )
 }
-

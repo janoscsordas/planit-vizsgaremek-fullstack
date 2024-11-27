@@ -13,7 +13,19 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar breadCrumb={
+        [
+          {
+            label: "Főoldal",
+            href: "/",
+          },
+          {
+            label: `${session.user.name} projektjei`,
+            href: `/projects`,
+            active: true
+          },
+        ]
+      } />
       <Projects userSession={session.user} />
     </>
   )

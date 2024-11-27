@@ -1,22 +1,19 @@
 import { IconButton } from "@radix-ui/themes"
 import { Bell } from "lucide-react"
-import { auth } from "@/auth"
-import { redirect } from "next/navigation"
 import Link from "next/link"
-import NavbarBreadcrumb from "./NavbarBreadcrumb"
 import ProfileAvatar from "./ProfileAvatar"
+import BreadcrumbComponent from "../Breadcrumb"
+import { Breadcrumb } from "../Breadcrumb"
 
-export default async function Navbar() {
-  const session = await auth()
-
-  if (!session?.user) {
-    return redirect("/login")
-  }
-
+export default async function Navbar({
+  breadCrumb,
+}: {
+  breadCrumb: Breadcrumb[]
+}) {
   return (
     <nav className="flex justify-between items-center p-4 border-b-2 border-foreground/10">
       {/* breadcrumbs */}
-      <NavbarBreadcrumb />
+      <BreadcrumbComponent breadcrumbs={breadCrumb} />
 
       <div className="flex items-center gap-4">
         {/* notifications */}
