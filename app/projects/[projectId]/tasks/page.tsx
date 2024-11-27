@@ -1,7 +1,7 @@
 import ProjectHeader from "../header"
 
-import { columns } from "../../../../components/projects/tasks/columns"
-import { DataTable } from "../../../../components/projects/tasks/data-table"
+import { columns } from "@/components/projects/tasks/columns"
+import { DataTable } from "@/components/projects/tasks/data-table"
 import { db } from "@/database"
 import { ProjectsTable } from "@/database/schema/projects"
 import { eq } from "drizzle-orm"

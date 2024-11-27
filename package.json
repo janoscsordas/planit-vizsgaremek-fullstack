@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",
-    "@faker-js/faker": "^9.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",

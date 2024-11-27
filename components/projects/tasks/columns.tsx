@@ -2,12 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Badge } from "@radix-ui/themes"
 
 type Task = {
   id: string
@@ -19,7 +20,7 @@ type Task = {
 }
 
 export const status = [
-  { value: "pending", label: "Függőben", icon: CircleDashed },
+  { value: "pending", label: "Elvégzendő", icon: CircleDashed },
   { value: "in progress", label: "Folyamatban", icon: Loader },
   { value: "finished", label: "Befejezett", icon: CircleCheckBig },
 ];
@@ -34,23 +35,25 @@ export const columns: ColumnDef<Task>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
+      <div className="flex h-4 w-4 items-center">
+        <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="translate-y-[2px]"
       />
+      </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
+      <div className="flex h-4 w-4 items-center">
+        <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="translate-y-[2px]"
-      />
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -58,9 +61,9 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "taskName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Feladat Címe" />
+      <DataTableColumnHeader className="pl-2" column={column} title="Feladat Címe" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("taskName")}</div>,
+    cell: ({ row }) => <div className="pl-2 w-[50%]">{row.getValue("taskName")}</div>,
     enableSorting: true,
     enableHiding: true,
     filterFn: (row, id, value) => {
@@ -82,11 +85,13 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex gap-2 items-center">
           {statusValue.icon && (
-            <statusValue.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+            <statusValue.icon className="h-4 w-4" />
           )}
-          <span>{statusValue.label}</span>
+          <Badge color={statusValue.value === "pending" ? "orange" : statusValue.value === "in progress" ? "blue" : "green"}>
+            <span>{statusValue.label}</span>
+          </Badge>
         </div>
       );
     },
