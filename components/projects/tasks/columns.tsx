@@ -7,17 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { Badge } from "@radix-ui/themes"
-
-type Task = {
-  id: string
-  taskName: string
-  taskDescription: string
-  status: "pending" | "in progress" | "finished"
-  createdAt: Date
-  priority: "low" | "medium" | "high"
-}
+import { ProjectData } from "@/lib/definitions/projects"
 
 export const status = [
   { value: "pending", label: "Elvégzendő", icon: CircleDashed },
@@ -31,7 +22,7 @@ export const priority = [
   { value: "high", label: "Magas", icon: ArrowUp }
 ]
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<ProjectData["tasks"][number]>[] = [
   {
     id: "select",
     header: ({ table }) => (
