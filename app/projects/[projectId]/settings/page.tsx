@@ -49,7 +49,7 @@ export default async function Settings({
 						</div>
 					</section>
 					<hr className="my-6" />
-					<ProjectNameForm projectData={{ projectName: projectData.name, projectNameChangedAt: projectData. }} />
+					<ProjectNameForm projectData={{ projectName: projectData.name, projectNameChangedAt: projectData.nameChanged }} />
 					<UpgradeToPro />
 					<DeleteProject projectName={projectData.name} />
 				</div>

@@ -158,8 +158,8 @@ export default function ProjectNameForm({
 
 				{formState.disabled && remainingDays ? (
 					<p className="text-red-500 text-xs">
-						{remainingDays} nap múlva módosíthatod újra a
-						projekt nevét.
+						{remainingDays} nap múlva módosíthatod újra a projekt
+						nevét.
 					</p>
 				) : (
 					<p className="text-muted-foreground text-xs">
