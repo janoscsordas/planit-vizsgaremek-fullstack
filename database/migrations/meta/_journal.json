@@ -36,6 +36,34 @@
       "when": 1732202361385,
       "tag": "0004_lumpy_frank_castle",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732697526254,
+      "tag": "0005_smiling_captain_universe",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732698368852,
+      "tag": "0006_green_lake",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1732698406164,
+      "tag": "0007_furry_morgan_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1732698567553,
+      "tag": "0008_bizarre_marrow",
+      "breakpoints": true
     }
   ]
 }

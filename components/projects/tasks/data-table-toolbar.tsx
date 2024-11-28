@@ -5,13 +5,10 @@ import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DataTableViewOptions } from "@/app/projects/[projectId]/tasks/components/data-table-view-options"
-
-import { priorities, statuses } from "../data/data"
-
-// TODO: faceted filter
-
+import { DataTableViewOptions } from "@/components/projects/tasks/data-table-view-options"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
+import { priority, status } from "./columns"
+import CreateTask from "./CreateTask"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -23,13 +20,13 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex items-center gap-10 justify-between">
+      <div className="flex flex-1 flex-wrap gap-y-4 items-center space-x-2">
         <Input
           placeholder="Feladatok szűrése..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("taskName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("taskName")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -37,14 +34,14 @@ export function DataTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Státusz"
-            options={statuses}
+            options={status}
           />
         )}
         {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Prioritás"
-            options={priorities}
+            options={priority}
           />
         )}
         {isFiltered && (
@@ -58,7 +55,10 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center space-x-2">
+        <CreateTask />
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   )
 }
