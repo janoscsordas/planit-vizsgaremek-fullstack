@@ -21,11 +21,8 @@ export type State = {
 export async function createTask(prevState: State, formData: FormData) {
     const session = await auth()
 
-    if (!session || !session.user) {
-        return {
-            errors: {},
-            message: "Jelentkezz be a feladat készítéshez!",
-        }
+    if (!session || !session.user || !session.user.id) {
+        redirect("/login")
     }
 
     const projectId = formData.get("projectId") as string;
@@ -40,7 +37,7 @@ export async function createTask(prevState: State, formData: FormData) {
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
-            message: "Hibás vagy hiányzó adatok. A feladat elkészítése sikertelen."
+            message: "Hiba! A megadott adatok nem megfelelőek! A feladat elkészítése sikertelen."
         }
     }
 
@@ -52,35 +49,32 @@ export async function createTask(prevState: State, formData: FormData) {
             taskDescription,
             projectId,
             status,
-            priority
+            priority,
+            createdBy: session.user.id
         })
     } catch (error) {
         return {
-            message: "Adatbázis hiba. Hiba történt a feladat elkészítése Közben!"
+            message: "Hiba történt a feladat elkészítése közben!"
         }
     }
 
     revalidatePath(`/projects/${projectId}/tasks`)
-    redirect(`/projects/${projectId}/tasks`)
+    return {
+        ...prevState,
+        errors: {},
+        message: "A feladat sikeresen elkészítve!"
+    }
 }
 
 export async function deleteTask(taskId: string, projectId: string) {
-    if (!taskId) {
-        throw new Error("A feladat ID-ja hiányzik!");
-    }
 
     const session = await auth()
 
     if (!session || !session.user) {
-        throw new Error("Jelentkezz be a feladat készítéshez!");
-    }
-    
-    try {
-        await db.delete(ProjectTasksTable).where(eq(ProjectTasksTable.id, taskId))
-    } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : "Adatbázis hiba. Hiba történt a feladat töröltése Közben!" };
+        return;
     }
 
+    await db.delete(ProjectTasksTable).where(eq(ProjectTasksTable.id, taskId))
+
     revalidatePath(`/projects/${projectId}/tasks`)
-    redirect(`/projects/${projectId}/tasks?message=${encodeURIComponent("Feladat sikeresen törölve")}`);
 }

@@ -3,8 +3,8 @@ import ProjectHeader from "../header"
 import { columns } from "@/components/projects/tasks/columns"
 import { DataTable } from "@/components/projects/tasks/data-table"
 import { db } from "@/database"
-import { ProjectsTable } from "@/database/schema/projects"
-import { eq } from "drizzle-orm"
+import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
+import { desc, eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
 
 
@@ -23,11 +23,13 @@ export default async function Tasks({
         with: { user: true }
       },
       tasks: {
-        with: { 
+        orderBy: desc(ProjectTasksTable.createdAt),
+        with: {
           assigns: { 
             with: { user: true } 
-          } 
-        }
+          },
+          createdByUser: true
+        },
       }
     }
   });

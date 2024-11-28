@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLabel, SelectGroup } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader, PlusIcon } from "lucide-react"
@@ -20,8 +20,6 @@ import { useParams } from "next/navigation"
 import { useActionState, useState } from "react"
 
 export default function CreateTask() {
-
-
     return (
         <Dialog>
             <DialogTrigger className="flex gap-1 items-center text-[.8rem] px-3 py-1 font-medium text-primary rounded-md border border-emerald hover:border-emerald-hover">
@@ -110,24 +108,27 @@ function TaskForm() {
                     <SelectValue placeholder="Prioritás" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="low">
-                        <div className="flex items-center gap-2 text-green-600">
-                            <ArrowDown className="w-4 h-4 text-muted-foreground" /> 
-                            Alacsony
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="medium">
-                        <div className="flex items-center gap-2 text-orange-600">
-                            <ArrowRight className="w-4 h-4 text-muted-foreground" /> 
-                            Közepes
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="high">
-                        <div className="flex items-center gap-2 text-red-600">
-                            <ArrowUp className="w-4 h-4 text-muted-foreground" /> 
-                            Magas
-                        </div>
-                    </SelectItem>
+                    <SelectGroup>
+                        <SelectLabel>Prioritás</SelectLabel>
+                        <SelectItem value="low">
+                            <div className="flex items-center gap-2 text-green-600">
+                                <ArrowDown className="w-4 h-4 text-muted-foreground" />
+                                Alacsony
+                            </div>
+                        </SelectItem>
+                        <SelectItem value="medium">
+                            <div className="flex items-center gap-2 text-orange-600">
+                                <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                                Közepes
+                            </div>
+                        </SelectItem>
+                        <SelectItem value="high">
+                            <div className="flex items-center gap-2 text-red-600">
+                                <ArrowUp className="w-4 h-4 text-muted-foreground" />
+                                Magas
+                            </div>
+                        </SelectItem>
+                    </SelectGroup>
                 </SelectContent>
             </Select>
             <div id="priority-error" aria-live="polite" aria-atomic="true">
@@ -146,24 +147,27 @@ function TaskForm() {
                     <SelectValue placeholder="Státusz" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="pending">
-                        <div className="flex items-center gap-2">
-                            <CircleDashed className="w-4 h-4 text-muted-foreground" /> 
-                            Elvégzendő
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="in progress">
-                        <div className="flex items-center gap-2">
-                            <Loader className="w-4 h-4 animate-spin text-muted-foreground" /> 
-                            Folyamatban
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="finished">
-                        <div className="flex items-center gap-2">
-                            <CircleCheckBig className="w-4 h-4 text-muted-foreground" /> 
-                            Befejezett
-                        </div>
-                    </SelectItem>
+                    <SelectGroup>
+                        <SelectLabel>Státusz</SelectLabel>
+                        <SelectItem value="pending">
+                            <div className="flex items-center gap-2">
+                                <CircleDashed className="w-4 h-4 text-muted-foreground" />
+                                Elvégzendő
+                            </div>
+                        </SelectItem>
+                        <SelectItem value="in progress">
+                            <div className="flex items-center gap-2">
+                                <Loader className="w-4 h-4 animate-spin text-muted-foreground" />
+                                Folyamatban
+                            </div>
+                        </SelectItem>
+                        <SelectItem value="finished">
+                            <div className="flex items-center gap-2">
+                                <CircleCheckBig className="w-4 h-4 text-muted-foreground" />
+                                Befejezett
+                            </div>
+                        </SelectItem>
+                    </SelectGroup>
                 </SelectContent>
             </Select>
             <div id="status-error" aria-live="polite" aria-atomic="true">
@@ -175,7 +179,7 @@ function TaskForm() {
                 ))}
             </div>
         </div>
-        {state?.message && <p className="mt-2 text-sm text-red-500">{state.message}</p>}
+        {state?.message && <p className={`mt-2 text-sm ${state?.message.startsWith('Hiba') ? 'text-red-500' : 'text-green-500'}`}>{state.message}</p>}
         <Button type="submit" className="w-1/2 mx-auto block bg-emerald hover:bg-emerald-hover font-bold">Készítés</Button>
       </form>
     )

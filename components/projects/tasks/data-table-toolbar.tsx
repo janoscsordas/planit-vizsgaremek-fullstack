@@ -24,9 +24,9 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 flex-wrap gap-y-4 items-center space-x-2">
         <Input
           placeholder="Feladatok szűrése..."
-          value={(table.getColumn("taskName")?.getFilterValue() as string) ?? ""}
+          value={(table.getState().globalFilter as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("taskName")?.setFilterValue(event.target.value)
+            table.setGlobalFilter(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />

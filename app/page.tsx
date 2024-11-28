@@ -200,7 +200,7 @@ export default function Home() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  3 projekt
+                  5 projekt
                 </li>
                 <li className="flex gap-x-3">
                   <svg
