@@ -30,7 +30,7 @@ export default function DialogForProjectDeletion({
 			return
 		}
 		setDisabled(true)
-	}, [name])
+	}, [name, projectName])
 
 	return (
 		<>
@@ -46,15 +46,15 @@ export default function DialogForProjectDeletion({
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>
-							Biztosan törölni akarod fiókodat?
+							Biztosan törölni akarod projektet?
 						</DialogTitle>
 						<DialogDescription>
-							Ha igen, kövesd az alábbi utasítást a fiókod
+							Ha igen, kövesd az alábbi utasítást a projekt
 							végleges törléséhez.
 						</DialogDescription>
 					</DialogHeader>
 					<Label htmlFor="name">
-						Írd be a neved a törléshez:
+						Írd be a projekt nevét a törléshez:
 						<kbd className="ml-1 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
 							<span className="text-xs">{projectName}</span>
 						</kbd>
@@ -68,7 +68,7 @@ export default function DialogForProjectDeletion({
 					/>
 					<DialogFooter>
 						<DialogClose asChild>
-							<Button className="bg-muted hover:bg-muted-hover text-white">
+							<Button className="bg-muted hover:bg-muted-hover mt-2 sm:mt-0" variant={'outline'}>
 								Mégsem
 							</Button>
 						</DialogClose>

@@ -64,7 +64,7 @@ export default function DialogForAccountDeletion({
 				/>
 				<DialogFooter>
 					<DialogClose asChild>
-						<Button className="bg-muted hover:bg-muted-hover text-white">
+						<Button className="bg-muted hover:bg-muted-hover mt-2 sm:mt-0" variant={'outline'}>
 							Mégsem
 						</Button>
 					</DialogClose>
