@@ -8,7 +8,7 @@ import BackToTop from "@/components/back-to-top"
 
 export default function Home() {
   return (
-    <main className="pt-16">
+    <main className="pt-16 w-fit mx-auto">
       <div className="w-[95%] lg:w-[65%] mx-auto">
         <div className="relative max-w-screen-xl px-5 mx-auto">
           <div className="-z-10 absolute lg:left-30 xl:left-24 top-80 w-10 h-10 border-[3px] border-emerald rounded-full animate-bounce-first-object"></div>

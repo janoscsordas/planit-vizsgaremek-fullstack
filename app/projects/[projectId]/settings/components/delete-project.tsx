@@ -1,6 +1,7 @@
 import DialogForProjectDeletion from "./dialog-for-project-deletion";
 
-export default function DeleteProject() {
+export default function DeleteProject({ projectName }: { projectName: string }) {
+
 	return (
 		<>
 			<section className="mt-6 border border-red-600 rounded-md p-4 mb-10">
@@ -10,7 +11,7 @@ export default function DeleteProject() {
 				<p className="text-muted-foreground text-sm">
 					A változtások nem visszavonhatóak!
 				</p>
-                <DialogForProjectDeletion />
+                <DialogForProjectDeletion projectName={projectName} />
 			</section>
 		</>
 	)

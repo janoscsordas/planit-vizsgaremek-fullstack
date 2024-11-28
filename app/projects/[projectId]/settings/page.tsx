@@ -1,11 +1,12 @@
 import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
 import DeleteProject from './components/delete-project'
+import ProjectNameForm from './components/project-name-form'
+import UpgradeToPro from './components/upgrade-to-pro'
 
 export default async function Settings({
 	params,
 }: Readonly<{
-	children: React.ReactNode
 	params: Promise<{ projectId: string }>
 }>) {
 	const { projectId } = await params
@@ -19,6 +20,8 @@ export default async function Settings({
 	const projectData = Array.isArray(project.data)
 		? project.data[0]
 		: project.data
+
+
 
 	return (
 		<>
@@ -36,9 +39,19 @@ export default async function Settings({
 				]}
 			/>
 			<main className="px-6 py-2">
-				<h1 className="text-2xl font-bold">Beállítások</h1>
-				<div className="w-2/4">
-					<DeleteProject />
+				<div className="w-full lg:w-2/4">
+					<section className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+						<div>
+							<h1 className="text-2xl font-bold">Beállítások</h1>
+							<p className="text-muted-foreground pt-2">
+								Beállítások kezelése és testreszabása.
+							</p>
+						</div>
+					</section>
+					<hr className="my-6" />
+					<ProjectNameForm projectData={{ projectName: projectData.name, projectNameChangedAt: projectData. }} />
+					<UpgradeToPro />
+					<DeleteProject projectName={projectData.name} />
 				</div>
 			</main>
 		</>
