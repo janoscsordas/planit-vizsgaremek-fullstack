@@ -1,11 +1,11 @@
-import { Project } from "@/lib/definitions/projects"
+import { ProjectData } from "@/lib/definitions/projects"
 import ProjectCard from "./ProjectCard"
 import { Plus } from "lucide-react"
 import { Button, Spinner } from "@radix-ui/themes"
 import Link from "next/link"
 type ProjectListProps = {
   title: string
-  projects: Project[]
+  projects: ProjectData[]
   isLoading: boolean
   isOwnedProjects: boolean
 }

@@ -7,6 +7,7 @@ import { ProjectsTable } from "@/database/schema/projects"
 import { eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
 
+
 export default async function Tasks({
   params,
 }: Readonly<{
@@ -35,6 +36,11 @@ export default async function Tasks({
     return notFound()
   }
 
+  const enrichedTasks = projectData.tasks.map((task) => ({
+    ...task,
+    project: projectData,
+  })) || [];
+
   return (
     <>
       <ProjectHeader
@@ -53,7 +59,7 @@ export default async function Tasks({
       <main className="px-6 py-2">
         <h1 className="text-2xl font-bold">Feladatok</h1>
         <div className="px-6 py-12">
-          <DataTable data={projectData.tasks} columns={columns} />
+          <DataTable data={enrichedTasks} columns={columns} />
         </div>
       </main>
     </>

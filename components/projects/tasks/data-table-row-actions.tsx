@@ -1,7 +1,15 @@
 "use client"
 
-import { Row } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { Edit, Eye, Loader2, MoreHorizontal, Trash2 } from "lucide-react"
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,8 +24,15 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  DropdownMenuLabel
 } from "@/components/ui/dropdown-menu"
 import { z } from "zod"
+import { ProjectData } from "@/lib/definitions/projects"
+import { deleteTask } from "@/actions/projectTask.action"
+import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 const taskSchema = z.object({
   id: z.string(),
@@ -26,15 +41,46 @@ const taskSchema = z.object({
   status: z.enum(["pending", "in progress", "finished"]),
   createdAt: z.date(),
   priority: z.enum(["low", "medium", "high"]),
+  projectId: z.string(),
+  assigns: z.array(
+    z.object({ 
+      id: z.string(), 
+      userId: z.string(), 
+      taskId: z.string(), 
+      assignedAt: z.date(), 
+      user: z.array(
+        z.object({ 
+          id: z.string(), 
+          createdAt: z.date(),
+          name: z.string(), 
+          email: z.string(), 
+          image: z.string().nullable(),
+    })) }))
 })
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
+interface DataTableRowActionsProps {
+  row: { original: ProjectData["tasks"][number] },
 }
-export function DataTableRowActions<TData>({
-  row,
-}: DataTableRowActionsProps<TData>) {
+export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const task = taskSchema.parse(row.original)
+  const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
+
+  const handleTaskDelete = async (taskId: string) => {
+    setLoading(true)
+
+    try {
+      await deleteTask(taskId, task.projectId)
+    } catch (error) {
+      toast({
+        title: "Sikertelen törlés",
+        description: (error instanceof Error ? error.message : "Adatbázis hiba. Hiba történt a feladat törlése Közben!"),
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -48,14 +94,20 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuLabel>Feladat Művelet</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-orange-600 focus:bg-orange-700 focus:text-orange-100">
+          <Edit />
+          Szerkesztés
+        </DropdownMenuItem>
         <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          <Eye />
+          Megtekintés
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-red-600 focus:text-red-100 focus:bg-red-700" onClick={() => handleTaskDelete(task.id)}>
+          <Trash2 />
+          {loading ? "Törlés..." : "Törlés"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
