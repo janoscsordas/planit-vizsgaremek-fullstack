@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import AnalyticsCards from "@/components/projects/project/overview/AnalyticsCards";
 import RecentActivity from "@/components/projects/project/overview/RecentActivity";
-import { UserActivity } from "@/components/projects/project/overview/UserActivity";
+import UserActivityChart from "@/components/projects/project/overview/UserActivityChart";
 
 export default async function ProjectPage({
   params,
@@ -35,14 +35,13 @@ export default async function ProjectPage({
         <AnalyticsCards />
       </div>
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="mt-8 p-6 border border-border rounded-lg">
+        <div className="mt-8 p-6 border border-border rounded-lg shadow ">
           <h1 className="text-xl font-bold">Legutóbbi tevékenységek</h1>
           <p className="text-muted-foreground text-sm mt-1 mb-6">Legutóbb felvett feladatok</p>
           <RecentActivity />
         </div>
-        <div className="mt-8 p-6 border border-border rounded-lg">
-          <UserActivity />
-          <h1></h1>
+        <div className="mt-8 rounded-lg">
+          <UserActivityChart />
         </div>
       </div>
     </div>
