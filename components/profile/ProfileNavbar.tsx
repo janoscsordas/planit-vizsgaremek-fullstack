@@ -7,6 +7,7 @@ export default function ProfileNavbar() {
   const navLinks = [
     { name: "Profil", href: "/profile" },
     { name: "Megjelenés", href: "/appearance" },
+    { name: "Értesítések", href: "/notifications" },
   ]
 
   const pathname = usePathname()
@@ -22,7 +23,7 @@ export default function ProfileNavbar() {
               <Link
                 href={link.href}
                 key={link.name}
-                className={`text-sm font-medium rounded-md px-4 py-2 ${
+                className={`text-sm font-medium rounded-md px-4 py-2 text-foreground ${
                   isActive(link.href) ? "bg-emerald-hover" : "hover:bg-muted"
                 }`}
               >
