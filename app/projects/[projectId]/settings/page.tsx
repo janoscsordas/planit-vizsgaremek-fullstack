@@ -54,7 +54,7 @@ export default async function Settings({
             }}
           />
           <UpgradeToPro />
-          <DeleteProject projectName={projectData.name} />
+          <DeleteProject projectName={projectData.name} projectId={projectData.id} />
         </div>
       </main>
     </>

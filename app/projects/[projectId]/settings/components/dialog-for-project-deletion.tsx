@@ -17,8 +17,10 @@ import { Input } from '@/components/ui/input'
 import { useState, useEffect } from 'react'
 
 export default function DialogForProjectDeletion({
+	projectId,
 	projectName,
 }: {
+	projectId: string
 	projectName: string
 }) {
 	const [name, setName] = useState('')
@@ -40,7 +42,7 @@ export default function DialogForProjectDeletion({
 						className="border-red-500 hover:bg-red-500 text-primary mt-2"
 						variant="outline"
 					>
-						Projekt törlés
+						Projekt törlése
 					</Button>
 				</DialogTrigger>
 				<DialogContent>
@@ -72,7 +74,7 @@ export default function DialogForProjectDeletion({
 								Mégsem
 							</Button>
 						</DialogClose>
-						<DeleteProjectButton disabled={disabled} />
+						<DeleteProjectButton disabled={disabled} projectId={projectId} />
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>

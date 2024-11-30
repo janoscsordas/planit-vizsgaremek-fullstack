@@ -24,7 +24,7 @@ export default function DeleteAccountButton({
 			})
 
 			if (!response.ok) {
-				setError('Fiók törlése sikertelen')
+				setError('Fiók törlése sikertelen!')
 				return
 			}
 
@@ -32,11 +32,11 @@ export default function DeleteAccountButton({
 			await signOut({
 				redirect: true,
 				redirectTo: `/login?message=${encodeURIComponent(
-					'Fiók sikeresen törölve'
+					'Fiók sikeresen törölve!'
 				)}`,
 			})
 		} catch (error) {
-			setError('Fiók törlése sikertelen')
+			setError('Fiók törlése sikertelen!')
 		} finally {
 			disabled = false
 			setIsLoading(false)
@@ -44,22 +44,26 @@ export default function DeleteAccountButton({
 	}
 
 	return (
-		<div>
-			<Button
-				onClick={handleAccountDeletion}
-				disabled={disabled || isLoading}
-				className="bg-red-500 hover:bg-red-600 text-white"
-			>
-				{isLoading ? (
-					<span className="flex items-center gap-2">
-						<Loader2 className="animate-spin" />
-						Fiók törlése folyamatban...
-					</span>
-				) : (
-					'Fiók törlése'
-				)}
-			</Button>
-			{error && <p className="text-red-500 mt-2">{error}</p>}
-		</div>
+		<>
+			<div className="flex">
+					{error && <p className="text-red-500 mt-2 text-center absolute left-6">{error}</p>}
+				<div>
+					<Button
+						onClick={handleAccountDeletion}
+						disabled={disabled || isLoading}
+						className="bg-red-500 hover:bg-red-600 text-white"
+					>
+						{isLoading ? (
+							<span className="flex items-center gap-2">
+								<Loader2 className="animate-spin" />
+								Fiók törlése folyamatban...
+							</span>
+						) : (
+							'Fiók törlése'
+						)}
+					</Button>
+				</div>
+			</div>
+		</>
 	)
 }

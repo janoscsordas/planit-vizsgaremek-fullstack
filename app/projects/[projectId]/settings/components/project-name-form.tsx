@@ -95,7 +95,7 @@ export default function ProjectNameForm({
 				)
 			}
 
-			const response = await fetch('/api/user', {
+			const response = await fetch('/api/projects', {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ export default function ProjectNameForm({
 			className="space-y-4 border border-muted rounded-md p-6"
 		>
 			<div className="space-y-2">
-				<h4 className="font-medium text-sm">Projecktnév módosítása</h4>
+				<h4 className="font-medium text-sm">Projektnév módosítása</h4>
 
 				<Input
 					type="text"

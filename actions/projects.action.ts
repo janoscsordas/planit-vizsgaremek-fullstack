@@ -2,12 +2,13 @@
 
 import { db } from "@/database/index";
 import { ProjectMembersTable, ProjectsTable } from "@/database/schema/projects";
-import { eq, inArray, and } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { createProjectSchema, updateProjectSchema } from "@/lib/schemas/projectsSchema";
 import { auth } from "@/auth"
 import { Project } from "@/lib/definitions/projects";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { differenceInDays } from "date-fns";
 
 async function checkUserSession() {
   const session = await auth()
@@ -184,3 +185,79 @@ export async function createProject(prevState: State, formData: FormData) {
     revalidatePath("/projects")
     redirect("/projects")
 }
+
+// delete project function for the user
+export async function deleteProject(projectId: string) {
+    await checkUserSession();
+
+    // Check if project id is provided
+    if(!projectId) {
+        throw new Error("Project id nincs megadva")
+    }
+
+    try {
+        await db
+            .delete(ProjectsTable)
+            .where(eq(ProjectsTable.id, projectId))
+    } catch(error){
+        return {
+            message: error instanceof Error 
+                ? error.message
+                : "Project törlése sikertelen!", 
+            success: false
+        }
+    }
+
+    revalidatePath("/projects");
+    redirect(`/projects?message=${encodeURIComponent('Projekt törlése sikeres!')}`);
+}
+
+export async function changeProjectName(prevState: State, formData: FormData){
+    await checkUserSession();
+    
+    const validatedData = updateProjectSchema.safeParse({
+        name: formData.get("name")
+    })
+    
+    const projectId = formData.get("projetId")
+    
+    const [nameChangedAt] = await db
+        .select()
+        .from(ProjectsTable)
+        .where(eq(ProjectsTable.id, projectId))
+
+    // TODO: Make this shit work xd
+    if(nameChangedAt.nameChanged && differenceInDays(new Date(), nameChangedAt.nameChanged) < 90){
+        return {
+            message: ""
+        }
+    }
+    
+    if (!validatedData.success) {
+        return {
+            errors: validatedData.error.flatten().fieldErrors,
+            message: 'Hiányzó adatok. Projekt név megváltoztatása sikertelen.'
+        }
+    }
+
+    const { name } = validatedData.data
+    
+    try {
+        await db
+            .update(ProjectsTable)
+            .set( { name: name } )
+    } catch (error) {
+      return {
+        message: "Projektnév módosítása sikerestelen."
+      }
+    }
+
+    revalidatePath(`/projects/${projectId}/settings`);
+    return {
+        ...prevState, errors: {}, message: "A projektnév módosítása sikeres!"
+    }
+}
+
+// export async function changeProjectStatus(prevState: State, formData: FormData){
+//     await checkUserSession();
+// }
