@@ -35,6 +35,7 @@ export default function Projects({ userSession }: { userSession: User }) {
       }
     },
     refetchOnWindowFocus: false,
+    staleTime: 0,
   })
 
   // Filter projects based on search term and status
