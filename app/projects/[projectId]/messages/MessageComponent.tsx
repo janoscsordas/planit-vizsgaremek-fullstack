@@ -13,7 +13,7 @@ import { hu } from "date-fns/locale/hu";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export default function MessageComponent({ projectId, userId }: { projectId: string, userId: string }) {
-    const { messages, error, sendMessage, deleteMessage, updateMessage } = useMessages(projectId, userId);
+    const { messages, error, sendMessage, deleteMessage } = useMessages(projectId, userId);
     const [newMessage, setNewMessage] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -46,11 +46,12 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
     }
 
     // Handle edit message function
-    const handleEditMessage = async (e: React.FormEvent<HTMLFormElement>, messageId: string, content: string) => {
-        e.preventDefault()
-        await updateMessage(messageId, content)
-        setEditingMessage(false)
-    }
+    // This will be a TODO
+    // const handleEditMessage = async (e: React.FormEvent<HTMLFormElement>, messageId: string, content: string) => {
+    //     e.preventDefault()
+    //     await updateMessage(messageId, content)
+    //     setEditingMessage(false)
+    // }
 
     // Handle emoji selection
     const handleEmojiSelect = (emoji: string) => {
@@ -68,29 +69,12 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                 }`}
               >
                 {message.user_id !== userId && (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild disabled={message.user_id !== userId}>
-                            <Avatar
-                                src={message.user.image}
-                                fallback={message.user.name.charAt(0)}
-                                radius="full"
-                                className="ml-2"
-                            />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>Üzenet Menü</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => {
-                                setEditMessageContent(message.content)
-                                setEditingMessage(true)
-                            }}>
-                                Szerkesztés
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => deleteMessage(message.id)} className="text-red-500 focus:bg-red-800 focus:text-red-50">
-                                Törlés
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                  <Avatar
+                      src={message.user.image}
+                      fallback={message.user.name.charAt(0)}
+                      radius="full"
+                      className="ml-2"
+                  />
                 )}
                 <div 
                     title={"Elküldve: " + formatDistance(new Date(message.created_at), new Date(), { locale: hu, addSuffix: true })} 
@@ -103,18 +87,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                         : "bg-gray-200 text-primary"
                     }`}
                   >
-                    {editingMessage ? (
-                        <form className="flex items-center gap-2" onSubmit={(e) => handleEditMessage(e, message.id, editMessageContent)}>
-                            <Input
-                                className=""
-                                value={editMessageContent}
-                                onChange={(e) => setEditMessageContent(e.target.value)}
-                            />
-                            <Button variant={"ghost"} className="rounded-full px-[.70rem] py-2" onClick={() => setEditingMessage(false)}><X className="w-4 h-4" /></Button>
-                        </form>
-                    ) : (
-                        <>{message.content}</>
-                    )}
+                    <>{message.content}</>
                   </div>
                 </div>
                 {message.user_id === userId && (
@@ -185,7 +158,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Küldés"}
             </Button>
           </form>
-          <p className="text-center text-[.75rem] text-muted-foreground">Küldj üzenetet. Ha szerkeszteni szeretnél egyet vagy törölni, kattints az üzenetnél a képedre.</p>
+          <p className="text-center text-[.75rem] text-muted-foreground">Küldj üzenetet. Ha szerkeszteni szeretnél egyet vagy törölni, kattints az üzenetnél a profilképedre.</p>
         </div>
     )
 }

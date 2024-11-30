@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Layout({
   children,
-  params
+  params,
 }: Readonly<{
   children: React.ReactNode
   params: Promise<{ projectId: string }>
@@ -25,11 +25,9 @@ export default async function Layout({
   const { projectId } = await params
 
   return (
-    <>
       <SidebarProvider>
         <AppSidebar userSession={session} projectId={projectId} />
         <SidebarInset>{children}</SidebarInset>
       </SidebarProvider>
-    </>
   )
 }

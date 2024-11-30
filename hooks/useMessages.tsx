@@ -1,13 +1,11 @@
+"use client"
+
 import { EnrichedMessage, fetchMessageWithUserDetails, Message } from "@/actions/message.action";
 import { supabase } from "@/lib/utils/supabase";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
-const sendMessageSchema = z.object({
-    content: z.string().min(1, { message: "Az üzenet nem lehet üres!" }).max(256, { message: "Az üzenet maximum 256 karakter hosszú lehet!" }),
-})
-
-const updateMessageSchema = z.object({
+const sendorUpdateMessageSchema = z.object({
     content: z.string().min(1, { message: "Az üzenet nem lehet üres!" }).max(256, { message: "Az üzenet maximum 256 karakter hosszú lehet!" }),
 })
 
@@ -46,15 +44,15 @@ export const useMessages = (projectId: string, userId: string) => {
                     setMessages((prevMessages) => [...prevMessages, newMessage]);
                 },
             )
-            .on(
-                'postgres_changes',
-                { event: 'UPDATE', schema: 'public', table: 'messages', filter: `project_id=eq.${projectId}` },
-                async (payload) => {
-                    const updatedMessage = (await fetchMessageWithUserDetails([payload.new as Message]))[0] as EnrichedMessage
+            // .on(
+            //     'postgres_changes',
+            //     { event: 'UPDATE', schema: 'public', table: 'messages', filter: `project_id=eq.${projectId}` },
+            //     async (payload) => {
+            //         const updatedMessage = (await fetchMessageWithUserDetails([payload.new as Message]))[0] as EnrichedMessage
 
-                    setMessages((prevMessages) => prevMessages.map((message) => message.id === updatedMessage.id ? updatedMessage : message));
-                },      
-            )
+            //         setMessages((prevMessages) => prevMessages.map((message) => message.id === updatedMessage.id ? updatedMessage : message));
+            //     },      
+            // )
             .on(
                 'postgres_changes',
                 { event: 'DELETE', schema: 'public', table: 'messages' },
@@ -75,7 +73,7 @@ export const useMessages = (projectId: string, userId: string) => {
 
     // Send messages function
     const sendMessage = async (content: string) => {
-        const validatedField = sendMessageSchema.safeParse({ content });
+        const validatedField = sendorUpdateMessageSchema.safeParse({ content });
 
         if (!validatedField.success) {
             setError(validatedField.error.message);
@@ -102,20 +100,20 @@ export const useMessages = (projectId: string, userId: string) => {
         }
     }
 
-    const updateMessage = async (id: string, content: string) => {
-        const validatedFields = updateMessageSchema.safeParse({ content });
+    // const updateMessage = async (id: string, content: string) => {
+    //     const validatedFields = sendorUpdateMessageSchema.safeParse({ content });
 
-        if (!validatedFields.success) {
-            setError(validatedFields.error.message);
-            return;
-        }
+    //     if (!validatedFields.success) {
+    //         setError(validatedFields.error.message);
+    //         return;
+    //     }
 
-        const { error } = await supabase.from('messages').update({ content: validatedFields.data.content }).eq('id', id)
-        if (error) {
-            setError(error.message);
-            return;
-        }
-    }
+    //     const { error } = await supabase.from('messages').update({ content: validatedFields.data.content }).eq('id', id)
+    //     if (error) {
+    //         setError(error.message);
+    //         return;
+    //     }
+    // }
 
-    return { messages, error, sendMessage, deleteMessage, updateMessage }
+    return { messages, error, sendMessage, deleteMessage }
 }
