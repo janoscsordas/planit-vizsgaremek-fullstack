@@ -6,10 +6,10 @@ import {
 } from "@/components/ui/card";
 
 import { 
-  AlarmClock,
+  CircleDashed,
   Users,
-  Activity,
-  Check
+  Loader,
+  CircleCheckBig
 } from "lucide-react";
   
 export default function AnalyticsCards() {
@@ -31,7 +31,7 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Elvégzendő feladatok
             </CardTitle>
-            <AlarmClock />
+            <CircleDashed />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">6</div>
@@ -42,7 +42,7 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Folyamatban lévő feladatok
             </CardTitle>
-            <Activity />
+            <Loader />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
@@ -53,7 +53,7 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Elvégzett feladatok
             </CardTitle>
-            <Check />
+            <CircleCheckBig />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">12</div>

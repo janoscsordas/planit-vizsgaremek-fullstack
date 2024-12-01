@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
@@ -16,13 +17,15 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+
 const chartData = [
-  { browser: "anyádvalaga", visitors: 202, fill: "var(--color-chrome)" },
+  { browser: "chrome", visitors: 202, fill: "var(--color-chrome)" },
   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
   { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
   { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
   { browser: "other", visitors: 190, fill: "var(--color-other)" },
 ]
+
 const chartConfig = {
   visitors: {
     label: "",
@@ -48,6 +51,7 @@ const chartConfig = {
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
+
 export default function UserActivityChart() {
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0)

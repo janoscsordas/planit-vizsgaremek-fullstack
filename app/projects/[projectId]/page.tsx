@@ -40,7 +40,7 @@ export default async function ProjectPage({
           <p className="text-muted-foreground text-sm mt-1 mb-6">Legutóbb felvett feladatok</p>
           <RecentActivity />
         </div>
-        <div className="mt-8 rounded-lg">
+        <div className="mt-8 mb-4 md:mb-0 rounded-lg">
           <UserActivityChart />
         </div>
       </div>
