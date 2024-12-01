@@ -5,6 +5,9 @@ import { getProjectById } from '@/actions/projects.action'
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import ProjectHeader from './header'
+import AnalyticsCards from '@/components/projects/project/AnalyticsCards'
+import RecentActivity from '@/components/projects/project/RecentActivity'
+import UserActivityChart from '@/components/projects/project/UserActivity'
 
 export default async function ProjectPage({
 	params,
