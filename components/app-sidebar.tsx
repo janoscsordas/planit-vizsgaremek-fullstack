@@ -1,18 +1,15 @@
 "use client"
-
 import * as React from "react"
 import {
   AudioWaveform,
-  BookOpen,
   MessageCircle,
   Command,
   GalleryVerticalEnd,
   Settings2,
   ClipboardList,
-  VenetianMaskIcon,
   Binoculars,
+  Users,
 } from "lucide-react"
-
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
@@ -24,6 +21,40 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { Session } from "next-auth"
+import { usePathname } from "next/navigation"
+
+const generateNavItems = (projectId: string, pathName: string) => [
+  {
+    title: "Áttekintés",
+    url: `/projects/${projectId}`,
+    icon: Binoculars,
+    isActive: pathName === `/projects/${projectId}` ? true : false,
+  },
+  {
+    title: "Feladatok",
+    url: `/projects/${projectId}/tasks`,
+    icon: ClipboardList,
+    isActive: pathName === `/projects/${projectId}/tasks` ? true : false,
+  },
+  {
+    title: "Üzenetek",
+    url: `/projects/${projectId}/messages`,
+    icon: MessageCircle,
+    isActive: pathName === `/projects/${projectId}/messages` ? true : false,
+  },
+  {
+    title: "Tagok",
+    url: `/projects/${projectId}/members`,
+    icon: Users,
+    isActive: pathName === `/projects/${projectId}/members` ? true : false,
+  },
+  {
+    title: "Beállítások",
+    url: `/projects/${projectId}/settings`,
+    icon: Settings2,
+    isActive: pathName === `/projects/${projectId}/settings` ? true : false,
+  },
+]
 
 const data = {
   teams: [
@@ -35,60 +66,35 @@ const data = {
       name: "Harcosok",
       logo: AudioWaveform,
     },
-
     {
       name: "Csillagvadászok",
       logo: Command,
-    },
-  ],
-  navMain: [
-    {
-      title: "Áttekintés",
-      url: "#",
-      icon: Binoculars,
-      isActive: true,
-    },
-    {
-      title: "Feladatok",
-      url: "#",
-      icon: ClipboardList,
-    },
-    {
-      title: "Üzenetek",
-      url: "#",
-      icon: MessageCircle,
-    },
-    {
-      title: "Dokumentáció",
-      url: "#",
-      icon: BookOpen,
-    },
-    {
-      title: "Beállítások",
-      url: "#",
-      icon: Settings2,
     },
   ],
 }
 
 export function AppSidebar({
   userSession,
+  projectId,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { userSession: Session }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  userSession: Session
+  projectId: string
+}) { 
+  const pathName = usePathname()
+  const navMain = generateNavItems(projectId, pathName)
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
-
       <SidebarFooter>
         <NavUser userSession={userSession} />
       </SidebarFooter>
-
       <SidebarRail />
     </Sidebar>
   )

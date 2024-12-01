@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useState, useMemo } from "react"
 import SearchFilter from "@/components/projects/SearchFilter"
 import ProjectList from "@/components/projects/ProjectList"
-import { Project } from "@/lib/definitions/projects"
+import { ProjectData } from "@/lib/definitions/projects"
 import { User } from "next-auth"
 
 export default function Projects({ userSession }: { userSession: User }) {
@@ -30,12 +30,12 @@ export default function Projects({ userSession }: { userSession: User }) {
       const { ownedProjects, memberProjects } = await response.json()
 
       return { ownedProjects, memberProjects } as {
-        ownedProjects: Project[]
-        memberProjects: Project[]
+        ownedProjects: ProjectData[]
+        memberProjects: ProjectData[]
       }
     },
-    staleTime: 60 * 1000, // 1 minute
     refetchOnWindowFocus: false,
+    staleTime: 0,
   })
 
   // Filter projects based on search term and status
@@ -43,14 +43,14 @@ export default function Projects({ userSession }: { userSession: User }) {
   const filteredProjects = useMemo(() => {
     const ownedProjects =
       data?.ownedProjects?.filter(
-        (project: Project) =>
+        (project: ProjectData) =>
           project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
           (statusFilter === "all" || project.status === statusFilter)
       ) || []
 
     const memberProjects =
       data?.memberProjects?.filter(
-        (project: Project) =>
+        (project: ProjectData) =>
           project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
           (statusFilter === "all" || project.status === statusFilter)
       ) || []
@@ -75,13 +75,13 @@ export default function Projects({ userSession }: { userSession: User }) {
         {/* Display projects */}
         <ProjectList
           title={userSession?.name + " Projektjei"}
-          projects={filteredProjects.ownedProjects as Project[]}
+          projects={filteredProjects.ownedProjects as ProjectData[]}
           isLoading={isLoading}
           isOwnedProjects={true}
         />
         <ProjectList
           title="Tagja vagy a következő projekteknek:"
-          projects={filteredProjects.memberProjects as Project[]}
+          projects={filteredProjects.memberProjects as ProjectData[]}
           isLoading={isLoading}
           isOwnedProjects={false}
         />

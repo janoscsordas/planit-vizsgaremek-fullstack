@@ -20,13 +20,20 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", toggleVisibility)
   }, [])
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+
   if (!isVisible) return null
 
   return (
     <Button
       type="button"
       className="fixed bottom-8 right-8 z-50 rounded-full p-4 transition ease-in-out text-emerald-hover"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={scrollToTop}
     >
       <ChevronUp height={16} width={16} /> <span>Vissza a tetejére</span>
     </Button>

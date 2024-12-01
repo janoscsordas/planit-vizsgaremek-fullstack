@@ -1,10 +1,10 @@
-import { Project } from "@/lib/definitions/projects"
+import { ProjectData } from "@/lib/definitions/projects"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@radix-ui/themes"
 
 type ProjectCardProps = {
-  project: Project
+  project: ProjectData
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
