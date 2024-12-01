@@ -3,6 +3,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { NotificationsProvider } from "@/context/NotificationsContext"
 
 export const metadata: Metadata = {
   title: "Planitapp - Projekt",
@@ -27,7 +28,9 @@ export default async function Layout({
   return (
       <SidebarProvider>
         <AppSidebar userSession={session} projectId={projectId} />
-        <SidebarInset>{children}</SidebarInset>
+        <NotificationsProvider userId={session.user.id}>
+          <SidebarInset>{children}</SidebarInset>
+        </NotificationsProvider>
       </SidebarProvider>
   )
 }

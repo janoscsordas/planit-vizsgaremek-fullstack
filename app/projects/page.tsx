@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Projects from "@/components/projects/Projects"
 import Navbar from "@/components/projects/Navbar"
+import { NotificationsProvider } from "@/context/NotificationsContext"
 
 export default async function ProjectsPage() {
   const session = await auth()
@@ -12,7 +13,7 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <>
+    <NotificationsProvider userId={session.user.id}>
       <Navbar breadCrumb={
         [
           {
@@ -27,6 +28,6 @@ export default async function ProjectsPage() {
         ]
       } />
       <Projects userSession={session.user} />
-    </>
+    </NotificationsProvider>
   )
 }
