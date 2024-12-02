@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { GeistSans } from 'geist/font/sans'
 import { Toaster } from '@/components/ui/toaster'
+import { Toaster as Sonner } from '@/components/ui/sonner'
 import { Theme } from '@radix-ui/themes'
 import { Providers } from '@/lib/providers/providers'
 
@@ -22,6 +23,7 @@ export default function RootLayout({
 				<Theme hasBackground={false}>
 					<Providers>{children}</Providers>
 					<Toaster />
+					<Sonner />
 				</Theme>
 			</body>
 		</html>

@@ -1,7 +1,12 @@
 import ProjectHeader from '../header'
-import { getProjectById } from '@/actions/projects.action'
+import AddMemberForm from '@/components/projects/project/members/AddMemberForm'
 import MemberComponent from '@/components/projects/project/members/MemberComponent'
 import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
+import { db } from '@/database'
+import { ProjectsTable } from '@/database/schema/projects'
+import { eq } from 'drizzle-orm'
+import { Suspense } from 'react'
 
 
 export default async function Members({
@@ -12,15 +17,18 @@ export default async function Members({
 }>) {
 	const { projectId } = await params
 
-	const project = await getProjectById(projectId)
+	const projectData = await db.query.ProjectsTable.findFirst({
+		where: eq(ProjectsTable.id, projectId),
+		with: {
+		  members: {
+			with: { user: true }
+		  },
+		},
+	})
 
-	if (!project.success || !project.data) {
-		return <div>{project.message}</div>
+	if (!projectData) {
+		return <div>Project not found</div>
 	}
-
-	const projectData = Array.isArray(project.data)
-		? project.data[0]
-		: project.data
 
 	return (
 		<>
@@ -42,14 +50,20 @@ export default async function Members({
 				<div className="mt-8 border p-4 rounded-xl w-full lg:w-[50%]">
 					<h1 className="text-md font-bold mb-1">Projekt tagjai</h1>
 					<p className="text-muted-foreground text-sm mb-4">Adj hozzá tagokat a projektedhez.</p>
+					<Suspense fallback={<Skeleton className='w-full h-[35px]' />}>
+						<AddMemberForm projectId={projectData.id} />
+					</Suspense>
 					<Separator orientation="horizontal" className="mb-4 mt-6" />
-					<MemberComponent />
-					<MemberComponent />
-					<MemberComponent />
-					<MemberComponent />
-					<MemberComponent />
-					<MemberComponent />
-					<MemberComponent />
+					<Suspense fallback={<div className='flex items-center gap-2'>
+							<Skeleton className='w-[50px] h-[45px] rounded-full' />
+							<Skeleton className='w-full h-[45px]' />
+						</div>
+					}>
+						{projectData.members && projectData.members.map((member) => (
+							<MemberComponent image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
+						))}
+						{!projectData.members.length && <p className="text-muted-foreground text-sm">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
+					</Suspense>
 				</div>
 			</main>
 		</>
