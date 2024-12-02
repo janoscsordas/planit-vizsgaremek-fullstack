@@ -27,7 +27,7 @@ export const ProjectsTable = pgTable("projects", {
     status: projectStatusEnum("status")
         .notNull()
         .default("active"),
-    nameChanged: timestamp("nameChanged", { mode: "date", withTimezone: true }),
+    nameChanged: timestamp("nameChanged", { mode: "date", withTimezone: true })
 })
 
 export const ProjectMembersTable = pgTable("project_members", {
