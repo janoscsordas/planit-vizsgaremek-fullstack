@@ -1,27 +1,28 @@
 "use client"
+
 import * as React from "react"
 import {
-  AudioWaveform,
   MessageCircle,
-  Command,
-  GalleryVerticalEnd,
   Settings2,
   ClipboardList,
   Binoculars,
   Users,
+  ChevronLeft,
 } from "lucide-react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { Session } from "next-auth"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 const generateNavItems = (projectId: string, pathName: string) => [
   {
@@ -56,23 +57,6 @@ const generateNavItems = (projectId: string, pathName: string) => [
   },
 ]
 
-const data = {
-  teams: [
-    {
-      name: "Villámcsapat",
-      logo: GalleryVerticalEnd,
-    },
-    {
-      name: "Harcosok",
-      logo: AudioWaveform,
-    },
-    {
-      name: "Csillagvadászok",
-      logo: Command,
-    },
-  ],
-}
-
 export function AppSidebar({
   userSession,
   projectId,
@@ -80,14 +64,29 @@ export function AppSidebar({
 }: React.ComponentProps<typeof Sidebar> & {
   userSession: Session
   projectId: string
-}) { 
+}) {
   const pathName = usePathname()
   const navMain = generateNavItems(projectId, pathName)
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <Link href="/projects">
+          <SidebarMenuButton
+            variant="default"
+            size="lg"
+            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground w-full"
+          >
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-hover text-sidebar-primary-foreground">
+              <ChevronLeft className="size-4" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">
+                Vissza a projektekhez
+              </span>
+            </div>
+          </SidebarMenuButton>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMain} />
