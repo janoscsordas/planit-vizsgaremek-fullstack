@@ -1,6 +1,3 @@
-import { IconButton } from "@radix-ui/themes"
-import { Bell } from "lucide-react"
-import Link from "next/link"
 import ProfileAvatar from "./ProfileAvatar"
 import BreadcrumbComponent from "../Breadcrumb"
 import { Breadcrumb } from "../Breadcrumb"

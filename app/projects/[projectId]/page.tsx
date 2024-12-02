@@ -22,6 +22,8 @@ export default async function ProjectPage({
 	const project = await getProjectById(projectId)
 
 	if (!project.success || !project.data) {
+		// ha nincs projekt id akkor hiba
+		// TODO: design not-found id
 		return <div>{project.message}</div>
 	}
 

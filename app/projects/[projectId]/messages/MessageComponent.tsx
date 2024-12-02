@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessages } from "@/hooks/useMessages";
-import { Loader2, Smile, X } from "lucide-react";
+import { Loader2, Smile } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { formatDistance } from "date-fns";
 import { hu } from "date-fns/locale/hu";

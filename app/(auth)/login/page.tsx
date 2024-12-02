@@ -4,7 +4,6 @@ import Link from "next/link";
 import AuthButtons from "@/components/auth/AuthButtons";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 
 export default async function Login({ 
   searchParams 
