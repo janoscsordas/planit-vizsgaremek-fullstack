@@ -27,11 +27,15 @@ export default function DeleteProjectButton({
 			return
 		}
 	}
-	
+
 	return (
 		<>
 			<div className="flex">
-				{error && <p className="text-red-500 mt-2 text-center absolute left-6">{error}</p>}
+				{error && (
+					<p className="text-red-500 mt-2 text-center absolute left-6">
+						{error}
+					</p>
+				)}
 				<div>
 					<Button
 						onClick={handleProjectDeletion}

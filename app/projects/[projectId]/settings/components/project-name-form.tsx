@@ -25,12 +25,15 @@ interface FormState {
 
 const COOLDOWN_DAYS = 90
 
-export default function ProjectNameForm({
+const ProjectNameForm = ({
+	projectId,
 	projectData,
 }: {
 	projectData: ProjectData
-}) {
+	projectId: string
+}) => {
 	const { toast } = useToast()
+
 	const [formState, setFormState] = useState<FormState>({
 		name: projectData.projectName,
 		isLoading: false,
@@ -39,7 +42,7 @@ export default function ProjectNameForm({
 		submitDisabled: false,
 	})
 
-	// Calculate remaining days for projectname change
+	// Calculate remaining days for username change
 	const getRemainingDays = (): number | null => {
 		if (!projectData.projectNameChangedAt) return null
 		return (
@@ -51,7 +54,7 @@ export default function ProjectNameForm({
 		)
 	}
 
-	// Check if projectname change is allowed
+	// Check if username change is allowed
 	useEffect(() => {
 		const remainingDays = getRemainingDays()
 		if (projectData.projectName === formState.name) {
@@ -73,7 +76,6 @@ export default function ProjectNameForm({
 		}))
 	}
 
-	// Handle the form submission
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
@@ -91,7 +93,7 @@ export default function ProjectNameForm({
 			if (!validatedData.success) {
 				throw new Error(
 					validatedData.error.errors[0]?.message ||
-						'Érvénytelen Projektnév'
+						'Érvénytelen projektnév!'
 				)
 			}
 
@@ -100,22 +102,24 @@ export default function ProjectNameForm({
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ name: validatedData.data.name }),
+				body: JSON.stringify({
+					name: validatedData.data.name,
+					projectId: projectId,
+				}),
 			})
 
 			if (!response.ok) {
 				const errorData = await response.json()
 				throw new Error(
-					errorData.message || 'Hiba történt a módosítás során'
+					errorData.message || 'Hiba történt a módosítás során!'
 				)
 			}
 
 			const data = await response.json()
 
 			toast({
-				title: 'Sikeres módosítás',
-				description:
-					data.message || 'A projektnév sikeresen módosítva.',
+				title: 'Sikeres módosítás!',
+				description: data.message || 'A projetnév sikeresen módosítva!',
 				className: 'border-emerald-hover bg-emerald text-primary',
 			})
 		} catch (error) {
@@ -199,3 +203,5 @@ export default function ProjectNameForm({
 		</form>
 	)
 }
+
+export default ProjectNameForm
