@@ -74,6 +74,9 @@ export const ProjectTasksTable = pgTable("project_tasks", {
     createdAt: timestamp("createdAt", { mode: "date", withTimezone: true })
         .notNull()
         .defaultNow(),
+    createdBy: text("created_by")
+        .notNull()
+        .references(() => UsersTable.id, { onDelete: "cascade" }),
 })
 
 export const ProjectTaskAssignsTable = pgTable("project_task_assigns", {
@@ -119,8 +122,12 @@ export const ProjectTaskRelations = relations(ProjectTasksTable, ({ one, many })
       fields: [ProjectTasksTable.projectId],
       references: [ProjectsTable.id]
     }),
-    assigns: many(ProjectTaskAssignsTable)
-  }));
+    assigns: many(ProjectTaskAssignsTable),
+    createdByUser: one(UsersTable, {
+        fields: [ProjectTasksTable.createdBy],
+        references: [UsersTable.id]
+    })
+}));
   
 export const ProjectTaskAssignRelations = relations(ProjectTaskAssignsTable, ({ one }) => ({
     task: one(ProjectTasksTable, {

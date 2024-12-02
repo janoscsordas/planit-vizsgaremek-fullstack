@@ -6,6 +6,7 @@ import { Bell } from 'lucide-react'
 import Link from 'next/link'
 import BreadcrumbComponent from '@/components/Breadcrumb'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import NotificationBell from '@/components/projects/notification/NotificationBell'
 
 export default async function ProjectHeader({
 	breadCrumb,
@@ -23,19 +24,7 @@ export default async function ProjectHeader({
 				<div className="flex items-center gap-4 px-4">
 					<CommandMenu />
 
-					<IconButton
-						variant="ghost"
-						color="gray"
-						className="cursor-pointer group hover:bg-emerald/15"
-					>
-						<Link href="/notifications">
-							<Bell
-								width="18"
-								height="18"
-								className="text-muted-foreground"
-							/>
-						</Link>
-					</IconButton>
+					<NotificationBell />
 				</div>
 			</div>
 		</header>

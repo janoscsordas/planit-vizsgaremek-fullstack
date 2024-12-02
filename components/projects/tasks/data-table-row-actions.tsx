@@ -1,6 +1,6 @@
 "use client"
 
-import { Edit, Eye, Loader2, MoreHorizontal, Trash2 } from "lucide-react"
+import { Eye, MoreHorizontal, Trash2 } from "lucide-react"
 
 import {
   Sheet,
@@ -16,13 +16,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   DropdownMenuLabel
 } from "@/components/ui/dropdown-menu"
@@ -31,8 +25,7 @@ import { ProjectData } from "@/lib/definitions/projects"
 import { deleteTask } from "@/actions/projectTask.action"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import EditAndShowSheet from "./EditAndShowSheet"
 
 const taskSchema = z.object({
   id: z.string(),
@@ -42,6 +35,14 @@ const taskSchema = z.object({
   createdAt: z.date(),
   priority: z.enum(["low", "medium", "high"]),
   projectId: z.string(),
+  createdBy: z.string(),
+  createdByUser: z.object({ 
+    id: z.string(), 
+    createdAt: z.date(), 
+    name: z.string(), 
+    email: z.string(), 
+    image: z.string().nullable(),
+  }),
   assigns: z.array(
     z.object({ 
       id: z.string(), 
@@ -71,10 +72,16 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
     try {
       await deleteTask(taskId, task.projectId)
+
+      toast({
+        title: "Sikeres törlés",
+        description: "A feladat sikeresen törölve.",
+        variant: "default",
+      })
     } catch (error) {
       toast({
         title: "Sikertelen törlés",
-        description: (error instanceof Error ? error.message : "Adatbázis hiba. Hiba történt a feladat törlése Közben!"),
+        description: "Adatbázis hiba. Hiba történt a feladat törlése Közben!",
         variant: "destructive",
       })
     } finally {
@@ -83,33 +90,34 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <MoreHorizontal />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuLabel>Feladat Művelet</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-orange-600 focus:bg-orange-700 focus:text-orange-100">
-          <Edit />
-          Szerkesztés
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Eye />
-          Megtekintés
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600 focus:text-red-100 focus:bg-red-700" onClick={() => handleTaskDelete(task.id)}>
-          <Trash2 />
-          {loading ? "Törlés..." : "Törlés"}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Sheet>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          >
+            <MoreHorizontal />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuLabel>Feladat Művelet</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <SheetTrigger asChild>
+            <DropdownMenuItem>
+              <Eye />
+              Megtekintés
+            </DropdownMenuItem>
+          </SheetTrigger>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="text-red-600 focus:text-red-100 focus:bg-red-700" onClick={() => handleTaskDelete(task.id)}>
+            <Trash2 />
+            {loading ? "Törlés..." : "Törlés"}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <EditAndShowSheet task={task} />
+    </Sheet>
   )
 }

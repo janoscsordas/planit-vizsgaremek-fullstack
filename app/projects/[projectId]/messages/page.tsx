@@ -1,5 +1,8 @@
 import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
+import MessageComponent from './MessageComponent'
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 
 export default async function Messages({
 	params,
@@ -7,6 +10,12 @@ export default async function Messages({
 	children: React.ReactNode
 	params: Promise<{ projectId: string }>
 }>) {
+	const session = await auth()
+
+	if (!session || !session.user || !session.user.id) {
+		redirect("/login")
+	}
+
 	const { projectId } = await params
 
 	const project = await getProjectById(projectId)
@@ -36,6 +45,7 @@ export default async function Messages({
 			/>
 			<main className="px-6 py-2">
 				<h1 className="text-2xl font-bold">Üzenetek</h1>
+				<MessageComponent projectId={projectData.id} userId={session.user.id} />
 			</main>
 		</>
 	)

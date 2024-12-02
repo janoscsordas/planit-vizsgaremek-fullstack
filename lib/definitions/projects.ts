@@ -35,6 +35,7 @@ export type Task = {
     taskName: string;
     taskDescription: string;
     priority: 'low' | 'medium' | 'high';
+    createdBy: string;
     assigns: Assign[];
 };
   
