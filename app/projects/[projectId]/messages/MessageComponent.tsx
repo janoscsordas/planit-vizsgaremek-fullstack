@@ -133,7 +133,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                   {["😀", "😂", "😊", "😍", "🤔", "😎", "👍", "❤️"].map((emoji) => (
                     <button
                       key={emoji}
-                      className="text-2xl hover:bg-gray-100 rounded"
+                      className="text-2xl"
                       onClick={() => handleEmojiSelect(emoji)}
                     >
                       {emoji}

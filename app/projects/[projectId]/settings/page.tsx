@@ -3,6 +3,7 @@ import { getProjectById } from '@/actions/projects.action'
 import DeleteProject from './components/delete-project'
 import ProjectNameForm from './components/project-name-form'
 import UpgradeToPro from './components/upgrade-to-pro'
+import ChangePriority from './components/change-priority'
 
 export default async function Settings({
 	params,
@@ -54,6 +55,7 @@ export default async function Settings({
 						}}
 						projectId={projectData.id}
 					/>
+					<ChangePriority />
 					<UpgradeToPro />
 					<DeleteProject
 						projectName={projectData.name}
