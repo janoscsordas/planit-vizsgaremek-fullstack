@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Calculator, Calendar, Monitor, Smile, User } from "lucide-react"
+import { ClipboardPlus, MessageCircle, Monitor, User, Users } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 import {
   CommandDialog,
@@ -21,6 +22,9 @@ import Link from "next/link"
 
 export default function CommandMenu() {
   const [open, setOpen] = React.useState(false)
+
+  const pathname = usePathname()
+  const projectId = pathname.split("/")[2] 
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -51,18 +55,24 @@ export default function CommandMenu() {
         <CommandList>
           <CommandEmpty>Nincs találat.</CommandEmpty>
           <CommandGroup heading="Projekt">
-            <CommandItem>
-              <Calendar />
-              <span>Naptár</span>
-            </CommandItem>
-            <CommandItem>
-              <Smile />
-              <span>Emoji keresés</span>
-            </CommandItem>
-            <CommandItem>
-              <Calculator />
-              <span>Kalkulátor</span>
-            </CommandItem>
+            <Link href={`/projects/${projectId}/tasks`}>
+              <CommandItem>
+                <ClipboardPlus />
+                <span>Új feladat létrehozása</span>
+              </CommandItem>
+            </Link>
+            <Link href={`/projects/${projectId}/members`}>
+              <CommandItem>
+                <Users />
+                <span>Tagok megtekintése</span>
+              </CommandItem>
+            </Link>
+            <Link href={`/projects/${projectId}/messages`}>
+              <CommandItem>
+                <MessageCircle />
+                <span>Üzenetek megtekintése</span>
+              </CommandItem>
+            </Link>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Profil">
