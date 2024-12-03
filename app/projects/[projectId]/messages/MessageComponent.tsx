@@ -59,8 +59,8 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
     }
 
     return (
-        <div className="flex-1 flex flex-col">
-          <ScrollArea className="rounded-md flex-1 p-4 min-h-[calc(100dvh-188px)] max-h-[calc(100dvh-188px)] overflow-y-scroll">
+        <div className="flex-1 flex flex-col mt-2">
+          <ScrollArea className="rounded-md flex-1 p-4 min-h-[calc(100dvh-200px)] max-h-[calc(100dvh-200px)] overflow-y-scroll">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -73,7 +73,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                       src={message.user.image}
                       fallback={message.user.name.charAt(0)}
                       radius="full"
-                      className="ml-2"
+                      className="mr-2"
                   />
                 )}
                 <div 
@@ -84,7 +84,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                     className={`p-2 rounded-lg ${
                       message.user_id === userId
                         ? "bg-emerald text-primary-foreground"
-                        : "bg-gray-200 text-primary"
+                        : "bg-gray-200 dark:bg-white text-primary dark:text-primary-foreground"
                     }`}
                   >
                     <>{message.content}</>

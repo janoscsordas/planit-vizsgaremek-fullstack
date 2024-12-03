@@ -11,14 +11,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { projectId } = await request.json()
+    const { projectIds } = await request.json()
 
     try {
         // Fetch project details for given project IDs
         const projects = await db
             .select()
             .from(ProjectsTable)
-            .where(inArray(ProjectsTable.id, projectId));
+            .where(inArray(ProjectsTable.id, projectIds));
 
         // Convert to object for easy lookup
         const projectDetails = projects.reduce((acc: { [key: string]: any }, project) => {

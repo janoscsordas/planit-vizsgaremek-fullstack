@@ -20,7 +20,7 @@ export default async function NotificationsPage() {
 				<ProfileHeader />
 				<div className="flex flex-col md:flex-row">
 					<ProfileNavbar />
-					<div className="ml-0 md:ml-12 mt-2 w-full md:w-[50%]">
+					<div className="ml-0 md:ml-12 mt-2 w-full md:w-[75%]">
 						<h3 className="text-xl font-medium">Értesítések</h3>
 						<hr className="my-6" />
 						<div className="space-y-4 border border-muted rounded-md p-6">

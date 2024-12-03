@@ -2,6 +2,7 @@ import Navbar from "@/components/projects/Navbar"
 import CreateForm from "./create-form"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { NotificationsProvider } from "@/context/NotificationsContext"
 
 export default async function CreateProject() {
   const session = await auth()
@@ -11,7 +12,7 @@ export default async function CreateProject() {
   }
 
   return (
-    <div>
+    <NotificationsProvider userId={session.user.id}>
       {/* navbar + breadcrumbs */}
       <Navbar breadCrumb={
         [
@@ -33,6 +34,6 @@ export default async function CreateProject() {
 
       {/* create project form */}
       <CreateForm />
-    </div>
+    </NotificationsProvider>
   )
 }

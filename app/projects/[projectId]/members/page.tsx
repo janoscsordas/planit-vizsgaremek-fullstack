@@ -60,7 +60,7 @@ export default async function Members({
 						</div>
 					}>
 						{projectData.members && projectData.members.map((member) => (
-							<MemberComponent image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
+							<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
 						))}
 						{!projectData.members.length && <p className="text-muted-foreground text-sm">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
 					</Suspense>

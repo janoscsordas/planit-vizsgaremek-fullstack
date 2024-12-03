@@ -4,11 +4,11 @@ import React, { createContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/utils/supabase';
 
 interface Notification {
-    id: string;
+    id: number;
     senderId: string;
     senderProjectId: string;
     receiverId: string;
-    createdAt: Date;
+    created_at: Date;
     senderName?: string;
     senderImage?: string;
     projectName?: string; 
@@ -88,6 +88,14 @@ export const NotificationsProvider = ({ children, userId }: { children: React.Re
                 async (payload) => {
                     const newNotification = payload.new as Notification;
                     setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+                }
+            )
+            .on(
+                'postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'notifications' },
+                async (payload) => {
+                    const deletedNotification = payload.old as Notification;
+                    setNotifications((prevNotifications) => prevNotifications.filter((notification) => notification.id !== deletedNotification.id));
                 }
             )
             .subscribe();

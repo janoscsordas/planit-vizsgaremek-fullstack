@@ -4,7 +4,7 @@ import { inArray } from "drizzle-orm";
 import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const session = await auth()
 
     if (!session) {
