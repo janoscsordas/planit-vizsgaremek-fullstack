@@ -4,6 +4,8 @@ import DeleteProject from './components/delete-project'
 import ProjectNameForm from './components/project-name-form'
 import UpgradeToPro from './components/upgrade-to-pro'
 import ChangePriority from './components/change-priority'
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import ProjectData from './components/project-data'
 
 export default async function Settings({
@@ -11,6 +13,12 @@ export default async function Settings({
 }: Readonly<{
 	params: Promise<{ projectId: string }>
 }>) {
+	const session = await auth()
+
+	if (!session || !session.user) {
+		return redirect('/login')
+	}
+
 	const { projectId } = await params
 
 	const project = await getProjectById(projectId)
@@ -22,6 +30,13 @@ export default async function Settings({
 	const projectData = Array.isArray(project.data)
 		? project.data[0]
 		: project.data
+
+	// if user is not creator redirect to overview page
+	const isOwner = projectData.userId === session.user.id
+
+	if (!isOwner) {
+		return redirect(`/projects/${projectData.id}`)
+	}
 
 	return (
 		<>

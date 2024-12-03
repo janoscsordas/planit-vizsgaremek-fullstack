@@ -29,7 +29,7 @@ export const useMessages = (projectId: string, userId: string) => {
 
             const enrichedMessages = await fetchMessageWithUserDetails(messages)
 
-            setMessages(enrichedMessages || []);
+            setMessages(enrichedMessages);
         }
 
         // Realtime subscription for messages table to listen for INSERT, UPDATE and DELETE events
@@ -64,6 +64,8 @@ export const useMessages = (projectId: string, userId: string) => {
 
         // fetching all messages
         fetchMessages();
+
+        console.log(messages)
 
         // Cleanup the subscription
         return () => {

@@ -1,5 +1,6 @@
 export type Project = {
     id: string;
+    userId: string;
     name: string;
     tier: 'free' | 'paid';
     createdAt: Date;

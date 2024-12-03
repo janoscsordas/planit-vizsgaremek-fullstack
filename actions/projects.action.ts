@@ -238,7 +238,7 @@ export async function changeProjectName(prevState: State, formData: FormData) {
 	const [nameChangedAt] = await db
 		.select()
 		.from(ProjectsTable)
-		.where(eq(ProjectsTable.id, projectId))
+		.where(eq(ProjectsTable.id, projectId as string))
 
 	// TODO: Make this shit work xd
 

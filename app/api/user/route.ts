@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server'
 import { userChangeFormSchema } from '@/lib/schemas/userSchema'
 import { differenceInDays } from 'date-fns'
 import { hash } from 'bcryptjs'
+import { removeDeletedUsersMessages } from '@/actions/message.action'
 
 // API Route for updating the user's password
 export async function POST(request: Request) {
@@ -178,6 +179,16 @@ export async function DELETE(request: Request) {
 		// Deleting the user from the database
 		// Only this one runs if the account was made with credentials provider
 		await db.delete(UsersTable).where(eq(UsersTable.id, session.user.id))
+
+		// Deleting the user's messages from the database
+		const deletedMessages = await removeDeletedUsersMessages(session.user.id)
+
+		if (!deletedMessages.success) {
+			return NextResponse.json(
+				{ error: deletedMessages.message },
+				{ status: 500 }
+			)
+		}
 
 		return NextResponse.json({ message: 'Fiók törölve' }, { status: 200 })
 	} catch (error) {
