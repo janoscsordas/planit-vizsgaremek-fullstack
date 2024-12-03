@@ -26,49 +26,57 @@ import {
 	ChevronLeft,
 } from 'lucide-react'
 
-const generateNavItems = (projectId: string, pathName: string) => [
-	{
-		title: 'Áttekintés',
-		url: `/projects/${projectId}`,
-		icon: Binoculars,
-		isActive: pathName === `/projects/${projectId}` ? true : false,
-	},
-	{
-		title: 'Feladatok',
-		url: `/projects/${projectId}/tasks`,
-		icon: ClipboardList,
-		isActive: pathName === `/projects/${projectId}/tasks` ? true : false,
-	},
-	{
-		title: 'Üzenetek',
-		url: `/projects/${projectId}/messages`,
-		icon: MessageCircle,
-		isActive: pathName === `/projects/${projectId}/messages` ? true : false,
-	},
-	{
-		title: 'Tagok',
-		url: `/projects/${projectId}/members`,
-		icon: Users,
-		isActive: pathName === `/projects/${projectId}/members` ? true : false,
-	},
-	{
-		title: 'Beállítások',
-		url: `/projects/${projectId}/settings`,
-		icon: Settings2,
-		isActive: pathName === `/projects/${projectId}/settings` ? true : false,
-	},
-]
+const generateNavItems = (projectId: string, pathName: string, isOwner: boolean) => {
+	const baseNavItems = [
+		{
+		  title: 'Áttekintés',
+		  url: `/projects/${projectId}`,
+		  icon: Binoculars,
+		  isActive: pathName === `/projects/${projectId}` ? true : false,
+		},
+		{
+		  title: 'Feladatok',
+		  url: `/projects/${projectId}/tasks`,
+		  icon: ClipboardList,
+		  isActive: pathName === `/projects/${projectId}/tasks` ? true : false,
+		},
+		{
+		  title: 'Üzenetek',
+		  url: `/projects/${projectId}/messages`,
+		  icon: MessageCircle,
+		  isActive: pathName === `/projects/${projectId}/messages` ? true : false,
+		},
+		{
+		  title: 'Tagok',
+		  url: `/projects/${projectId}/members`,
+		  icon: Users,
+		  isActive: pathName === `/projects/${projectId}/members` ? true : false,
+		}
+	];
+	if (isOwner) {
+		baseNavItems.push({
+			title: 'Beállítások',
+			url: `/projects/${projectId}/settings`,
+			icon: Settings2,
+			isActive: pathName === `/projects/${projectId}/settings` ? true : false,
+		});
+	}
+
+	return baseNavItems;
+}
 
 export function AppSidebar({
+	isOwner,
 	userSession,
 	projectId,
 	...props
 }: React.ComponentProps<typeof Sidebar> & {
+	isOwner: boolean
 	userSession: Session
 	projectId: string
 }) {
 	const pathName = usePathname()
-	const navMain = generateNavItems(projectId, pathName)
+	const navMain = generateNavItems(projectId, pathName, isOwner)
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
