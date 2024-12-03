@@ -55,7 +55,7 @@ export default async function Settings({
 						}}
 						projectId={projectData.id}
 					/>
-					<ChangePriority />
+					<ChangePriority projectId={projectData.id} />
 					<UpgradeToPro />
 					<DeleteProject
 						projectName={projectData.name}
