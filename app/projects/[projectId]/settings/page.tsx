@@ -4,6 +4,7 @@ import DeleteProject from './components/delete-project'
 import ProjectNameForm from './components/project-name-form'
 import UpgradeToPro from './components/upgrade-to-pro'
 import ChangePriority from './components/change-priority'
+import ProjectData from './components/project-data'
 
 export default async function Settings({
 	params,
@@ -48,6 +49,16 @@ export default async function Settings({
 						</div>
 					</section>
 					<hr className="my-6" />
+					{/* TODO: Data List component: status, id, name, createdat - az amit le lehet kérni a projektből */}
+					<ProjectData projectId={projectData.id} projectData={
+						{
+							projectName: projectData.name,
+							projectNameChangedAt: projectData.nameChanged,
+							projectCreatedAt: projectData.createdAt,
+							projectTier: projectData.tier,
+							projectStatus: projectData.status
+						}
+					} />
 					<ProjectNameForm
 						projectData={{
 							projectName: projectData.name,
@@ -55,7 +66,11 @@ export default async function Settings({
 						}}
 						projectId={projectData.id}
 					/>
-					<ChangePriority projectId={projectData.id} />
+					<ChangePriority projectId={projectData.id} statusData={
+						{ 
+							projectStatus: projectData.status
+						}
+					} />
 					<UpgradeToPro />
 					<DeleteProject
 						projectName={projectData.name}

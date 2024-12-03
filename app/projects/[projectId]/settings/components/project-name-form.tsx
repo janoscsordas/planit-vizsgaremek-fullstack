@@ -143,7 +143,7 @@ const ProjectNameForm = ({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="space-y-4 border border-muted rounded-md p-6"
+			className="space-y-4 border border-muted rounded-md p-6 mt-6"
 		>
 			<div className="space-y-2">
 				<h4 className="font-medium text-sm">Projektnév módosítása</h4>
