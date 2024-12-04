@@ -65,8 +65,6 @@ export const useMessages = (projectId: string, userId: string) => {
         // fetching all messages
         fetchMessages();
 
-        console.log(messages)
-
         // Cleanup the subscription
         return () => {
             supabase.removeChannel(channel);

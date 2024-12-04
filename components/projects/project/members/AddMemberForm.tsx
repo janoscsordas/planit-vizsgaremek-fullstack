@@ -46,6 +46,7 @@ export default function MultiEmailInput({
 
     if (!emails.length) {
       toast.error('Nem adtál meg email címet!', { duration: 3000, position: "top-center" })
+      setEmails([])
       return
     }
 
@@ -53,6 +54,7 @@ export default function MultiEmailInput({
 
     if (!response.success) {
         toast.error("Hiba törtent!", { description: response.message, duration: 3000, position: "top-center" })
+        setEmails([])
         return
     }
 

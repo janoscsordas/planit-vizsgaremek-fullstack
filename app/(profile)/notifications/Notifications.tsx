@@ -96,14 +96,12 @@ function AcceptButton({ notificationId, receiverId, senderProjectId }: { notific
 		if (!response?.success) {
 			toast.error("Hiba történt!", {
 				description: response?.message,
-				className: "z-[9999]",
 				position: "top-center",
 			})
 			return
 		}
 
 		toast.success("Sikeres meghívó elfogadás!", {
-			className: "z-[9999]",
 			description: response?.message,
 			position: "top-center",
 		})
@@ -125,14 +123,12 @@ function DeclineButton({ notificationId }: { notificationId: number }) {
 		if (!response?.success) {
 			toast.error("Hiba történt!", {
 				description: response?.message,
-				className: "z-[9999]",
 				position: "top-center",
 			})
 			return
 		}
 
 		toast.success("Sikeres elutasítás!", {
-			className: "z-[9999]",
 			description: response?.message,
 			position: "top-center",
 		})
