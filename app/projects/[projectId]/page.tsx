@@ -50,13 +50,13 @@ export default async function ProjectPage({
 				<h1 className="text-2xl font-bold">{projectData.name}</h1>
 				<div>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
-						<AnalyticsCards />
+						<AnalyticsCards projectId={projectData.id} />
 					</div>
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="mt-8 p-6 border border-border rounded-lg shadow ">
 						<h1 className="text-xl font-bold">Legutóbbi tevékenységek</h1>
 						<p className="text-muted-foreground text-sm mt-1 mb-6">Legutóbb felvett feladatok</p>
-						<RecentActivity />
+						<RecentActivity projectId={projectData.id} />
 						</div>
 						<div className="mt-8 mb-4 md:mb-0 rounded-lg">
 						<UserActivityChart />

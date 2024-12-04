@@ -1,3 +1,4 @@
+import { fetchAnalyticsForProject } from "@/actions/analytics.action";
 import {
   Card,
   CardContent,
@@ -9,10 +10,13 @@ import {
   CircleDashed,
   Users,
   Loader,
-  CircleCheckBig
+  CircleCheckBig,
+  Loader2,
 } from "lucide-react";
   
-export default function AnalyticsCards() {
+export default async function AnalyticsCards({projectId}: {projectId: string}) {
+  const analyticsForCards = await fetchAnalyticsForProject(projectId)
+
     return (
       <>
         <Card>
@@ -20,10 +24,10 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Tagok száma
             </CardTitle>
-            <Users />
+            <Users className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">5</div>
+            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[0] : <Loader2 className="animate-spin" />}</div>
           </CardContent>
         </Card>
         <Card>
@@ -31,10 +35,10 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Elvégzendő feladatok
             </CardTitle>
-            <CircleDashed />
+            <CircleDashed className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">6</div>
+            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[1] : <Loader2 className="animate-spin" />}</div>
           </CardContent>
         </Card>
         <Card>
@@ -42,10 +46,10 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Folyamatban lévő feladatok
             </CardTitle>
-            <Loader />
+            <Loader className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
+            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[2] : <Loader2 className="animate-spin" />}</div>
           </CardContent>
         </Card>
         <Card>
@@ -53,10 +57,10 @@ export default function AnalyticsCards() {
             <CardTitle className="text-sm font-medium">
               Elvégzett feladatok
             </CardTitle>
-            <CircleCheckBig />
+            <CircleCheckBig className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[3] : <Loader2 className="animate-spin" />}</div>
           </CardContent>
         </Card>
       </>

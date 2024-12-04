@@ -1,3 +1,4 @@
+import { fetchRecentActivity } from "@/actions/analytics.action"
 import {
     Table,
     TableBody,
@@ -6,34 +7,33 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { formatDistance } from "date-fns"
+import { hu } from "date-fns/locale/hu"
+import LoadingComponentForRecentActivity from "./LoadingComponent"
   
-const recentActivity = [
-    { user: "Alice", task: "Updated project timeline", timestamp: "2 hours ago" },
-    { user: "Bob", task: "Completed task: Design mockups", timestamp: "4 hours ago" },
-    { user: "Charlie", task: "Added new task: Client meeting", timestamp: "Yesterday" },
-    { user: "David", task: "Commented on: Bug fix #123", timestamp: "2 days ago" },
-    { user: "Eve", task: "Assigned task to: Frank", timestamp: "3 days ago" },
-]
-  
-export default function RecentActivity() {
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Felhasználó</TableHead>
-            <TableHead>Aktivitás</TableHead>
-            <TableHead>Idő</TableHead>
+export default async function RecentActivity({projectId}: {projectId: string}) {
+  const recentActivity = await fetchRecentActivity(projectId)
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Felhasználó</TableHead>
+          <TableHead>Aktivitás</TableHead>
+          <TableHead>Idő</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {recentActivity ? recentActivity.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell className="font-medium">{item.user.name}</TableCell>
+            <TableCell>{item.taskName}</TableCell>
+            <TableCell>{formatDistance(new Date(item.createdAt), new Date(), { addSuffix: true, locale: hu })}</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {recentActivity.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium">{item.user}</TableCell>
-              <TableCell>{item.task}</TableCell>
-              <TableCell>{item.timestamp}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    )
+        )) : (
+          <LoadingComponentForRecentActivity />
+        )}
+      </TableBody>
+    </Table>
+  )
 }
