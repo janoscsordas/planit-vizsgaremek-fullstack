@@ -36,7 +36,7 @@ export default async function Layout({
 
   return (
       <SidebarProvider>
-        <AppSidebar isOwner={isOwner} userSession={session} projectId={projectId} />
+        <AppSidebar projectName={isProjectCreator?.name ?? ''} isOwner={isOwner} userSession={session} projectId={projectId} />
         <NotificationsProvider userId={session.user.id}>
           <SidebarInset>{children}</SidebarInset>
         </NotificationsProvider>
