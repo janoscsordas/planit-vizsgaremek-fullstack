@@ -20,7 +20,7 @@ export default async function RootLayout({
 	return (
 		<html lang="hu" className="dark">
 			<body className={`${GeistSans.className} antialiased`}>
-				<Theme hasBackground={false}>
+				<Theme hasBackground={false} className={`${GeistSans.className} antialiased`}>
 					<Providers>{children}</Providers>
 					<Toaster />
 					<Sonner />
