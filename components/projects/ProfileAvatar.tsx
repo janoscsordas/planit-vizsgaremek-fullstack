@@ -54,8 +54,16 @@ export default async function ProfileAvatar() {
 						)}
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						<DropdownMenuLabel>Profil Menü</DropdownMenuLabel>
 						{/* TODO: Make this shit look like the one in the sidebar */}
+						<div className="grid flex-1 text-left text-sm leading-tight p-[10px]">
+							<span className="truncate font-semibold">
+								{session.user.name}
+							</span>
+							<span className="truncate text-muted-foreground text-xs">
+								{session.user.email}
+							</span>
+						</div>
+						{/* <DropdownMenuLabel>Profil Menü</DropdownMenuLabel> */}
 						<DropdownMenuSeparator />
 						<Link href="/profile" className="no-underline">
 							<DropdownMenuItem className="cursor-pointer">

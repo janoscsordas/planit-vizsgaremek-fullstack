@@ -63,12 +63,12 @@ export function NavHeader({
 						<ChevronLeft className="size-4 shrink-0" />
 						<Link href="/projects">Vissza a projektekhez</Link>
 					</DropdownMenuItem>
-					{!isOwner &&
-					<DropdownMenuItem className="gap-2 p-2">
-						<LogOut className="size-4 shrink-0" />
-					 <Link href="/">Kilépés a projektből</Link>
-					</DropdownMenuItem>
-					}
+					{!isOwner && (
+						<DropdownMenuItem className="gap-2 p-2 text-red-500 focus:bg-red-500/80 focus:text-white cursor-pointer">
+							<LogOut className="size-4 shrink-0" />
+							<Link href="/">Kilépés a projektből</Link>
+						</DropdownMenuItem>
+					)}
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</>
