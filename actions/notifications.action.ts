@@ -101,7 +101,7 @@ export async function acceptInvitation(invitationId: number, receiverId: string,
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba történt a meghívó elfogadása Közben!"
+            message: error instanceof Error ? error.message : "Hiba történt a meghívó elfogadása közben!"
         }
     }
 }
@@ -133,7 +133,7 @@ export async function declineInvitation(invitationId: number) {
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba történt a meghívó elfogadása közben!"
+            message: error instanceof Error ? error.message : "Hiba történt a meghívó elutasítása közben!"
         }
     }
 }
