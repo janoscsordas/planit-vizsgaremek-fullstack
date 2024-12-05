@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
-import LoadingComponentForRecentActivity from "./LoadingComponent"
   
 export default async function RecentActivity({projectId}: {projectId: string}) {
   const recentActivity = await fetchRecentActivity(projectId)
@@ -24,14 +23,16 @@ export default async function RecentActivity({projectId}: {projectId: string}) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {recentActivity ? recentActivity.map((item) => (
+        {recentActivity.length > 0 ? recentActivity.map((item) => (
           <TableRow key={item.id}>
             <TableCell className="font-medium">{item.user.name}</TableCell>
             <TableCell>{item.taskName}</TableCell>
             <TableCell>{formatDistance(new Date(item.createdAt), new Date(), { addSuffix: true, locale: hu })}</TableCell>
           </TableRow>
         )) : (
-          <LoadingComponentForRecentActivity />
+          <TableRow>
+            <TableCell className="font-medium text-center text-muted-foreground" colSpan={3}>Nincs adat. Készíts új feladatot.</TableCell>
+          </TableRow>
         )}
       </TableBody>
     </Table>

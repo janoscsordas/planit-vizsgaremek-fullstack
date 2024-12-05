@@ -199,3 +199,40 @@ export async function updateTaskName(taskId: string, name: string, projectId: st
 
     return { success: true, message: "A feladat címe sikeresen módosítva!" }
 }
+
+export type Status = {
+    status: "pending" | "in progress" | "finished"
+}
+
+export async function changeTaskStatus(status: Status, taskId: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    const validatedFields = z.object({ taskId: z.string(), status: z.enum([ "pending", "in progress", "finished" ]) }).safeParse({ taskId, status })
+
+    if (!validatedFields.success) {
+        return {
+            success: false,
+            message: "Hibás adatokat adtál meg!"
+        }
+    }
+
+    try {
+        await db.update(ProjectTasksTable).set({ status: validatedFields.data.status }).where(eq(ProjectTasksTable.id, validatedFields.data.taskId))
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba történt a feladat státusz módosítása közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/tasks`)
+
+    return { success: true, message: "A feladat státusza sikeresen módosítva!" }
+}

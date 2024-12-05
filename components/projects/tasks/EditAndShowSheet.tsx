@@ -1,19 +1,21 @@
 "use client"
 
-import { updateTaskDescription, updateTaskName, updateTaskPriority } from "@/actions/projectTask.action";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { changeTaskStatus, Status, updateTaskDescription, updateTaskName, updateTaskPriority } from "@/actions/projectTask.action";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { SelectLabel, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { SelectGroup } from "@radix-ui/react-select";
 import { Badge } from "@radix-ui/themes";
 import { formatDistance } from "date-fns";
 import { hu } from "date-fns/locale";
 import { ArrowDown, ArrowRight, ArrowUp, Check, Edit2 } from "lucide-react";
 import { useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { z } from "zod";
+
 
 type Task = {
     id: string;
@@ -47,25 +49,21 @@ type Task = {
 };
 
 export default function EditAndShowSheet({ task }: { task: Task }) {
-    const { toast } = useToast();
 
     const handlePriorityChange = async (priority: string) => {
         const response = await updateTaskPriority(task.id, priority, task.projectId)
 
         if (!response.success) {
-            toast({
-                title: "Hiba történt!",
+            toast("Hiba történt!", {
                 description: response.message,
-                variant: "destructive",
-                className: "z-[9999]"
+                position: "bottom-left",
             })
             return
         }
 
-        toast({
-            title: "Siker!",
+        toast("Siker!", {
             description: response.message,
-            className: "z-[9999]"
+            position: "bottom-left",
         })
     }
 
@@ -78,9 +76,9 @@ export default function EditAndShowSheet({ task }: { task: Task }) {
 
                 </SheetTitle>
                 <SheetDescription className="pt-1 flex items-center gap-4 border-b pb-6">
-                    <Badge className="px-2 py-[.1rem] rounded-md" color={task.status === "pending" ? "orange" : task.status === "in progress" ? "blue" : "green"}>
-                        {task.status === "pending" ? "Elvégzendő" : task.status === "in progress" ? "Folyamatban" : "Befejezett"}
-                    </Badge>
+                    
+                    <TaskStatus task={task} />
+
                     <span className="text-muted-foreground"><span className="text-primary mr-3">{task.createdByUser.name}</span>készítette {formatDistance(new Date(task.createdAt), new Date(), { locale: hu, addSuffix: true })}</span>
                 </SheetDescription>
             </SheetHeader>
@@ -138,8 +136,68 @@ export default function EditAndShowSheet({ task }: { task: Task }) {
     )
 }
 
+// child component for changing the task's status inside the sheet
+function TaskStatus({ task }: { task: Task }) {
+
+    // handling status change for the specific task
+    const handleStatusChange = async (changedStatus: string) => {
+        const { status } = task;
+
+        if (status === changedStatus) {
+            return
+        }
+
+        // changing changedStatus into unknown then into Status so it works
+        const statusToEnum: Status = changedStatus as unknown as Status;
+        const response = await changeTaskStatus(statusToEnum, task.id, task.projectId)
+
+        if (!response.success) {
+            toast("Hiba történt!", {
+                description: response.message,
+                position: "bottom-left",
+            })
+            return
+        }
+
+        toast("Sikeres módosítás", {
+            description: response.message,
+            position: "bottom-left",
+        })
+    }
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Badge className="px-2 py-[.1rem] rounded-md cursor-pointer" color={task.status === "pending" ? "orange" : task.status === "in progress" ? "blue" : "green"}>
+                    {task.status === "pending" ? "Elvégzendő" : task.status === "in progress" ? "Folyamatban" : "Befejezett"}
+                </Badge>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-max">
+                <DropdownMenuLabel>Feladat Státusza</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                <DropdownMenuItem onClick={() => handleStatusChange("pending")}>
+                    <Badge className="px-2 py-[.1rem] rounded-md w-full" color="orange">
+                        Elvégzendő
+                    </Badge>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("in progress")}>
+                    <Badge className="px-2 py-[.1rem] rounded-md w-full" color="blue">
+                        Folyamatban
+                    </Badge>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("finished")}>
+                    <Badge className="px-2 py-[.1rem] rounded-md w-full" color="green">
+                        Befejezett
+                    </Badge>
+                </DropdownMenuItem>
+                </DropdownMenuGroup>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+
 function TaskDescription({ task }: { task: Task }) {
-    const { toast } = useToast()
     const [isEditing, setIsEditing] = useState(false)
     const [taskDescription, setTaskDescription] = useState(task.taskDescription)
     const [isLoading, setIsLoading] = useState(false)
@@ -150,11 +208,9 @@ function TaskDescription({ task }: { task: Task }) {
         try {
             if (taskDescription === task.taskDescription) {
                 setIsEditing(false)
-                toast({
-                    type: "foreground",
-                    variant: "destructive",
-                    title: "Hiba történt!",
+                toast("Hiba történt!", {
                     description: "Nem módosította a feladat leírásat, a módosítás megtagadva!",
+                    position: "bottom-left",
                 })
                 return
             }
@@ -162,18 +218,15 @@ function TaskDescription({ task }: { task: Task }) {
             const response = await updateTaskDescription(task.id, taskDescription, task.projectId)
 
             if (response.success) {
-                toast({
-                    title: "Sikeres módosítás!",
+                toast("Sikeres módosítás!", {
                     description: response.message,
-                    className: "z-[9999]",
+                    position: "bottom-left",
                 })
             }
         } catch (error) {
-            toast({
-                title: "Hiba történt!",
+            toast("Hiba történt!", {
                 description: error instanceof Error ? error.message : "Hiba történt a feladat leírásának módosítása Közben!",
-                variant: "destructive",
-                className: "z-[9999]",
+                position: "bottom-left",
             })
         } finally {
             setIsLoading(false)
@@ -228,18 +281,15 @@ function TaskTitle({ task }: { task: Task }) {
             const response = await updateTaskName(task.id, taskTitle, task.projectId)
 
             if (response.success) {
-                toast({
-                    title: "Sikeres módosítás!",
+                toast("Sikeres módosítás!", {
                     description: response.message,
-                    className: "z-[9999]",
+                    position: "bottom-left",
                 })
             }
         } catch (error) {
-            toast({
-                title: "Hiba történt!",
+            toast("Hiba történt!", {
                 description: error instanceof Error ? error.message : "Hiba történt a feladat nevének módosítása Közben!",
-                variant: "destructive",
-                className: "z-[9999]",
+                position: "bottom-left",
             })
         } finally {
             setIsLoading(false)
