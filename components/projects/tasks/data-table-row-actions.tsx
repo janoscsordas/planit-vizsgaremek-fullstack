@@ -4,10 +4,6 @@ import { Eye, MoreHorizontal, Trash2 } from "lucide-react"
 
 import {
   Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 

@@ -13,8 +13,7 @@ import { formatDistance } from "date-fns";
 import { hu } from "date-fns/locale";
 import { ArrowDown, ArrowRight, ArrowUp, Check, Edit2 } from "lucide-react";
 import { useState } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { z } from "zod";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 
 type Task = {
@@ -87,19 +86,10 @@ export default function EditAndShowSheet({ task }: { task: Task }) {
                 <TaskDescription task={task} />
 
                 <div className="w-[38%] pl-3">
-                    <div className="mt-3">
-                        <p className="text-muted-foreground text-[.8rem] mb-8">Kiosztva neki(k):</p>
-                        {/* {task.assigns.map((assign) => (
-                            <div key={assign.id} className="flex items-center gap-3">
-                                <Avatar>
-                                    <AvatarImage src={assign.user[0].image ? assign.user[0].image : ""} />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <p className="text-sm">{assign.user[0].name}</p>
-                            </div>
-                        ))} */}
+                    <div className="mt-3 flex items-center justify-between mb-4">
+                        <p className="text-muted-foreground text-[.8rem]">Kiosztva neki(k):</p>
                     </div>
-                    <div className="mt-3 flex flex-col items-start sm:flex-row mb-3 gap-2 sm:items-center">
+                    <div className="mt-3 flex flex-col items-start sm:flex-row mb-3 gap-2 sm:items-center justify-between">
                         <p className="text-muted-foreground text-[.8rem]">Prioritás:</p>
                         <Select onValueChange={(value) => handlePriorityChange(value)}>
                             <SelectTrigger className="w-[150px]">
@@ -208,10 +198,6 @@ function TaskDescription({ task }: { task: Task }) {
         try {
             if (taskDescription === task.taskDescription) {
                 setIsEditing(false)
-                toast("Hiba történt!", {
-                    description: "Nem módosította a feladat leírásat, a módosítás megtagadva!",
-                    position: "bottom-left",
-                })
                 return
             }
 
