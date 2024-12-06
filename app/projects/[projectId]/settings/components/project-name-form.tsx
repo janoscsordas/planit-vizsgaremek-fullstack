@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react'
 import { differenceInDays } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/hooks/use-toast'
 import { Loader2 } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { projectChangeFormSchema } from '@/lib/schemas/projectsSchema'
+import { toast } from 'sonner'
 
 interface ProjectData {
 	projectName: string
@@ -32,8 +32,6 @@ const ProjectNameForm = ({
 	projectData: ProjectData
 	projectId: string
 }) => {
-	const { toast } = useToast()
-
 	const [formState, setFormState] = useState<FormState>({
 		name: projectData.projectName,
 		isLoading: false,
@@ -117,21 +115,21 @@ const ProjectNameForm = ({
 
 			const data = await response.json()
 
-			toast({
-				title: 'Sikeres módosítás!',
+			toast('Sikeres módosítás!', {
+				position: 'top-center',
+				duration: 3000,
 				description: data.message || 'A projetnév sikeresen módosítva!',
-				className: 'border-emerald-hover bg-emerald text-primary',
 			})
 		} catch (error) {
 			const errorMessage =
 				error instanceof Error ? error.message : 'Váratlan hiba történt'
 
-			setFormState((prev) => ({ ...prev, error: errorMessage }))
+			setFormState((prev) => ({ ...prev }))
 
-			toast({
-				title: 'Hiba történt',
+			toast('Hiba történt!', {
+				position: 'top-center',
+				duration: 3000,
 				description: errorMessage,
-				variant: 'destructive',
 			})
 		} finally {
 			setFormState((prev) => ({ ...prev, isLoading: false }))

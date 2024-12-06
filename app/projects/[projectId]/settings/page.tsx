@@ -3,7 +3,7 @@ import { getProjectById } from '@/actions/projects.action'
 import DeleteProject from './components/delete-project'
 import ProjectNameForm from './components/project-name-form'
 import UpgradeToPro from './components/upgrade-to-pro'
-import ChangePriority from './components/change-priority'
+import ChangeStatus from './components/change-status'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import ProjectData from './components/project-data'
@@ -81,7 +81,7 @@ export default async function Settings({
 						}}
 						projectId={projectData.id}
 					/>
-					<ChangePriority projectId={projectData.id} statusData={
+					<ChangeStatus projectId={projectData.id} statusData={
 						{ 
 							projectStatus: projectData.status
 						}
