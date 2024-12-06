@@ -28,16 +28,7 @@ export default async function ProjectPage({
 	if (!project.success || !project.data) {
 		// ha nincs projekt id akkor hiba
 		// TODO: design not-found id
-		return (
-			<div className="flex items-center justify-center h-screen">
-				<div className="text-center">
-					<h1 className="text-4xl font-bold">Nincs ilyen projekt</h1>
-					<p className="text-lg text-muted-foreground mt-4">
-						A projekt azonosítója ({projectId}) nem létezik.
-					</p>
-				</div>
-			</div>
-		)
+		redirect(`/projects`)
 	}
 
 	const projectData = Array.isArray(project.data)
