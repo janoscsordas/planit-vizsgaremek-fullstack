@@ -1,6 +1,7 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
 import { ChevronLeft } from 'lucide-react'
-import Link from 'next/link'
 
 export default function ProfileHeader() {
 	return (
@@ -12,11 +13,11 @@ export default function ProfileHeader() {
 						Fiókbeállítások kezelése és testreszabása.
 					</p>
 				</div>
-				<Link href="/projects">
-					<Button variant="outline">
-						<ChevronLeft /> Vissza a projektekhez
+				<div className="flex gap-2 items-center">
+					<Button variant={"outline"} onClick={() => window.history.back()}>
+						<ChevronLeft /> Vissza az előző oldalra
 					</Button>
-				</Link>
+				</div>
 			</section>
 			<hr className="my-6" />
 		</>

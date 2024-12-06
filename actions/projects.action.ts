@@ -145,7 +145,6 @@ export async function createProject(prevState: State, formData: FormData) {
 	if (!validatedData.success) {
 		return {
 			errors: validatedData.error.flatten().fieldErrors,
-			message: 'Hiányzó adatok. Projekt létrehozása sikertelen.',
 		}
 	}
 

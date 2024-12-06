@@ -49,6 +49,9 @@ export default function CreateForm() {
                     </p>
                   ))}
               </div>
+              <div id="messages" aria-live="polite" aria-atomic="true" className="flex justify-end px-4 mb-2">
+                  {state.message && <p className="text-red-500 my-2 text-sm">{state.message}</p>}
+              </div>
             </div>
           </div>
         </div>
