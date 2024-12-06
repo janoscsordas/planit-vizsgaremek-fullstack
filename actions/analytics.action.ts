@@ -22,7 +22,7 @@ export async function fetchAnalyticsForProject(projectId: string) {
     }
 }
 
-type RecentActivity = {
+export type RecentActivity = {
     id: string
     taskName: string
     createdAt: Date

@@ -5,7 +5,7 @@ import BreadcrumbComponent from '@/components/Breadcrumb'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import NotificationBell from '@/components/projects/notification/NotificationBell'
 
-export default async function ProjectHeader({
+export default function ProjectHeader({
 	breadCrumb,
 }: {
 	breadCrumb: Breadcrumb[]

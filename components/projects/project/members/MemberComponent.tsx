@@ -1,6 +1,6 @@
 import { Avatar } from "@radix-ui/themes"
 
-export default async function MemberComponent({
+export default function MemberComponent({
     image,
     name,
     email,

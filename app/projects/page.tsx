@@ -26,7 +26,7 @@ export default async function ProjectsPage() {
             active: true
           },
         ]
-      } />
+      } session={session} />
       <Projects userSession={session.user} />
     </NotificationsProvider>
   )

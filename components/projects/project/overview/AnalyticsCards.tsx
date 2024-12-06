@@ -1,4 +1,3 @@
-import { fetchAnalyticsForProject } from "@/actions/analytics.action";
 import {
   Card,
   CardContent,
@@ -11,12 +10,9 @@ import {
   Users,
   Loader,
   CircleCheckBig,
-  Loader2,
 } from "lucide-react";
   
-export default async function AnalyticsCards({projectId}: {projectId: string}) {
-  const analyticsForCards = await fetchAnalyticsForProject(projectId)
-
+export default function AnalyticsCards({analyticsForCards}: {analyticsForCards: number[]}) {
     return (
       <>
         <Card>
@@ -27,7 +23,7 @@ export default async function AnalyticsCards({projectId}: {projectId: string}) {
             <Users className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[0] : <Loader2 className="animate-spin" />}</div>
+            <div className="text-2xl font-bold">{analyticsForCards[0]}</div>
           </CardContent>
         </Card>
         <Card>
@@ -38,7 +34,7 @@ export default async function AnalyticsCards({projectId}: {projectId: string}) {
             <CircleDashed className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[1] : <Loader2 className="animate-spin" />}</div>
+            <div className="text-2xl font-bold">{analyticsForCards[1]}</div>
           </CardContent>
         </Card>
         <Card>
@@ -49,7 +45,7 @@ export default async function AnalyticsCards({projectId}: {projectId: string}) {
             <Loader className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[2] : <Loader2 className="animate-spin" />}</div>
+            <div className="text-2xl font-bold">{analyticsForCards[2]}</div>
           </CardContent>
         </Card>
         <Card>
@@ -60,7 +56,7 @@ export default async function AnalyticsCards({projectId}: {projectId: string}) {
             <CircleCheckBig className="text-muted-foreground" width={16} height={16} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analyticsForCards ? analyticsForCards[3] : <Loader2 className="animate-spin" />}</div>
+            <div className="text-2xl font-bold">{analyticsForCards[3]}</div>
           </CardContent>
         </Card>
       </>

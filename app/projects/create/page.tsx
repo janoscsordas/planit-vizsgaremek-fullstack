@@ -30,7 +30,7 @@ export default async function CreateProject() {
             active: true,
           }
         ]
-      } />
+      } session={session} />
 
       {/* create project form */}
       <CreateForm />

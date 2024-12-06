@@ -1,4 +1,5 @@
-import { fetchRecentActivity } from "@/actions/analytics.action"
+import { type RecentActivity } from "@/actions/analytics.action"
+
 import {
     Table,
     TableBody,
@@ -10,9 +11,7 @@ import {
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
   
-export default async function RecentActivity({projectId}: {projectId: string}) {
-  const recentActivity = await fetchRecentActivity(projectId)
-
+export default function RecentActivity({ recentActivity }: { recentActivity: RecentActivity[] }) {
   return (
     <Table>
       <TableHeader>

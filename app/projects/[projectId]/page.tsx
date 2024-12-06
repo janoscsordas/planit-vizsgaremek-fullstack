@@ -5,6 +5,7 @@ import { getProjectById } from '@/actions/projects.action'
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import ProjectHeader from './header'
+import { fetchAnalyticsForProject, fetchRecentActivity } from "@/actions/analytics.action";
 
 export default async function ProjectPage({
 	params,
@@ -31,6 +32,10 @@ export default async function ProjectPage({
 		? project.data[0]
 		: project.data
 
+	// fetching analytics
+	const analyticsForCards = await fetchAnalyticsForProject(projectData.id)
+	const recentActivity = await fetchRecentActivity(projectData.id)
+
 	return (
 		<>
 			<ProjectHeader
@@ -50,16 +55,16 @@ export default async function ProjectPage({
 				<h1 className="text-2xl font-bold">{projectData.name}</h1>
 				<div>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
-						<AnalyticsCards projectId={projectData.id} />
+						<AnalyticsCards analyticsForCards={analyticsForCards} />
 					</div>
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="mt-8 p-6 border border-border rounded-lg shadow ">
 						<h1 className="text-xl font-bold">Legutóbbi tevékenységek</h1>
 						<p className="text-muted-foreground text-sm mt-1 mb-6">Legutóbb felvett feladatok</p>
-						<RecentActivity projectId={projectData.id} />
+							<RecentActivity recentActivity={recentActivity} />
 						</div>
 						<div className="mt-8 mb-4 md:mb-0 rounded-lg">
-						<UserActivityChart />
+							<UserActivityChart />
 						</div>
 					</div>
 				</div>

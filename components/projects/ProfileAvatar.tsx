@@ -22,17 +22,11 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { redirect } from 'next/navigation'
 import DialogLogoutButton from './DialogLogoutButton'
 import { LogOutIcon, UserIcon } from 'lucide-react'
+import { Session } from 'next-auth'
 
-export default async function ProfileAvatar() {
-	const session = await auth()
-
-	if (!session?.user) {
-		return redirect('/login')
-	}
-
+export default function ProfileAvatar({ session }: { session: Session }) {
 	return (
 		<div className="flex justify-end items-center">
 			<AlertDialog>
