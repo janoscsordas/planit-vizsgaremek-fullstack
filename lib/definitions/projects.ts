@@ -17,6 +17,7 @@ export type ProjectData = {
     status: 'active' | 'completed' | 'archived';
     members: Member[];
     tasks: Task[];
+    projectOwner?: User;
 };
   
 export type Member = {

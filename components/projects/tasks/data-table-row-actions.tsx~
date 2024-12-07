@@ -45,16 +45,14 @@ const taskSchema = z.object({
       userId: z.string(),
       taskId: z.string(),
       assignedAt: z.date(),
-      user:
-          z.object({
-            id: z.string(),
-            createdAt: z.date(),
-            name: z.string(),
-            email: z.string(),
-            image: z.string().nullable(),
-          })
-    })
-  ),
+      user: z.array(
+        z.object({
+          id: z.string(),
+          createdAt: z.date(),
+          name: z.string(),
+          email: z.string(),
+          image: z.string().nullable(),
+    })) }))
 })
 
 interface DataTableRowActionsProps {

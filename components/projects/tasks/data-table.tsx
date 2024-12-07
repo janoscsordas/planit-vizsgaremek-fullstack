@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className="h-16 text-center text-emerald"
+									className="h-12 text-center text-emerald"
 								>
 									Nincsenek feladatok.
 								</TableCell>

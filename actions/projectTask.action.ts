@@ -2,9 +2,9 @@
 
 import { auth } from "@/auth";
 import { db } from "@/database";
-import { ProjectTasksTable } from "@/database/schema/projects";
+import {ProjectTaskAssignsTable, ProjectTasksTable} from "@/database/schema/projects";
 import { projectTaskCreationSchema } from "@/lib/schemas/projectsSchema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -53,6 +53,7 @@ export async function createTask(prevState: State, formData: FormData) {
             priority,
             createdBy: session.user.id
         })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             message: "Hiba történt a feladat elkészítése közben!"
@@ -106,6 +107,7 @@ export async function updateTaskPriority(taskId: string, priority: string, proje
 
     try {
         await db.update(ProjectTasksTable).set({ priority: validatedFields.data.priority }).where(eq(ProjectTasksTable.id, validatedFields.data.taskId))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             success: false,
@@ -147,6 +149,7 @@ export async function updateTaskDescription(taskId: string, description: string,
 
     try {
         await db.update(ProjectTasksTable).set({ taskDescription: validatedFields.data.description }).where(eq(ProjectTasksTable.id, validatedFields.data.taskId))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             success: false,
@@ -188,6 +191,7 @@ export async function updateTaskName(taskId: string, name: string, projectId: st
 
     try {
         await db.update(ProjectTasksTable).set({ taskName: validatedFields.data.name }).where(eq(ProjectTasksTable.id, validatedFields.data.taskId))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             success: false,
@@ -235,4 +239,63 @@ export async function changeTaskStatus(status: Status, taskId: string, projectId
     revalidatePath(`/projects/${projectId}/tasks`)
 
     return { success: true, message: "A feladat státusza sikeresen módosítva!" }
+}
+
+export async function addAssignsToTask(assigns: string[], taskId: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    try {
+        // adding assigned user's ids to the taskassigns table with the specific task's id
+        await db.insert(ProjectTaskAssignsTable).values(assigns.map((assign) => {
+            return {
+                taskId,
+                userId: assign
+            }
+        }))
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {
+            success: false,
+            message: "Hiba történt a feladat hozzáadásakor!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/tasks`)
+
+    return { success: true, message: "A feladat hozzaadva!" }
+}
+
+export async function removeUserFromTaskAssignsAction(userId: string, taskId: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    try {
+        await db
+            .delete(ProjectTaskAssignsTable)
+            .where(and(eq(ProjectTaskAssignsTable.taskId, taskId), eq(ProjectTaskAssignsTable.userId, userId)))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {
+            success: false,
+            message: "Hiba történt a feladat hozzáadásakor!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/tasks`)
+
+    return { success: true, message: "A tag sikeresen eltávolítva a feladat kiosztásból!" }
 }

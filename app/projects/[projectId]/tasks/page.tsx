@@ -4,6 +4,8 @@ import { columns } from "@/components/projects/tasks/columns"
 import { DataTable } from "@/components/projects/tasks/data-table"
 import { db } from "@/database"
 import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
+import { UsersTable } from "@/database/schema/user"
+import {Member, Task, User} from "@/lib/definitions/projects"
 import { desc, eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
 
@@ -38,9 +40,18 @@ export default async function Tasks({
     return notFound()
   }
 
-  const enrichedTasks = projectData.tasks.map((task) => ({
+  const projectOwner = await db.query.UsersTable.findFirst({
+      where: eq(UsersTable.id, projectData.userId)
+  })
+
+  if (!projectOwner) {
+    return notFound()
+  }
+
+  const enrichedTasks: (Task & { members: Member[]; projectOwner: User })[] = projectData.tasks.map((task) => ({
     ...task,
-    project: projectData,
+    members: projectData.members.filter((member) => member.projectId === projectData.id),
+    projectOwner
   })) || [];
 
   return (
