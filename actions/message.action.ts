@@ -12,6 +12,7 @@ export type Message = {
     project_id: string;
     content: string;
     created_at: Date;
+    is_edited: boolean;
 }
 
 export type EnrichedMessage = {
@@ -20,6 +21,7 @@ export type EnrichedMessage = {
     project_id: string;
     content: string;
     created_at: Date;
+    is_edited: boolean;
     user: {
         id: string;
         name: string;

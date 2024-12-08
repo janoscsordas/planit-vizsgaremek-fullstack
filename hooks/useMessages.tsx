@@ -45,15 +45,15 @@ export const useMessages = (projectId: string, userId: string) => {
                     setMessages((prevMessages) => [...prevMessages, newMessage]);
                 },
             )
-            // .on(
-            //     'postgres_changes',
-            //     { event: 'UPDATE', schema: 'public', table: 'messages', filter: `project_id=eq.${projectId}` },
-            //     async (payload) => {
-            //         const updatedMessage = (await fetchMessageWithUserDetails([payload.new as Message]))[0] as EnrichedMessage
+            .on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'messages', filter: `project_id=eq.${projectId}` },
+                async (payload) => {
+                    const updatedMessage = (await fetchMessageWithUserDetails([payload.new as Message]))[0] as EnrichedMessage
 
-            //         setMessages((prevMessages) => prevMessages.map((message) => message.id === updatedMessage.id ? updatedMessage : message));
-            //     },      
-            // )
+                    setMessages((prevMessages) => prevMessages.map((message) => message.id === updatedMessage.id ? updatedMessage : message));
+                },
+            )
             .on(
                 'postgres_changes',
                 { event: 'DELETE', schema: 'public', table: 'messages' },
@@ -103,20 +103,22 @@ export const useMessages = (projectId: string, userId: string) => {
         }
     }
 
-    // const updateMessage = async (id: string, content: string) => {
-    //     const validatedFields = sendorUpdateMessageSchema.safeParse({ content });
+    const updateMessage = async (id: string, content: string) => {
+        const validatedFields = sendOrUpdateMessageSchema.safeParse({ content });
 
-    //     if (!validatedFields.success) {
-    //         setError(validatedFields.error.message);
-    //         return;
-    //     }
+        if (!validatedFields.success) {
+            setError(validatedFields.error.message);
+            return;
+        }
 
-    //     const { error } = await supabase.from('messages').update({ content: validatedFields.data.content }).eq('id', id)
-    //     if (error) {
-    //         setError(error.message);
-    //         return;
-    //     }
-    // }
+        const encryptedContent = await encryptMessage(validatedFields.data.content)
 
-    return { messages, error, sendMessage, deleteMessage }
+        const { error } = await supabase.from('messages').update({ content: encryptedContent, is_edited: true }).eq('id', id)
+        if (error) {
+            setError(error.message);
+            return;
+        }
+    }
+
+    return { messages, error, sendMessage, updateMessage, deleteMessage }
 }
