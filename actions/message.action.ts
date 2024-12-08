@@ -4,6 +4,7 @@ import { db } from "@/database";
 import { UsersTable } from "@/database/schema/user";
 import { supabase } from "@/lib/utils/supabase";
 import { inArray } from "drizzle-orm";
+import {decryptMultipleMessages} from "@/actions/encryptDecryptMessages.action";
 
 export type Message = {
     id: string;
@@ -30,6 +31,8 @@ export type EnrichedMessage = {
 export async function fetchMessageWithUserDetails(messages: Message[]) {
     if (messages.length === 0) return [];
 
+    const decryptedMessages = await decryptMultipleMessages(messages.map((message) => message.content));
+
     const userIds = [...new Set(messages.map((message) => message.user_id))];
 
     const userDetails = await db
@@ -39,7 +42,7 @@ export async function fetchMessageWithUserDetails(messages: Message[]) {
 
     return messages.map((message) => {
         const user = userDetails.find((user) => user.id === message.user_id);
-        return { ...message, user };
+        return { ...message, content: decryptedMessages[messages.indexOf(message)], user };
     }) as EnrichedMessage[];
 }
 

@@ -4,8 +4,9 @@ import { EnrichedMessage, fetchMessageWithUserDetails, Message } from "@/actions
 import { supabase } from "@/lib/utils/supabase";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import {encryptMessage} from "@/actions/encryptDecryptMessages.action";
 
-const sendorUpdateMessageSchema = z.object({
+const sendOrUpdateMessageSchema = z.object({
     content: z.string().min(1, { message: "Az üzenet nem lehet üres!" }).max(256, { message: "Az üzenet maximum 256 karakter hosszú lehet!" }),
 })
 
@@ -73,17 +74,19 @@ export const useMessages = (projectId: string, userId: string) => {
 
     // Send messages function
     const sendMessage = async (content: string) => {
-        const validatedField = sendorUpdateMessageSchema.safeParse({ content });
+        const validatedField = sendOrUpdateMessageSchema.safeParse({ content });
 
         if (!validatedField.success) {
             setError(validatedField.error.message);
             return;
         }
 
+        const encryptedContent = await encryptMessage(validatedField.data.content)
+
         const { error } = await supabase.from('messages').insert({
             project_id: projectId,
             user_id: userId,
-            content: validatedField.data.content,
+            content: encryptedContent,
         })
 
         if (error) {
