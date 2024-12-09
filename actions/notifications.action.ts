@@ -37,6 +37,31 @@ export async function sendProjectInvites(projectId: string, emails: string[]) {
             }
         }
 
+        const { data, error } = await supabase.from('notifications').select('*').eq('receiverId', session.user.id).eq('senderProjectId', projectId)
+
+        // TODO check if project is in paid version
+
+        if (error) {
+            return {
+                success: false,
+                message: error.message
+            }
+        }
+
+        if (data && data.length > 20) {
+            return {
+                success: false,
+                message: "Nem tudsz több meghívót elküldeni!"
+            }
+        }
+
+        if (data && data.length + getIdsByEmail.length > 20) {
+            return {
+                success: false,
+                message: `Nem tudsz több meghívót elküldeni! Már csak ${data.length + getIdsByEmail.length - 20} meghívót tudsz elküldeni!`
+            }
+        }
+
         await supabase.from('notifications').insert(getIdsByEmail.map(id => ({
             senderId: session.user.id,
             senderProjectId: projectId,

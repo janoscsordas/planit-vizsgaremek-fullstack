@@ -94,6 +94,7 @@ export default function SignUpForm() {
           id="name"
           placeholder="Felhasználónév"
           required
+          maxLength={32}
         />
         {typeof fieldErrors === 'object' && fieldErrors.name && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.name}</p>
@@ -108,6 +109,7 @@ export default function SignUpForm() {
           id="email"
           placeholder="Email cím"
           required
+          maxLength={40}
         />
         {typeof fieldErrors === 'object' && fieldErrors.email && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>

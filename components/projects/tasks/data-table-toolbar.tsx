@@ -1,7 +1,7 @@
 "use client"
 
 import { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
+import {RotateCcw, X} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,6 +18,10 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+
+    const refetchTasks = () => {
+      window.location.reload()
+    }
 
   return (
     <div className="flex items-center gap-10 justify-between">
@@ -54,6 +58,13 @@ export function DataTableToolbar<TData>({
             <X />
           </Button>
         )}
+        <Button
+          variant="outline"
+          onClick={refetchTasks}
+          className="h-8 px-2 lg:px-3"
+        >
+            <RotateCcw />
+        </Button>
       </div>
       <div className="flex items-center space-x-2">
         <CreateTask />

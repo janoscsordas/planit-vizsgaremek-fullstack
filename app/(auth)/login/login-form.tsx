@@ -108,6 +108,7 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
           id="email"
           placeholder="Email cím"
           required
+          maxLength={40}
         />
         {typeof fieldErrors === 'object' && fieldErrors.email && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
