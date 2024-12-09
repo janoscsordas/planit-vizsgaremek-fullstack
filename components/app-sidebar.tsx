@@ -89,7 +89,7 @@ export function AppSidebar({
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<NavHeader isOwner={isOwner} projectName={projectName} />
+				<NavHeader userSession={userSession} projectId={projectId} isOwner={isOwner} projectName={projectName} />
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={navMain} />

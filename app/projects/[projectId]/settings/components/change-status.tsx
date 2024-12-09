@@ -3,36 +3,24 @@
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { toast } from "sonner"
-import { useState } from 'react'
-
-
-interface StatusData {
-	projectStatus: 'active' | 'completed' | 'archived'
-}
-
-interface FormState {
-	status: 'active' | 'completed' | 'archived'
-	isLoading: boolean
-	error: string | null
-	disabled: boolean
-	submitDisabled: boolean
-}
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
+import { useActionState } from 'react'
+import { changeProjectStatus, StatusState } from '@/actions/projects.action'
 
 export default function ChangeStatus({
 	projectId,
-	statusData,
+	projectStatus,
 }: {
 	projectId: string
-	statusData: StatusData
+	projectStatus: string
 }) {
-	const [formState, setFormState] = useState<FormState>({
-		status: statusData.projectStatus,
-		isLoading: false,
-		error: null,
-		disabled: false,
-		submitDisabled: false,
-	})
+	const initialState: StatusState = { message: null, errors: {} }
+	const [state, formAction] = useActionState(
+		changeProjectStatus,
+		initialState
+	)
+
 	return (
 		<div className="space-y-4 border border-muted rounded-md p-6 mt-6">
 			<div className="space-y-2">
@@ -40,27 +28,49 @@ export default function ChangeStatus({
 				<p className="text-muted-foreground text-xs my-1 mb-4">
 					Itt megváltoztathatod a projekt státuszát.
 				</p>
-				<form
-					// onSubmit=
-					className="space-y-4"
-					// onSubmit={}
-				>
+				<form action={formAction} className="space-y-4">
 					<div className="space-y-2">
-						<RadioGroup defaultValue="default">
+						<RadioGroup name="status" defaultValue={projectStatus}>
 							<div className="flex items-center space-x-2">
-								<RadioGroupItem value="default" id="r1" />
+								<RadioGroupItem value="active" id="r1" />
 								<Label htmlFor="r1">Aktív</Label>
 							</div>
 							<div className="flex items-center space-x-2">
-								<RadioGroupItem value="comfortable" id="r2" />
+								<RadioGroupItem value="completed" id="r2" />
 								<Label htmlFor="r2">Elvégzett</Label>
 							</div>
-							<div className="flex items-center space-x-2">
-								<RadioGroupItem value="compact" id="r3" />
+							<div className="flex items-center space-x-2 text-muted-foreground">
+								<RadioGroupItem
+									value="archived"
+									id="r3"
+									disabled
+									// TODO: Toast bro
+								/>
 								<Label htmlFor="r3">Archivált</Label>
 							</div>
 						</RadioGroup>
+						{state?.errors?.status &&
+							state?.errors.status.map((error: string) => (
+								<p
+									className="mt-2 text-sm text-red-500"
+									key={error}
+								>
+									{error}
+								</p>
+							))}
 					</div>
+					<Input type="hidden" name="projectId" value={projectId} />
+					{state?.message && (
+						<p
+							className={`mt-2 text-sm ${
+								state?.message.startsWith('Hiba')
+									? 'text-red-500'
+									: 'text-green-500'
+							}`}
+						>
+							{state?.message}
+						</p>
+					)}
 					<Button
 						type="submit"
 						className="w-max bg-emerald hover:bg-emerald-hover"

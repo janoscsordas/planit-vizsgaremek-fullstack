@@ -1,8 +1,9 @@
 'use server'
 
+import { z } from 'zod'
 import { db } from '@/database/index'
 import { ProjectMembersTable, ProjectsTable } from '@/database/schema/projects'
-import { eq, inArray } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 import {
 	createProjectSchema,
 	updateProjectSchema,
@@ -171,7 +172,7 @@ export async function createProject(prevState: State, formData: FormData) {
 	if (hasMaxProjects) {
 		return {
 			message:
-				'Nem hozhat létre több projektet! Frissítsen Paid verzióra, hogy több projektet hozhasson létre.',
+				'Nem hozhat létre több projektet! Frissítsen Paid verzióra, hogy több projektet hozhasson létre!',
 		}
 	}
 
@@ -190,7 +191,7 @@ export async function createProject(prevState: State, formData: FormData) {
 			})
 	} catch (error) {
 		return {
-			message: 'Adatbázis hiba: Projekt létrehozása sikertelen.',
+			message: 'Adatbázis hiba: Projekt létrehozása sikertelen!',
 		}
 	}
 
@@ -204,7 +205,7 @@ export async function deleteProject(projectId: string) {
 
 	// Check if project id is provided
 	if (!projectId) {
-		throw new Error('Project id nincs megadva')
+		throw new Error('Project id nincs megadva!')
 	}
 
 	try {
@@ -241,21 +242,24 @@ export async function changeProjectName(prevState: State, formData: FormData) {
 
 	// TODO: Make this shit work xd
 
-    const COOLDOWN_DAYS = 90
+	const COOLDOWN_DAYS = 90
 
 	if (
 		nameChangedAt.nameChanged &&
 		differenceInDays(new Date(), nameChangedAt.nameChanged) < COOLDOWN_DAYS
 	) {
 		return {
-			message: `Legközelebb csak ${COOLDOWN_DAYS - differenceInDays(new Date(), nameChangedAt.nameChanged)} nap múlva módosíthatod a projekt nevét!`,
+			message: `Legközelebb csak ${
+				COOLDOWN_DAYS -
+				differenceInDays(new Date(), nameChangedAt.nameChanged)
+			} nap múlva módosíthatod a projekt nevét!`,
 		}
 	}
 
 	if (!validatedData.success) {
 		return {
 			errors: validatedData.error.flatten().fieldErrors,
-			message: 'Hiányzó adatok. Projekt név megváltoztatása sikertelen.',
+			message: 'Hiányzó adatok. Projekt név megváltoztatása sikertelen!',
 		}
 	}
 
@@ -265,7 +269,7 @@ export async function changeProjectName(prevState: State, formData: FormData) {
 		await db.update(ProjectsTable).set({ name: name })
 	} catch (error) {
 		return {
-			message: 'Projektnév módosítása sikerestelen.',
+			message: 'Projektnév módosítása sikerestelen!',
 		}
 	}
 
@@ -278,6 +282,89 @@ export async function changeProjectName(prevState: State, formData: FormData) {
 	}
 }
 
-// export async function changeProjectStatus(prevState: State, formData: FormData){
-//     await checkUserSession();
-// }
+export type StatusState = {
+	errors?: {
+		status?: string[]
+	}
+	message?: string | null
+}
+
+type StatusEnum = 'active' | 'completed' | 'archived'
+
+export async function changeProjectStatus(
+	prevState: StatusState,
+	formData: FormData
+) {
+	await checkUserSession()
+
+	const validatedData = z
+		.object({ status: z.string(), projectId: z.string() })
+		.safeParse({
+			projectId: formData.get('projectId'),
+			status: formData.get('status'),
+		})
+
+	if (!validatedData.success) {
+		return {
+			errors: validatedData.error.flatten().fieldErrors,
+			message:
+				'Hiba! Hiányzó adatok. Projekt státusz megváltoztatása sikertelen!',
+		}
+	}
+
+	const { status } = validatedData.data
+
+	const statusToEnum = status as unknown as StatusEnum
+
+	try {
+		await db
+			.update(ProjectsTable)
+			.set({ status: statusToEnum })
+			.where(eq(ProjectsTable.id, validatedData.data.projectId))
+	} catch (error) {
+		return {
+			message: 'Hiba! Projekt státusz módosítása sikertelen!',
+		}
+	}
+
+	revalidatePath(`/projects/${validatedData.data.projectId}/settings`)
+
+	return {
+		...prevState,
+		errors: {},
+		message: 'A projekt státusz módosítása sikeres!',
+	}
+}
+
+export async function leaveProject(projectId: string, userId: string) {
+	await checkUserSession()
+
+	// Check if project id is provided
+	if (!projectId) {
+		throw new Error('Project id nincs megadva!')
+	}
+
+	try {
+		await db
+			.delete(ProjectMembersTable)
+			.where(
+				and(
+					eq(ProjectMembersTable.userId, userId),
+					eq(ProjectMembersTable.projectId, projectId)
+				)
+			)
+	} catch (error) {
+		return {
+			message:
+				error instanceof Error
+					? error.message
+					: 'Project elhagyása sikertelen!',
+			success: false,
+		}
+	}
+
+	revalidatePath('/projects')
+	redirect(
+		`/projects?message=${encodeURIComponent('Projekt elhagyása sikeres!')}`
+	)
+}

@@ -64,7 +64,6 @@ export default async function Settings({
 						</div>
 					</section>
 					<hr className="my-6" />
-					{/* TODO: Data List component: status, id, name, createdat - az amit le lehet kérni a projektből */}
 					<ProjectData projectId={projectData.id} projectData={
 						{
 							projectName: projectData.name,
@@ -81,11 +80,7 @@ export default async function Settings({
 						}}
 						projectId={projectData.id}
 					/>
-					<ChangeStatus projectId={projectData.id} statusData={
-						{ 
-							projectStatus: projectData.status
-						}
-					} />
+					<ChangeStatus projectId={projectData.id} projectStatus={projectData.status} />
 					<UpgradeToPro />
 					<DeleteProject
 						projectName={projectData.name}

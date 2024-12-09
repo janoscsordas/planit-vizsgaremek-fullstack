@@ -21,8 +21,6 @@ export default function ProjectData({
 	projectData: ProjectData
 }) {
 	return (
-		// TODO: Data List component: status, id, name, last name changed at, createdat, tier - az amit le lehet kérni a projektből
-
 		<div className="space-y-4 border border-muted rounded-md p-6 mt-6">
 			<h4 className="font-medium text-sm">Projekt információk</h4>
 			<div className="">
