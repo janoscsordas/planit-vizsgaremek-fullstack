@@ -122,6 +122,7 @@ const PasswordChangeForm = () => {
                     onChange={handleChange}
                     className="text-sm"
                     disabled={status.loading}
+                    maxLength={32}
                     aria-label="Új jelszó"
                 />
 
@@ -133,6 +134,7 @@ const PasswordChangeForm = () => {
                     onChange={handleChange}
                     className="text-sm"
                     disabled={status.loading}
+                    maxLength={32}
                     aria-label="Új jelszó megerősítése"
                 />
             </div>

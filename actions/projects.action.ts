@@ -1,19 +1,18 @@
 'use server'
 
 import { z } from 'zod'
-import { db } from '@/database/index'
+import { db } from '@/database/'
 import { ProjectMembersTable, ProjectsTable } from '@/database/schema/projects'
 import { and, eq, inArray } from 'drizzle-orm'
 import {
 	createProjectSchema,
-	updateProjectSchema,
 } from '@/lib/schemas/projectsSchema'
 import { auth } from '@/auth'
-import { Project } from '@/lib/definitions/projects'
+import { ProjectResponse } from '@/lib/definitions/projects'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { differenceInDays } from 'date-fns'
 
+// function for checking the user's session
 async function checkUserSession() {
 	const session = await auth()
 
@@ -22,12 +21,6 @@ async function checkUserSession() {
 	}
 
 	return session.user
-}
-
-type ProjectResponse = {
-	success: boolean
-	data?: Project[] | Project
-	message?: string
 }
 
 // get projects by user id
@@ -189,6 +182,7 @@ export async function createProject(prevState: State, formData: FormData) {
 				status: ProjectsTable.status,
 				createdAt: ProjectsTable.createdAt,
 			})
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (error) {
 		return {
 			message: 'Adatbázis hiba: Projekt létrehozása sikertelen!',
@@ -224,62 +218,6 @@ export async function deleteProject(projectId: string) {
 	redirect(
 		`/projects?message=${encodeURIComponent('Projekt törlése sikeres!')}`
 	)
-}
-
-export async function changeProjectName(prevState: State, formData: FormData) {
-	await checkUserSession()
-
-	const validatedData = updateProjectSchema.safeParse({
-		name: formData.get('name'),
-	})
-
-	const projectId = formData.get('projetId')
-
-	const [nameChangedAt] = await db
-		.select()
-		.from(ProjectsTable)
-		.where(eq(ProjectsTable.id, projectId as string))
-
-	// TODO: Make this shit work xd
-
-	const COOLDOWN_DAYS = 90
-
-	if (
-		nameChangedAt.nameChanged &&
-		differenceInDays(new Date(), nameChangedAt.nameChanged) < COOLDOWN_DAYS
-	) {
-		return {
-			message: `Legközelebb csak ${
-				COOLDOWN_DAYS -
-				differenceInDays(new Date(), nameChangedAt.nameChanged)
-			} nap múlva módosíthatod a projekt nevét!`,
-		}
-	}
-
-	if (!validatedData.success) {
-		return {
-			errors: validatedData.error.flatten().fieldErrors,
-			message: 'Hiányzó adatok. Projekt név megváltoztatása sikertelen!',
-		}
-	}
-
-	const { name } = validatedData.data
-
-	try {
-		await db.update(ProjectsTable).set({ name: name })
-	} catch (error) {
-		return {
-			message: 'Projektnév módosítása sikerestelen!',
-		}
-	}
-
-	revalidatePath(`/projects/${projectId}/settings`)
-
-	return {
-		...prevState,
-		errors: {},
-		message: 'A projektnév módosítása sikeres!',
-	}
 }
 
 export type StatusState = {
@@ -321,6 +259,7 @@ export async function changeProjectStatus(
 			.update(ProjectsTable)
 			.set({ status: statusToEnum })
 			.where(eq(ProjectsTable.id, validatedData.data.projectId))
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (error) {
 		return {
 			message: 'Hiba! Projekt státusz módosítása sikertelen!',

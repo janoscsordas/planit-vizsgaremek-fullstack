@@ -2,17 +2,7 @@
 
 import React, { createContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/utils/supabase';
-
-interface Notification {
-    id: number;
-    senderId: string;
-    senderProjectId: string;
-    receiverId: string;
-    created_at: Date;
-    senderName?: string;
-    senderImage?: string;
-    projectName?: string; 
-}
+import { Notification } from '@/lib/definitions/notifications';
 
 interface NotificationContextType {
     notifications: Notification[];

@@ -35,6 +35,7 @@ export default function DeleteAccountButton({
 					'Fiók sikeresen törölve!'
 				)}`,
 			})
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
 			setError('Fiók törlése sikertelen!')
 		} finally {

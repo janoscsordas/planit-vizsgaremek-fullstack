@@ -383,8 +383,7 @@ function AssignTask({
             }
         } catch (error) {
             toast.error('Hiba történt', {
-                description: error instanceof Error ? error.message : 'Szerverhiba',
-                position: "bottom-left",
+                description: error instanceof Error ? error.message : 'Szerverhiba'
             });
         } finally {
             setIsLoading(false);
@@ -421,14 +420,13 @@ function AssignTask({
 
             // Provide feedback
             if (newAssignments.length > 0 || usersToRemove.length > 0) {
-                toast.success('Feladat sikeresen frissítve!', { position: "bottom-left" });
+                toast.success('Feladat sikeresen frissítve!');
             }
 
             setIsPopoverOpen(false)
         } catch (error) {
             toast.error('Hiba történt a feladat kiosztása közben', {
-                description: error instanceof Error ? error.message : 'Szerverhiba',
-                position: "bottom-left",
+                description: error instanceof Error ? error.message : 'Szerverhiba'
             });
         } finally {
             setIsLoading(false);

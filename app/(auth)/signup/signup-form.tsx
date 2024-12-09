@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from 'react-dom'
 import SignupPasswordInput from "@/components/auth/SignupPasswordInput"
 import { Spinner } from "@radix-ui/themes"
+import {MAX_EMAIL_LENGTH, MAX_USERNAME_LENGTH} from "@/lib/utils/globalVariables";
 
 type FieldErrors = {
   [key: string]: string;
@@ -94,7 +95,7 @@ export default function SignUpForm() {
           id="name"
           placeholder="Felhasználónév"
           required
-          maxLength={32}
+          maxLength={MAX_USERNAME_LENGTH}
         />
         {typeof fieldErrors === 'object' && fieldErrors.name && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.name}</p>
@@ -109,7 +110,7 @@ export default function SignUpForm() {
           id="email"
           placeholder="Email cím"
           required
-          maxLength={40}
+          maxLength={MAX_EMAIL_LENGTH}
         />
         {typeof fieldErrors === 'object' && fieldErrors.email && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>

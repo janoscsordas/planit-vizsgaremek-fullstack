@@ -81,35 +81,13 @@ export default async function Members({
 						)
 					}
 					<Separator orientation="horizontal" className="mb-4 mt-6" />
-					<Suspense fallback={<LoadingForMemberCards />}>
-						<MemberComponent ownerId={ownersData.id} image={ownersData.image} name={ownersData.name} email={ownersData.email} role="owner" />
-						{projectData.members && projectData.members.map((member) => (
-							<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
-						))}
-						{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
-					</Suspense>
+					<MemberComponent ownerId={ownersData.id} image={ownersData.image} name={ownersData.name} email={ownersData.email} role="owner" />
+					{projectData.members && projectData.members.map((member) => (
+						<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
+					))}
+					{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
 				</div>
 			</main>
 		</>
 	)
-}
-
-
-function LoadingForMemberCards() {
-    return (
-        <>
-            <div className='flex items-center gap-2 mt-6'>
-                <Skeleton className='w-[50px] h-[45px] rounded-full' />
-                <Skeleton className='w-full h-[45px]' />
-            </div>
-            <div className='flex items-center gap-2 mt-6'>
-                <Skeleton className='w-[50px] h-[45px] rounded-full' />
-                <Skeleton className='w-full h-[45px]' />
-            </div>
-            <div className='flex items-center gap-2 mt-6'>
-                <Skeleton className='w-[50px] h-[45px] rounded-full' />
-                <Skeleton className='w-full h-[45px]' />
-            </div>
-        </>
-    )
 }

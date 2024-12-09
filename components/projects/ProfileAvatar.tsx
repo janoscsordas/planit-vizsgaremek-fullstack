@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import { Avatar } from '@radix-ui/themes'
 import Link from 'next/link'
 
@@ -17,7 +16,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -48,7 +46,6 @@ export default function ProfileAvatar({ session }: { session: Session }) {
 						)}
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						{/* TODO: Make this shit look like the one in the sidebar */}
 						<div className="grid flex-1 text-left text-sm leading-tight p-[10px]">
 							<span className="truncate font-semibold">
 								{session.user.name}
@@ -57,7 +54,6 @@ export default function ProfileAvatar({ session }: { session: Session }) {
 								{session.user.email}
 							</span>
 						</div>
-						{/* <DropdownMenuLabel>Profil Menü</DropdownMenuLabel> */}
 						<DropdownMenuSeparator />
 						<Link href="/profile" className="no-underline">
 							<DropdownMenuItem className="cursor-pointer">

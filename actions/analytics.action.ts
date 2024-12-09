@@ -1,7 +1,13 @@
+"use server"
+
 import { db } from "@/database";
 import { ProjectMembersTable, ProjectTasksTable } from "@/database/schema/projects";
 import { UsersTable } from "@/database/schema/user";
 import { and, count, desc, eq, inArray } from "drizzle-orm";
+import { RecentActivity } from "@/lib/definitions/analytics";
+
+// The number of recent activities to fetch
+const NUMBER_OF_RECENT_ACTIVITIES = 5
 
 export async function fetchAnalyticsForProject(projectId: string) {
     try {
@@ -13,21 +19,11 @@ export async function fetchAnalyticsForProject(projectId: string) {
         ])
 
         // + 1 for the project owner in the number of members
-        const cardAnalytics = [numberOfMembers.value + 1, numberOfPendingTasks.value, numberOfInProgressTasks.value, numberOfFinishedTasks.value] 
+        return [numberOfMembers.value + 1, numberOfPendingTasks.value, numberOfInProgressTasks.value, numberOfFinishedTasks.value]
 
-        return cardAnalytics
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-        console.log(error)
         return [0, 0, 0, 0]
-    }
-}
-
-export type RecentActivity = {
-    id: string
-    taskName: string
-    createdAt: Date
-    user: {
-        name: string
     }
 }
 
@@ -38,24 +34,26 @@ export async function fetchRecentActivity(projectId: string) {
             .from(ProjectTasksTable)
             .where(eq(ProjectTasksTable.projectId, projectId))
             .orderBy(desc(ProjectTasksTable.createdAt))
-            .limit(5)
+            .limit(NUMBER_OF_RECENT_ACTIVITIES)
 
+        // Get the IDs of the users who created the recent activities
         const userIds = recentActivity.map((activity) => activity.createdBy)
 
-        const userDetail = await db
+        // Get the names of the users
+        const userDetails = await db
             .select({name: UsersTable.name, id: UsersTable.id})
             .from(UsersTable)
             .where(inArray(UsersTable.id, userIds))
 
+        // Add the specific user details to the recent activities
         const recentActivityWithUser = recentActivity.map((activity) => {
-            const user = userDetail.find((user) => user.id === activity.createdBy)
+            const user = userDetails.find((user) => user.id === activity.createdBy)
             return { ...activity, user }
         })
 
         return recentActivityWithUser as RecentActivity[]
-
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-        console.log(error)
-        return []       
+        return []
     }
 }

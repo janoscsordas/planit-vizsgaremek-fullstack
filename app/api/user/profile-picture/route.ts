@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { UsersTable } from "@/database/schema/user";
-import { db } from "@/database/index"
+import { db } from "@/database/"
 import { auth } from "@/auth";
 import { eq } from "drizzle-orm";
 import { differenceInDays } from "date-fns";

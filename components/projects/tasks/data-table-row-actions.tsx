@@ -16,46 +16,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel
 } from "@/components/ui/dropdown-menu"
-import { z } from "zod"
 import { ProjectData } from "@/lib/definitions/projects"
 import { deleteTask } from "@/actions/projectTask.action"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import EditAndShowSheet from "./EditAndShowSheet"
-
-const taskSchema = z.object({
-  id: z.string(),
-  taskName: z.string(),
-  taskDescription: z.string(),
-  status: z.enum(["pending", "in progress", "finished"]),
-  createdAt: z.date(),
-  priority: z.enum(["low", "medium", "high"]),
-  projectId: z.string(),
-  createdBy: z.string(),
-  createdByUser: z.object({
-    id: z.string(),
-    createdAt: z.date(),
-    name: z.string(),
-    email: z.string(),
-    image: z.string().nullable(),
-  }),
-  assigns: z.array(
-    z.object({
-      id: z.string(),
-      userId: z.string(),
-      taskId: z.string(),
-      assignedAt: z.date(),
-      user:
-          z.object({
-            id: z.string(),
-            createdAt: z.date(),
-            name: z.string(),
-            email: z.string(),
-            image: z.string().nullable(),
-          })
-    })
-  ),
-})
+import { taskSchema } from "@/lib/schemas/taskSchema"
 
 interface DataTableRowActionsProps {
   row: { original: ProjectData["tasks"][number] },

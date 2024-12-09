@@ -20,26 +20,26 @@ export default async function Layout({
   children: React.ReactNode
   params: Promise<{ projectId: string }>
 }>) {
-  const session = await auth()
+    const session = await auth()
 
-  if (!session) {
-    return redirect("/login")
-  }
+    if (!session) {
+        return redirect("/login")
+    }
 
-  const { projectId } = await params
+    const { projectId } = await params
 
-	const isProjectCreator = await db.query.ProjectsTable.findFirst({
-		where: eq(ProjectsTable.id, projectId),
-	}) 
+    const isProjectCreator = await db.query.ProjectsTable.findFirst({
+        where: eq(ProjectsTable.id, projectId),
+    })
 
-	const isOwner = isProjectCreator?.userId === session.user.id
+    const isOwner = isProjectCreator?.userId === session.user.id
 
-  return (
+    return (
       <SidebarProvider>
         <AppSidebar projectName={isProjectCreator?.name ?? ''} isOwner={isOwner} userSession={session} projectId={projectId} />
         <NotificationsProvider userId={session.user.id}>
           <SidebarInset>{children}</SidebarInset>
         </NotificationsProvider>
       </SidebarProvider>
-  )
+    )
 }

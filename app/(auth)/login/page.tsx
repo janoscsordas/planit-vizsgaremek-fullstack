@@ -20,10 +20,17 @@ export default async function Login({
   return (
     <div className="py-12 min-h-screen w-full flex flex-col gap-8 items-center justify-center">
       <Link href={"/"}>
-        <Image src="/icon.png" alt="Icon" width={68} height={68} />
+        <Image
+            src="/icon.png"
+            alt="Icon"
+            width={68}
+            height={68}
+        />
       </Link>
       <div className="border border-border p-8 w-[85%] sm:w-[350px] rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-1">Üdv újra itt!</h1>
+        <h1 className="text-2xl font-bold text-center mb-1">
+          Üdv újra itt!
+        </h1>
         <p className="text-sm text-muted-foreground text-center mb-3">
           Jelentkezz be a fiókodba
         </p>

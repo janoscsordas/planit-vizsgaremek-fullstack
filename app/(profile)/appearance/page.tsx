@@ -3,8 +3,16 @@ import { Button } from "@/components/ui/button"
 import { Flex, RadioCards } from "@radix-ui/themes"
 import Image from "next/image"
 import ProfileHeader from "../ProfileHeader"
+import {auth} from "@/auth";
+import {redirect} from "next/navigation";
 
-export default function AppearancePage() {
+export default async function AppearancePage() {
+  const session = await auth()
+
+  if (!session || !session.user) {
+    return redirect('/login')
+  }
+
   return (
     <div className="w-[90%] mx-auto pt-8 md:pt-16">
       <ProfileHeader />

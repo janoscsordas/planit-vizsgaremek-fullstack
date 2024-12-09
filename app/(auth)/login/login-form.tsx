@@ -11,6 +11,7 @@ import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from "react-dom"
 import { Spinner } from "@radix-ui/themes"
+import {MAX_EMAIL_LENGTH} from "@/lib/utils/globalVariables";
 
 
 type FieldErrors = {
@@ -108,7 +109,7 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
           id="email"
           placeholder="Email cím"
           required
-          maxLength={40}
+          maxLength={MAX_EMAIL_LENGTH}
         />
         {typeof fieldErrors === 'object' && fieldErrors.email && (
           <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>

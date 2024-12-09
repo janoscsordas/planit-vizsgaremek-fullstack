@@ -34,28 +34,25 @@ const generateNavItems = (
 			title: 'Áttekintés',
 			url: `/projects/${projectId}`,
 			icon: Binoculars,
-			isActive: pathName === `/projects/${projectId}` ? true : false,
+			isActive: pathName === `/projects/${projectId}`,
 		},
 		{
 			title: 'Feladatok',
 			url: `/projects/${projectId}/tasks`,
 			icon: ClipboardList,
-			isActive:
-				pathName === `/projects/${projectId}/tasks` ? true : false,
+			isActive: pathName === `/projects/${projectId}/tasks`,
 		},
 		{
 			title: 'Üzenetek',
 			url: `/projects/${projectId}/messages`,
 			icon: MessageCircle,
-			isActive:
-				pathName === `/projects/${projectId}/messages` ? true : false,
+			isActive: pathName === `/projects/${projectId}/messages`,
 		},
 		{
 			title: 'Tagok',
 			url: `/projects/${projectId}/members`,
 			icon: Users,
-			isActive:
-				pathName === `/projects/${projectId}/members` ? true : false,
+			isActive: pathName === `/projects/${projectId}/members`,
 		},
 	]
 	if (isOwner) {
@@ -63,8 +60,7 @@ const generateNavItems = (
 			title: 'Beállítások',
 			url: `/projects/${projectId}/settings`,
 			icon: Settings2,
-			isActive:
-				pathName === `/projects/${projectId}/settings` ? true : false,
+			isActive: pathName === `/projects/${projectId}/settings`,
 		})
 	}
 

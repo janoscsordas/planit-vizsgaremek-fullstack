@@ -8,6 +8,8 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import {updateTaskDescriptionSchema, updateTaskNameSchema, updateTaskPrioritySchema} from "@/lib/schemas/taskSchema";
+import {TaskStatus} from "@/lib/definitions/tasks";
 
 export type State = {
     errors?: {
@@ -81,11 +83,6 @@ export async function deleteTask(taskId: string, projectId: string) {
     revalidatePath(`/projects/${projectId}/tasks`)
 }
 
-const updateSchema = z.object({
-    taskId: z.string(),
-    priority: z.enum(["low", "medium", "high"])
-})
-
 export async function updateTaskPriority(taskId: string, priority: string, projectId: string) {
     const session = await auth()
 
@@ -96,7 +93,7 @@ export async function updateTaskPriority(taskId: string, priority: string, proje
         }
     }
 
-    const validatedFields = updateSchema.safeParse({ taskId, priority })
+    const validatedFields = updateTaskPrioritySchema.safeParse({ taskId, priority })
 
     if (!validatedFields.success) {
         return {
@@ -122,11 +119,6 @@ export async function updateTaskPriority(taskId: string, priority: string, proje
         message: "A feladat prioritása sikeresen módosítva!"
     }
 }
-
-const updateTaskDescriptionSchema = z.object({
-    taskId: z.string(),
-    description: z.string()
-})
 
 export async function updateTaskDescription(taskId: string, description: string, projectId: string) {
     const session = await auth()
@@ -165,11 +157,6 @@ export async function updateTaskDescription(taskId: string, description: string,
     }
 }
 
-const updateTaskNameSchema = z.object({
-    taskId: z.string(),
-    name: z.string()
-})
-
 export async function updateTaskName(taskId: string, name: string, projectId: string) {
     const session = await auth()
 
@@ -204,11 +191,7 @@ export async function updateTaskName(taskId: string, name: string, projectId: st
     return { success: true, message: "A feladat címe sikeresen módosítva!" }
 }
 
-export type Status = {
-    status: "pending" | "in progress" | "finished"
-}
-
-export async function changeTaskStatus(status: Status, taskId: string, projectId: string) {
+export async function changeTaskStatus(status: TaskStatus, taskId: string, projectId: string) {
     const session = await auth()
 
     if (!session || !session.user) {

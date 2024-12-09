@@ -9,6 +9,7 @@ import { db } from '@/database'
 import { differenceInDays } from 'date-fns'
 import { eq } from 'drizzle-orm'
 import { projectChangeFormSchema } from '@/lib/schemas/projectsSchema'
+import {revalidatePath} from "next/cache";
 
 export async function GET() {
 	try {
@@ -35,6 +36,7 @@ export async function GET() {
 			ownedProjects: ownedProjects.data,
 			memberProjects: memberProjects.data,
 		})
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (error) {
 		return NextResponse.json(
 			{ error: 'Hiba történt a projektek lekérése során!' },
@@ -109,14 +111,19 @@ export async function PUT(request: Request) {
 			.set({ name, nameChanged: new Date() })
 			.where(eq(ProjectsTable.id, projectId))
 
-		return NextResponse.json(
-			{ message: 'Projektnév sikeresen módosítva!' },
-			{ status: 200 }
-		)
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (error) {
 		return NextResponse.json(
 			{ error: 'Projektnév szerkeztése sikertelen!' },
 			{ status: 500 }
 		)
 	}
+
+	// revalidate the page
+	revalidatePath(`/projects/${projectId}/settings`)
+
+	return NextResponse.json(
+		{ message: 'Projektnév sikeresen módosítva!' },
+		{ status: 200 }
+	)
 }

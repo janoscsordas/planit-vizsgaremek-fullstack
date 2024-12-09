@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
         }, {})
 
         return NextResponse.json(userDetails, { status: 200 })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch user details' }, { status: 500 })
     }

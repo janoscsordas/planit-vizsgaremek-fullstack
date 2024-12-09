@@ -1,4 +1,4 @@
-import { type RecentActivity } from "@/actions/analytics.action"
+import { type RecentActivity } from "@/lib/definitions/analytics"
 
 import {
     Table,

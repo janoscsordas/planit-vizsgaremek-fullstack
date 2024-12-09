@@ -1,6 +1,7 @@
 "use client"
 
-import { EnrichedMessage, fetchMessageWithUserDetails, Message } from "@/actions/message.action";
+import { fetchMessageWithUserDetails } from "@/actions/message.action";
+import { EnrichedMessage, Message } from "@/lib/definitions/messages";
 import { supabase } from "@/lib/utils/supabase";
 import { useEffect, useState } from "react";
 import { z } from "zod";

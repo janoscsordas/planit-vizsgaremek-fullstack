@@ -2,11 +2,11 @@
 
 import { auth } from "@/auth"
 import { db } from "@/database";
-import { ProjectMembersTable } from "@/database/schema/projects";
+import { ProjectMembersTable, ProjectsTable } from "@/database/schema/projects";
 import { UsersTable } from "@/database/schema/user";
 import { validEmailSchema } from "@/lib/schemas/notificationSchema";
 import { supabase } from "@/lib/utils/supabase";
-import { inArray } from "drizzle-orm";
+import {count, eq, inArray} from "drizzle-orm";
 
 export async function sendProjectInvites(projectId: string, emails: string[]) {
     const session = await auth()
@@ -28,40 +28,45 @@ export async function sendProjectInvites(projectId: string, emails: string[]) {
             }
         }
 
+        // checking if the user invites himself
+        if (validEmails.some(email => email === session.user.email)) {
+            return {
+                success: false,
+                message: "Nem hívhatod meg saját magad!"
+            }
+        }
+
+        // fetching user ids from valid emails
         const getIdsByEmail = await db.select({ id: UsersTable.id }).from(UsersTable).where(inArray(UsersTable.email, validEmails))
 
         if (!getIdsByEmail.length) {
             return {
                 success: false,
-                message: "Nem található a megadott email címek Közül valid cím!"
+                message: "Nem található a megadott email címek közül valid cím!"
             }
         }
 
-        const { data, error } = await supabase.from('notifications').select('*').eq('receiverId', session.user.id).eq('senderProjectId', projectId)
+        // Fetching the number of members in the project
+        const [numberOfMembersInProject] = await db
+            .select({ value: count(ProjectMembersTable.id) })
+            .from(ProjectMembersTable)
+            .where(eq(ProjectMembersTable.projectId, projectId))
 
-        // TODO check if project is in paid version
+        // Fetching the tier of the project
+        const [tierOfProject] = await db
+            .select({ value: ProjectsTable.tier })
+            .from(ProjectsTable)
+            .where(eq(ProjectsTable.id, projectId))
 
-        if (error) {
+        // Checking if the project has tier "free" and there are more than 20 members
+        if (tierOfProject.value === "free" && numberOfMembersInProject.value + getIdsByEmail.length > 20) {
             return {
                 success: false,
-                message: error.message
+                message: "A projektnek maximum 20 tagja lehet! Már csak " + (numberOfMembersInProject.value + getIdsByEmail.length - 20) + " tagot tudsz meghívni! Kérlek próbáld újra!"
             }
         }
 
-        if (data && data.length > 20) {
-            return {
-                success: false,
-                message: "Nem tudsz több meghívót elküldeni!"
-            }
-        }
-
-        if (data && data.length + getIdsByEmail.length > 20) {
-            return {
-                success: false,
-                message: `Nem tudsz több meghívót elküldeni! Már csak ${data.length + getIdsByEmail.length - 20} meghívót tudsz elküldeni!`
-            }
-        }
-
+        // Inserting notifications to the valid emails
         await supabase.from('notifications').insert(getIdsByEmail.map(id => ({
             senderId: session.user.id,
             senderProjectId: projectId,
@@ -98,6 +103,7 @@ export async function acceptInvitation(invitationId: number, receiverId: string,
     }
 
     try {
+        // Adding the user to the project
         const [addingToProjectMembers] = await db
             .insert(ProjectMembersTable)
             .values({
@@ -117,6 +123,7 @@ export async function acceptInvitation(invitationId: number, receiverId: string,
             }
         }
 
+        // Deleting the invitation
         await supabase.from('notifications').delete().eq('id', invitationId)
 
         return {
@@ -144,11 +151,12 @@ export async function declineInvitation(invitationId: number) {
     if (!invitationId) {
         return {
             success: false,
-            message: "Nem adtál meg az azonosítót!",
+            message: "Nem adtál meg azonosítót!",
         }
     }
 
     try {
+        // Deleting the declined invitation
         await supabase.from('notifications').delete().eq('id', invitationId)
 
         return {

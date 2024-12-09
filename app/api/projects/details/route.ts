@@ -29,7 +29,8 @@ export async function POST(request: Request) {
         }, {});
 
         return NextResponse.json(projectDetails, { status: 200 });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch project details' }, { status: 500 });
+        return NextResponse.json({ error: 'Hiba történt a projekt részleteinek lekérdezése során!' }, { status: 500 });
     }
 }

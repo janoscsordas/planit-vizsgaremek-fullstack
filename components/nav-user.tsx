@@ -109,7 +109,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
               <DropdownMenuGroup>
                 <DropdownMenuItem disabled title="Hamarosan...">
                   <Sparkles />
-                  <Link href="/upgrade">Váltás Pro-ra</Link>
+                  <Link href="#">Váltás Pro-ra</Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />

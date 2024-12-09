@@ -62,3 +62,9 @@ export type User = {
     imageChangedAt: Date | null;
     createdAt: Date;
 };
+
+export type ProjectResponse = {
+    success: boolean
+    data?: Project[] | Project
+    message?: string
+}
