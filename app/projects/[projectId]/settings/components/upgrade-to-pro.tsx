@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 export default function UpgradeToPro() {
 	return (
 		<form action="">
-			<div className="border border-muted rounded-md p-4 mt-6">
+			<div className="border rounded-md p-4 mt-6">
 				<div className="space-y-2">
 					<h4 className="font-medium text-sm">
 						Szolgáltatás módosítása

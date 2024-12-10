@@ -46,7 +46,7 @@ export default function EditAndShowSheet({ task, members, projectOwner }: { task
     }
 
     return (
-        <SheetContent className="w-[95%] sm:w-[75%]">
+        <SheetContent className="w-full sm:w-[75%]">
             <SheetHeader className="space-y-1 pt-10">
                 <SheetTitle className="text-[1.4rem]">
                     

@@ -21,7 +21,7 @@ export default function ProjectData({
 	projectData: ProjectData
 }) {
 	return (
-		<div className="space-y-4 border border-muted rounded-md p-6 mt-6">
+		<div className="space-y-4 border rounded-md p-6 mt-6">
 			<h4 className="font-medium text-sm">Projekt információk</h4>
 			<div className="">
 				<DataList.Root>

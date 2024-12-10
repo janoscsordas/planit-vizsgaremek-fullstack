@@ -21,7 +21,7 @@ export default function ChangeStatus({
 	)
 
 	return (
-		<div className="space-y-4 border border-muted rounded-md p-6 mt-6">
+		<div className="space-y-4 border rounded-md p-6 mt-6">
 			<div className="space-y-2">
 				<h4 className="font-medium text-sm">Státusz megváltoztatása</h4>
 				<p className="text-muted-foreground text-xs my-1 mb-4">
