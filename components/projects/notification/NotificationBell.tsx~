@@ -9,7 +9,7 @@ export default function NotificationBell() {
     const { notifications } = useNotifications();
 
     return (
-        <Link href="/notifications" className="flex items-center justify-center">
+        <Link href="/notifications" className="flex items-center justify-center gap-2">
             <IconButton
               variant="ghost"
               color="gray"
