@@ -75,12 +75,27 @@ export async function deleteTask(taskId: string, projectId: string) {
     const session = await auth()
 
     if (!session || !session.user) {
-        return;
+        return {
+            success: false,
+            message: "Nem vagy bejelentkezve!"
+        }
     }
 
-    await db.delete(ProjectTasksTable).where(eq(ProjectTasksTable.id, taskId))
+    try {
+        await db.delete(ProjectTasksTable).where(eq(ProjectTasksTable.id, taskId))
+    } catch (error: any) {
+        return {
+            success: false,
+            message: "Hiba történt a feladat törlésa Közben!"
+        }
+    }
 
     revalidatePath(`/projects/${projectId}/tasks`)
+
+    return {
+        success: true,
+        message: "A feladat sikeresen eltávolítva!"
+    }
 }
 
 export async function updateTaskPriority(taskId: string, priority: string, projectId: string) {

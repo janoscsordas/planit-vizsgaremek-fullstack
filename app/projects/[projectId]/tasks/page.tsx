@@ -8,6 +8,8 @@ import { UsersTable } from "@/database/schema/user"
 import {Member, Task, User} from "@/lib/definitions/projects"
 import { desc, eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
+import TaskList from "./task-list"
+import { EnrichedTask } from "@/lib/definitions/tasks"
 
 
 export default async function Tasks({
@@ -47,7 +49,7 @@ export default async function Tasks({
     return notFound()
   }
 
-  const enrichedTasks: (Task & { members: Member[]; projectOwner: User })[] = projectData.tasks.map((task) => ({
+  const enrichedTasks = projectData.tasks.map((task) => ({
     ...task,
     members: projectData.members.filter((member) => member.projectId === projectData.id),
     projectOwner
@@ -70,8 +72,8 @@ export default async function Tasks({
       />
       <main className="px-6 py-2">
         <h1 className="text-2xl font-bold">Feladatok</h1>
-        <div className="px-6 py-12">
-          <DataTable data={enrichedTasks} columns={columns} />
+        <div className="pt-6">
+          <TaskList enrichedTasks={enrichedTasks} projectId={projectData.id} />
         </div>
       </main>
     </>
