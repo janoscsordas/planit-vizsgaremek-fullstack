@@ -15,18 +15,61 @@ export default async function Tasks({
   const { projectId } = await params
 
   const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      id: true,
+      userId: true,
+      name: true
+    },
     where: eq(ProjectsTable.id, projectId),
     with: {
       members: {
-        with: { user: true }
+        columns: {
+          id: true,
+          projectId: true,
+          userId: true,
+          role: true,
+          addedAt: true
+        },
+        with: {
+          user: {
+            columns: {
+              id: true,
+              name: true,
+              email: true,
+              image: true
+            }
+          } 
+        }
       },
       tasks: {
         orderBy: desc(ProjectTasksTable.createdAt),
         with: {
           assigns: { 
-            with: { user: true } 
+            columns: {
+              id: true,
+              userId: true,
+              taskId: true,
+              assignedAt: true
+            },
+            with: { user: 
+              {
+              columns: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  image: true
+                }
+              } 
+            } 
           },
-          createdByUser: true
+          createdByUser: {
+            columns: {
+              id: true,
+              name: true,
+              email: true,
+              image: true
+            }
+          }
         },
       }
     }
@@ -37,6 +80,12 @@ export default async function Tasks({
   }
 
   const projectOwner = await db.query.UsersTable.findFirst({
+      columns: {
+        id: true,
+        name: true,
+        email: true,
+        image: true
+      },
       where: eq(UsersTable.id, projectData.userId)
   })
 

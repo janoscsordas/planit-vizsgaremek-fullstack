@@ -1,5 +1,3 @@
-import { Assign, Member, User } from "./projects";
-
 export type TaskStatus = {
     status: "pending" | "in progress" | "finished"
 }
@@ -46,28 +44,14 @@ export type EnrichedTask = {
             id: string;
             name: string | null;
             email: string | null;
-            emailVerified: Date | null;
-            password: string | null;
-            birthDate: Date | null;
-            tier: "free" | "paid";
             image: string | null;
-            nameChangedAt: Date | null;
-            imageChangedAt: Date | null;
-            createdAt: Date;
         };
     }[];
     projectOwner: {
         id: string;
         name: string | null;
         email: string | null;
-        emailVerified: Date | null;
-        password: string | null;
-        birthDate: Date | null;
-        tier: "free" | "paid";
         image: string | null;
-        nameChangedAt: Date | null;
-        imageChangedAt: Date | null;
-        createdAt: Date;
     };
     projectId: string;
     id: string;
@@ -76,7 +60,6 @@ export type EnrichedTask = {
     taskName: string;
     taskDescription: string;
     priority: "low" | "medium" | "high";
-    createdBy: string;
     assigns: {
         id: string;
         userId: string;
@@ -86,26 +69,13 @@ export type EnrichedTask = {
             id: string;
             name: string | null;
             email: string | null;
-            emailVerified: Date | null;
-            password: string | null;
-            birthDate: Date | null;
-            tier: "free" | "paid";
             image: string | null;
-            nameChangedAt: Date | null;
-            imageChangedAt: Date | null;
-            createdAt: Date;
         };
     }[];
     createdByUser: {
         id: string;
         name: string | null;
         email: string | null;
-        emailVerified: Date | null;
-        birthDate: Date | null;
-        tier: "free" | "paid";
         image: string | null;
-        nameChangedAt: Date | null;
-        imageChangedAt: Date | null;
-        createdAt: Date;
     };
 }

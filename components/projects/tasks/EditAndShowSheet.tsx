@@ -319,7 +319,12 @@ interface UserAssignment {
 
 interface AssignTaskProps {
     members: Member[];
-    projectOwner?: User;
+    projectOwner?: {
+        id: string;
+        name: string | null;
+        image: string | null;
+        email: string | null;
+    };
     task: EnrichedTask;
 }
 

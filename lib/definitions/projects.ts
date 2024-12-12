@@ -26,7 +26,12 @@ export type Member = {
     userId: string;
     role: 'member' | 'admin' | 'creator';
     addedAt: Date;
-    user: User;
+    user: {
+        id: string;
+        name: string | null;
+        email: string | null;
+        image: string | null;
+    };
 };
   
 export type Task = {

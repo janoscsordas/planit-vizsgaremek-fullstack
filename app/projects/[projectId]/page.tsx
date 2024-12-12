@@ -58,8 +58,8 @@ export default async function ProjectPage({
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
 						<AnalyticsCards analyticsForCards={analyticsForCards} />
 					</div>
-					<div className="grid gap-4 md:grid-cols-2">
-						<div className="mt-8 p-6 border border-border rounded-lg shadow ">
+					<div className="grid gap-4 lg:grid-cols-2">
+						<div className="mt-4 lg:mt-8 p-6 border border-border rounded-lg shadow ">
 							<h1 className="text-xl font-bold">
 								Legutóbbi tevékenységek
 							</h1>
@@ -68,7 +68,7 @@ export default async function ProjectPage({
 							</p>
 							<RecentActivity recentActivity={recentActivity} />
 						</div>
-						<div className="mt-8 mb-4 md:mb-0 rounded-lg">
+						<div className="mt-4 lg:mt-8 mb-4 md:mb-0 rounded-lg">
 							<UserActivityChart />
 						</div>
 					</div>

@@ -30,7 +30,23 @@ export default async function Members({
 		where: eq(ProjectsTable.id, projectId),
 		with: {
 		  members: {
-			with: { user: true }
+			columns: {
+			  	userId: true,
+			  	projectId: true,
+			  	id: true,
+			  	role: true,
+			  	addedAt: true
+			},
+			with: {
+			  	user: {
+					columns: {
+					  id: true,
+					  name: true,
+					  email: true,
+					  image: true
+					}
+			  	}
+			}
 		  },
 		},
 	})
@@ -40,7 +56,13 @@ export default async function Members({
 	}
 
 	const ownersData = await db.query.UsersTable.findFirst({
-		where: eq(UsersTable.id, projectData.userId)
+		where: eq(UsersTable.id, projectData.userId),
+		columns: {
+			id: true,
+			name: true,
+			email: true,
+			image: true
+		}
 	})
 
 	if (!ownersData) {
@@ -66,7 +88,7 @@ export default async function Members({
 			/>
 			<main className="px-6 py-2">
 				<h1 className="text-2xl font-bold">Tagok</h1>
-				<div className="mt-8 border p-4 rounded-xl w-full lg:w-[50%]">
+				<div className="mt-8 border p-4 rounded-xl w-full lg:w-[75%]">
 					<h1 className="text-md font-bold mb-1">Projekt tagjai</h1>
 					{
 						isOwner ? (
@@ -83,7 +105,7 @@ export default async function Members({
 					<Separator orientation="horizontal" className="mb-4 mt-6" />
 					<MemberComponent ownerId={ownersData.id} image={ownersData.image} name={ownersData.name} email={ownersData.email} role="owner" />
 					{projectData.members && projectData.members.map((member) => (
-						<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} />
+						<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} addedAt={member.addedAt} />
 					))}
 					{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
 				</div>
