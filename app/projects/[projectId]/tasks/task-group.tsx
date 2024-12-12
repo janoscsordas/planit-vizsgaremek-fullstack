@@ -1,10 +1,10 @@
+"use client"
+
 import { useState } from "react"
-import { EnrichedTask } from "./task-list"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ChevronRight, Circle, Clock, Edit2, EyeIcon, Plus, Tag, Trash2 } from "lucide-react"
+import { ChevronRight, Circle, Clock, Edit2, EyeIcon, Plus, SquarePen, Tag, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { TaskDialog } from "./task-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -12,7 +12,9 @@ import { format } from "date-fns"
 import TaskDelete from "./task-delete"
 import { hu } from "date-fns/locale/hu"
 import TaskCreate from "./task-create"
-import TaskShow from "./task-show"
+import { EnrichedTask } from "@/lib/definitions/tasks"
+import EditAndShowSheet from "@/components/projects/tasks/EditAndShowSheet"
+
 
 interface TaskGroupProps {
     title: string
@@ -60,11 +62,11 @@ export default function TaskGroup({ title, count, tasks, projectId }: TaskGroupP
                                 task.status === "pending" && "fill-yellow-500"
                             )} />
                             <span className="uppercase" title={"ID: " + task.id}>ID-{task.id.slice(0, 2)}</span>
-                            <TaskShow task={task}>
+                            <EditAndShowSheet task={task}>
                                 <Button variant="ghost" size="icon" className="h-6 w-6 p-0 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200">
-                                    <EyeIcon className="h-3 w-3" />
+                                    <SquarePen className="h-3 w-3" />
                                 </Button>
-                            </TaskShow>
+                            </EditAndShowSheet>
                         </div>
                         <span className="text-sm font-medium flex-grow">{task.taskName}</span>
                         <div className="flex items-center gap-2 ml-auto">
@@ -104,11 +106,6 @@ export default function TaskGroup({ title, count, tasks, projectId }: TaskGroupP
                                     ))}
                                 </TooltipProvider>
                             </div>
-                            <TaskDialog task={task}>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200">
-                                    <Edit2 className="h-3 w-3" />
-                                </Button>
-                            </TaskDialog>
                             <TaskDelete taskId={task.id} projectId={task.projectId} />
                         </div>
                     </div>

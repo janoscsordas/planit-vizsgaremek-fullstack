@@ -8,11 +8,11 @@ import {
     updateTaskName,
     updateTaskPriority
 } from "@/actions/projectTask.action";
-import { type TaskStatus, TaskTable } from "@/lib/definitions/tasks";
+import { type TaskStatus } from "@/lib/definitions/tasks";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { SelectLabel, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { SelectGroup } from "@radix-ui/react-select";
@@ -26,8 +26,9 @@ import {Member, User} from "@/lib/definitions/projects";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Label} from "@/components/ui/label";
+import { EnrichedTask } from "@/lib/definitions/tasks";
 
-export default function EditAndShowSheet({ task, members, projectOwner }: { task: TaskTable, members: Member[], projectOwner: User | undefined }) {
+export default function EditAndShowSheet({ task, children }: { task: EnrichedTask, children: React.ReactNode }) {
     const handlePriorityChange = async (priority: string) => {
         const response = await updateTaskPriority(task.id, priority, task.projectId)
 
@@ -46,6 +47,10 @@ export default function EditAndShowSheet({ task, members, projectOwner }: { task
     }
 
     return (
+        <Sheet>
+        <SheetTrigger asChild>
+            {children}
+        </SheetTrigger>
         <SheetContent className="w-full sm:w-[75%]">
             <SheetHeader className="space-y-1 pt-10">
                 <SheetTitle className="text-[1.4rem]">
@@ -66,20 +71,20 @@ export default function EditAndShowSheet({ task, members, projectOwner }: { task
                 <div className="w-[38%] pl-3">
                     <div className="mt-3 flex items-center justify-between mb-4">
                         <p className="text-muted-foreground text-[.8rem]">Kiosztás:</p>
-                        <AssignTask members={members} projectOwner={projectOwner} task={task} />
+                        <AssignTask members={task.members} projectOwner={task.projectOwner} task={task} />
                     </div>
                     <div className="mt-3 flex flex-col mb-4">
-                        <p className="text-muted-foreground text-[.8rem]">Kiosztva a következö{task.assigns.length > 1 ? "k" : ""}nek:</p>
+                        <p className="text-muted-foreground text-[.8rem]">Kiosztva a Következö{task.assigns.length > 1 ? "k" : ""}nek:</p>
                         <ul className="flex flex-col gap-2 mt-4">
                             {task.assigns.length > 0 ? task.assigns.map((assign) => (
                                 <li key={assign.id} className="flex items-center gap-2">
                                     <Avatar
                                         className="w-6 h-6 mx-2 rounded-full"
                                         src={assign.user.image!}
-                                        fallback={assign.user.name.charAt(1)}
-                                        alt={assign.user.name}
+                                        fallback={assign.user.name?.charAt(1) || "U"}
+                                        alt={assign.user.name!}
                                     />
-                                    <span className="text-muted-foreground text-[.8rem]" title={assign.user.name}>{assign.user.name.slice(0, 20)}{assign.user.name.length > 20 ? "..." : ""}</span>
+                                    <span className="text-muted-foreground text-[.8rem]" title={assign.user.name!}>{assign.user.name!.slice(0, 20)}{assign.user.name!.length > 20 ? "..." : ""}</span>
                                 </li>
                             )) : (
                                 <li className="flex items-center gap-2">
@@ -122,11 +127,12 @@ export default function EditAndShowSheet({ task, members, projectOwner }: { task
                 </div>
             </section>
         </SheetContent>
+    </Sheet>
     )
 }
 
 // child component for changing the task's status inside the sheet
-function TaskStatus({ task }: { task: TaskTable }) {
+function TaskStatus({ task }: { task: EnrichedTask }) {
 
     // handling status change for the specific task
     const handleStatusChange = async (changedStatus: string) => {
@@ -186,7 +192,7 @@ function TaskStatus({ task }: { task: TaskTable }) {
     )
 }
 
-function TaskDescription({ task }: { task: TaskTable }) {
+function TaskDescription({ task }: { task: EnrichedTask }) {
     const [isEditing, setIsEditing] = useState(false)
     const [taskDescription, setTaskDescription] = useState(task.taskDescription)
     const [isLoading, setIsLoading] = useState(false)
@@ -248,7 +254,7 @@ function TaskDescription({ task }: { task: TaskTable }) {
     )
 }
 
-function TaskTitle({ task }: { task: TaskTable }) {
+function TaskTitle({ task }: { task: EnrichedTask }) {
     const [isEditing, setIsEditing] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [taskTitle, setTaskTitle] = useState<string>(task.taskName)
@@ -314,7 +320,7 @@ interface UserAssignment {
 interface AssignTaskProps {
     members: Member[];
     projectOwner?: User;
-    task: TaskTable;
+    task: EnrichedTask;
 }
 
 function AssignTask({

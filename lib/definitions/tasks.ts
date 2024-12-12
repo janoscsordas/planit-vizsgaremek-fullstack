@@ -108,4 +108,4 @@ export type EnrichedTask = {
         imageChangedAt: Date | null;
         createdAt: Date;
     };
-}[]
+}

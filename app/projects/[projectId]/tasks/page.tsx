@@ -1,16 +1,11 @@
 import ProjectHeader from "../header"
 
-import { columns } from "@/components/projects/tasks/columns"
-import { DataTable } from "@/components/projects/tasks/data-table"
 import { db } from "@/database"
 import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
 import { UsersTable } from "@/database/schema/user"
-import {Member, Task, User} from "@/lib/definitions/projects"
 import { desc, eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
 import TaskList from "./task-list"
-import { EnrichedTask } from "@/lib/definitions/tasks"
-
 
 export default async function Tasks({
   params,
