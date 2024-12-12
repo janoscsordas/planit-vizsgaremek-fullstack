@@ -17,14 +17,14 @@ export default function CreateForm() {
             Projekt létrehozása
           </h2>
           <p className="text-muted-foreground text-sm">
-            Projekt létrehozásához adj meg egy nevet és egy leírást.
+            Projekt létrehozásához adj meg egy nevet.
           </p>
         </div>
-        <div className="">
+        <div>
           <div className="flex items-center gap-2">
             <div className="flex flex-col w-full border-b-[1px] border-foreground/10 py-2">
               <div className="flex justify-between items-center gap-2">
-                <p className="text-muted-foreground text-sm font-bold p-4">
+                <p className="w-[25%] text-muted-foreground text-sm font-bold p-4">
                   Projekt neve
                 </p>
                 <Input
@@ -33,7 +33,7 @@ export default function CreateForm() {
                   id="name"
                   placeholder="Projekt neve"
                   aria-describedby="name-errors"
-                  className="w-96 bg-muted-foreground/5 m-4 mt-0 mb-0"
+                  className="w-[75%] bg-muted-foreground/5 m-4 mt-0 mb-0"
                 />
               </div>
               <div

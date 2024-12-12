@@ -26,7 +26,7 @@ export default function BreadcrumbComponent({
         <BreadcrumbList>
           {breadcrumbs.map((breadcrumb, index) => (
             <React.Fragment key={index}>
-              <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbItem className="sm:block hidden">
                 <BreadcrumbLink
                   href={breadcrumb.href}
                   className={breadcrumb.active ? "text-emerald" : ""}
@@ -38,7 +38,7 @@ export default function BreadcrumbComponent({
                 </BreadcrumbLink>
               </BreadcrumbItem>
               {index < breadcrumbs.length - 1 && (
-                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbSeparator className="sm:block hidden" />
               )}
             </React.Fragment>
           ))}

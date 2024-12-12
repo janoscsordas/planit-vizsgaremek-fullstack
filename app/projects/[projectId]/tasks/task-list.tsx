@@ -79,5 +79,5 @@ const TaskGroup = dynamic(() => import('./task-group'), {
             <div className="h-4 w-12 bg-muted-foreground rounded"></div>
         </Skeleton>
     ),
-    ssr: false
+    ssr: true
 });

@@ -48,25 +48,19 @@ export default async function Members({
 			  	}
 			}
 		  },
+		  owner: {
+			columns: {
+			  id: true,
+			  name: true,
+			  email: true,
+			  image: true,
+			}
+		  }
 		},
 	})
 
 	if (!projectData) {
 		return notFound()
-	}
-
-	const ownersData = await db.query.UsersTable.findFirst({
-		where: eq(UsersTable.id, projectData.userId),
-		columns: {
-			id: true,
-			name: true,
-			email: true,
-			image: true
-		}
-	})
-
-	if (!ownersData) {
-		return <div>Owner not found</div>
 	}
 
 	const isOwner = projectData.userId === session.user.id
@@ -103,11 +97,11 @@ export default async function Members({
 						)
 					}
 					<Separator orientation="horizontal" className="mb-4 mt-6" />
-					<MemberComponent ownerId={ownersData.id} image={ownersData.image} name={ownersData.name} email={ownersData.email} role="owner" />
+					<MemberComponent ownerId={projectData.owner.id} image={projectData.owner.image} name={projectData.owner.name} email={projectData.owner.email} role="owner" />
 					{projectData.members && projectData.members.map((member) => (
 						<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} addedAt={member.addedAt} />
 					))}
-					{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg még nincs más tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
+					{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg más nincs tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
 				</div>
 			</main>
 		</>

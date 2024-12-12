@@ -71,6 +71,14 @@ export default async function Tasks({
             }
           }
         },
+      },
+      owner: {
+        columns: {
+          id: true,
+          name: true,
+          email: true,
+          image: true
+        }
       }
     }
   });
@@ -79,24 +87,10 @@ export default async function Tasks({
     return notFound()
   }
 
-  const projectOwner = await db.query.UsersTable.findFirst({
-      columns: {
-        id: true,
-        name: true,
-        email: true,
-        image: true
-      },
-      where: eq(UsersTable.id, projectData.userId)
-  })
-
-  if (!projectOwner) {
-    return notFound()
-  }
-
   const enrichedTasks = projectData.tasks.map((task) => ({
     ...task,
-    members: projectData.members.filter((member) => member.projectId === projectData.id),
-    projectOwner
+    members: projectData.members.filter(({ projectId }) => projectId === projectData.id),
+    projectOwner: projectData.owner
   })) || [];
 
   return (

@@ -87,9 +87,9 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                 <div 
                     title={"Elküldve: " + formatDistance(new Date(message.created_at), new Date(), { locale: hu, addSuffix: true })} 
                     className={`flex flex-col ${message.user_id === userId ? "items-end" : "items-start"}`}>
-                  <div className="text-sm text-gray-500 mb-1 mx-1 flex justify-between items-center gap-2">
+                  <div className={`text-sm text-muted-foreground mb-1 mx-1 flex ${message.user_id !== userId && "flex-row-reverse"} justify-between items-center gap-3`}>
                       <span className="text-orange-600 text-xs">{message.is_edited && "Szerkesztve"}</span>
-                      <div>{message.is_edited && "|"} {message.user.name}</div>
+                      <div>{message.user.name}</div>
                   </div>
                   <div
                     className={`p-2 rounded-lg ${
@@ -170,6 +170,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                                 disabled={loading}
                                 maxLength={256}
                                 required={true}
+                                autoComplete="off"
                             />
                             <Button disabled={loading} variant="ghost" type="button" className="absolute right-[1px] top-0" onClick={() => setEditingMessage(false)}>
                                 <X />
@@ -218,6 +219,7 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                             disabled={loading}
                             maxLength={256}
                             required={true}
+                            autoComplete="off"
                         />
                         <Button type="submit" className="ml-2" disabled={loading}>
                             {loading ? <Loader2 className="h-4 w-4 animate-spin"/> : "Küldés"}

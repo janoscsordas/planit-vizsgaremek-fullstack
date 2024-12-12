@@ -15,15 +15,15 @@ import { EnrichedTask } from "@/lib/definitions/tasks"
 
 // Lazy load heavy components
 const TaskDelete = dynamic(() => import('./task-delete'), {
-    loading: () => <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />,
+    loading: () => <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />,
 });
 
 const TaskCreate = dynamic(() => import('./task-create'), {
-    loading: () => <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />,
+    loading: () => <Loader2 className="w-3 h-3 ml-auto text-muted-foreground animate-spin" />,
 });
 
 const EditAndShowSheet = dynamic(() => import('@/components/projects/tasks/EditAndShowSheet'), {
-    loading: () => <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />,
+    loading: () => <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />,
 });
 
 interface TaskGroupProps {

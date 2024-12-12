@@ -51,7 +51,6 @@ export const useMessages = (projectId: string, userId: string) => {
                 { event: 'UPDATE', schema: 'public', table: 'messages', filter: `project_id=eq.${projectId}` },
                 async (payload) => {
                     const updatedMessage = (await fetchMessageWithUserDetails([payload.new as Message]))[0] as EnrichedMessage
-
                     setMessages((prevMessages) => prevMessages.map((message) => message.id === updatedMessage.id ? updatedMessage : message));
                 },
             )
