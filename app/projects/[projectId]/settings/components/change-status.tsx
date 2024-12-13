@@ -4,8 +4,12 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Input } from '@/components/ui/input'
-import { useActionState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import { changeProjectStatus, StatusState } from '@/actions/projects.action'
+
+interface FormState {
+	disabled: boolean
+}
 
 export default function ChangeStatus({
 	projectId,
@@ -20,6 +24,25 @@ export default function ChangeStatus({
 		initialState
 	)
 
+	const [formState, setFormState] = useState<FormState>({
+		disabled: true,
+	})
+
+	const [radioValue, setRadioValue] = useState(projectStatus)
+
+	const handleRadioChange = (value: string) => {
+		setRadioValue(value)
+		setFormState({
+			disabled: value === projectStatus,
+		})
+	}
+
+	useEffect(() => {
+		setFormState({
+			disabled: radioValue === projectStatus,
+		})
+	}, [radioValue, projectStatus])
+
 	return (
 		<div className="space-y-4 border rounded-md p-6 mt-6">
 			<div className="space-y-2">
@@ -29,7 +52,7 @@ export default function ChangeStatus({
 				</p>
 				<form action={formAction} className="space-y-4">
 					<div className="space-y-2">
-						<RadioGroup name="status" defaultValue={projectStatus}>
+						<RadioGroup name="status" defaultValue={projectStatus} onValueChange={handleRadioChange}>
 							<div className="flex items-center space-x-2">
 								<RadioGroupItem value="active" id="r1" />
 								<Label htmlFor="r1">Aktív</Label>
@@ -73,6 +96,9 @@ export default function ChangeStatus({
 					<Button
 						type="submit"
 						className="w-max bg-emerald hover:bg-emerald-hover"
+						disabled={
+							formState.disabled
+						}
 					>
 						Mentés
 					</Button>
