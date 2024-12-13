@@ -103,13 +103,14 @@ export default function MessageComponent({ projectId, userId }: { projectId: str
                 </div>
                 {message.user_id === userId && (
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild disabled={message.user_id !== userId}>
-                            <Avatar
-                                src={message.user.image}
-                                fallback={message.user.name.charAt(0)}
-                                radius="full"
-                                className="ml-2"
-                            />
+                        <DropdownMenuTrigger asChild>
+                            <button className="ml-2">
+                                <Avatar
+                                    src={message.user.image ?? undefined}
+                                    fallback={message.user.name.charAt(0)}
+                                    radius="full"
+                                />
+                            </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>Üzenet Menü</DropdownMenuLabel>

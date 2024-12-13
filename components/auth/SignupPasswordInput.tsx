@@ -49,7 +49,7 @@ export default function SignupPasswordInput({ name }: { name: string }) {
   return (
     <div className="mb-4">
       {/* Password input field with toggle visibility button */}
-      <div className="space-y-2">
+      <div>
         <Label htmlFor={name}>Jelszó</Label>
         <div className="relative">
           <Input

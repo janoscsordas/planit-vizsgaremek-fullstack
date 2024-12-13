@@ -5,11 +5,14 @@ import { redirect } from 'next/navigation'
 import UserForm from '@/components/profile/forms/UserNameForm'
 import { db } from '@/database'
 import { eq } from 'drizzle-orm'
-import { UsersTable } from '@/database/schema/user'
+import { AccountsTable, UsersTable } from '@/database/schema/user'
 import { UserData } from '@/lib/definitions/user-types'
 import UserPasswordForm from '@/components/profile/forms/UserPasswordForm'
 import ProfilePictureForm from '@/components/profile/forms/ProfilePictureForm'
 import ProfileHeader from '../ProfileHeader'
+import { Avatar, Badge } from '@radix-ui/themes'
+import { formatDate } from 'date-fns'
+import Image from 'next/image'
 
 export default async function ProfilePage() {
 	const session = await auth()
@@ -42,18 +45,73 @@ export default async function ProfilePage() {
 		imageChangedAt: getUserInformation.imageChangedAt ?? null,
 	}
 
+	const [userAccount] = await db
+		.select()
+		.from(AccountsTable)
+		.where(eq(AccountsTable.userId, session.user.id))
+		.limit(1)
+
 	return (
 		<div className=" w-[90%] mx-auto pt-8 md:pt-16">
 			<ProfileHeader />
 
 			<div className="flex flex-col md:flex-row">
 				<ProfileNavbar />
-				<div className="ml-0 md:ml-12 mt-2 w-full md:w-[50%]">
+				<div className="ml-0 md:ml-12 mt-2 w-full md:w-[65%]">
 					<h3 className="text-xl font-medium">Profilom</h3>
 					<p className="text-muted-foreground text-sm pt-2">
 						Ahogyan mások látnak téged az oldalon.
 					</p>
 					<hr className="my-6" />
+					<div className='flex items-center gap-4 mb-4'>
+						<Avatar
+							src={session.user.image ?? undefined}
+							fallback={session.user.name?.charAt(0) || '?'}
+							alt={session.user.name}
+							size="5"
+							radius='full'
+						/>
+						<div>
+							<h4 className="font-medium text-md mt-2">
+								{session.user.name}
+							</h4>
+							<p className="text-muted-foreground text-sm mb-1">
+								{session.user.email}
+							</p>
+							<Badge color={`${userData.tier === 'free' ? 'green' : 'yellow'}`}>{userData.tier}</Badge>
+						</div>
+					</div>
+					<hr className='my-6' />
+					<div>
+						<h4 className="font-medium text-md mt-2">
+							Regisztráció dátuma:
+						</h4>
+						<p className="text-muted-foreground text-sm mb-1">
+							{formatDate(userData.createdAt, 'yyyy.MM.dd HH:mm')}
+						</p>
+					</div>
+					<hr className='my-6' />
+					{userAccount && (
+						<>
+							<div>
+								<h4 className="font-medium text-md mt-2">
+									Összekapcsolt fiók:
+								</h4>
+								{userAccount.provider && (
+									<div className="text-muted-foreground text-sm mb-1 flex gap-2 mt-1">
+										<Image 
+											src={`${userAccount.provider}.svg`} 
+											alt={userAccount.provider}
+											width={16}
+											height={16}
+										/> 
+										{userData.name}
+									</div>
+								)}
+							</div>
+							<hr className='my-6' />
+						</>
+					)}
 
 					{/* User Form where the user can change their name */}
 					<UserForm userData={userData} />

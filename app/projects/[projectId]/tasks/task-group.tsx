@@ -47,9 +47,7 @@ const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
                                 loading="lazy" 
                             />
                             <AvatarFallback>
-                                {assign.user.name
-                                    ? assign.user.name.split(" ").map((n: string) => n[0]).join("")
-                                    : 'U'}
+                                {assign.user.name.charAt(0).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
                     </TooltipTrigger>

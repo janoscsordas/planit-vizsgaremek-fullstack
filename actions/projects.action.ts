@@ -145,27 +145,33 @@ export async function createProject(prevState: State, formData: FormData) {
 	const { name } = validatedData.data
 
 	// Single query to get all user's projects
-	const userProjects = await db
-		.select()
-		.from(ProjectsTable)
-		.where(eq(ProjectsTable.userId, user.id))
+	const userProjects = await db.query.ProjectsTable.findMany({
+		where: eq(ProjectsTable.userId, user.id),
+		with: {
+			owner: {
+				columns: { tier: true },
+			},
+		}
+	})
 
 	// Check both conditions using the query result
 	const hasProjectWithSameName = userProjects.some(
 		(project) => project.name === name
 	)
 	const hasMaxProjects = userProjects.length >= 5
-
+	
 	if (hasProjectWithSameName) {
 		return {
 			message: 'A megadott névvel már készített projektet!',
 		}
 	}
-
-	if (hasMaxProjects) {
-		return {
-			message:
-				'Nem hozhat létre több projektet! Frissítsen Paid verzióra, hogy több projektet hozhasson létre!',
+	
+	if (userProjects[0].owner.tier === 'free') {
+		if (hasMaxProjects) {
+			return {
+				message:
+					'Nem hozhat létre több projektet! Frissítsen Paid verzióra, hogy több projektet hozhasson létre!',
+			}
 		}
 	}
 

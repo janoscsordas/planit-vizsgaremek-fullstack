@@ -9,8 +9,6 @@ import { ProjectsTable } from '@/database/schema/projects'
 import { eq } from 'drizzle-orm'
 import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
-import { UsersTable } from '@/database/schema/user'
-
 
 export default async function Members({
 	params,

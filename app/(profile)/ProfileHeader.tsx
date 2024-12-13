@@ -1,7 +1,4 @@
-"use client"
-
-import { Button } from '@/components/ui/button'
-import { ChevronLeft } from 'lucide-react'
+import ProfileHeaderNavButtons from "./ProfileHeaderNavButtons";
 
 export default function ProfileHeader() {
 	return (
@@ -13,11 +10,7 @@ export default function ProfileHeader() {
 						Fiókbeállítások kezelése és testreszabása.
 					</p>
 				</div>
-				<div className="flex gap-2 items-center">
-					<Button variant={"outline"} onClick={() => window.history.back()}>
-						<ChevronLeft /> Vissza az előző oldalra
-					</Button>
-				</div>
+				<ProfileHeaderNavButtons />
 			</section>
 			<hr className="my-6" />
 		</>

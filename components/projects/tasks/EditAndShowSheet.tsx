@@ -81,7 +81,7 @@ export default function EditAndShowSheet({ task, children }: { task: EnrichedTas
                                     <Avatar
                                         className="w-6 h-6 mx-2 rounded-full"
                                         src={assign.user.image!}
-                                        fallback={assign.user.name?.charAt(1) || "U"}
+                                        fallback={assign.user.name?.charAt(0).toUpperCase() || "U"}
                                         alt={assign.user.name!}
                                     />
                                     <span className="text-muted-foreground text-[.8rem]" title={assign.user.name!}>{assign.user.name!.slice(0, 20)}{assign.user.name!.length > 20 ? "..." : ""}</span>
@@ -488,7 +488,7 @@ function AssignTask({
                                     >
                                         <Avatar
                                             src={member.image ?? ''}
-                                            fallback={member.name?.slice(0, 2) ?? '??'}
+                                            fallback={member.name?.charAt(0).toUpperCase() ?? '??'}
                                             alt={member.name ?? 'Ismeretlen'}
                                             className="w-6 h-6 rounded-full"
                                         />
