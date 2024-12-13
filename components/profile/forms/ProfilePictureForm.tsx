@@ -6,7 +6,7 @@ import { differenceInDays } from "date-fns";
 import { Loader2Icon } from "lucide-react";
 
 
-export default function ProfilePictureForm({ imageChangedAt }: { imageChangedAt: Date | null }) {
+export default function ProfilePictureForm({ imageChangedAt, userId }: { imageChangedAt: Date | null, userId: string }) {
     const { toast } = useToast();
 
     return (
@@ -31,15 +31,12 @@ export default function ProfilePictureForm({ imageChangedAt }: { imageChangedAt:
                         if (imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90) return `Legközelebb csak ${(90 - differenceInDays(new Date(), imageChangedAt)).toString()} nap múlva módosíthatod a profilképedet!`;
                         if (!ready) return "Adatok és egyebek betöltése";
                         if (isDragActive) return "Igen, ide húzd a képet!";
-                        return "Kattints ide, vagy húzd ide a feltölteni kivant képet"
+                        return "Kattints ide, vagy húzd ide a feltölteni kivant képet";
                     }
                 }}
                 className={`ut-button:bg-emerald ut-button:text-primary-foreground ut-button:font-sans ${imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90 ? "ut-button:cursor-not-allowed ut-button:bg-emerald-hover ut-label:cursor-not-allowed pointer-events-none" : ""}`}
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
-                    // Destructure the fileUrl and uploadedBy id
-                    const { fileUrl, uploadedBy } = res[0].serverData
-
                     // Calling the API Route
                     const response = await fetch("/api/user/profile-picture", {
                         method: "POST",
@@ -47,8 +44,8 @@ export default function ProfilePictureForm({ imageChangedAt }: { imageChangedAt:
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            fileUrl,
-                            uploadedBy,
+                            fileUrl: res[0].url,
+                            uploadedBy: userId,
                         }),
                     })
 

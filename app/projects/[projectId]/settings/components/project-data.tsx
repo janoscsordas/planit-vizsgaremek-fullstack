@@ -1,9 +1,8 @@
-'use client'
-
 import { Badge, Code, DataList, Flex, IconButton } from '@radix-ui/themes'
 import { CopyIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { hu } from 'date-fns/locale'
+import ProjectIdCopy from './project-id-copy'
 
 interface ProjectData {
 	projectName: string
@@ -67,26 +66,7 @@ export default function ProjectData({
 					<DataList.Item>
 						<DataList.Label minWidth="88px">ID</DataList.Label>
 						<DataList.Value>
-							<Flex
-								align="center"
-								gap="2"
-								onClick={() =>
-									navigator.clipboard.writeText(projectId)
-								}
-								className="cursor-pointer"
-							>
-								<Code variant="ghost">{projectId}</Code>
-								<IconButton
-									// TODO: copy to clipboard tooltip !!!
-									// onClick={() => window.prompt("Másolás vágólapra", projectId)}
-									aria-label="Copy value"
-									color="jade"
-									variant="ghost"
-									className="size-4 cursor-pointer p-1 m-1"
-								>
-									<CopyIcon />
-								</IconButton>
-							</Flex>
+							<ProjectIdCopy projectId={projectId} />
 						</DataList.Value>
 					</DataList.Item>
 					<DataList.Item>

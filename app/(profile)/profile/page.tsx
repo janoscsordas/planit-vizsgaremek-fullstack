@@ -63,6 +63,7 @@ export default async function ProfilePage() {
 					{/* Form where the user can change their profile picture every 90 days */}
 					<ProfilePictureForm
 						imageChangedAt={userData.imageChangedAt}
+						userId={session.user.id}
 					/>
 
 					{/* If user registered with credentials, their password can be changed */}
