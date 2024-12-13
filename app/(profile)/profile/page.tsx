@@ -58,6 +58,8 @@ export default async function ProfilePage() {
 					{/* User Form where the user can change their name */}
 					<UserForm userData={userData} />
 
+					{/* Form for adding a birth date to the user account */}
+
 					{/* Form where the user can change their profile picture every 90 days */}
 					<ProfilePictureForm
 						imageChangedAt={userData.imageChangedAt}

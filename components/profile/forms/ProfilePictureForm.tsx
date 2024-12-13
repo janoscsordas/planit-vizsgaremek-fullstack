@@ -22,7 +22,7 @@ export default function ProfilePictureForm({ imageChangedAt }: { imageChangedAt:
 
                         return "Betöltés...";
                     },
-                    allowedContent({ ready, fileTypes, isUploading }) {
+                    allowedContent({ ready, fileTypes, isUploading, files }) {
                         if (!ready) return "Engedélyezett fájltípusok keresése";
                         if (isUploading) return "Úgy tűnik valamit éppen feltöltesz";
                         return `Fájl, amit feltölthetsz: ${fileTypes.join(", ")}. Max 2MB`
@@ -31,7 +31,7 @@ export default function ProfilePictureForm({ imageChangedAt }: { imageChangedAt:
                         if (imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90) return `Legközelebb csak ${(90 - differenceInDays(new Date(), imageChangedAt)).toString()} nap múlva módosíthatod a profilképedet!`;
                         if (!ready) return "Adatok és egyebek betöltése";
                         if (isDragActive) return "Igen, ide húzd a képet!";
-                        return "Kattints ide, vagy húzd ide a feltölteni kívánt képet"
+                        return "Kattints ide, vagy húzd ide a feltölteni kivant képet"
                     }
                 }}
                 className={`ut-button:bg-emerald ut-button:text-primary-foreground ut-button:font-sans ${imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90 ? "ut-button:cursor-not-allowed ut-button:bg-emerald-hover ut-label:cursor-not-allowed pointer-events-none" : ""}`}
