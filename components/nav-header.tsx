@@ -94,9 +94,9 @@ export function NavHeader({
 						</Link>
 						{!isOwner && (
 							<AlertDialogTrigger asChild>
-								<DropdownMenuItem className="gap-2 p-2 focus:bg-red-500">
+								<DropdownMenuItem className="gap-2 p-2 text-red-500 focus:text-red-50 focus:bg-red-500">
 									<LogOut className="shrink-0 w-4 h-4" />
-									Kilepés a projektből
+									Kilépés a projektből
 								</DropdownMenuItem>
 							</AlertDialogTrigger>
 						)}
@@ -116,10 +116,10 @@ export function NavHeader({
 					<AlertDialogFooter>
 						<AlertDialogCancel>Mégse</AlertDialogCancel>
 						<AlertDialogAction
-							className="bg-red-500 hover:bg-red-600"
+							className="bg-red-500 text-red-50 hover:bg-red-600"
 							onClick={handleLeaveProject}
 						>
-							Kilepés
+							Kilépés
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

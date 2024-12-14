@@ -9,6 +9,9 @@ import { ProjectsTable } from '@/database/schema/projects'
 import { eq } from 'drizzle-orm'
 import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
+import { formatDate } from 'date-fns'
+import { Avatar } from '@radix-ui/themes'
+import KickMemberComponent from '@/components/projects/project/members/KickMemberComponent'
 
 export default async function Members({
 	params,
@@ -97,7 +100,25 @@ export default async function Members({
 					<Separator orientation="horizontal" className="mb-4 mt-6" />
 					<MemberComponent ownerId={projectData.owner.id} image={projectData.owner.image} name={projectData.owner.name} email={projectData.owner.email} role="owner" />
 					{projectData.members && projectData.members.map((member) => (
-						<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} addedAt={member.addedAt} />
+						isOwner ? (
+							<div className="flex items-center mt-6" key={member.id}>
+								<span className="flex justify-center items-center shrink-0 overflow-hidden rounded-full h-9 w-9">
+									<KickMemberComponent memberId={member.id} memberName={member.user.name!} projectId={projectData.id}>
+										<Avatar radius="full" src={member.user.image || ""} alt={member.user.name || ""} fallback={member.user.name?.charAt(0) || ""} />
+									</KickMemberComponent>
+								</span>
+								<div className="ml-4 space-y-1">
+									<p className="text-sm font-medium leading-none tracking-tighter flex items-center gap-1">{member.user.name}</p>
+									<p className="text-xs text-muted-foreground">{member.user.email}</p>
+									{member.addedAt && <p className="text-xs text-emerald">Csatlakozott: {formatDate(member.addedAt, "yyyy.MM.dd")}</p>}
+								</div>
+								<div className="ml-auto font-medium text-xs border px-2 py-1 rounded-lg">
+									{member.role === "admin" && "Admin" || "Tag"}
+								</div>
+							</div>	
+						): (
+							<MemberComponent key={member.id} image={member.user.image} name={member.user.name} email={member.user.email} role={member.role} addedAt={member.addedAt} />
+						)
 					))}
 					{!projectData.members.length && <p className="text-muted-foreground text-sm mt-6">Jelenleg más nincs tagja a projektnek. Hívj meg valakit a folytatáshoz.</p>}
 				</div>

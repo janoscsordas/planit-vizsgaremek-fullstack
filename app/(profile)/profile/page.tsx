@@ -13,6 +13,7 @@ import ProfileHeader from '../ProfileHeader'
 import { Avatar, Badge } from '@radix-ui/themes'
 import { formatDate } from 'date-fns'
 import Image from 'next/image'
+import BirthDateForm from '@/components/profile/forms/BirthDateForm'
 
 export default async function ProfilePage() {
 	const session = await auth()
@@ -53,7 +54,7 @@ export default async function ProfilePage() {
 
 	return (
 		<div className=" w-[90%] mx-auto pt-8 md:pt-16">
-			<ProfileHeader />
+			<ProfileHeader birthDate={userData.birthDate} />
 
 			<div className="flex flex-col md:flex-row">
 				<ProfileNavbar />
@@ -117,6 +118,7 @@ export default async function ProfilePage() {
 					<UserForm userData={userData} />
 
 					{/* Form for adding a birth date to the user account */}
+					<BirthDateForm birthDate={userData.birthDate} />
 
 					{/* Form where the user can change their profile picture every 90 days */}
 					<ProfilePictureForm

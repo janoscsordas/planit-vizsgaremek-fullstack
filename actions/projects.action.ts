@@ -313,3 +313,38 @@ export async function leaveProject(projectId: string, userId: string) {
 		`/projects?message=${encodeURIComponent('Projekt elhagyása sikeres!')}`
 	)
 }
+
+export async function removeUserFromProject(projectId: string, userId: string) {
+	await checkUserSession()
+
+	try {
+		// Check if project id is provided
+		if (!projectId || !userId) {
+			throw new Error('Project id vagy a user id nincs megadva!')
+		}
+
+		await db
+			.delete(ProjectMembersTable)
+			.where(
+				and(
+					eq(ProjectMembersTable.id, userId),
+					eq(ProjectMembersTable.projectId, projectId)
+				)
+			)
+	} catch (error) {
+		return {
+			message:
+				error instanceof Error
+					? error.message
+					: 'A felhasználó eltávolítása a projektből sikertelen!',
+			success: false,
+		}
+	}
+
+	revalidatePath(`/projects/${projectId}/members`)
+	return {
+		message:
+			'A felhasználó sikeresen eltávolítva a projektből!',
+		success: true,
+	}
+}
