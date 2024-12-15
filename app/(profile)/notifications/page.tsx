@@ -17,7 +17,7 @@ export default async function NotificationsPage() {
 	return (
 		<NotificationsProvider userId={session.user.id}>
 			<div className="w-[90%] mx-auto pt-8 md:pt-16">
-				<ProfileHeader />
+				<ProfileHeader birthDate={null} />
 				<div className="flex flex-col md:flex-row">
 					<ProfileNavbar />
 					<div className="ml-0 md:ml-12 mt-2 w-full md:w-[75%]">

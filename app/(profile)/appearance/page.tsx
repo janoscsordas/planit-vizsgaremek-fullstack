@@ -1,7 +1,4 @@
 import ProfileNavbar from "@/components/profile/ProfileNavbar"
-import { Button } from "@/components/ui/button"
-import { Flex, RadioCards } from "@radix-ui/themes"
-import Image from "next/image"
 import ProfileHeader from "../ProfileHeader"
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
@@ -16,7 +13,7 @@ export default async function AppearancePage() {
 
   return (
     <div className="w-[90%] mx-auto pt-8 md:pt-16">
-      <ProfileHeader />
+      <ProfileHeader birthDate={null} />
       <div className="flex flex-col md:flex-row">
         <ProfileNavbar />
         <div className="ml-0 md:ml-12 mt-2 w-full md:w-[65%]">
