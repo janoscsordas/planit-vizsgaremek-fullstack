@@ -64,11 +64,11 @@ export default function EditAndShowSheet({ task, children }: { task: EnrichedTas
                     <span className="text-muted-foreground"><span className="text-primary mr-3">{task.createdByUser.name}</span>készítette {formatDistance(new Date(task.createdAt), new Date(), { locale: hu, addSuffix: true })}</span>
                 </SheetDescription>
             </SheetHeader>
-            <section className="flex w-full h-full">
+            <section className="flex md:flex-row flex-col w-full h-full">
                 
                 <TaskDescription task={task} />
 
-                <div className="w-[38%] pl-3">
+                <div className="md:w-[38%] w-full pl-3 flex flex-col">
                     <div className="mt-3 flex items-center justify-between mb-4">
                         <p className="text-muted-foreground text-[.8rem]">Kiosztás:</p>
                         <AssignTask members={task.members} projectOwner={task.projectOwner} task={task} />
@@ -226,7 +226,7 @@ function TaskDescription({ task }: { task: EnrichedTask }) {
     }
 
     return (
-        <div className="w-[62%] border-r pr-3">
+        <div className="md:w-[62%] md:border-r border-b w-full md:pr-3 p-2">
             <div className="flex gap-6 items-center justify-between my-3">
                 <p className="text-muted-foreground text-[.8rem]">Feladat leírása:</p>
                 {
