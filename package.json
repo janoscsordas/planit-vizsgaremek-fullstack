@@ -54,6 +54,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.4.0",
+    "use-debounce": "^10.0.4",
     "uuid": "^11.0.3",
     "zod": "^3.24.1"
   },

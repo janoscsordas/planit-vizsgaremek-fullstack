@@ -1,24 +1,23 @@
-import ProjectHeader from "../header"
+import ProjectHeader from "../header";
 
-import { db } from "@/database"
-import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
-import { UsersTable } from "@/database/schema/user"
-import { desc, eq } from "drizzle-orm"
-import { notFound } from "next/navigation"
-import TaskList from "./task-list"
+import { db } from "@/database";
+import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects";
+import { desc, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+import TaskList from "./task-list";
 
 export default async function Tasks({
   params,
 }: Readonly<{
-  params: Promise<{ projectId: string }>
+  params: Promise<{ projectId: string }>;
 }>) {
-  const { projectId } = await params
+  const { projectId } = await params;
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
       id: true,
       userId: true,
-      name: true
+      name: true,
     },
     where: eq(ProjectsTable.id, projectId),
     with: {
@@ -28,7 +27,7 @@ export default async function Tasks({
           projectId: true,
           userId: true,
           role: true,
-          addedAt: true
+          addedAt: true,
         },
         with: {
           user: {
@@ -36,40 +35,40 @@ export default async function Tasks({
               id: true,
               name: true,
               email: true,
-              image: true
-            }
-          } 
-        }
+              image: true,
+            },
+          },
+        },
       },
       tasks: {
         orderBy: desc(ProjectTasksTable.createdAt),
         with: {
-          assigns: { 
+          assigns: {
             columns: {
               id: true,
               userId: true,
               taskId: true,
-              assignedAt: true
+              assignedAt: true,
             },
-            with: { user: 
-              {
-              columns: {
+            with: {
+              user: {
+                columns: {
                   id: true,
                   name: true,
                   email: true,
-                  image: true
-                }
-              } 
-            } 
+                  image: true,
+                },
+              },
+            },
           },
           createdByUser: {
             columns: {
               id: true,
               name: true,
               email: true,
-              image: true
-            }
-          }
+              image: true,
+            },
+          },
         },
       },
       owner: {
@@ -77,21 +76,24 @@ export default async function Tasks({
           id: true,
           name: true,
           email: true,
-          image: true
-        }
-      }
-    }
+          image: true,
+        },
+      },
+    },
   });
 
   if (!projectData) {
-    return notFound()
+    return notFound();
   }
 
-  const enrichedTasks = projectData.tasks.map((task) => ({
-    ...task,
-    members: projectData.members.filter(({ projectId }) => projectId === projectData.id),
-    projectOwner: projectData.owner
-  })) || [];
+  const enrichedTasks =
+    projectData.tasks.map((task) => ({
+      ...task,
+      members: projectData.members.filter(
+        ({ projectId }) => projectId === projectData.id
+      ),
+      projectOwner: projectData.owner,
+    })) || [];
 
   return (
     <>
@@ -115,5 +117,5 @@ export default async function Tasks({
         </div>
       </main>
     </>
-  )
+  );
 }
