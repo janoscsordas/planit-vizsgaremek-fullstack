@@ -43,10 +43,10 @@ export default async function Messages({
 					},
 				]}
 			/>
-			<main className="px-6 py-2">
+			<div className="px-6 py-2">
 				<h1 className="text-2xl font-bold">Üzenetek</h1>
 				<MessageComponent projectId={projectData.id} userId={session.user.id} />
-			</main>
+			</div>
 		</>
 	)
 }
