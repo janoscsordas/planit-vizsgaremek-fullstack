@@ -19,12 +19,11 @@ import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader, P
 import { useParams } from "next/navigation"
 import { useActionState, useState } from "react"
 
-export default function CreateTask() {
+export default function CreateTask({ children }: { children: React.ReactNode }) {
     return (
         <Dialog>
-            <DialogTrigger className="flex gap-1 items-center text-[.8rem] px-3 py-1 font-medium text-primary rounded-md border border-emerald hover:border-emerald-hover">
-                <PlusIcon className="w-4 h-4" />
-                Új feladat
+            <DialogTrigger className="flex gap-1 items-center text-[.8rem] px-3 py-1 font-medium text-primary rounded-md border border-emerald hover:border-emerald-hover" asChild>
+                {children}
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

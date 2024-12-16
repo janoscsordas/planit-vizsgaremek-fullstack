@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { useDebounce } from "use-debounce";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import CreateTask from "@/components/projects/tasks/CreateTask";
+import { PlusIcon } from "lucide-react";
 
 export default function TaskList({
   enrichedTasks,
@@ -103,6 +105,11 @@ export default function TaskList({
             <SelectItem value="high">Magas</SelectItem>
           </SelectContent>
         </Select>
+        <CreateTask>
+          <Button variant={"outline"}>
+            <PlusIcon className="h-4 w-4" />
+          </Button>
+        </CreateTask>
       </div>
       <ScrollArea className="h-[calc(100vh-9.5rem)] w-full">
         <div className="w-full space-y-4">
@@ -119,7 +126,7 @@ export default function TaskList({
               ))
             ) : (
               <div className="text-muted-foreground py-4">
-                Nincs találat a szűrésre
+                Nincs találat a szűrésre vagy még nem készítettél feladatot.
               </div>
             )}
           </Suspense>
