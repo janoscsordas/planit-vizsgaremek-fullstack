@@ -1,5 +1,11 @@
 import { useDraggable } from "@dnd-kit/core"
 import { EnrichedTask } from "@/lib/definitions/tasks"
+import { format, formatDistance } from "date-fns"
+import { hu } from "date-fns/locale"
+import { AssignedAvatars } from "@/app/projects/[projectId]/tasks/task-group"
+import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Clock } from "lucide-react"
 
 type TaskCardProps = {
   task: EnrichedTask
@@ -21,11 +27,52 @@ export function TaskCard({ task }: TaskCardProps) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className="cursor-grab rounded-lg bg-neutral-700 p-4 shadow-sm hover:shadow-md"
+      className="rounded-lg bg-neutral-800 p-5 shadow-lg transition-shadow duration-200 hover:shadow-xl"
       style={style}
     >
-      <h3 className="font-medium text-neutral-100">{task.taskName}</h3>
-      <p className="mt-2 text-sm text-neutral-400">{task.taskDescription}</p>
+      <div className="flex items-center justify-between">
+        <div className="flex lg:flex-col items-center lg:items-start lg:gap-0 gap-3 flex-row">
+          <span
+            className="uppercase text-[0.7rem] text-gray-400"
+            title={"ID: " + task.id}
+          >
+            ID-{task.id.slice(0, 2)}
+          </span>
+          <h3 className="font-semibold text-white">{task.taskName}</h3>
+        </div>
+        <AssignedAvatars assigns={task.assigns} />
+      </div>
+      <p className="mt-3 text-sm text-gray-400 line-clamp-2">
+        {task.taskDescription}
+      </p>
+      <div className="mt-3 flex items-center justify-between gap-3 text-gray-400 text-xs">
+        <div className="">
+          <Badge
+            variant="secondary"
+            className={cn(
+              "px-2 py-1 text-xs",
+              task.priority === "low" && "bg-blue-500/10 text-blue-400",
+              task.priority === "medium" && "bg-yellow-500/10 text-yellow-400",
+              task.priority === "high" && "bg-red-500/10 text-red-400"
+            )}
+          >
+            {task.priority === "low"
+              ? "Alacsony"
+              : task.priority === "medium"
+                ? "Közepes"
+                : "Magas"}
+          </Badge>
+        </div>
+        <span className="text-muted-foreground flex items-center justify-end">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="h-3 w-3" />
+            {format(task.createdAt, "MMM d", { locale: hu })}
+          </div>
+          <span className="dark:text-primary font-medium ml-2 text-right">
+            {task.createdByUser.name}
+          </span>
+        </span>
+      </div>
     </div>
   )
 }

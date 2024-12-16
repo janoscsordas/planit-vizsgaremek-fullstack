@@ -14,7 +14,7 @@ import { hu } from "date-fns/locale/hu"
 import { EnrichedTask } from "@/lib/definitions/tasks"
 
 // Lazy load heavy components
-const TaskDelete = dynamic(() => import('./task-delete'), {
+export const TaskDelete = dynamic(() => import('./task-delete'), {
     loading: () => <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />,
 });
 
@@ -34,13 +34,13 @@ interface TaskGroupProps {
 }
 
 // Memoized Assigned Avatars Component
-const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
+export const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
     <div className="flex -space-x-2">
         <TooltipProvider>
             {assigns.map((assign) => (
                 <Tooltip key={assign.id}>
                     <TooltipTrigger asChild>
-                        <Avatar className="h-6 w-6 border-2 border-background cursor-default select-none">
+                        <Avatar className="h-6 w-6 cursor-default select-none">
                             <AvatarImage 
                                 src={assign.user.image || undefined} 
                                 alt={assign.user.name || ''} 
