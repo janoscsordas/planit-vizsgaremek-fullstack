@@ -129,11 +129,11 @@ export default function MessageComponent({
                      <div
                         className={`p-2 rounded-lg ${
                            message.user_id === userId
-                              ? "bg-emerald text-primary-foreground max-w-2xl"
-                              : "bg-gray-200 dark:bg-white text-primary dark:text-primary-foreground max-w-2xl"
+                              ? "bg-emerald text-primary-foreground"
+                              : "bg-gray-200 dark:bg-white text-primary dark:text-primary-foreground"
                         }`}
                      >
-                        <>{message.content}</>
+                        {message.content}
                      </div>
                   </div>
                   {message.user_id === userId && (
