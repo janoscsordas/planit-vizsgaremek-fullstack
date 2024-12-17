@@ -111,7 +111,7 @@ export default function TaskList({
           </Button>
         </CreateTask>
       </div>
-      <ScrollArea className="h-[calc(100vh-9.5rem)] w-full">
+      <ScrollArea className="h-[calc(100vh-11.5rem)] w-full">
         <div className="w-full space-y-4">
           <Suspense fallback={<div>Loading...</div>}>
             {groupTasks.length > 0 ? (

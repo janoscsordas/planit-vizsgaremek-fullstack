@@ -18,15 +18,15 @@ export default function RecentActivity({ recentActivity }: { recentActivity: Rec
         <TableRow>
           <TableHead>Felhasználó</TableHead>
           <TableHead>Aktivitás</TableHead>
-          <TableHead>Idő</TableHead>
+          <TableHead className="text-right">Idő</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {recentActivity.length > 0 ? recentActivity.map((item) => (
           <TableRow key={item.id}>
-            <TableCell className="font-medium">{item.user.name}</TableCell>
-            <TableCell>{item.taskName}</TableCell>
-            <TableCell>{formatDistance(new Date(item.createdAt), new Date(), { addSuffix: true, locale: hu })}</TableCell>
+            <TableCell title={item.user.name} className="font-medium">{item.user.name.slice(0, 20) + (item.user.name.length > 20 ? "..." : "")}</TableCell>
+            <TableCell title={item.taskName}>{item.taskName.slice(0, 50) + (item.taskName.length > 50 ? "..." : "")}</TableCell>
+            <TableCell className="text-right">{formatDistance(new Date(item.createdAt), new Date(), { addSuffix: true, locale: hu })}</TableCell>
           </TableRow>
         )) : (
           <TableRow>

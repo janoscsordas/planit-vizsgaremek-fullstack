@@ -45,7 +45,7 @@ export default async function Messages({
          />
          {/* <div className="px-6 py-2"> */}
          <div className="md:px-6 px-0 py-2">
-            <h1 className="text-2xl font-bold pl-2 md:mx-0 text-center md:text-left mb-3">Üzenetek</h1> 
+            <h1 className="text-2xl font-bold md:pl-0 md:mx-0 text-center md:text-left mb-3">Üzenetek</h1> 
             <MessageComponent
                projectId={projectData.id}
                userId={session.user.id}

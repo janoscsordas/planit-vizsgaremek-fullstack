@@ -47,7 +47,7 @@ export default function MessageComponent({
 
    // Scroll to bottom function
    const scrollToBottom = () => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      messagesEndRef.current?.scrollIntoView()
    }
 
    // Scroll to bottom whenever messages change
@@ -182,7 +182,7 @@ export default function MessageComponent({
                {/* Edit message */}
                <form
                   onSubmit={handleEditMessage}
-                  className="pt-4 px-4 pb-1 flex items-center"
+                  className="pt-4 pb-1 flex items-center"
                >
                   <Popover>
                      <PopoverTrigger asChild className="sm:block hidden">
@@ -265,7 +265,7 @@ export default function MessageComponent({
             <>
                <form
                   onSubmit={handleSendMessage}
-                  className="pt-4 px-4 pb-1 flex items-center"
+                  className="pt-4 pb-1 flex items-center"
                >
                   <Popover>
                      <PopoverTrigger asChild className="sm:block hidden">

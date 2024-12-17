@@ -104,9 +104,9 @@ const TaskItem = React.memo(({ task }: { task: EnrichedTask }) => {
                </Button>
             </EditAndShowSheet>
          </div>
-         <span className="text-sm font-medium flex-grow">
-            {task.taskName && task.taskName.length > 72
-               ? `${task.taskName.slice(0, 72)}...`
+         <span className="text-sm font-medium flex-grow" title={task.taskName}>
+            {task.taskName && task.taskName.length > 70
+               ? `${task.taskName.slice(0, 70)}...`
                : task.taskName || ""}
          </span>
          <div className="flex items-center gap-2 ml-auto">
