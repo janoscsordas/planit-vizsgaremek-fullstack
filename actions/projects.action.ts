@@ -11,6 +11,7 @@ import { auth } from '@/auth'
 import { ProjectResponse } from '@/lib/definitions/projects'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { UsersTable } from '@/database/schema/user'
 
 // function for checking the user's session
 async function checkUserSession() {
@@ -147,10 +148,12 @@ export async function createProject(prevState: State, formData: FormData) {
 	// Single query to get all user's projects
 	const userProjects = await db.query.ProjectsTable.findMany({
 		where: eq(ProjectsTable.userId, user.id),
-		with: {
-			owner: {
-				columns: { tier: true },
-			},
+	})
+
+	const userTier = await db.query.UsersTable.findFirst({
+		where: eq(UsersTable.id, user.id),
+		columns: {
+			tier: true
 		}
 	})
 
@@ -166,7 +169,7 @@ export async function createProject(prevState: State, formData: FormData) {
 		}
 	}
 	
-	if (userProjects[0].owner.tier === 'free') {
+	if (userTier?.tier === 'free') {
 		if (hasMaxProjects) {
 			return {
 				message:
