@@ -89,7 +89,7 @@ export default function MessageComponent({
 
    return (
       <div className="flex-1 flex flex-col mt-2">
-         <ScrollArea className="rounded-md flex-1 p-4 min-h-[calc(100dvh-200px)] max-h-[calc(100dvh-200px)] overflow-y-scroll">
+         <ScrollArea className="rounded-md flex-1 px-1 md:p-0 min-h-[calc(100dvh-215px)] max-h-[calc(100dvh-215px)] overflow-y-scroll">
             {messages.map((message) => (
                <div
                   key={message.id}
@@ -124,10 +124,12 @@ export default function MessageComponent({
                         <span className="text-orange-600 text-xs">
                            {message.is_edited && "Szerkesztve"}
                         </span>
-                        <div>{message.user.name}</div>
+                        {/* /TODO: Ideas for the username display */}
+                        <div>{message.user.name.split(" ")[1]}</div>
                      </div>
+                     {/* Message content */}
                      <div
-                        className={`p-2 rounded-lg ${
+                        className={`p-2 rounded-lg lg:max-w-2xl md:max-w-md max-w-xs text-xs md:text-base ${
                            message.user_id === userId
                               ? "bg-emerald text-primary-foreground"
                               : "bg-gray-200 dark:bg-white text-primary dark:text-primary-foreground"
@@ -177,12 +179,13 @@ export default function MessageComponent({
          {error && <p className="text-red-500">{error}</p>}
          {editingMessage ? (
             <>
+               {/* Edit message */}
                <form
                   onSubmit={handleEditMessage}
                   className="pt-4 px-4 pb-1 flex items-center"
                >
                   <Popover>
-                     <PopoverTrigger asChild>
+                     <PopoverTrigger asChild className="sm:block hidden">
                         <Button
                            variant="outline"
                            className="mr-2"
@@ -252,19 +255,20 @@ export default function MessageComponent({
                      )}
                   </Button>
                </form>
-               <p className="text-center text-[.75rem] text-muted-foreground">
+               <p className="text-center lg:text-[.75rem] text-[.65rem] text-muted-foreground">
                   Szerkesztés módban vagy. Hogy kilépj küldd el a szerkesztett
                   üzenetet vagy kattints az X gombra az Input-ban.
                </p>
             </>
          ) : (
+            // Send message
             <>
                <form
                   onSubmit={handleSendMessage}
                   className="pt-4 px-4 pb-1 flex items-center"
                >
                   <Popover>
-                     <PopoverTrigger asChild>
+                     <PopoverTrigger asChild className="sm:block hidden">
                         <Button
                            variant="outline"
                            className="mr-2"
@@ -304,7 +308,7 @@ export default function MessageComponent({
                      placeholder="Írj egy üzenetet..."
                      value={newMessage}
                      onChange={(e) => setNewMessage(e.target.value)}
-                     className="flex-1"
+                     className="flex-1 md:text-base text-sm"
                      disabled={loading}
                      maxLength={256}
                      required={true}
@@ -314,7 +318,11 @@ export default function MessageComponent({
                         input && input.focus()
                      }}
                   />
-                  <Button type="submit" className="ml-2" disabled={loading}>
+                  <Button
+                     type="submit"
+                     className="ml-2 md:text-base text-sm"
+                     disabled={loading}
+                  >
                      {loading ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                      ) : (
@@ -322,9 +330,9 @@ export default function MessageComponent({
                      )}
                   </Button>
                </form>
-               <p className="text-center text-[.75rem] text-muted-foreground">
-                  Küldj üzenetet. Ha szerkeszteni szeretnél egyet vagy törölni,
-                  kattints az üzenetnél a profilképedre.
+               <p className="text-center lg:text-[.75rem] text-[.65rem] text-muted-foreground">
+                  Küldj üzenetet. Ha szerkeszteni szeretnél vagy törölni egy
+                  üzenetet, kattints az üzenetnél a profilképedre.
                </p>
             </>
          )}

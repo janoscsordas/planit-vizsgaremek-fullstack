@@ -22,7 +22,7 @@ const TaskCreate = dynamic(() => import('./task-create'), {
     loading: () => <Loader2 className="w-3 h-3 ml-auto text-muted-foreground animate-spin" />,
 });
 
-const EditAndShowSheet = dynamic(() => import('@/components/projects/tasks/EditAndShowSheet'), {
+export const EditAndShowSheet = dynamic(() => import('@/components/projects/tasks/EditAndShowSheet'), {
     loading: () => <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />,
 });
 

@@ -41,7 +41,7 @@ export default function KickMemberButton({
                     {children}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuLabel>{memberName}</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-center">{memberName}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <AlertDialogTrigger asChild>
                         <DropdownMenuItem>

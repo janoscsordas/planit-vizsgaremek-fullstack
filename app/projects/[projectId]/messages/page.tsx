@@ -29,24 +29,28 @@ export default async function Messages({
 		: project.data
 
 	return (
-		<>
-			<ProjectHeader
-				breadCrumb={[
-					{
-						label: projectData.name,
-						href: `/projects/${projectData.id}`,
-					},
-					{
-						label: 'Üzenetek',
-						href: `/projects/${projectData.id}/messages`,
-						active: true,
-					},
-				]}
-			/>
-			<div className="px-6 py-2">
-				<h1 className="text-2xl font-bold">Üzenetek</h1>
-				<MessageComponent projectId={projectData.id} userId={session.user.id} />
-			</div>
-		</>
-	)
+      <>
+         <ProjectHeader
+            breadCrumb={[
+               {
+                  label: projectData.name,
+                  href: `/projects/${projectData.id}`,
+               },
+               {
+                  label: "Üzenetek",
+                  href: `/projects/${projectData.id}/messages`,
+                  active: true,
+               },
+            ]}
+         />
+         {/* <div className="px-6 py-2"> */}
+         <div className="md:px-6 px-0 py-2">
+            <h1 className="text-2xl font-bold pl-2 md:mx-0 text-center md:text-left mb-3">Üzenetek</h1> 
+            <MessageComponent
+               projectId={projectData.id}
+               userId={session.user.id}
+            />
+         </div>
+      </>
+   )
 }

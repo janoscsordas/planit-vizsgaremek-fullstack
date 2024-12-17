@@ -44,7 +44,7 @@ export default function DndTaskMain({ enrichedTasks } : { enrichedTasks: Enriche
   const id = useId()
 
   return (
-    <div className="p-4">
+    <div className="pt-2">
       <div className="flex flex-col xl:flex-row gap-8">
         <DndContext id={id} onDragEnd={handleDragEnd}>
           <Suspense fallback={<div>Loading...</div>}>
