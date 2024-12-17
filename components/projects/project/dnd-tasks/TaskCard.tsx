@@ -27,7 +27,7 @@ export function TaskCard({ task }: TaskCardProps) {
          ref={setNodeRef}
          {...listeners}
          {...attributes}
-         className="rounded-lg bg-neutral-800 p-5 shadow-lg transition-shadow duration-200 hover:shadow-xl select-none"
+         className="rounded-lg bg-neutral-800 p-5 shadow-lg hover:shadow-xl select-none"
          style={style}
       >
          <div className="flex items-center justify-between">
@@ -38,7 +38,11 @@ export function TaskCard({ task }: TaskCardProps) {
                >
                   ID-{task.id.slice(0, 2)}
                </span>
-               <h3 className="font-semibold text-white">{task.taskName}</h3>
+               <h3 className="font-semibold text-white">
+                  {task.taskName && task.taskName.length > 20
+                     ? `${task.taskName.slice(0, 20)}...`
+                     : task.taskName || ""}
+               </h3>
             </div>
             <div className="flex flex-col items-end gap-1">
                <Ellipsis
@@ -53,7 +57,9 @@ export function TaskCard({ task }: TaskCardProps) {
             </div>
          </div>
          <p className="mt-3 text-sm text-gray-400 line-clamp-2">
-            {task.taskDescription}
+            {task.taskDescription && task.taskDescription.length > 35
+               ? `${task.taskDescription.slice(0, 35)}...`
+               : task.taskDescription || ""}
          </p>
          <div className="mt-3 flex items-center justify-between gap-3 text-gray-400 text-xs">
             <div className="">
