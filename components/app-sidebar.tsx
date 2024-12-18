@@ -22,6 +22,7 @@ import {
 	MessageCircle,
 	Users,
 	Settings2,
+	Presentation,
 } from 'lucide-react'
 
 const generateNavItems = (
@@ -47,6 +48,12 @@ const generateNavItems = (
 			url: `/projects/${projectId}/messages`,
 			icon: MessageCircle,
 			isActive: pathName === `/projects/${projectId}/messages`,
+		},
+		{
+			title: 'Whiteboard',
+			url: `/projects/${projectId}/whiteboard`,
+			icon: Presentation,
+			isActive: pathName === `/projects/${projectId}/whiteboard`,
 		},
 		{
 			title: 'Tagok',

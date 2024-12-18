@@ -91,7 +91,7 @@ export default async function Members({
                         Adj hozzá tagokat a projektedhez.
                      </p>
                      <p className="text-muted-foreground text-sm mb-4">
-                        Ha el akarsz távolítani valakit, kattints a
+                        Ha el szeretnél távolítani valakit, kattints a
                         profilképére.
                      </p>
                      <Suspense
@@ -166,7 +166,7 @@ export default async function Members({
                   )}
                {!projectData.members.length && (
                   <p className="text-muted-foreground text-sm mt-6">
-                     Jelenleg más nincs tagja a projektnek. Hívj meg valakit a
+                     Jelenleg nincs tagja a projektednek. Hívj meg valakit a
                      folytatáshoz.
                   </p>
                )}

@@ -4,7 +4,7 @@ import { format } from "date-fns"
 import { hu } from "date-fns/locale"
 import { AssignedAvatars } from "@/app/projects/[projectId]/tasks/task-group"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@radix-ui/themes"
 import { Clock, Ellipsis } from "lucide-react"
 
 type TaskCardProps = {
@@ -39,8 +39,8 @@ export function TaskCard({ task }: TaskCardProps) {
                   ID-{task.id.slice(0, 2)}
                </span>
                <h3 className="font-semibold text-white">
-                  {task.taskName && task.taskName.length > 20
-                     ? `${task.taskName.slice(0, 20)}...`
+                  {task.taskName && task.taskName.length > 24
+                     ? `${task.taskName.slice(0, 24)}...`
                      : task.taskName || ""}
                </h3>
             </div>
@@ -64,14 +64,13 @@ export function TaskCard({ task }: TaskCardProps) {
          <div className="mt-3 flex items-center justify-between gap-3 text-gray-400 text-xs">
             <div className="">
                <Badge
-                  variant="secondary"
-                  className={cn(
-                     "px-2 py-1 text-xs",
-                     task.priority === "low" && "bg-blue-500/10 text-blue-400",
-                     task.priority === "medium" &&
-                        "bg-yellow-500/10 text-yellow-400",
-                     task.priority === "high" && "bg-red-500/10 text-red-400"
-                  )}
+                  color={
+                     task.priority === "low"
+                        ? "green"
+                        : task.priority === "medium"
+                          ? "yellow"
+                          : "red"
+                  }
                >
                   {task.priority === "low"
                      ? "Alacsony"
