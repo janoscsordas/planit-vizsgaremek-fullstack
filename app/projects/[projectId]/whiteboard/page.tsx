@@ -44,7 +44,12 @@ export default async function WhiteboardPage({
             />
             <section className="px-6 py-2">
                 <h1 className="text-2xl font-bold">Whiteboard</h1>
-                <WhiteBoardWrapper userId={session.user.id} />
+                <WhiteBoardWrapper 
+                    userId={session.user.id} 
+                    projectId={projectData.id} 
+                    projectName={projectData.name} 
+                    userName={session.user.name!}
+                />
             </section>
         </>
     )

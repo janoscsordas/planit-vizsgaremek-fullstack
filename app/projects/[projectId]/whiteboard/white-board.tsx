@@ -3,21 +3,47 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/lib/utils/supabase';
 import { MousePointer2 } from 'lucide-react';
+import WhiteBoardHeader from './white-board-header';
+import { useUserColor } from './useUserColor';
+import { Stage, Layer, Line } from 'react-konva';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 interface UserMousePosition {
   userId: string;
+  userName: string;
   x: number;
   y: number;
   color: string;
   lastActive: number;
 }
 
-export default function Whiteboard({ userId }: { userId: string }) {
-  const [otherUsers, setOtherUsers] = useState<UserMousePosition[]>([]);
-  const canvasRef = useRef<HTMLDivElement>(null);
+interface DrawEvent {
+  userId: string;
+  userName: string;
+  points: number[];
+  color: string;
+  lastActive: number;
+}
 
-  // Generate a random pastel color for the user
-  const userColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+export default function Whiteboard({ 
+  userId, 
+  projectId, 
+  projectName, 
+  userName, 
+  onClose 
+}: { 
+  userId: string, 
+  projectId: string, 
+  projectName: string, 
+  userName: string, 
+  onClose: () => void 
+}) {
+  const [otherUsers, setOtherUsers] = useState<UserMousePosition[]>([]);
+  const [drawings, setDrawings] = useState<DrawEvent[]>([]);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [currentPoints, setCurrentPoints] = useState<number[]>([]);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const userColor = useUserColor(userId);
 
   const updateUserPosition = useCallback((newPosition: UserMousePosition) => {
     setOtherUsers(prev => {
@@ -31,6 +57,7 @@ export default function Whiteboard({ userId }: { userId: string }) {
           ...prev,
           [newPosition.userId]: {
             ...newPosition,
+            userName: newPosition.userName || existingUser?.userName,
             color: existingUser ? existingUser.color : newPosition.color,
             lastActive: Date.now()
           }
@@ -65,12 +92,17 @@ export default function Whiteboard({ userId }: { userId: string }) {
     // Subscribe to mouse position updates
     const channel = supabase.channel('mouse-positions')
       .on('broadcast', { event: 'mouse-move' }, (payload) => {
-        const { userId: senderId, x, y, color } = payload.payload as UserMousePosition;
+        const { userId: senderId, userName, x, y, color } = payload.payload as UserMousePosition;
         
         // Ignore updates from the current user
         if (senderId !== userId) {
-          updateUserPosition({ userId: senderId, x, y, color, lastActive: Date.now() });
+          updateUserPosition({ userId: senderId, userName, x, y, color, lastActive: Date.now() });
         }
+      })
+      .on('broadcast', { event: 'draw' }, (payload) => {
+        const { userId: senderId, userName, points, color } = payload.payload as DrawEvent;
+
+        setDrawings(prev => [ ...prev, { userId, userName, points, color, lastActive: Date.now() } ])
       })
       .subscribe();
 
@@ -85,7 +117,7 @@ export default function Whiteboard({ userId }: { userId: string }) {
         supabase.channel('mouse-positions').send({
           type: 'broadcast',
           event: 'mouse-move',
-          payload: { userId, x, y, color: userColor, lastActive: Date.now() }
+          payload: { userId, userName, x, y, color: userColor, lastActive: Date.now() }
         });
       }
     };
@@ -106,25 +138,102 @@ export default function Whiteboard({ userId }: { userId: string }) {
     };
   }, [userId, userColor, updateUserPosition]);
 
+  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
+    setIsDrawing(true);
+    const pointerPosition = e.target.getStage()?.getPointerPosition();
+    if (pointerPosition) {
+      const { x, y } = pointerPosition;
+      setCurrentPoints([x, y]);
+    }
+  };
+
+  const handleMouseMoveDraw = (e: KonvaEventObject<MouseEvent>) => {
+    if (!isDrawing) return;
+    const pointerPosition = e.target.getStage()?.getPointerPosition();
+    if (pointerPosition) {
+      const { x, y } = pointerPosition;
+      setCurrentPoints(prev => [...prev, x, y]);
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (isDrawing) {
+      setIsDrawing(false);
+      // Broadcast the drawing event to other users
+      supabase.channel('mouse-positions').send({
+        type: 'broadcast',
+        event: 'draw',
+        payload: { userId, userName, points: currentPoints, color: userColor, lastActive: Date.now() }
+      });
+
+      // Save to the database
+      supabase
+        .from('drawings')
+        .insert([{ user_id: userId, user_name: userName, points: currentPoints, color: userColor, project_id: projectId }])
+        .then();
+
+      setCurrentPoints([]);
+    }
+  };
+
   return (
-    <div className='w-[calc(100dvw-305px)] h-[600px] overflow-auto bg-white border-4 border-muted-foreground'>
+    <div className='w-full h-full inset-0 z-50 fixed bg-white'>
+      <WhiteBoardHeader onClose={onClose} />
       <div
         ref={canvasRef}
-        className="relative w-[5000px] h-[5000px]"
+        className="relative w-full h-full"
       >
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMoveDraw}
+          onMouseUp={handleMouseUp}
+        >
+          <Layer>
+            {/* Draw current user's ongoing path */}
+            {isDrawing && (
+              <Line points={currentPoints} stroke={userColor} strokeWidth={5} tension={0.5} lineJoin="round" lineCap="round" />
+            )}
+
+            {/* Render other users' paths */}
+            {drawings.map((drawing, index) => (
+              <Line key={index} points={drawing.points} stroke={drawing.color} strokeWidth={5} tension={0.5} lineJoin="round" lineCap="round" />
+            ))}
+          </Layer>
+        </Stage>
         {/* Render other users' cursors */}
         {Object.values(otherUsers).map((user) => (
-          <MousePointer2
-            key={user.userId}
-            className="absolute cursor-pointer w-5 h-5"
-            fill={user.color}
+          <div 
+            key={user.userId} 
+            className="absolute"
             style={{
               left: user.x,
               top: user.y,
-              color: user.color,
               transform: 'translate(-50%, -50%)',
             }}
-          />
+          >
+            <div className="flex items-center">
+              <MousePointer2
+                className="cursor-pointer w-5 h-5"
+                fill={user.color}
+                style={{
+                  color: user.color,
+                }}
+              />
+              {user.userName && (
+                <div 
+                  className="ml-2 px-2 py-1 rounded-md text-xs font-medium"
+                  style={{ 
+                    backgroundColor: user.color, 
+                    color: 'white' 
+                  }}
+                >
+                  {user.userName}
+                </div>
+              )}
+            </div>
+          </div>
         ))}
       </div>
     </div>
