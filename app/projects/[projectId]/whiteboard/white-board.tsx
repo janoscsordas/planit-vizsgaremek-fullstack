@@ -7,6 +7,7 @@ import WhiteBoardHeader from './white-board-header';
 import { useUserColor } from './useUserColor';
 import { Stage, Layer, Line } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
+import WhiteBoardFooter from './white-board-footer';
 
 interface UserMousePosition {
   userId: string;
@@ -236,6 +237,7 @@ export default function Whiteboard({
           </div>
         ))}
       </div>
+      <WhiteBoardFooter userName={userName} />
     </div>
   );
 };
