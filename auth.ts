@@ -17,7 +17,20 @@ export const authConfig = {
     providers: [
         GitHub({
             clientId: process.env.AUTH_GITHUB_ID!,
-            clientSecret: process.env.AUTH_GITHUB_SECRET!
+            clientSecret: process.env.AUTH_GITHUB_SECRET!,
+            async profile(profile) {
+                // Check if the avatar URL starts with "private-avatars"
+                if (profile.avatar_url.startsWith('https://private-avatars')) {
+                  // Replace with the public URL
+                  profile.avatar_url = profile.avatar_url.replace('private-', '');
+                }
+                return {
+                    id: profile.id.toString(),
+                    name: profile.name,
+                    email: profile.email,
+                    image: profile.avatar_url
+                } as User;
+            },
         }),
         Google({
             clientId: process.env.AUTH_GOOGLE_ID!,
