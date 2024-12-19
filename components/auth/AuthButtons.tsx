@@ -16,7 +16,7 @@ export default function AuthButtons() {
       setIsLoading(true)
       const result = await signIn(provider, {
         redirect: false,
-        redirectTo: '/projects' // or wherever you want to redirect after success
+        redirectTo: '/projects'
       })
 
       if (result?.error) {
