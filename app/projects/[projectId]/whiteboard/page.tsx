@@ -28,29 +28,29 @@ export default async function WhiteboardPage({
     }
 
     return (
-        <>
-            <ProjectHeader
-                breadCrumb={[
-                    {
-                        label: projectData.name,
-                        href: `/projects/${projectData.id}`,
-                    },
-                    {
-                        label: "Whiteboard",
-                        href: `/projects/${projectData.id}/whiteboard`,
-                        active: true,
-                    },
-                ]}
-            />
-            <section className="px-6 py-2">
-                <h1 className="text-2xl font-bold">Whiteboard</h1>
-                <WhiteBoardWrapper 
-                    userId={session.user.id} 
-                    projectId={projectData.id} 
-                    projectName={projectData.name} 
-                    userName={session.user.name!}
-                />
-            </section>
-        </>
+       <>
+          <ProjectHeader
+             breadCrumb={[
+                {
+                   label: projectData.name,
+                   href: `/projects/${projectData.id}`,
+                },
+                {
+                   label: "Ötlettábla",
+                   href: `/projects/${projectData.id}/whiteboard`,
+                   active: true,
+                },
+             ]}
+          />
+          <section className="px-6 py-2">
+             <h1 className="text-2xl font-bold pb-6">Ötlettábla</h1>
+             <WhiteBoardWrapper
+                userId={session.user.id}
+                projectId={projectData.id}
+                projectName={projectData.name}
+                userName={session.user.name!}
+             />
+          </section>
+       </>
     )
 }

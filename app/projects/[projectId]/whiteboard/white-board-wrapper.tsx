@@ -27,7 +27,7 @@ export default function WhiteBoardWrapper({
                 className="flex items-center gap-2"
             >
                 <Maximize className="mr-2 h-4 w-4" />
-                Whiteboard megnyitása
+                Ötlettábla megnyitása
             </Button>
 
             {canvasOpen &&
