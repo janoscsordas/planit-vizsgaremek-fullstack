@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, IconButton } from '@radix-ui/themes'
 import { User } from 'next-auth'
-import { LogOut, MoveLeftIcon, PlusIcon, UserIcon } from 'lucide-react'
+import { BookOpen, LogOut, MoveLeftIcon, PlusIcon, UserIcon } from 'lucide-react'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 import DialogLogoutButton from '../projects/DialogLogoutButton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
@@ -20,35 +20,45 @@ export default function ChatSidebar({ user }: { user: User }) {
     return (
         <TooltipProvider>
             <aside className="px-2 py-3 fixed top-0 left-0 h-screen w-max bg-card border-r border-r-muted">
-                <div className='flex flex-col gap-4 justify-between items-center h-full'>
-                    <div className='flex flex-col items-center gap-4'>
-                        <Link href="/">
+                <div className='flex flex-col gap-3 justify-between items-center h-full'>
+                    <div className='flex flex-col items-center gap-2'>
+                        <Link href="/" className='cursor-pointer mb-4'>
                             <Image src="/icon.png" alt="Logó" width={28} height={28} />
                         </Link>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <IconButton variant={"outline"} color="gray" radius={"large"} className='cursor-pointer'>
-                                    <PlusIcon className='w-4 h-4 text-primary' />
-                                </IconButton>
+                                <Link href="/chat">
+                                    <IconButton variant={"outline"} color="gray" radius={"large"} className='cursor-pointer'>
+                                        <PlusIcon className='w-4 h-4 text-primary' />
+                                    </IconButton>
+                                </Link>
                             </TooltipTrigger>
                             <TooltipContent side={'right'}>
                                 Új chat
                             </TooltipContent>
                         </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link href="/chat/history" className='cursor-pointer p-2 hover:bg-emerald rounded-md transition-colors duration-150'>
+                                    <BookOpen className='w-4 h-4 text-primary' />
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side={'right'}>
+                                Könyvtár
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                     <AlertDialog>
                         <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <div>
-                                    <Avatar 
-                                        src={user.image || ""} 
-                                        alt={user.name || "Felhasználó"} 
-                                        fallback={user.name?.charAt(0) || "F"} 
-                                        size={"2"}
-                                    />
-                                </div>
+                            <DropdownMenuTrigger asChild className='cursor-pointer'>
+                                <Avatar 
+                                    src={user.image || ""} 
+                                    alt={user.name || "Felhasználó"} 
+                                    fallback={user.name?.charAt(0) || "F"} 
+                                    size={"2"}
+                                />
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent side='right' sideOffset={8}>
+                            <DropdownMenuContent side='top' sideOffset={8}>
                                 <DropdownMenuLabel>
                                     <div className='flex gap-2 items-center'>
                                         <div className='w-7 h-7 rounded-full'>

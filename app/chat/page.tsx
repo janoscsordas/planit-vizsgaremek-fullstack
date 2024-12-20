@@ -12,11 +12,6 @@ export default async function Page() {
     }
 
     return (
-        <>
-            <ChatSidebar user={session.user} />
-            <main className="w-full h-full pl-10">
-                <ChatComponent user={session.user} />
-            </main>
-        </>
+        <ChatComponent user={session.user} />
     )
 }
