@@ -8,6 +8,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { initiateConversation } from "@/actions/aichat.action";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function ChatComponent({ 
     user, 
@@ -15,33 +16,39 @@ export default function ChatComponent({
     user: User, 
 }) {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     {/* AI name: Planie */}
 
     /* This function will initiate a new conversation with the AI.
     * Then if everything is successful, it will initiate a new conversation in the db,
-    * and redirect the user to /chat/:chatId/page.
+    * and redirect the user to /chat/:chatId.
     */
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const message = e.currentTarget.message.value;
+        try {
+            setIsLoading(true);
+            e.preventDefault();
+            const message = e.currentTarget.message.value;
 
-        const validatedMessage = z.string().nonempty().safeParse(message);
+            const validatedMessage = z.string().nonempty().safeParse(message);
 
-        if (!validatedMessage.success) {
-            toast.error("Az üzenet nem lehet üres!", { position: "top-center" });
-            return;
+            if (!validatedMessage.success) {
+                throw new Error("Hibás adatokat adott meg!");
+            }
+
+            // Sending everything we need to the backend
+            // In this case, we are sending the user's message to the AI and the user's id to initiate a new conversation
+            const response = await initiateConversation({ message, userId: user.id! });
+
+            if (!response.success) {
+                throw new Error(response.message);
+            }
+            
+            router.push(`/chat/${response.conversationId}`);
+        } catch (error: any) {
+            toast.error(error.message, { position: "top-center" });
+        } finally {
+            setIsLoading(false);
         }
-
-        // Sending everything we need to the backend
-        // In this case, we are sending the user's message to the AI and the user's id to initiate a new conversation
-        const response = await initiateConversation({ message, userId: user.id! });
-
-        if (!response.success) {
-            toast.error(response.message, { position: "top-center" });
-            return;
-        }
-        
-        router.push(`/chat/${response.conversationId}`);
     }
 
     return (
@@ -51,7 +58,7 @@ export default function ChatComponent({
                     <h2 className="text-center text-3xl">
                         Üdv <strong className="text-emerald selection:bg-transparent">{user.name}</strong>! <br /> Miben segíthetek ma?
                     </h2>
-                    <small className="text-muted-foreground text-xs">Küldj üzenetet a kezdéshez!</small>
+                    <small className="text-muted-foreground text-xs">Küldj üzenetet a kezdéshez! Planie még csak angolul tud.</small>
                 </div>
             </div>
             <div>
@@ -62,8 +69,9 @@ export default function ChatComponent({
                         placeholder="Írj egy üzenetet..."
                         className="min-h-[none] resize-none focus-visible:ring-0 no-scrollbar max-h-[10rem] py-2"
                         required
+                        disabled={isLoading}
                     />
-                    <Button variant={"outline"} type="submit">
+                    <Button variant={"outline"} type="submit" disabled={isLoading}>
                         <SendIcon className="w-6 h-6" />
                     </Button>
                 </form>

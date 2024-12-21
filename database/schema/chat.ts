@@ -11,7 +11,7 @@ export const ChatConversationsTable = pgTable("chat_conversations", {
         .references(() => UsersTable.id, { onDelete: "cascade" }),
     title: text("title")
         .notNull(),
-    createdAt: timestamp("createdAt", { mode: "date", withTimezone: true })
+    createdAt: timestamp("createdAt", { mode: "date", withTimezone: true }).notNull().defaultNow()
 })
 
 export const ChatMessagesTable = pgTable("chat_messages", {
@@ -25,5 +25,5 @@ export const ChatMessagesTable = pgTable("chat_messages", {
         .notNull(),
     botResponse: text("bot_response")
         .notNull(),
-    createdAt: timestamp("createdAt", { mode: "date", withTimezone: true })
+    createdAt: timestamp("createdAt", { mode: "date", withTimezone: true }).notNull().defaultNow()
 })

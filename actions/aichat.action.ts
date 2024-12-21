@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/database";
 import { ChatConversationsTable, ChatMessagesTable } from "@/database/schema/chat";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -82,5 +83,31 @@ export async function initiateConversation({
             success: false,
             message: error instanceof Error ? error.message : "Hiba történt!"
         }
+    }
+}
+
+export async function deleteConversation(conversationId: string) {
+    const session = await auth();
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Nem vagy bejelentkezve!"
+        }
+    }
+
+    try {
+        await db.delete(ChatConversationsTable).where(eq(ChatConversationsTable.id, conversationId));
+    } catch(error: any) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba történt!"
+        }
+    }
+
+    revalidatePath("/chat/history");
+    return {
+        success: true,
+        message: "Beszélgetés törölve!"
     }
 }

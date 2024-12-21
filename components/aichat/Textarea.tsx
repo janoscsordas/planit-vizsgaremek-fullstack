@@ -8,13 +8,15 @@ export default function TextArea({
     id, 
     placeholder, 
     className,
-    required
+    required,
+    disabled,
 }: { 
     name: string, 
     id: string, 
     placeholder: string, 
-    className: string 
-    required: boolean
+    className: string,
+    required: boolean,
+    disabled?: boolean,
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const defaultRows = 1;

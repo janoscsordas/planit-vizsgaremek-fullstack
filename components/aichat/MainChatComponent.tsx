@@ -16,25 +16,26 @@ export default function MainChatComponent({
         createdAt: Date | null
     }[] 
 }) {
+    const submitMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const message = e.currentTarget.message.value;
+
+        
+    }
 
     return (
         <section className="flex flex-col justify-between h-screen mx-auto w-[95%] sm:w-[85%] md:w-[70%] lg:w-[65%] xl:w-[60%] 2xl:w-[55%]">
-            <div className="w-full h-[90%] rounded-md overflow-y-scroll flex flex-col gap-2 mt-2">
+            <div className="w-full h-[90%] rounded-md overflow-y-scroll flex flex-col gap-2 mt-2 p-4">
                 {messages.map((message) => {
                     return (
                         <div key={message.id} className="flex flex-col gap-2">
-                            <div>
-                                <div className="flex flex-col gap-2 justify-center items-center h-full font-bold">
-                                    <h2 className="text-center text-3xl">
-                                        {message.userInput}
-                                    </h2>
-                                </div>
+                            <div className="ml-auto bg-muted p-1 px-2 rounded-md w-max">
+                                {message.userInput}
                             </div>
-                            <div>
-                                <div className="flex flex-col gap-2 justify-center items-center h-full font-bold">
-                                    <h2 className="text-center text-3xl">
-                                        {message.botResponse}
-                                    </h2>
+                            <div className="flex flex-col items-start gap-1">
+                                <span className="text-xs text-muted-foreground">Planie</span>
+                                <div className="mr-auto bg-emerald p-1 px-2 rounded-md w-[85%]">
+                                    {message.botResponse}
                                 </div>
                             </div>
                         </div>

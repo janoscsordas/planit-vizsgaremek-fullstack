@@ -8,7 +8,7 @@ export default function NotFound() {
             <div>
                 <h1 className="text-4xl font-bold text-center text-emerald">404</h1>
                 <p className="text-center text-lg text-muted-foreground">Az keresett chat nem található. Eltévedtél?</p>
-                <Link href="/chat">
+                <Link href="/chat" className="block w-max mx-auto">
                     <Button className="mt-4 bg-emerald hover:bg-emerald-hover">
                         Vissza a chathez
                     </Button>
