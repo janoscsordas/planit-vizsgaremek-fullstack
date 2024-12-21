@@ -7,12 +7,14 @@ export default function TextArea({
     name, 
     id, 
     placeholder, 
-    className 
+    className,
+    required
 }: { 
     name: string, 
     id: string, 
     placeholder: string, 
     className: string 
+    required: boolean
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const defaultRows = 1;
@@ -43,6 +45,7 @@ export default function TextArea({
         onChange={handleInput}
         rows={defaultRows}
         className={className}
+        required={required}
       />
   );
 }
