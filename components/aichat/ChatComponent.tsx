@@ -1,7 +1,6 @@
 "use client";
 
 import { User } from "next-auth";
-import TextArea from "./Textarea";
 import { SendIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { z } from "zod";
@@ -9,6 +8,8 @@ import { toast } from "sonner";
 import { initiateConversation } from "@/actions/aichat.action";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Textarea } from "../ui/textarea";
+import { Spinner } from "@radix-ui/themes";
 
 export default function ChatComponent({ 
     user, 
@@ -63,16 +64,17 @@ export default function ChatComponent({
             </div>
             <div>
                 <form className="pb-2 flex items-center gap-2" onSubmit={handleSubmit}>
-                    <TextArea 
+                    <Textarea 
                         name="message"
                         id="message"
                         placeholder="Írj egy üzenetet..."
                         className="min-h-[none] resize-none focus-visible:ring-0 no-scrollbar max-h-[10rem] py-2"
                         required
                         disabled={isLoading}
+                        rows={1}
                     />
                     <Button variant={"outline"} type="submit" disabled={isLoading}>
-                        <SendIcon className="w-6 h-6" />
+                        {isLoading ? <Spinner /> : <SendIcon size={24} />}
                     </Button>
                 </form>
                 <small className="text-muted-foreground text-center block text-xs pb-2">Planie hibázhat. A fontos információkat mindig ellenőrizd le.</small>

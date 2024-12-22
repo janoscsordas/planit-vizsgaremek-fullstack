@@ -1,24 +1,49 @@
 import { auth } from "@/auth"
 import { db } from "@/database"
-import { eq } from "drizzle-orm"
+import { eq, and, ilike, desc } from "drizzle-orm"
 import { ChatConversationsTable } from "@/database/schema/chat"
-import { Avatar, TextField } from "@radix-ui/themes"
-import { Search, Trash2Icon } from "lucide-react"
 import { redirect } from "next/navigation"
-import Link from "next/link"
 import HistoryCard from "@/components/aichat/HistoryCard"
+import { Suspense } from "react"
+import SearchForm from "./search-form"
 
-export default async function Page() {
+export default async function Page({ 
+    searchParams 
+}: {
+    searchParams: Promise<{ query: string }>
+}) {
     const session = await auth()
 
     if (!session || !session.user) {
         return redirect('/login')
     }
 
-    const conversations = await db
-        .select()
-        .from(ChatConversationsTable)
-        .where(eq(ChatConversationsTable.userId, session.user.id))
+    const { query } = await searchParams || "";
+
+    async function getChatsByQuery(query: string, userId: string) {
+        // If query is empty, return all conversations for the user
+        if (!query) {
+            return await db
+                .select()
+                .from(ChatConversationsTable)
+                .where(eq(ChatConversationsTable.userId, userId))
+                .orderBy(desc(ChatConversationsTable.createdAt));
+        }
+
+        // Otherwise, search with the query
+        return await db
+            .select()
+            .from(ChatConversationsTable)
+            .where(
+                and(
+                    eq(ChatConversationsTable.userId, userId),
+                    ilike(ChatConversationsTable.title, `%${query}%`)
+                )
+            )
+            .orderBy(desc(ChatConversationsTable.createdAt));
+    }
+
+    const results = await getChatsByQuery(query, session.user.id)
 
     return (
         <>
@@ -27,23 +52,21 @@ export default async function Page() {
                     <h1 className="text-lg font-semibold py-3 pl-2">Könyvtár</h1>
                 </div>
                 <div className="border-b border-muted">
-                    <TextField.Root placeholder="Korábbi chat keresés..." className="my-3 mx-2" color="green">
-                        <TextField.Slot>
-                            <Search className="w-4 h-4" />
-                        </TextField.Slot>
-                    </TextField.Root>
+                    <SearchForm defaultValue={query} />
                 </div>
             </header>
-            <section className="pl-2 py-3 min-h-[calc(100dvh-110px)] mr-2 max-h-[calc(100dvh-110px)] overflow-y-auto">
-                {
-                    conversations && conversations.length > 0 ? (
-                        conversations.map(conversation => (
-                            <HistoryCard key={conversation.id} user={session.user} conversation={conversation} />
-                        ))
-                    ) : (
-                        <p className="text-muted-foreground text-sm">Még nincs chat előzményed.</p>
-                    )
-                }
+            <section className="pl-2 py-3 min-h-[calc(100dvh-110px)] mr-2 flex flex-col gap-2 max-h-[calc(100dvh-110px)] overflow-y-auto">
+                <Suspense fallback={<div>Loading...</div>}>
+                    {
+                        results && results.length > 0 ? (
+                            results.map(conversation => (
+                                <HistoryCard key={conversation.id} user={session.user} conversation={conversation} />
+                            ))
+                        ) : (
+                            <p className="text-muted-foreground text-sm">Még nincs chat előzményed.</p>
+                        )
+                    }
+                </Suspense>
             </section>
         </>
     )

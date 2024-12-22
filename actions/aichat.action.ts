@@ -5,8 +5,13 @@ import { db } from "@/database";
 import { ChatConversationsTable, ChatMessagesTable } from "@/database/schema/chat";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
+import { OpenAI } from "openai";
+
+const client = new OpenAI({
+    baseURL: "https://api-inference.huggingface.co/v1/",
+    apiKey: process.env.HUGGING_FACE_API_KEY!
+});
 
 export async function initiateConversation({ 
     message, 
@@ -34,19 +39,6 @@ export async function initiateConversation({
             throw new Error("Hibás adatokat adott meg!");
         }
 
-        const botResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/ai-model`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ prompt: message })
-        })
-
-        if (!botResponse.ok) {
-            const error = await botResponse.json();
-            throw new Error("Hiba történt az AI hívás közben! " + error.error);
-        }
-
         // Here we create a new conversation with the given userId
         const [conversation] = await db
             .insert(ChatConversationsTable)
@@ -62,14 +54,18 @@ export async function initiateConversation({
             throw new Error("Hiba történt a beszélgetés létrehozása közben!");
         }
 
-        const responseFromBot = await botResponse.json();
+        const responseFromBot = await sendMessageToAI(message);
+
+        if (!responseFromBot.success) {
+            throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
+        }
 
         await db
             .insert(ChatMessagesTable)
             .values({
                 conversationId: conversation.id,
                 userInput: message,
-                botResponse: responseFromBot
+                botResponse: responseFromBot.data ? responseFromBot.data : "Nem sikerült válaszolni!",
             })
 
         console.log("conversation", conversation);
@@ -109,5 +105,113 @@ export async function deleteConversation(conversationId: string) {
     return {
         success: true,
         message: "Beszélgetés törölve!"
+    }
+}
+
+export async function sendMessageToAI(message: string) {
+    const session = await auth();
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Nem vagy bejelentkezve!"
+        }
+    }
+
+    if (!message) {
+        return {
+            success: false,
+            message: "Nem adott meg üzenetet!"
+        }
+    }
+
+    const validatedFields = z.string().nonempty().safeParse(message);
+
+    if (!validatedFields.success) {
+        return {
+            success: false,
+            message: "Hibás adatokat adott meg!"
+        }
+    }
+
+    const chatCompletion = await client.chat.completions.create({
+        model: "mistralai/Mistral-7B-Instruct-v0.3",
+        messages: [
+            {
+                role: "user",
+                content: validatedFields.data
+            }
+        ],
+        max_tokens: 500
+    });
+
+    if (!chatCompletion.choices || chatCompletion.choices.length === 0) {
+        return {
+            success: false,
+            message: "Hiba történt a válasz létrehozása közben!"
+        }
+    }
+
+    return {
+        success: true,
+        data: chatCompletion.choices[0].message.content
+    };
+}
+
+export async function sendNewMessage(conversationId: string, userId: string, message: string) {
+    const session = await auth();
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Nem vagy bejelentkezve!"
+        }
+    }
+
+    try {
+        const validatedFields = z.object({ 
+            conversationId: z.string().nonempty(), 
+            userId: z.string().nonempty(), 
+            message: z.string().nonempty() 
+        }).safeParse({ conversationId, userId, message });
+    
+        if (!validatedFields.success) {
+            throw new Error("Hibás adatokat adott meg!");
+        }
+
+        const responseFromBot = await sendMessageToAI(validatedFields.data.message);
+
+        if (!responseFromBot.success) {
+            throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
+        }
+
+        const [addedMessage] = await db
+            .insert(ChatMessagesTable)
+            .values({
+                conversationId: validatedFields.data.conversationId,
+                userInput: validatedFields.data.message,
+                botResponse: responseFromBot.data ? responseFromBot.data : "Nem sikerült válaszolni!",
+            })
+            .returning({
+                id: ChatMessagesTable.id,
+                conversationId: ChatMessagesTable.conversationId,
+                userInput: ChatMessagesTable.userInput,
+                botResponse: ChatMessagesTable.botResponse,
+                createdAt: ChatMessagesTable.createdAt
+            })
+
+        if (!addedMessage) {
+            throw new Error("Hiba történt az üzenet küldése közben!");
+        }
+
+        return {
+            success: true,
+            data: addedMessage
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba történt!"
+        }
     }
 }
