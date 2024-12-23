@@ -23,7 +23,7 @@ export default function ChatSidebar({ user }: { user: User }) {
                 <div className='flex flex-col gap-3 justify-between items-center h-full'>
                     <div className='flex flex-col items-center gap-2'>
                         <Link href="/" className='cursor-pointer mb-4'>
-                            <Image src="/icon.png" alt="Logó" width={28} height={28} />
+                            <Image src="/icon.png" alt="Logó" width={28} height={28} priority />
                         </Link>
                         <Tooltip>
                             <TooltipTrigger asChild>

@@ -7,10 +7,10 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import Loading from "./Loading";
 import MessageCards from "./MessageCards";
 import { Spinner } from "@radix-ui/themes";
-import { sendMessageToAI, sendNewMessage } from "@/actions/aichat.action";
+import { sendNewMessage } from "@/actions/aichat.action";
 import { z } from "zod";
-import { Textarea } from "../ui/textarea";
 import { toast } from "sonner";
+import AGTextarea from "./auto-growing-textarea";
 
 export default function MainChatComponent({ 
     user,
@@ -41,7 +41,7 @@ export default function MainChatComponent({
 
         try {
             setIsLoading(true);
-            const validatedMessage = z.string().nonempty().safeParse(message);
+            const validatedMessage = z.string().max(1536).nonempty().safeParse(message);
 
             if (!validatedMessage.success) {
                 throw new Error("Hibás adatokat adott meg!");
@@ -77,17 +77,10 @@ export default function MainChatComponent({
             </div>
             <div>
                 <form className="pb-2 flex items-center gap-2" onSubmit={submitMessage}>
-                    <Textarea 
-                        name="message"
-                        id="message"
-                        placeholder="Írj egy üzenetet..."
-                        className="min-h-[none] resize-none focus-visible:ring-0 no-scrollbar max-h-[10rem] py-2"
-                        required
-                        disabled={isLoading}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        rows={1}
-                        autoFocus={true}
+                    <AGTextarea 
+                        isLoading={isLoading}
+                        message={message}
+                        setMessage={setMessage}
                     />
                     <Button variant={"outline"} type="submit" disabled={isLoading}>
                         {isLoading ? <Spinner /> : <SendIcon className="w-6 h-6" />}

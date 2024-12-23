@@ -31,7 +31,7 @@ export async function initiateConversation({
 
     try {
         const validatedFields = z.object({ 
-            message: z.string().nonempty(), 
+            message: z.string().nonempty().max(1536), 
             userId: z.string().nonempty() 
         }).safeParse({ message, userId });
     
@@ -125,7 +125,7 @@ export async function sendMessageToAI(message: string) {
         }
     }
 
-    const validatedFields = z.string().nonempty().safeParse(message);
+    const validatedFields = z.string().max(1536).nonempty().safeParse(message);
 
     if (!validatedFields.success) {
         return {
@@ -142,7 +142,7 @@ export async function sendMessageToAI(message: string) {
                 content: validatedFields.data
             }
         ],
-        max_tokens: 500
+        max_tokens: 1000
     });
 
     if (!chatCompletion.choices || chatCompletion.choices.length === 0) {
@@ -172,7 +172,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
         const validatedFields = z.object({ 
             conversationId: z.string().nonempty(), 
             userId: z.string().nonempty(), 
-            message: z.string().nonempty() 
+            message: z.string().nonempty().max(1536) 
         }).safeParse({ conversationId, userId, message });
     
         if (!validatedFields.success) {

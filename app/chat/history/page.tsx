@@ -4,7 +4,6 @@ import { eq, and, ilike, desc } from "drizzle-orm"
 import { ChatConversationsTable } from "@/database/schema/chat"
 import { redirect } from "next/navigation"
 import HistoryCard from "@/components/aichat/HistoryCard"
-import { Suspense } from "react"
 import SearchForm from "./search-form"
 
 export default async function Page({ 
@@ -56,17 +55,15 @@ export default async function Page({
                 </div>
             </header>
             <section className="pl-2 py-3 min-h-[calc(100dvh-110px)] mr-2 flex flex-col gap-2 max-h-[calc(100dvh-110px)] overflow-y-auto">
-                <Suspense fallback={<div>Loading...</div>}>
-                    {
-                        results && results.length > 0 ? (
-                            results.map(conversation => (
-                                <HistoryCard key={conversation.id} user={session.user} conversation={conversation} />
-                            ))
-                        ) : (
-                            <p className="text-muted-foreground text-sm">Még nincs chat előzményed.</p>
-                        )
-                    }
-                </Suspense>
+                {
+                    results && results.length > 0 ? (
+                        results.map(conversation => (
+                            <HistoryCard key={conversation.id} user={session.user} conversation={conversation} />
+                        ))
+                    ) : (
+                        <p className="text-muted-foreground text-sm">Még nincs chat előzményed.</p>
+                    )
+                }
             </section>
         </>
     )

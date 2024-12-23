@@ -12,15 +12,15 @@ export default function MessageCards({
 }) {
     return (
         <div key={message.id} className="flex flex-col gap-2 mb-1">
-            <div className="ml-auto bg-muted p-1 px-2 rounded-md w-max">
-                <ReactMarkdown className="prose dark:invert-prose text-gray-950 dark:text-gray-50">
+            <div className="ml-auto bg-muted p-1 px-2 rounded-md w-full sm:w-max">
+                <ReactMarkdown className="prose dark:invert-prose text-gray-950 dark:text-gray-50 antialiased">
                     {message.userInput}
                 </ReactMarkdown>
             </div>
             <div className="flex flex-col items-start gap-1">
                 <span className="text-xs text-muted-foreground">Planie</span>
-                <div className="mr-auto bg-emerald p-1 px-2 rounded-md w-[85%]">
-                    <ReactMarkdown className="prose dark:invert-prose text-gray-950 dark:text-gray-50">
+                <div className="mr-auto bg-emerald p-1 px-2 rounded-md w-full sm:w-[85%]">
+                    <ReactMarkdown className="prose dark:invert-prose text-gray-950 dark:text-gray-50 antialiased">
                         {message.botResponse}
                     </ReactMarkdown>
                 </div>
