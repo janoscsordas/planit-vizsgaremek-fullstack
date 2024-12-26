@@ -16,7 +16,7 @@ export function Column({ column, tasks }: ColumnProps) {
   })
 
   return (
-     <div className="flex flex-col w-full h-[calc(100vh-11.5rem)] rounded-lg dark:border-none bg-neutral-100 dark:bg-neutral-900 p-4">
+     <div className="flex flex-col w-full h-[calc(100vh-11.5rem)] rounded-lg dark:border-none bg-neutral-100 dark:bg-neutral-900 p-4 shadow-lg dark:shadow-none transition-shadow duration-200 overflow-y-clip">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 font-semibold border-b-2 p-2 border-neutral-200 dark:border-neutral-800">
            <Circle
               className={cn(

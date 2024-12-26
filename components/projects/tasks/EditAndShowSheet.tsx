@@ -95,15 +95,15 @@ export default function EditAndShowSheet({
       <Sheet>
          <SheetTrigger asChild>{children}</SheetTrigger>
          <SheetContent className="w-full sm:w-[75%]">
-            <SheetHeader className="space-y-1 pt-10">
+            <SheetHeader className="pt-10 space-y-1">
                <SheetTitle className="text-[1.4rem]">
                   <TaskTitle task={task} />
                </SheetTitle>
-               <SheetDescription className="pt-1 flex items-center gap-4 border-b pb-6">
+               <SheetDescription className="flex items-center gap-4 pt-1 pb-6 border-b">
                   <TaskStatus task={task} />
 
                   <span className="text-muted-foreground">
-                     <span className="text-primary mr-3">
+                     <span className="mr-3 text-primary">
                         {task.createdByUser.name}
                      </span>
                      készítette{" "}
@@ -114,11 +114,11 @@ export default function EditAndShowSheet({
                   </span>
                </SheetDescription>
             </SheetHeader>
-            <section className="flex md:flex-row flex-col w-full h-full">
+            <section className="flex flex-col w-full h-full md:flex-row">
                <TaskDescription task={task} />
 
                <div className="md:w-[38%] w-full pl-3 flex flex-col">
-                  <div className="mt-3 flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mt-3 mb-4">
                      <p className="text-muted-foreground text-[.8rem]">
                         Kiosztás:
                      </p>
@@ -128,7 +128,7 @@ export default function EditAndShowSheet({
                         task={task}
                      />
                   </div>
-                  <div className="mt-3 flex flex-col mb-4">
+                  <div className="flex flex-col mt-3 mb-4">
                      <p className="text-muted-foreground text-[.8rem]">
                         Kiosztva a Következö{task.assigns.length > 1 ? "k" : ""}
                         nek:
@@ -168,7 +168,7 @@ export default function EditAndShowSheet({
                         )}
                      </ul>
                   </div>
-                  <div className="mt-3 flex flex-col items-start sm:flex-row mb-3 gap-2 sm:items-center justify-between">
+                  <div className="flex flex-col items-start justify-between gap-2 mt-3 mb-3 sm:flex-row sm:items-center">
                      <p className="text-muted-foreground text-[.8rem]">
                         Prioritás:
                      </p>
@@ -348,7 +348,7 @@ function TaskDescription({ task }: { task: EnrichedTask }) {
 
    return (
       <div className="md:w-[62%] md:border-r border-b w-full md:pr-3 p-2">
-         <div className="flex gap-6 items-center justify-between my-3">
+         <div className="flex items-center justify-between gap-6 my-3">
             <p className="text-muted-foreground text-[.8rem]">
                Feladat leírása:
             </p>
@@ -457,7 +457,7 @@ function TaskTitle({ task }: { task: EnrichedTask }) {
             <>
                <h1
                   className={cn(
-                     "font-semibold",
+                     "font-semibold text-left",
                      task.taskName.length > 50 && "text-sm"
                   )}
                >

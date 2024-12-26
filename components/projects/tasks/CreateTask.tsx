@@ -208,16 +208,16 @@ function TaskForm() {
          </div>
          {state?.message && (
             <p
-               className={`mt-2 text-sm ${state?.message.startsWith("Hiba") ? "text-red-500" : "text-green-500"}`}
+               className={`mt-2 text-sm text-center ${state?.message.startsWith("Hiba") ? "text-red-500" : "text-green-500"}`}
             >
                {state.message}
             </p>
          )}
          <Button
             type="submit"
-            className="w-1/2 mx-auto block bg-emerald hover:bg-emerald-hover font-bold"
+            className="w-1/2 mx-auto block bg-emerald hover:bg-emerald-hover font-semibold"
          >
-            Készítés
+            Feladat elkészítése
          </Button>
       </form>
    )

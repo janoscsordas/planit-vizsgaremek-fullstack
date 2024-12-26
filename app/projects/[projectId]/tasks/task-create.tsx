@@ -128,15 +128,15 @@ export default function TaskCreate({
                         <input type="hidden" name="taskStatus" value={status} />
                         <input type="hidden" name="projectId" value={projectId} />
                     </div>
-                    {state?.errors?.status && state.errors.status.map((error: string, index) => <p key={index} className="text-sm text-red-500">{error}</p>)}
+                    {state?.errors?.status && state.errors.status.map((error: string, index) => <p key={index} className="text-sm text-red-500 text-center">{error}</p>)}
                     {state?.message && <p className={
-                        cn("text-sm text-red-500",
+                        cn("text-sm text-red-500 text-center",
                             state?.message.startsWith("Hiba") ? "text-red-500" : "text-green-500"
                     )}>
                         {state.message}
                     </p>}
                     <DialogFooter>
-                        <Button type="submit" variant="outline" className="border-emerald text-emerald hover:bg-emerald hover:text-primary-foreground">Hozzáadás</Button>
+                        <Button type="submit" variant="outline" className="border-emerald text-emerald hover:bg-emerald hover:text-primary-foreground">Feladat elkészítése</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

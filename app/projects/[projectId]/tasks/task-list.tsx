@@ -1,39 +1,46 @@
-"use client";
+"use client"
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { EnrichedTask } from "@/lib/definitions/tasks";
-import { Suspense, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Input } from "@/components/ui/input";
-import { useDebounce } from "use-debounce";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import CreateTask from "@/components/projects/tasks/CreateTask";
-import { PlusIcon } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { EnrichedTask } from "@/lib/definitions/tasks"
+import { Suspense, useMemo, useState } from "react"
+import dynamic from "next/dynamic"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Input } from "@/components/ui/input"
+import { useDebounce } from "use-debounce"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
+import CreateTask from "@/components/projects/tasks/CreateTask"
+import { PlusIcon } from "lucide-react"
+import Loading from "@/components/projects/project/Loading"
 
 export default function TaskList({
   enrichedTasks,
   projectId,
 }: {
-  enrichedTasks: EnrichedTask[];
-  projectId: string;
+  enrichedTasks: EnrichedTask[]
+  projectId: string
 }) {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
-  const [priorityFilter, setPriorityFilter] = useState<string>("all");
-  const STATUS_ORDER = ["pending", "in progress", "finished"];
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500)
+  const [priorityFilter, setPriorityFilter] = useState<string>("all")
+  const STATUS_ORDER = ["pending", "in progress", "finished"]
 
   const groupTasks = useMemo(() => {
     const groupedTasks = new Map<
       string,
       {
-        status: string;
-        title: string;
-        count: number;
-        tasks: EnrichedTask[];
+        status: string
+        title: string
+        count: number
+        tasks: EnrichedTask[]
       }
-    >();
+    >()
 
     // First, initialize the Map with all statuses
     STATUS_ORDER.forEach((status) => {
@@ -45,75 +52,98 @@ export default function TaskList({
           .join(" "),
         count: 0,
         tasks: [],
-      });
-    });
+      })
+    })
 
     // Then add tasks to their respective groups
     enrichedTasks.forEach((task) => {
-      const group = groupedTasks.get(task.status)!;
-      group.tasks.push(task);
-      group.count += 1;
-    });
+      const group = groupedTasks.get(task.status)!
+      group.tasks.push(task)
+      group.count += 1
+    })
 
     // Filter groups based on search term
-    const filteredGroups: typeof groupedTasks = new Map();
+    const filteredGroups: typeof groupedTasks = new Map()
     groupedTasks.forEach((group, key) => {
       const matchingTasks = group.tasks.filter(
         (task) =>
-          task.taskName.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) &&
+          task.taskName
+            .toLowerCase()
+            .includes(debouncedSearchTerm.toLowerCase()) &&
           (priorityFilter === "all" || task.priority === priorityFilter)
-      );
+      )
 
       if (matchingTasks.length > 0) {
         filteredGroups.set(key, {
           ...group,
           tasks: matchingTasks,
           count: matchingTasks.length,
-        });
+        })
       }
-    });
+    })
 
     return Array.from(filteredGroups.values()).sort(
       (a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status)
-    );
-  }, [enrichedTasks, debouncedSearchTerm, priorityFilter]);
+    )
+  }, [enrichedTasks, debouncedSearchTerm, priorityFilter])
 
   const getGroupKey = (group: { status: string; count: number }) =>
-    `${group.status}-${group.count}`;
+    `${group.status}-${group.count}`
 
   return (
     <>
-      <div className="mb-2 flex gap-4 sm:justify-start">
-        <Input
-          placeholder="Feladat Keresése..."
-          aria-label="Feladat Keresése..."
-          className="w-[90%] sm:w-[300px]"
-          name="search"
-          id="search"
-          maxLength={128}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Select name="priority" value={priorityFilter} onValueChange={setPriorityFilter}>
-          <SelectTrigger className="w-max sm:w-[180px]">
-            <SelectValue defaultValue="all" placeholder="Priorítás" />
-          </SelectTrigger>
-          <SelectContent id="priority">
-            <SelectItem defaultChecked value="all">Összes</SelectItem>
-            <SelectItem value="low">Alacsony</SelectItem>
-            <SelectItem value="medium">Közepes</SelectItem>
-            <SelectItem value="high">Magas</SelectItem>
-          </SelectContent>
-        </Select>
-        <CreateTask>
-          <Button variant={"outline"}>
-            <PlusIcon className="h-4 w-4" />
-          </Button>
-        </CreateTask>
+      <div className="flex flex-col gap-4 mb-2 xl:flex-row xl:justify-start">
+        <div className="flex gap-4">
+          <Input
+            placeholder="Feladat keresése..."
+            aria-label="Feladat keresése..."
+            className="w-[90%] sm:w-[300px]"
+            name="search"
+            id="search"
+            maxLength={128}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Select
+            name="priority"
+            value={priorityFilter}
+            onValueChange={setPriorityFilter}
+          >
+            <SelectTrigger className="w-max sm:w-[180px]">
+              <SelectValue defaultValue="all" placeholder="Priorítás" />
+            </SelectTrigger>
+            <SelectContent id="priority">
+              <SelectItem defaultChecked value="all">
+                Összes
+              </SelectItem>
+              <SelectItem value="low">Alacsony</SelectItem>
+              <SelectItem value="medium">Közepes</SelectItem>
+              <SelectItem value="high">Magas</SelectItem>
+            </SelectContent>
+          </Select>
+          <CreateTask>
+            <Button variant={"outline"}>
+              <PlusIcon className="w-4 h-4" />
+            </Button>
+          </CreateTask>
+        </div>
+        {/* <div className="flex items-center gap-2 xl:ml-auto">
+          <SegmentedControl.Root defaultValue="inbox" radius="medium">
+            <SegmentedControl.Item value="listView">
+              Lista nézet
+            </SegmentedControl.Item>
+            <SegmentedControl.Item value="dndView">
+              Kanban tábla
+            </SegmentedControl.Item>
+            <SegmentedControl.Item value="dataView">
+              Adattábla
+            </SegmentedControl.Item>
+          </SegmentedControl.Root>
+        </div> */}
       </div>
       <ScrollArea className="h-[calc(100vh-11.5rem)] w-full">
         <div className="w-full space-y-4">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             {groupTasks.length > 0 ? (
               groupTasks.map((group) => (
                 <TaskGroup
@@ -125,15 +155,17 @@ export default function TaskList({
                 />
               ))
             ) : (
-              <div className="text-muted-foreground py-4">
-                Nincs találat a szűrésre vagy még nem készítettél feladatot.
+              <div className="py-4 text-muted-foreground">
+                <h1>
+                  Nincs találat a szűrésre vagy még nem készítettél feladatot.
+                </h1>
               </div>
             )}
           </Suspense>
         </div>
       </ScrollArea>
     </>
-  );
+  )
 }
 
 // Lazy-loaded TaskGroup with a custom loading component
@@ -141,11 +173,11 @@ const TaskGroup = dynamic(() => import("./task-group"), {
   loading: () => (
     <Skeleton className="flex items-center justify-between p-4">
       <div className="flex items-center space-x-4">
-        <div className="h-6 w-6 bg-muted-foreground rounded-full"></div>
-        <div className="h-4 w-24 bg-muted-foreground rounded"></div>
+        <div className="w-6 h-6 rounded-full bg-muted-foreground"></div>
+        <div className="w-24 h-4 rounded bg-muted-foreground"></div>
       </div>
-      <div className="h-4 w-12 bg-muted-foreground rounded"></div>
+      <div className="w-12 h-4 rounded bg-muted-foreground"></div>
     </Skeleton>
   ),
   ssr: false,
-});
+})

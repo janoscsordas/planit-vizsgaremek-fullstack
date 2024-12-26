@@ -170,7 +170,7 @@ const TaskGroup = React.memo(
                <div className="group flex items-center gap-2 rounded-md px-2 py-1 hover:bg-muted/50 transition-colors duration-200">
                   <Circle className="h-2 w-2" />
                   <span className="text-sm text-muted-foreground">
-                     Még nem készítettél ide feladat.
+                     Még nem készítettél ide feladatot.
                   </span>
                </div>
             )
