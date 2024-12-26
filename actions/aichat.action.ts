@@ -7,7 +7,7 @@ import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { OpenAI } from "openai";
-import { checkMessageLimit } from "@/lib/utils/rateLimiter";
+import { checkMessageLimit, cleanupExpiredCounts } from "@/lib/utils/rateLimiter";
 
 const client = new OpenAI({
     baseURL: "https://api-inference.huggingface.co/v1/",
@@ -39,6 +39,9 @@ export async function initiateConversation({
         if (!validatedFields.success) {
             throw new Error("Hibás adatokat adott meg!");
         }
+
+        // cleaning up expired counts in the db
+        await cleanupExpiredCounts()
 
         const { canSend, error } = await checkMessageLimit(validatedFields.data.userId)
 
@@ -201,8 +204,10 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
         }
     }
 
+    // checking message limit from rate limiter
     const { canSend, error } = await checkMessageLimit(userId)
 
+    // if user's message limit already exceeded 20, deny them from sending a message
     if (!canSend) {
         return {
             success: false,
@@ -211,6 +216,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
     }
 
     try {
+        // validating data sent from client
         const validatedFields = z.object({ 
             conversationId: z.string().nonempty(), 
             userId: z.string().nonempty(), 
@@ -221,12 +227,17 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
             throw new Error("Hibás adatokat adott meg!");
         }
 
+        // cleaning up expired counts in the db
+        await cleanupExpiredCounts()
+
+        // awaiting AI response
         const responseFromBot = await sendMessageToAI(validatedFields.data.message, validatedFields.data.userId);
 
         if (!responseFromBot.success) {
             throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
         }
 
+        // Adding the message to the database
         const [addedMessage] = await db
             .insert(ChatMessagesTable)
             .values({
@@ -247,9 +258,11 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
             throw new Error("Hiba történt az üzenet küldése közben!");
         }
 
+        // get the start of today's date
         const startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0);
 
+        // incrementing the count of sent messages that day
         await db
             .insert(DailyMessageCounts)
             .values({
@@ -264,6 +277,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
                 }
             })
 
+        // returning message block from db to the client for a "realtime" feel
         return {
             success: true,
             data: addedMessage

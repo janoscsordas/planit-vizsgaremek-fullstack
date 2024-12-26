@@ -23,6 +23,10 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
         return notFound()
     }
 
+    if (conversation.userId !== session.user.id) {
+        return redirect("/")
+    }
+
     const chatMessages = await db
         .select()
         .from(ChatMessagesTable)

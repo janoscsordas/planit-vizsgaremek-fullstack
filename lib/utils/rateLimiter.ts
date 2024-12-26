@@ -1,7 +1,7 @@
-import { and } from 'drizzle-orm';
-import { count, eq } from 'drizzle-orm';
+import { and, lt } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { db } from "@/database"
-import { ChatMessagesTable, DailyMessageCounts } from "@/database/schema/chat"
+import { DailyMessageCounts } from "@/database/schema/chat"
 
 
 export async function checkMessageLimit(userId: string): Promise<{
@@ -40,4 +40,13 @@ export async function checkMessageLimit(userId: string): Promise<{
     }
 
     return { canSend: true }
+}
+
+export async function cleanupExpiredCounts() {
+    const today = new Date()
+    today.setUTCHours(0, 0, 0, 0)
+
+    await db
+        .delete(DailyMessageCounts)
+        .where(lt(DailyMessageCounts.date, today))
 }
