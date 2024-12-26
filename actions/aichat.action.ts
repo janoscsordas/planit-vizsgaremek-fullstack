@@ -2,11 +2,12 @@
 
 import { auth } from "@/auth";
 import { db } from "@/database";
-import { ChatConversationsTable, ChatMessagesTable } from "@/database/schema/chat";
-import { eq } from "drizzle-orm";
+import { ChatConversationsTable, ChatMessagesTable, DailyMessageCounts } from "@/database/schema/chat";
+import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { OpenAI } from "openai";
+import { checkMessageLimit } from "@/lib/utils/rateLimiter";
 
 const client = new OpenAI({
     baseURL: "https://api-inference.huggingface.co/v1/",
@@ -39,6 +40,12 @@ export async function initiateConversation({
             throw new Error("Hibás adatokat adott meg!");
         }
 
+        const { canSend, error } = await checkMessageLimit(validatedFields.data.userId)
+
+        if (!canSend) {
+            throw new Error(`${error}`)
+        }
+
         // Here we create a new conversation with the given userId
         const [conversation] = await db
             .insert(ChatConversationsTable)
@@ -54,21 +61,38 @@ export async function initiateConversation({
             throw new Error("Hiba történt a beszélgetés létrehozása közben!");
         }
 
-        const responseFromBot = await sendMessageToAI(message);
+        const responseFromBot = await sendMessageToAI(message, userId);
 
         if (!responseFromBot.success) {
             throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
         }
 
+        const startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0);
+        
         await db
             .insert(ChatMessagesTable)
             .values({
                 conversationId: conversation.id,
                 userInput: message,
                 botResponse: responseFromBot.data ? responseFromBot.data : "Nem sikerült válaszolni!",
+                userId
             })
 
-        console.log("conversation", conversation);
+        await db
+            .insert(DailyMessageCounts)
+            .values({
+                userId,
+                date: startOfDay,
+                count: 1,
+            })
+            .onConflictDoUpdate({
+                target: [DailyMessageCounts.userId, DailyMessageCounts.date],
+                set: {
+                    count: sql`${DailyMessageCounts.count} + 1`,
+                }
+            })
+
 
         return {
             success: true,
@@ -108,13 +132,22 @@ export async function deleteConversation(conversationId: string) {
     }
 }
 
-export async function sendMessageToAI(message: string) {
+export async function sendMessageToAI(message: string, userId: string) {
     const session = await auth();
 
     if (!session || !session.user) {
         return {
             success: false,
             message: "Nem vagy bejelentkezve!"
+        }
+    }
+
+    const { canSend, error } = await checkMessageLimit(userId)
+
+    if (!canSend) {
+        return {
+            success: false,
+            message: error
         }
     }
 
@@ -168,6 +201,15 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
         }
     }
 
+    const { canSend, error } = await checkMessageLimit(userId)
+
+    if (!canSend) {
+        return {
+            success: false,
+            message: error
+        }
+    }
+
     try {
         const validatedFields = z.object({ 
             conversationId: z.string().nonempty(), 
@@ -179,7 +221,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
             throw new Error("Hibás adatokat adott meg!");
         }
 
-        const responseFromBot = await sendMessageToAI(validatedFields.data.message);
+        const responseFromBot = await sendMessageToAI(validatedFields.data.message, validatedFields.data.userId);
 
         if (!responseFromBot.success) {
             throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
@@ -191,6 +233,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
                 conversationId: validatedFields.data.conversationId,
                 userInput: validatedFields.data.message,
                 botResponse: responseFromBot.data ? responseFromBot.data : "Nem sikerült válaszolni!",
+                userId
             })
             .returning({
                 id: ChatMessagesTable.id,
@@ -203,6 +246,23 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
         if (!addedMessage) {
             throw new Error("Hiba történt az üzenet küldése közben!");
         }
+
+        const startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        await db
+            .insert(DailyMessageCounts)
+            .values({
+                userId,
+                date: startOfDay,
+                count: 1,
+            })
+            .onConflictDoUpdate({
+                target: [DailyMessageCounts.userId, DailyMessageCounts.date],
+                set: {
+                    count: sql`${DailyMessageCounts.count} + 1`,
+                }
+            })
 
         return {
             success: true,
