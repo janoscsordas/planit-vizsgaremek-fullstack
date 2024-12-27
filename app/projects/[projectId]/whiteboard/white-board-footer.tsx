@@ -1,19 +1,41 @@
 import { ZoomIn, ZoomOut } from "lucide-react";
 
 
-export default function WhiteBoardFooter({ userName }: { userName: string }) {
+export default function WhiteBoardFooter({ 
+    userName, 
+    zoom, 
+    setZoom 
+}: { 
+    userName: string, 
+    zoom: number, 
+    setZoom: (number: number) => void 
+}) {
     
+    const handleZoomDecrease = () => {
+        setZoom(zoom - 0.1)
+    }
+
+    const handleZoomIncrease = () => {
+        setZoom(zoom + 0.1)
+    }
+
     return (
-        <footer className="fixed bottom-0 left-0 z-50 flex items-end justify-between bg-transparent p-4 w-full">
+        <footer className="fixed bg-white bottom-0 left-0 z-50 flex items-center justify-between bg-transparent p-2 w-full border-t border-t-muted-foreground">
             <div>
                 <p className="text-xs text-muted-foreground">Bejelentkezve, mint: {userName}</p>
             </div>
             <div className="flex items-center gap-2 bg-muted-foreground p-1 rounded-full">
-                <button className="bg-emerald hover:bg-emerald-hover rounded-full p-1">
+                <button 
+                    className="bg-emerald hover:bg-emerald-hover rounded-full p-1" 
+                    onClick={handleZoomDecrease}
+                >
                     <ZoomOut className="w-4 h-4" />
                 </button>
-                <span className="text-sm text-black">100%</span>
-                <button className="bg-emerald hover:bg-emerald-hover rounded-full p-1">
+                <span className="text-sm text-black">{Math.floor(zoom * 100)}%</span>
+                <button 
+                    className="bg-emerald hover:bg-emerald-hover rounded-full p-1"
+                    onClick={handleZoomIncrease}
+                >
                     <ZoomIn className="w-4 h-4" />
                 </button>
             </div>

@@ -61,7 +61,7 @@ export default async function Page({
                             <HistoryCard key={conversation.id} user={session.user} conversation={conversation} />
                         ))
                     ) : (
-                        <p className="text-muted-foreground text-sm text-center">Még nincs chat előzményed.</p>
+                        <p className="text-muted-foreground text-sm">Még nincs chat előzményed.</p>
                     )
                 }
             </section>
