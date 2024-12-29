@@ -103,7 +103,7 @@ export default function Home() {
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
-                     <p className="text-muted-foreground text-left">
+                     <p className="text-muted-foreground text-center">
                         A chat funkció lehetővé teszi a csapatok számára, hogy
                         egyszerűen kommunikáljanak egymással, valamint megosszák
                         gondolataikat és ötleteiket.
@@ -124,7 +124,7 @@ export default function Home() {
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
-                     <p className="text-muted-foreground text-left">
+                     <p className="text-muted-foreground text-center">
                         A task management funkció lehetővé teszi a csapatok
                         számára, hogy egyszerűen kezeljék a feladatokat,
                         valamint nyomon követhessék a munkafolyamatot.
@@ -145,7 +145,7 @@ export default function Home() {
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
-                     <p className="text-muted-foreground text-left">
+                     <p className="text-muted-foreground text-center">
                         A project management funkció segíti a csapatokat a
                         projektek egyszerű kezelésében és a munkafolyamatok
                         hatékony nyomon követésében.
@@ -168,7 +168,7 @@ export default function Home() {
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
-                     <p className="text-muted-foreground text-left">
+                     <p className="text-muted-foreground text-center">
                         Az AI asszisztens intelligens javaslatokkal segít a projektek és feladatok hatékony kezelésében, miközben támogatja a csapatmunkát és a kommunikációt.
                      </p>
                   </CardContent>
@@ -187,7 +187,7 @@ export default function Home() {
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
-                     <p className="text-muted-foreground text-left">
+                     <p className="text-muted-foreground text-center">
                      Az ötlettábla egy kreatív felület, ahol könnyedén gyűjtheted és rendszerezheted az inspirációkat és gondolatokat a hatékonyabb csapatmunka érdekében.
                      </p>
                   </CardContent>
@@ -298,7 +298,7 @@ export default function Home() {
                      </h3>
                      <p className="mt-4 flex items-baseline gap-x-2">
                         <span className="text-5xl font-semibold tracking-tight text-white">
-                           7.990 HUF
+                           3.990 HUF
                         </span>
                         <span className="text-base text-gray-400">/hó</span>
                      </p>
