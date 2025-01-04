@@ -1,9 +1,10 @@
 "use server";
 
+import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { auth } from "@/auth";
 import { db } from "@/database";
 import { ChatConversationsTable, ChatMessagesTable, DailyMessageCounts } from "@/database/schema/chat";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { OpenAI } from "openai";
@@ -54,7 +55,7 @@ export async function initiateConversation({
             .insert(ChatConversationsTable)
             .values({
                 userId,
-                title: message.trim().slice(0, 16) + "..."
+                title: message.trim().slice(0, 32) + "..."
             })
             .returning({
                 id: ChatConversationsTable.id
@@ -64,7 +65,7 @@ export async function initiateConversation({
             throw new Error("Hiba történt a beszélgetés létrehozása közben!");
         }
 
-        const responseFromBot = await sendMessageToAI(message, userId);
+        const responseFromBot = await sendMessageToAI(message, userId, conversation.id);
 
         if (!responseFromBot.success) {
             throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
@@ -135,7 +136,7 @@ export async function deleteConversation(conversationId: string) {
     }
 }
 
-export async function sendMessageToAI(message: string, userId: string) {
+export async function sendMessageToAI(message: string, userId: string, conversationId: string) {
     const session = await auth();
 
     if (!session || !session.user) {
@@ -170,14 +171,49 @@ export async function sendMessageToAI(message: string, userId: string) {
         }
     }
 
+    // Fetching the recent messages from the conversation (only 4 so it's 8 messages back)
+    const recentMessagesFromConversation = await db
+        .select()
+        .from(ChatMessagesTable)
+        .where(eq(ChatMessagesTable.conversationId, conversationId))
+        .orderBy(desc(ChatMessagesTable.createdAt))
+        .limit(4);
+
+    // Base messages array - always includes system message and current message
+    const formattedMessages: ChatCompletionMessageParam[] = [
+        {
+            role: "system",
+            content: "You are a helpful AI assistant."
+        }
+    ];
+    
+    // Only add previous messages if they exist
+    // Convert each record into two separate messages
+    if (recentMessagesFromConversation && recentMessagesFromConversation.length > 0) {
+        recentMessagesFromConversation.forEach(record => {
+            // Add user message
+            formattedMessages.push({
+                role: "user",
+                content: record.userInput
+            });
+            
+            // Add bot response
+            formattedMessages.push({
+                role: "assistant",
+                content: record.botResponse
+            });
+        });
+    }
+    
+    // Always add the current message last
+    formattedMessages.push({
+        role: "user",
+        content: validatedFields.data
+    });
+
     const chatCompletion = await client.chat.completions.create({
         model: "mistralai/Mistral-7B-Instruct-v0.3",
-        messages: [
-            {
-                role: "user",
-                content: validatedFields.data
-            }
-        ],
+        messages: formattedMessages,
         max_tokens: 1000
     });
 
@@ -231,7 +267,7 @@ export async function sendNewMessage(conversationId: string, userId: string, mes
         await cleanupExpiredCounts()
 
         // awaiting AI response
-        const responseFromBot = await sendMessageToAI(validatedFields.data.message, validatedFields.data.userId);
+        const responseFromBot = await sendMessageToAI(validatedFields.data.message, validatedFields.data.userId, conversationId);
 
         if (!responseFromBot.success) {
             throw new Error(responseFromBot.message? responseFromBot.message : "Hiba történt a válasz létrehozása közben!");
