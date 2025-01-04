@@ -12,11 +12,17 @@ export default function WhiteBoardFooter({
 }) {
     
     const handleZoomDecrease = () => {
+        if (zoom <= 0.1) return
         setZoom(zoom - 0.1)
     }
 
     const handleZoomIncrease = () => {
+        if (zoom >= 3) return
         setZoom(zoom + 0.1)
+    }
+
+    const handleZoomReset = () => {
+        setZoom(1)
     }
 
     return (
@@ -31,7 +37,7 @@ export default function WhiteBoardFooter({
                 >
                     <ZoomOut className="w-4 h-4" />
                 </button>
-                <span className="text-sm text-black">{Math.floor(zoom * 100)}%</span>
+                <button onClick={handleZoomReset} className="text-sm text-black">{Math.floor(zoom * 100)}%</button>
                 <button 
                     className="bg-emerald hover:bg-emerald-hover rounded-full p-1"
                     onClick={handleZoomIncrease}

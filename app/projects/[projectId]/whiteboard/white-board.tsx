@@ -11,6 +11,9 @@ import WhiteBoardFooter from './white-board-footer';
 import ColorPicker from './color-picker';
 import ToolPicker from './tool-picker';
 
+const CANVAS_WIDTH = 5000;
+const CANVAS_HEIGHT = 5000;
+
 interface UserMousePosition {
   userId: string;
   userName: string;
@@ -26,7 +29,7 @@ interface DrawEvent {
   points: number[];
   color: string;
   lastActive: number;
-  tool_type: 'pen' | 'circle' | 'rectangle';
+  tool_type: 'pen' | 'circle' | 'rectangle' | 'text';
   properties?: {
     x?: number;
     y?: number;
@@ -36,7 +39,7 @@ interface DrawEvent {
   };
 }
 
-type Tool = 'pen' | 'circle' | 'rectangle'
+type Tool = 'pen' | 'circle' | 'rectangle' | 'text';
 
 export default function Whiteboard({ 
   userId, 
@@ -51,16 +54,27 @@ export default function Whiteboard({
   userName: string, 
   onClose: () => void 
 }) {
+  const calculateInitialPosition = () => {
+    const centerX = (window.innerWidth - 5000) / 2;
+    const centerY = (window.innerHeight - 5000) / 2;
+    return { x: centerX, y: centerY };
+  }
+
   const [otherUsers, setOtherUsers] = useState<UserMousePosition[]>([]);
   const [drawings, setDrawings] = useState<DrawEvent[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isPanning, setIsPanning] = useState(false);
   const [currentPoints, setCurrentPoints] = useState<number[]>([]);
-  const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
+  const [stagePos, setStagePos] = useState(calculateInitialPosition());
   const [scale, setScale] = useState(1)
   const [selectedColor, setSelectedColor] = useState('#000000');
   const [selectedTool, setSelectedTool] = useState<Tool>('pen');
   const [shapeStartPos, setShapeStartPos] = useState<{ x: number; y: number } | null>(null);
+  
+  // const [textInput, setTextInput] = useState('');
+  // const [isTyping, setIsTyping] = useState(false);
+  // const [textPosition, setTextPosition] = useState({ x: 0, y: 0 });
+  // const textInputRef = useRef<HTMLInputElement>(null);
 
   const [isSpacePressed, setIsSpacePressed] = useState(false)
 
@@ -115,26 +129,51 @@ export default function Whiteboard({
     };
   }, [])
 
+  // Constrain the position within bounds
+  const constrainPosition = (pos: any) => {
+    const stage = stageRef.current;
+    if (!stage) return pos;
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // Calculate the maximum allowed positions based on scale
+    const minX = -CANVAS_WIDTH * scale + screenWidth;
+    const minY = -CANVAS_HEIGHT * scale + screenHeight;
+    
+    return {
+      x: Math.min(0, Math.max(minX, pos.x)),
+      y: Math.min(0, Math.max(minY, pos.y))
+    };
+  };
+
   const handleWheel = (e: KonvaEventObject<WheelEvent>) => {
     e.evt.preventDefault()
 
+    const scaleBy = 1.1;
     const stage = stageRef.current;
     const oldScale = scale;
-    const pointer = stage.getPointerPosition()
 
     const mousePointTo = {
-      x: (pointer.x - stage.x()) / oldScale,
-      y: (pointer.y - stage.y()) / oldScale,
+      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
     }
 
-    const newScale = e.evt.deltaY > 0 ? oldScale * 0.9 : oldScale * 1.1;
-    setScale(newScale)
+    // Calculate new scale
+    let newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+    // Constrain scale between 0.1 and 3
+    newScale = Math.max(0.1, Math.min(3, newScale))
 
     const newPos = {
-      x: pointer.x - mousePointTo.x * newScale,
-      y: pointer.y - mousePointTo.y * newScale,
+      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
     }
-    setStagePos(newPos)
+
+    // Apply constrained position and scale
+    const constrainedPos = constrainPosition(newPos);
+    setStagePos(constrainedPos)
+    setScale(newScale)
   }
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
@@ -263,29 +302,49 @@ export default function Whiteboard({
   }, [userId, userColor, updateUserPosition]);
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
-    const stage = stageRef.current
-
-    if (isPanning && stage) {
+    const stage = stageRef.current;
+    if (!stage) return;
+  
+    // Handle panning with boundaries
+    if (isPanning) {
       const dx = e.evt.movementX;
       const dy = e.evt.movementY;
-      setStagePos(prev => ({
-        x: prev.x + dx,
-        y: prev.y + dy
-      }));
+      
+      // Calculate new position
+      const newX = stagePos.x + dx;
+      const newY = stagePos.y + dy;
+      
+      // Calculate bounds based on scale and window size
+      const minX = -CANVAS_WIDTH * scale + window.innerWidth;
+      const minY = -CANVAS_HEIGHT * scale + window.innerHeight;
+      
+      // Constrain the position
+      setStagePos({
+        x: Math.min(0, Math.max(minX, newX)),
+        y: Math.min(0, Math.max(minY, newY))
+      });
       return;
     }
-
+  
     if (!isDrawing) return;
-
+  
     const pointerPos = stage.getPointerPosition();
     if (pointerPos) {
-      const x = (pointerPos.x - stage.x()) / scale
-      const y = (pointerPos.y - stage.y()) / scale
-
+      // Convert screen coordinates to canvas coordinates
+      const x = (pointerPos.x - stage.x()) / scale;
+      const y = (pointerPos.y - stage.y()) / scale;
+  
+      // Constrain coordinates to canvas boundaries
+      const boundedX = Math.max(0, Math.min(5000, x));
+      const boundedY = Math.max(0, Math.min(5000, y));
+  
       if (selectedTool === 'pen') {
-        setCurrentPoints(prev => [...prev, x, y]);
+        setCurrentPoints(prev => [...prev, boundedX, boundedY]);
       } else {
-        setCurrentPoints([shapeStartPos!.x, shapeStartPos!.y, x, y])
+        // For shapes, constrain both start and end points
+        const boundedStartX = Math.max(0, Math.min(5000, shapeStartPos!.x));
+        const boundedStartY = Math.max(0, Math.min(5000, shapeStartPos!.y));
+        setCurrentPoints([boundedStartX, boundedStartY, boundedX, boundedY]);
       }
     }
   };
@@ -346,7 +405,8 @@ export default function Whiteboard({
           points: currentPoints, 
           color: selectedColor, 
           project_id: projectId, 
-          properties: drawEvent.properties
+          properties: drawEvent.properties,
+          tool_type: selectedTool
         }])
         .then();
 
@@ -374,14 +434,22 @@ export default function Whiteboard({
           y={stagePos.y}
           scale={{ x: scale, y: scale }}
           draggable={false}
+          onDragMove={(e) => {
+            // Constrain position during drag
+            const newPos = constrainPosition({
+              x: e.target.x(),
+              y: e.target.y()
+            });
+            e.target.position(newPos);
+          }}
         >
           {/* Background layer */}
           <Layer>
             <Rect
               x={0}
               y={0}
-              width={5000}
-              height={5000}
+              width={CANVAS_WIDTH}
+              height={CANVAS_HEIGHT}
               fill="#ffffff"
             />
           </Layer>

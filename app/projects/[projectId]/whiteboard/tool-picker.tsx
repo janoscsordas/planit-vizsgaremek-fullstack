@@ -1,11 +1,11 @@
-import { CircleIcon, Minus, SquareIcon } from "lucide-react";
+import { CircleIcon, Minus, SquareIcon, Type } from "lucide-react";
 
 export default function ToolPicker ({
     selectedTool,
     setSelectedTool
 }: {
-    selectedTool: 'pen' | 'circle' | 'rectangle',
-    setSelectedTool: (color: 'pen' | 'circle' | 'rectangle') => void
+    selectedTool: 'pen' | 'circle' | 'rectangle' | 'text',
+    setSelectedTool: (tool: 'pen' | 'circle' | 'rectangle' | 'text') => void
 }) {
     return (
         <div className="absolute bottom-20 left-20 flex flex-col gap-2 bg-white p-2 rounded-lg shadow-lg">
@@ -26,6 +26,12 @@ export default function ToolPicker ({
                 onClick={() => setSelectedTool('rectangle')}
             >
                 <SquareIcon className="w-6 h-6" />
+            </button>
+            <button
+                className={`p-2 rounded text-black ${selectedTool === 'text' ? 'bg-green-100' : ''}`}
+                onClick={() => setSelectedTool('text')}
+            > 
+                <Type className="w-6 h-6" />
             </button>
         </div>
     )
