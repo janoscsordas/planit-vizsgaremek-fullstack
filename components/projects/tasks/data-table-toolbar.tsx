@@ -1,7 +1,7 @@
 "use client"
 
 import { Table } from "@tanstack/react-table"
-import {RotateCcw, X} from "lucide-react"
+import {PlusIcon, RotateCcw, X} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -67,7 +67,9 @@ export function DataTableToolbar<TData>({
         </Button>
       </div>
       <div className="flex items-center space-x-2">
-        <CreateTask />
+        <CreateTask>
+          <PlusIcon /> Új feladat
+        </CreateTask>
         <DataTableViewOptions table={table} />
       </div>
     </div>

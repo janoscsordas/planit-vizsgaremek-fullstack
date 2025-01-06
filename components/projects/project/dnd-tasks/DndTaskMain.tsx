@@ -56,7 +56,7 @@ export default function DndTaskMain({
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     )
-
+    
     const result = await changeTaskStatus(newStatus, taskId, projectId)
 
     if (!result.success) {

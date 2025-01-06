@@ -1,6 +1,4 @@
-export type TaskStatus = {
-    status: "pending" | "in progress" | "finished"
-}
+export type TaskStatus = "pending" | "in progress" | "finished"
 
 export type Task = {
     id: string;

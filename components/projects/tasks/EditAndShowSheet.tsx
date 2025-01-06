@@ -52,7 +52,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Member, User } from "@/lib/definitions/projects"
+import { Member } from "@/lib/definitions/projects"
 import {
    Popover,
    PopoverContent,

@@ -8,7 +8,7 @@ import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { ArrowDown, ArrowRight, ArrowUp, CircleCheckBig, CircleDashed, Loader } from "lucide-react"
 import { Badge } from "@radix-ui/themes"
-import {ProjectData} from "@/lib/definitions/projects"
+import { EnrichedTask } from "@/lib/definitions/tasks"
 
 export const status = [
   { value: "pending", label: "Elvégzendő", icon: CircleDashed },
@@ -22,7 +22,7 @@ export const priority = [
   { value: "high", label: "Magas", icon: ArrowUp }
 ]
 
-export const columns: ColumnDef<ProjectData["tasks"][number] & { members: ProjectData["members"], projectOwner: ProjectData["projectOwner"] }>[] = [
+export const columns: ColumnDef<EnrichedTask>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -119,6 +119,6 @@ export const columns: ColumnDef<ProjectData["tasks"][number] & { members: Projec
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} members={row.original.members} projectOwner={row.original.projectOwner} />,
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

@@ -2,11 +2,6 @@
 
 import { Eye, MoreHorizontal, Trash2 } from "lucide-react"
 
-import {
-  Sheet,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -16,21 +11,19 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel
 } from "@/components/ui/dropdown-menu"
-import { ProjectData } from "@/lib/definitions/projects"
 import { deleteTask } from "@/actions/projectTask.action"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import EditAndShowSheet from "./EditAndShowSheet"
-import { taskSchema } from "@/lib/schemas/taskSchema"
+import { enrichedTaskSchema } from "@/lib/schemas/taskSchema"
+import { EnrichedTask } from "@/lib/definitions/tasks"
 
 interface DataTableRowActionsProps {
-  row: { original: ProjectData["tasks"][number] },
-  members: ProjectData["members"],
-  projectOwner: ProjectData["projectOwner"]
+  row: { original: EnrichedTask }
 }
 
-export function DataTableRowActions({ row, members, projectOwner }: DataTableRowActionsProps) {
-  const task = taskSchema.parse(row.original)
+export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+  const task = enrichedTaskSchema.parse(row.original)
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
@@ -58,34 +51,31 @@ export function DataTableRowActions({ row, members, projectOwner }: DataTableRow
   }
 
   return (
-    <Sheet>
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-          >
-            <MoreHorizontal />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuLabel>Feladat Művelet</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <SheetTrigger asChild>
-            <DropdownMenuItem>
-              <Eye />
-              Megtekintés
-            </DropdownMenuItem>
-          </SheetTrigger>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-red-600 focus:text-red-100 focus:bg-red-700" onClick={() => handleTaskDelete(task.id)}>
-            <Trash2 />
-            {loading ? "Törlés..." : "Törlés"}
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+        >
+          <MoreHorizontal />
+          <span className="sr-only">Open menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuLabel>Feladat Művelet</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <EditAndShowSheet task={task}>
+          <DropdownMenuItem>
+            <Eye />
+            Megtekintés
           </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <EditAndShowSheet task={task} members={members} projectOwner={projectOwner} />
-    </Sheet>
+        </EditAndShowSheet>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-red-600 focus:text-red-100 focus:bg-red-700" onClick={() => handleTaskDelete(task.id)}>
+          <Trash2 />
+          {loading ? "Törlés..." : "Törlés"}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
