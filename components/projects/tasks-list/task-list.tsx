@@ -127,19 +127,6 @@ export default function TaskList({
             </Button>
           </CreateTask>
         </div>
-        {/* <div className="flex items-center gap-2 xl:ml-auto">
-          <SegmentedControl.Root defaultValue="inbox" radius="medium">
-            <SegmentedControl.Item value="listView">
-              Lista nézet
-            </SegmentedControl.Item>
-            <SegmentedControl.Item value="dndView">
-              Kanban tábla
-            </SegmentedControl.Item>
-            <SegmentedControl.Item value="dataView">
-              Adattábla
-            </SegmentedControl.Item>
-          </SegmentedControl.Root>
-        </div> */}
       </div>
       <ScrollArea className="h-[calc(100vh-11.5rem)] w-full">
         <div className="w-full space-y-4">
@@ -155,7 +142,7 @@ export default function TaskList({
                 />
               ))
             ) : (
-              <div className="py-4 text-muted-foreground">
+              <div className="py-4 text-muted-foreground text-center text-sm">
                 <h1>
                   Nincs találat a szűrésre vagy még nem készítettél feladatot.
                 </h1>

@@ -4,7 +4,7 @@ import { Clock, Ellipsis } from "lucide-react"
 import { format } from "date-fns"
 import { hu } from "date-fns/locale"
 import { EnrichedTask } from "@/lib/definitions/tasks"
-import { AssignedAvatars } from "@/app/projects/[projectId]/tasks/task-group"
+import { AssignedAvatars } from "@/components/projects/tasks-list/task-group"
 import { Button } from "@/components/ui/button"
 import EditAndShowSheet from "../../tasks/EditAndShowSheet"
 

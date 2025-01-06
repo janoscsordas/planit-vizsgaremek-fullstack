@@ -1,17 +1,17 @@
-import ProjectHeader from "../header";
+import ProjectHeader from "../header"
 
-import { db } from "@/database";
-import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects";
-import { desc, eq } from "drizzle-orm";
-import { notFound } from "next/navigation";
-import TaskList from "./task-list";
+import { db } from "@/database"
+import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
+import { desc, eq } from "drizzle-orm"
+import { notFound } from "next/navigation"
+import TaskViewSwitcher from "./view-switcher"
 
 export default async function Tasks({
   params,
 }: Readonly<{
-  params: Promise<{ projectId: string }>;
+  params: Promise<{ projectId: string }>
 }>) {
-  const { projectId } = await params;
+  const { projectId } = await params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -80,10 +80,10 @@ export default async function Tasks({
         },
       },
     },
-  });
+  })
 
   if (!projectData) {
-    return notFound();
+    return notFound()
   }
 
   const enrichedTasks =
@@ -93,7 +93,7 @@ export default async function Tasks({
         ({ projectId }) => projectId === projectData.id
       ),
       projectOwner: projectData.owner,
-    })) || [];
+    })) || []
 
   return (
     <>
@@ -111,11 +111,10 @@ export default async function Tasks({
         ]}
       />
       <main className="px-6 py-2">
-        <h1 className="text-2xl font-bold">Feladatok</h1>
         <div className="pt-6">
-          <TaskList enrichedTasks={enrichedTasks} projectId={projectData.id} />
+          <TaskViewSwitcher tasks={enrichedTasks} projectId={projectId} />
         </div>
       </main>
     </>
-  );
+  )
 }
