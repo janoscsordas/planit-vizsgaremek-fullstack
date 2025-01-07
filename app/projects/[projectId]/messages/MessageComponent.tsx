@@ -89,7 +89,7 @@ export default function MessageComponent({
 
    return (
       <div className="flex-1 flex flex-col mt-2">
-         <ScrollArea className="rounded-md flex-1 px-1 md:p-0 min-h-[calc(100dvh-215px)] max-h-[calc(100dvh-215px)] overflow-y-scroll">
+         <ScrollArea className="rounded-md flex-1 px-1 md:p-0 min-h-[calc(100dvh-215px)] max-h-[calc(100dvh-215px)] overflow-y-scroll no-scrollbar">
             {messages.map((message) => (
                <div
                   key={message.id}

@@ -74,7 +74,7 @@ export default function MainChatComponent({
 
     return (
         <section className="flex flex-col justify-between h-screen mx-auto w-[95%] sm:w-[85%] md:w-[70%] lg:w-[65%] xl:w-[60%] 2xl:w-[55%]">
-            <div className="w-full h-[90%] rounded-md overflow-y-scroll flex flex-col gap-2 mt-2 p-4 relative">
+            <div className="w-full h-[90%] rounded-md no-scrollbar overflow-y-scroll flex flex-col gap-2 mt-2 p-4 relative">
                 <Suspense fallback={<Loading />}>
                     {data && data.map((message) => (
                         <MessageCards key={message.id} message={message} />

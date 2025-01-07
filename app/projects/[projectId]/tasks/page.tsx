@@ -111,7 +111,7 @@ export default async function Tasks({
         ]}
       />
       <main className="px-6 py-2">
-        <div className="pt-6">
+        <div>
           <TaskViewSwitcher tasks={enrichedTasks} projectId={projectId} />
         </div>
       </main>

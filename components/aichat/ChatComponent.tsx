@@ -54,7 +54,7 @@ export default function ChatComponent({
 
     return (
         <section className="flex flex-col justify-between h-screen mx-auto w-[95%] sm:w-[85%] md:w-[70%] lg:w-[65%] xl:w-[60%] 2xl:w-[55%]">
-            <div className="w-full h-[90%] rounded-md overflow-y-scroll flex flex-col gap-2 mt-2">
+            <div className="w-full h-[90%] rounded-md no-scrollbar overflow-y-scroll flex flex-col gap-2 mt-2">
                 {!isLoading ? (
                     <div className="flex flex-col gap-2 justify-center items-center h-full font-bold selection:bg-emerald">
                         <h2 className="text-center text-3xl">
