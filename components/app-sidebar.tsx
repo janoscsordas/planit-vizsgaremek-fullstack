@@ -23,6 +23,7 @@ import {
    Users,
    Settings2,
    Presentation,
+   CircleDot,
 } from "lucide-react"
 
 const generateNavItems = (
@@ -50,10 +51,10 @@ const generateNavItems = (
          isActive: pathName === `/projects/${projectId}/messages`,
       },
       {
-         title: "Ötlettábla",
-         url: `/projects/${projectId}/whiteboard`,
-         icon: Presentation,
-         isActive: pathName === `/projects/${projectId}/whiteboard`,
+         title: "Issues",
+         url: `/projects/${projectId}/issues`,
+         icon: CircleDot,
+         isActive: pathName === `/projects/${projectId}/issues`,
       },
       {
          title: "Tagok",

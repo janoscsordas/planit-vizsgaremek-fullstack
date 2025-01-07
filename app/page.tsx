@@ -88,7 +88,7 @@ export default function Home() {
             <h1 className="text-center text-5xl font-bold mt-24 mb-10">
                Amit kínálunk
             </h1>
-            <div className="grid grid-cols-1 2xl:grid-cols-3 gap-8 place-items-center place-content-center md:pt-24 mb-8 2xl:mb-16">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 place-items-center place-content-center md:pt-24 mb-8 2xl:mb-16">
                <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-cyan-700 border-2 transition-all">
                   <CardHeader>
                      <div className="p-5 bg-cyan-700 rounded-full w-max mx-auto mb-6 mt-2">
@@ -152,8 +152,6 @@ export default function Home() {
                      </p>
                   </CardContent>
                </Card>
-            </div>
-            <div className="grid grid-cols-1 2xl:grid-cols-2 gap-8 place-items-center place-content-center pb-12">
                <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-yellow-700 border-2 transition-all">
                   <CardHeader>
                      <div className="p-5 bg-yellow-700 rounded-full w-max mx-auto mb-6 mt-2">
@@ -170,25 +168,6 @@ export default function Home() {
                   <CardContent>
                      <p className="text-muted-foreground text-center">
                         Az AI asszisztens intelligens javaslatokkal segít a projektek és feladatok hatékony kezelésében, miközben támogatja a csapatmunkát és a kommunikációt.
-                     </p>
-                  </CardContent>
-               </Card>
-               <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-pink-700 border-2 transition-all">
-                  <CardHeader>
-                     <div className="p-5 bg-pink-700 rounded-full w-max mx-auto mb-6 mt-2">
-                        <Presentation
-                           className="w-max block mx-auto text-white"
-                           width={48}
-                           height={48}
-                        />
-                     </div>
-                     <CardTitle className="text-center text-2xl font-bold mb-4">
-                        Ötlettábla
-                     </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                     <p className="text-muted-foreground text-center">
-                     Az ötlettábla egy kreatív felület, ahol könnyedén gyűjtheted és rendszerezheted az inspirációkat és gondolatokat a hatékonyabb csapatmunka érdekében.
                      </p>
                   </CardContent>
                </Card>
