@@ -1,4 +1,4 @@
-import { pgEnum, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgEnum, pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { UsersTable } from "@/database/schema/user";
 import { relations } from "drizzle-orm";
 
@@ -95,6 +95,51 @@ export const ProjectTaskAssignsTable = pgTable("project_task_assigns", {
         .defaultNow(),
 })
 
+export const ProjectIssuesTable = pgTable("project_issues", {
+    id: serial("id")
+        .primaryKey(),
+    projectId: text("project_id")
+        .notNull()
+        .references(() => ProjectsTable.id, { onDelete: "cascade" }),
+    issueName: text("issue_name")
+        .notNull(),
+    issueDescription: text("issue_description")
+        .notNull(),
+    taskIssueId: text("task_issue_id")
+        .references(() => ProjectTasksTable.id, { onDelete: "cascade" }),
+    isOpen: boolean("is_open")
+        .notNull()
+        .default(true),
+    replies: integer("replies")
+        .notNull()
+        .default(0),
+    labels: jsonb("labels"),
+    openedAt: timestamp("opened_at", { mode: "date", withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    openedBy: text("opened_by")
+        .notNull()
+        .references(() => UsersTable.id, { onDelete: "cascade" }),
+})
+
+export const ProjectIssueRepliesTable = pgTable("project_issue_replies", {
+    id: text("id")
+        .notNull()
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    issueId: integer("issue_id")
+        .notNull()
+        .references(() => ProjectIssuesTable.id, { onDelete: "cascade" }),
+    reply: text("reply")
+        .notNull(),
+    repliedAt: timestamp("replied_at", { mode: "date", withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    repliedBy: text("replied_by")
+        .notNull()
+        .references(() => UsersTable.id, { onDelete: "cascade" }),
+})
+
 // Relations between tables
 
 export const ProjectRelations = relations(ProjectsTable, ({ one, many }) => ({
@@ -103,7 +148,8 @@ export const ProjectRelations = relations(ProjectsTable, ({ one, many }) => ({
       references: [UsersTable.id]
     }),
     members: many(ProjectMembersTable),
-    tasks: many(ProjectTasksTable)
+    tasks: many(ProjectTasksTable),
+    issues: many(ProjectIssuesTable)
   }));
   
 export const ProjectMemberRelations = relations(ProjectMembersTable, ({ one }) => ({
@@ -137,5 +183,21 @@ export const ProjectTaskAssignRelations = relations(ProjectTaskAssignsTable, ({ 
     user: one(UsersTable, {
       fields: [ProjectTaskAssignsTable.userId],
       references: [UsersTable.id]
+    })
+}));
+
+export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one, many }) => ({
+    project: one(ProjectsTable, {
+      fields: [ProjectIssuesTable.projectId],
+      references: [ProjectsTable.id]
+    }),
+    replies: many(ProjectIssueRepliesTable),
+    openedByUser: one(UsersTable, {
+        fields: [ProjectIssuesTable.openedBy],
+        references: [UsersTable.id]
+    }),
+    taskIssue: one(ProjectTasksTable, {
+        fields: [ProjectIssuesTable.taskIssueId],
+        references: [ProjectTasksTable.id]
     })
 }));

@@ -3,14 +3,21 @@ import ProjectHeader from "../header"
 import { db } from "@/database"
 import { ProjectsTable, ProjectTasksTable } from "@/database/schema/projects"
 import { desc, eq } from "drizzle-orm"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import TaskViewSwitcher from "./view-switcher"
+import { auth } from "@/auth"
 
 export default async function Tasks({
   params,
 }: Readonly<{
   params: Promise<{ projectId: string }>
 }>) {
+  const session = await auth()
+
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login")
+  }
+
   const { projectId } = await params
 
   const projectData = await db.query.ProjectsTable.findFirst({
