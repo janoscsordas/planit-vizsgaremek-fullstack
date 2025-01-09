@@ -8,6 +8,9 @@ import { restrictToWindowEdges } from "@dnd-kit/modifiers"
 import { changeTaskStatus } from "@/actions/projectTask.action"
 import { toast } from "sonner"
 import Loading from "@/app/projects/[projectId]/tasks/loading"
+import CreateTask from "../../tasks/CreateTask"
+import { Button } from "@/components/ui/button"
+import { PlusIcon } from "lucide-react"
 
 export type TaskStatus = "pending" | "in progress" | "finished"
 
@@ -56,27 +59,39 @@ export default function DndTaskMain({
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     )
-    
+
     const result = await changeTaskStatus(newStatus, taskId, projectId)
 
     if (!result.success) {
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
-          task.id === taskId
-            ? { ...task, status: task.status }
-            : task
+          task.id === taskId ? { ...task, status: task.status } : task
         )
       )
-      toast.error( "Hiba történt!", {description: result.message, position: "top-center" })
+      toast.error("Hiba történt!", {
+        description: result.message,
+        position: "top-center",
+      })
       return
     }
 
-    toast.success("Sikeres módosítás!", {description: result.message, position: "top-center" })
+    toast.success("Sikeres módosítás!", {
+      description: result.message,
+      position: "top-center",
+    })
   }
 
   return (
-    <div className="pt-2">
-      <div className="flex flex-col xl:flex-row gap-8">
+    <div className="">
+      <div className="mb-4">
+        <CreateTask>
+          <Button variant={"outline"}>
+            <PlusIcon className="w-4 h-4" />
+            Feladat hozzáadása
+          </Button>
+        </CreateTask>
+      </div>
+      <div className="flex flex-col gap-8 xl:flex-row">
         <DndContext
           id={id}
           onDragEnd={handleDragEnd}
