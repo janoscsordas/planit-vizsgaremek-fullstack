@@ -8,11 +8,13 @@ import { useState } from "react"
 export default function TaskCombobox({
     tasks,
     selectedTaskId,
-    setSelectedTaskId
+    setSelectedTaskId,
+    disabled
 }: {
     tasks: any[]
     selectedTaskId: string
     setSelectedTaskId: (taskId: string) => void
+    disabled?: boolean
 }) {
     const [open, setOpen] = useState(false)
    
@@ -24,6 +26,7 @@ export default function TaskCombobox({
             role="combobox"
             aria-expanded={open}
             className="w-[350px] justify-between"
+            disabled={disabled}
           >
             {selectedTaskId
               ? tasks.find((task) => task.id === selectedTaskId)?.taskName

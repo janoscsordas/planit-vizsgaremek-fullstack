@@ -3,9 +3,10 @@ import { CircleDot, MessagesSquare, PlusIcon } from "lucide-react"
 import Link from "next/link"
 import IssuesFilter from "./issues-filter"
 import { Issue } from "@/lib/definitions/issues"
-import { formatDate, formatDistance } from "date-fns"
+import { formatDistance } from "date-fns"
 import IssuesSearch from "./issues-search"
 import { hu } from "date-fns/locale/hu"
+import { ISSUE_LABELS } from "@/lib/utils/globalVariables"
 
 export default function IssuesTable({
     projectId,
@@ -42,17 +43,40 @@ export default function IssuesTable({
                         <div className="flex items-start gap-2">
                             <CircleDot className="w-4 h-4 mt-1 stroke-emerald" />
                             <div>
-                                <Link href={`/projects/${projectId}/issues/${issue.id}`} className="font-medium text-primary hover:text-emerald-hover">{issue.issueName}</Link>
+                                <div className="flex items-center gap-2">
+                                    <Link 
+                                        href={`/projects/${projectId}/issues/${issue.id}`} 
+                                        className="font-medium text-primary hover:text-emerald-hover"
+                                    >
+                                        {issue.issueName}
+                                    </Link>
+                                    {issue.labels && issue.labels.length > 0 && (
+                                        <div className="flex items-center gap-1">
+                                            {issue.labels.map((label, index) => (
+                                                <div 
+                                                    key={index}
+                                                    className={`
+                                                        px-2 rounded-full
+                                                        font-medium text-xs
+                                                        transition-colors duration-200
+                                                        ${ISSUE_LABELS.find((l) => l.name === label)?.color}
+                                                        ${ISSUE_LABELS.find((l) => l.name === label)?.textColor}
+                                                    `}
+                                                >
+                                                    {label}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="text-sm text-muted-foreground">
                                     #{issue.id} megnyitva {formatDistance(new Date(issue.openedAt), new Date(), { addSuffix: true, locale: hu })} - {issue.openedByUser.name}
                                 </div>
                             </div>
                         </div>
-                        {issue.replies && (
-                            <div className="text-sm text-muted-foreground flex items-center gap-2">
-                                {issue.replies} <MessagesSquare className="w-3 h-3" /> 
-                            </div>
-                        )}
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
+                            {issue.replies} <MessagesSquare className="w-3 h-3 stroke-muted-foreground" />
+                        </div>
                     </div>
                 )) : (
                     <div className="text-center text-muted-foreground text-md">

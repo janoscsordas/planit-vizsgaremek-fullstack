@@ -6,6 +6,7 @@ import { notFound, redirect } from "next/navigation";
 import IssuesTable from "@/components/projects/project/issues/issues-table";
 import { auth } from "@/auth";
 
+
 export default async function Page({
     params,
     searchParams
@@ -86,6 +87,7 @@ export default async function Page({
         },
       },
     },
+    orderBy: (ProjectIssuesTable, { desc }) => desc(ProjectIssuesTable.openedAt)
   });
 
   return (

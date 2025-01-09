@@ -4,10 +4,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar } from "@radix-ui/themes"
 import { useState } from "react";
-import MDEditor from '@uiw/react-md-editor';
+import MDEditor, { issue } from '@uiw/react-md-editor';
 import TaskCombobox from "./task-combobox";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import IssueLabels from "./issue-labels";
+import { issueCreationFormSchema } from "@/lib/schemas/issues";
+import { toast } from "sonner";
+import { createNewIssue } from "@/actions/issues.action";
+import { useRouter } from "next/navigation";
 
 export default function IssueCreationForm({
     userId,
@@ -25,20 +30,72 @@ export default function IssueCreationForm({
         taskName: string
     }[]
 }) {
+    const router = useRouter();
+
     const [selectedTaskId, setSelectedTaskId] = useState("");
     const [titleState, setTitleState] = useState("");
     const [descriptionState, setDescriptionState] = useState("");
+    const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState({
+        issueName: "",
+        issueDescription: "",
+        taskIssueId: "",
+        labels: "",
+    });
     
     const handleDescriptionChange = (value?: string) => {
         setDescriptionState(value ?? '');
     };
+
+    // Sending issue to backend
+    const handleIssueCreation = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            setIsLoading(true);
+
+            const validatedFields = issueCreationFormSchema.safeParse({
+                issueName: titleState,
+                issueDescription: descriptionState,
+                taskIssueId: selectedTaskId,
+                labels: selectedLabels
+            })
+
+            if (!validatedFields.success) {
+                setError({
+                    issueName: validatedFields.error.errors[0]?.message,
+                    issueDescription: validatedFields.error.errors[1]?.message,
+                    taskIssueId: validatedFields.error.errors[2]?.message,
+                    labels: validatedFields.error.errors[3]?.message,
+                });
+                return;
+            }
+
+            const response = await createNewIssue(validatedFields.data, userId, projectId);
+
+            if (!response.success) {
+                throw new Error(response.message);
+            }
+
+            if (response.success) {
+                router.push(`/projects/${projectId}/issues`)
+            }
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : "Hiba történt az Issue elkészítése közben!", 
+                { position: "top-center" });
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <section className="flex items-start gap-6 lg:w-[90%] mx-auto">
             <div className="hidden sm:block">
                 <Avatar radius="full" src={userImage} alt={userName} fallback={userName.charAt(0)} />
             </div>
-            <form className="w-full">
+            <form className="w-full mb-5" onSubmit={handleIssueCreation}>
                 <div className="space-y-4">
                     <Label htmlFor="title" className="text-[1rem] font-bold">Issue címe</Label>
                     <Input 
@@ -49,9 +106,12 @@ export default function IssueCreationForm({
                         id="title"
                         value={titleState}
                         onChange={(e) => setTitleState(e.target.value)}
+                        disabled={isLoading}
+                        required
                     />
-                    <div className="space-y-4">
-                        <Label className="text-[1rem] font-bold">Issue leírása</Label>
+                    {error.issueName && <span className="text-xs text-red-500 my-1">{error.issueName}</span>}
+                    <div>
+                        <Label className="text-[1rem] font-bold mb-4">Issue leírása</Label>
                         <MDEditor
                             value={descriptionState}
                             onChange={handleDescriptionChange}
@@ -60,6 +120,7 @@ export default function IssueCreationForm({
                             }}
                         />
                     </div>
+                    {error.issueDescription && <span className="text-xs text-red-500 my-1">{error.issueDescription}</span>}
                     <div className="space-y-4">
                         <Label className="text-[1rem] font-bold">Feladat</Label><br />
                         <span className="text-xs text-muted-foreground">Egy feladattal kapcsolatban lenne kérdésed? Jelöld ki a feladatot!</span>
@@ -68,6 +129,7 @@ export default function IssueCreationForm({
                                 tasks={tasks} 
                                 selectedTaskId={selectedTaskId} 
                                 setSelectedTaskId={setSelectedTaskId} 
+                                disabled={isLoading}
                             />
                             {selectedTaskId && 
                                 <Button 
@@ -81,9 +143,18 @@ export default function IssueCreationForm({
                             }
                         </div>
                     </div>
+                    {error.taskIssueId && <span className="text-xs text-red-500 my-1">{error.taskIssueId}</span>}
                     <div>
                         <Label className="text-[1rem] font-bold">Címke hozzáadása</Label>
-                        
+                        <IssueLabels 
+                            selectedLabels={selectedLabels} 
+                            setSelectedLabels={setSelectedLabels} 
+                            disabled={isLoading}
+                        />
+                    </div>
+                    {error.labels && <span className="text-xs text-red-500 my-1">{error.labels}</span>}
+                    <div>
+                        <Button className="bg-emerald hover:bg-emerald-hover" type="submit">Issue létrehozása</Button>
                     </div>
                 </div>
             </form>

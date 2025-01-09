@@ -1,6 +1,6 @@
-import { boolean, integer, jsonb, pgEnum, pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
+import { boolean, integer, pgEnum, pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { UsersTable } from "@/database/schema/user";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const projectTierEnum = pgEnum('project_tier', ['free', 'paid'])
 export const projectStatusEnum = pgEnum('project_status', ['active', 'completed', 'archived'])
@@ -113,7 +113,8 @@ export const ProjectIssuesTable = pgTable("project_issues", {
     replies: integer("replies")
         .notNull()
         .default(0),
-    labels: text("labels"),
+    labels: text("labels")
+        .array(),
     openedAt: timestamp("opened_at", { mode: "date", withTimezone: true })
         .notNull()
         .defaultNow(),
@@ -150,7 +151,7 @@ export const ProjectRelations = relations(ProjectsTable, ({ one, many }) => ({
     members: many(ProjectMembersTable),
     tasks: many(ProjectTasksTable),
     issues: many(ProjectIssuesTable)
-  }));
+}));
   
 export const ProjectMemberRelations = relations(ProjectMembersTable, ({ one }) => ({
     project: one(ProjectsTable, {
@@ -186,7 +187,7 @@ export const ProjectTaskAssignRelations = relations(ProjectTaskAssignsTable, ({ 
     })
 }));
 
-export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one }) => ({
+export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one, many }) => ({
     project: one(ProjectsTable, {
       fields: [ProjectIssuesTable.projectId],
       references: [ProjectsTable.id]
@@ -198,7 +199,8 @@ export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one }) => 
     taskIssue: one(ProjectTasksTable, {
         fields: [ProjectIssuesTable.taskIssueId],
         references: [ProjectTasksTable.id]
-    })
+    }),
+    allReplies: many(ProjectIssueRepliesTable)
 }));
 
 export const ProjectIssueRepliesRelations = relations(ProjectIssueRepliesTable, ({ one }) => ({
