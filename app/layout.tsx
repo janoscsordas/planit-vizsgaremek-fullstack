@@ -6,6 +6,7 @@ import { Theme } from '@radix-ui/themes'
 import { Providers } from '@/lib/providers/providers'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
+import { ThemeProvider } from "@/app/(profile)/appearance/theme-provider"
 
 export const metadata: Metadata = {
 	title: 'Planitapp - Kövesd nyomon a terveid!',
@@ -18,13 +19,15 @@ export default async function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="hu" className="dark" suppressHydrationWarning>
+		<html lang="hu" suppressHydrationWarning>
 			<body className={`${GeistSans.className} antialiased`}>
-				<Theme hasBackground={false} className={`${GeistSans.className} antialiased`}>
-					<Providers>{children}</Providers>
-					<Toaster />
-					<Sonner />
-				</Theme>
+				<ThemeProvider attribute={"class"} defaultTheme="system" enableSystem disableTransitionOnChange>
+					<Theme hasBackground={false} className={`${GeistSans.className} antialiased`}>
+						<Providers>{children}</Providers>
+						<Toaster />
+						<Sonner />
+					</Theme>
+				</ThemeProvider>
 			</body>
 		</html>
 	)

@@ -1,16 +1,37 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { Flex, RadioCards } from "@radix-ui/themes";
 import Image from "next/image";
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react";
 
 export default function ThemeSwitcherComponent() {
+    const { theme, setTheme } = useTheme()
+    const [selectedTheme, setSelectedTheme] = useState("system")
+
+    useEffect(() => {
+        if (theme) {
+            setSelectedTheme(theme);
+        }
+    }, [theme]);
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setTheme(selectedTheme)
+    }
+
     return (
-        <form className="flex flex-col gap-10 mt-2 w-full">
+        <form className="flex flex-col gap-10 mt-2 w-full" onSubmit={handleSubmit}>
             <RadioCards.Root
-            defaultValue="light"
-            color="green"
-            columns={{ initial: "1", md: "2", lg: "3" }}
+                defaultValue={theme}
+                value={selectedTheme}
+                onValueChange={setSelectedTheme}
+                color="green"
+                columns={{ initial: "1", md: "2", lg: "3" }}
+                
             >
-            <RadioCards.Item value="light" className="">
+            <RadioCards.Item value="light" className="hover:cursor-pointer">
                 <Flex direction="column">
                 <Image
                     className="rounded-md"
@@ -22,7 +43,7 @@ export default function ThemeSwitcherComponent() {
                 <h4 className="text-sm text-center pt-2">Világos</h4>
                 </Flex>
             </RadioCards.Item>
-            <RadioCards.Item value="dark" className="">
+            <RadioCards.Item value="dark" className="hover:cursor-pointer">
                 <Flex direction="column">
                 <Image
                     className="rounded-md"
@@ -34,7 +55,7 @@ export default function ThemeSwitcherComponent() {
                 <h4 className="text-sm text-center pt-2">Sötét</h4>
                 </Flex>
             </RadioCards.Item>
-            <RadioCards.Item value="system" className="">
+            <RadioCards.Item value="system" className="hover:cursor-pointer">
                 <Flex direction="column">
                 <Image
                     className="rounded-md"

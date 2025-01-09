@@ -2,7 +2,7 @@ import ProfileNavbar from "@/components/profile/ProfileNavbar"
 import ProfileHeader from "../ProfileHeader"
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
-import ThemeSwitcherComponent from "./theme-switcher-form"
+import ThemeSwitcherWrapper from "./theme-switcher-wrapper";
 
 export default async function AppearancePage() {
   const session = await auth()
@@ -27,7 +27,7 @@ export default async function AppearancePage() {
             <p className="text-muted-foreground text-xs mb-6">
               Válaszd ki az alkalmazás témáját.
             </p>
-            <ThemeSwitcherComponent />
+            <ThemeSwitcherWrapper />
           </div>
         </div>
       </div>
