@@ -186,12 +186,11 @@ export const ProjectTaskAssignRelations = relations(ProjectTaskAssignsTable, ({ 
     })
 }));
 
-export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one, many }) => ({
+export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one }) => ({
     project: one(ProjectsTable, {
       fields: [ProjectIssuesTable.projectId],
       references: [ProjectsTable.id]
     }),
-    replies: many(ProjectIssueRepliesTable),
     openedByUser: one(UsersTable, {
         fields: [ProjectIssuesTable.openedBy],
         references: [UsersTable.id]
@@ -201,3 +200,14 @@ export const ProjectIssueRelations = relations(ProjectIssuesTable, ({ one, many 
         references: [ProjectTasksTable.id]
     })
 }));
+
+export const ProjectIssueRepliesRelations = relations(ProjectIssueRepliesTable, ({ one }) => ({
+    issue: one(ProjectIssuesTable, {
+      fields: [ProjectIssueRepliesTable.issueId],
+      references: [ProjectIssuesTable.id]
+    }),
+    repliedByUser: one(UsersTable, {
+        fields: [ProjectIssueRepliesTable.repliedBy],
+        references: [UsersTable.id]
+    })
+}))

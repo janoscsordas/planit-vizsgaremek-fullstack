@@ -78,6 +78,20 @@
       "when": 1736354317540,
       "tag": "0010_puzzling_multiple_man",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1736405944960,
+      "tag": "0011_lonely_mockingbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1736405965303,
+      "tag": "0012_bored_night_thrasher",
+      "breakpoints": true
     }
   ]
 }
