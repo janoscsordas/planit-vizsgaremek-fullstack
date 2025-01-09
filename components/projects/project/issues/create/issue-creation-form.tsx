@@ -83,7 +83,7 @@ export default function IssueCreationForm({
                     </div>
                     <div>
                         <Label className="text-[1rem] font-bold">Címke hozzáadása</Label>
-
+                        
                     </div>
                 </div>
             </form>

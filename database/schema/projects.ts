@@ -113,7 +113,7 @@ export const ProjectIssuesTable = pgTable("project_issues", {
     replies: integer("replies")
         .notNull()
         .default(0),
-    labels: jsonb("labels"),
+    labels: text("labels"),
     openedAt: timestamp("opened_at", { mode: "date", withTimezone: true })
         .notNull()
         .defaultNow(),
