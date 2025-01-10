@@ -57,11 +57,11 @@ export default function Home() {
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                   <div className="md:order-2">
                      <Image
-                        src="/placeholder.png"
-                        width={600}
-                        height={400}
+                        src="https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7LqR8BDVjxOln8NI5mATXedhLVBWkrFJHazpM"
+                        width={1920}
+                        height={1080}
                         alt="placeholder"
-                        className="rounded-lg shadow-md block mx-auto md:mx-0 rotate-1 pointer-events-none"
+                        className="w-600 h-400 rounded-lg shadow-md block mx-auto md:mx-0 rotate-1 pointer-events-none"
                      />
                   </div>
                   <div className="md:order-1">
