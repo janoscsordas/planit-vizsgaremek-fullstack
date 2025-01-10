@@ -9,11 +9,11 @@ export default function ViewSwitcherButtons({ viewMode, handleViewChange }: { vi
             className={`p-2 rounded ${
               viewMode === "list" ? "bg-emerald-hover" : "hover:bg-emerald-hover"
             }`}
-            title="List View"
+            title="Lista nézet"
           >
             <List
               className={`w-4 h-4 ${
-                viewMode === "list" ? "text-primary" : "text-white"
+                viewMode === "list" ? "text-white" : "text-primary"
               }`}
             />
           </button>
@@ -22,11 +22,11 @@ export default function ViewSwitcherButtons({ viewMode, handleViewChange }: { vi
             className={`p-2 rounded ${
               viewMode === "kanbantable" ? "bg-emerald-hover" : "hover:bg-emerald-hover"
             }`}
-            title="Grid View"
+            title="Kanban nézet"
           >
             <Grid
               className={`w-4 h-4 ${
-                viewMode === "kanbantable" ? "text-primary" : "text-white"
+                viewMode === "kanbantable" ? "text-white" : "text-primary"
               }`}
             />
           </button>

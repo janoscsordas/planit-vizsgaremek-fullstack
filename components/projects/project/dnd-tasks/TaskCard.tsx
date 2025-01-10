@@ -29,7 +29,7 @@ export function TaskCard({ task }: TaskCardProps) {
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className="p-5 transition-shadow duration-200 rounded-lg shadow-lg select-none bg-neutral-800 hover:shadow-xl"
+        className="p-5 transition-shadow duration-200 rounded-lg shadow-lg select-none bg-white dark:bg-neutral-800 hover:shadow-xl"
         style={style}
       >
         <div
@@ -43,7 +43,7 @@ export function TaskCard({ task }: TaskCardProps) {
             >
               ID-{task.id.slice(0, 2)}
             </span>
-            <h3 className="font-semibold text-white">
+            <h3 className="font-semibold text-red-primary">
               {task.taskName && task.taskName.length > 32
                 ? `${task.taskName.slice(0, 32)}...`
                 : task.taskName || ""}

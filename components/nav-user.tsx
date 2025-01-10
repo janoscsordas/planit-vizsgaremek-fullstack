@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, ChevronsUpDown, LogOut, Sparkles, User } from "lucide-react"
+import { Bell, ChevronsUpDown, LogOutIcon, Sparkles, User } from "lucide-react"
 
 import { Avatar } from "@radix-ui/themes"
 
@@ -129,8 +129,8 @@ export function NavUser({ userSession }: { userSession: Session }) {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem className="cursor-pointer">
-                  <LogOut />
+                <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white cursor-pointer">
+                  <LogOutIcon />
                   {/* Alert dialog kijelentkezés megerősítéséhez */}
                   Kijelentkezés
                 </DropdownMenuItem>
