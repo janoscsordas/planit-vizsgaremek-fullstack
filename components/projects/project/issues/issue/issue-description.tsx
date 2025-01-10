@@ -13,7 +13,7 @@ export default function IssueDescription({
 }) {
 
     return (
-        <section className="flex gap-2 w-full mt-9">
+        <section className="flex gap-3 w-full mt-9">
             <div className="w-max">
                 <Avatar radius="full" src={issueData.userImage || ""} alt={issueData.userName || ""} fallback={issueData.userName?.charAt(0) || ""} />
             </div>

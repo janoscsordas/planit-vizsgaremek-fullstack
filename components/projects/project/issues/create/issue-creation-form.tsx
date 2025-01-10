@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar } from "@radix-ui/themes"
 import { useState } from "react";
-import MDEditor, { issue } from '@uiw/react-md-editor';
 import TaskCombobox from "./task-combobox";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -13,6 +12,9 @@ import { issueCreationFormSchema } from "@/lib/schemas/issues";
 import { toast } from "sonner";
 import { createNewIssue } from "@/actions/issues.action";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 export default function IssueCreationForm({
     userId,

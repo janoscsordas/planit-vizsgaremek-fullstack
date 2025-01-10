@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/database";
-import { ProjectIssuesTable } from "@/database/schema/projects";
-import { eq } from "drizzle-orm";
+import { ProjectIssuesTable, ProjectsTable } from "@/database/schema/projects";
+import { and, eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import ProjectHeader from "../../header";
 import IssueWrapper from "@/components/projects/project/issues/issue/issue-wrapper";
@@ -10,7 +10,7 @@ import IssueWrapper from "@/components/projects/project/issues/issue/issue-wrapp
 export default async function Page({
     params,
 }: {
-    params: Promise<{ issueId: string }>
+    params: Promise<{ projectId: string, issueId: string }>
 }) {
     const session = await auth();
 
@@ -18,15 +18,29 @@ export default async function Page({
         return redirect("/login");
     }
 
-    const { issueId } = await params;
+    const { issueId, projectId } = await params;
     const issueIdAsNumber = Number(issueId);
 
-    if (isNaN(issueIdAsNumber)) {
+    if (isNaN(issueIdAsNumber) || !projectId) {
         return notFound()
     }
 
+    const project = await db.query.ProjectsTable.findFirst({
+        where: eq(ProjectsTable.id, projectId),
+        columns: {
+            id: true
+        }
+    });
+    
+    if (!project) {
+        return notFound();
+    }
+
     const issueData = await db.query.ProjectIssuesTable.findFirst({
-        where: eq(ProjectIssuesTable.id, issueIdAsNumber),
+        where: and(
+            eq(ProjectIssuesTable.id, issueIdAsNumber),
+            eq(ProjectIssuesTable.projectId, projectId)
+        ),
         with: {
             openedByUser: {
                 columns: {
@@ -68,9 +82,9 @@ export default async function Page({
             }
         }
     });
-
+    
     if (!issueData) {
-        return notFound()
+        return notFound();
     }
 
     return (
@@ -93,7 +107,7 @@ export default async function Page({
                 ]}
             />
             <main className="px-6 py-2">
-                <IssueWrapper issueData={issueData} />
+                <IssueWrapper issueData={issueData} user={session.user} />
             </main>
         </>
     )

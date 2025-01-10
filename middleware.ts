@@ -19,7 +19,13 @@ export async function middleware(req: NextRequest) {
 
   // Check if route is a project page
   const projectId = req.nextUrl.pathname.split('/')[2];
-  
+
+  // Check if no projectId is provided or specific path were provided that is not a projectId
+  // Something like: "create". Change this if we add new paths that are not project pages
+  if (!projectId || projectId === "create") {
+    return NextResponse.next();
+  }
+
   if (projectId) {
     const [projectAccess] = await db
       .select({

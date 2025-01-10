@@ -51,7 +51,7 @@ export default function IssueTitle({
                     `${formatDistance(openedAt, new Date(), { 
                         addSuffix: true, locale: hu 
                     })}`}
-                    <span> - {numberOfReplies} visszajelzés</span>
+                    <span> - {numberOfReplies} hozzászólás</span>
                 </p>
             </div>
         </div>

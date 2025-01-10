@@ -46,15 +46,15 @@ export const projectTaskCreationSchema = z.object({
     .min(4, {
       message: "A feladat nevének minimum 4 karakter hosszúnak kell lennie!",
     })
-    .max(128, { message: "A feladat neve maximum 64 karakter hosszú lehet!" }),
+    .max(128, { message: "A feladat neve maximum 128 karakter hosszú lehet!" }),
   taskDescription: z
     .string({
       required_error: "A feladat leírását meg kell adni!",
       invalid_type_error: "A feladat leírását helyesen kell megadnod!",
     })
     .min(4, { message: "A feladat leírása minimum 4 karakter hosszú lehet!" })
-    .max(256, {
-      message: "A feladat leírása maximum 256 karakter hosszúlehet",
+    .max(512, {
+      message: "A feladat leírása maximum 512 karakter hosszú lehet.",
     }),
   status: z.enum(["pending", "in progress", "finished"], {
     required_error: "A feladat státuszát meg kell adnod!",

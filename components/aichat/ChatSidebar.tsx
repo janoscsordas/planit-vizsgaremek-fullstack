@@ -51,12 +51,14 @@ export default function ChatSidebar({ user }: { user: User }) {
                     <AlertDialog>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild className='cursor-pointer'>
-                                <Avatar 
-                                    src={user.image || ""} 
-                                    alt={user.name || "Felhasználó"} 
-                                    fallback={user.name?.charAt(0) || "F"} 
-                                    size={"2"}
-                                />
+                                <button>    
+                                    <Avatar 
+                                        src={user.image || ""} 
+                                        alt={user.name || "Felhasználó"} 
+                                        fallback={user.name?.charAt(0) || "F"} 
+                                        size={"2"}
+                                    />
+                                </button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side='top' sideOffset={8}>
                                 <DropdownMenuLabel>
