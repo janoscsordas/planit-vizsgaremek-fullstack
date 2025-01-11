@@ -32,6 +32,7 @@ export default function IssueWrapper({
             <IssueDescription
                 issueData={
                     {
+                        id: issueData.id,
                         issueDescription: issueData.issueDescription,
                         userId: issueData.openedByUser.id,
                         userName: issueData.openedByUser.name!,

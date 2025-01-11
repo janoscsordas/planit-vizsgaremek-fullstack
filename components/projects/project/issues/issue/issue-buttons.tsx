@@ -20,11 +20,13 @@ export default function IssueButtons({
     issueId,
     issueReplyId,
     projectId,
+    issueReply,
     user
 }: {
     issueId: number
     issueReplyId: string
     projectId: string
+    issueReply: string
     user: User
 }) {
 
@@ -39,6 +41,7 @@ export default function IssueButtons({
                 <DropdownMenuContent side="bottom" align="end">
                     <DropdownMenuLabel>Menü</DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    {/* TODO: Modify issue reply functionalities etc. */}
                     <DropdownMenuItem>Szerkesztés</DropdownMenuItem>
                     <AlertDialogTrigger asChild>
                         <DropdownMenuItem className="text-red-500">Hozzászólás törlése</DropdownMenuItem>

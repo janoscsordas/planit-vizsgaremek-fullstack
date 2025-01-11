@@ -42,7 +42,7 @@ export default function IssueTitle({
                 {isOpen ? (
                     <span className="text-primary bg-emerald-hover text-sm flex items-center gap-2 px-2 py-1 rounded-full"><CircleDot className="h-4 w-4" /> Nyitva</span>
                 ) : (
-                    <span className="text-primary bg-muted-foreground text-sm flex items-center gap-2 px-2 py-1 rounded-full"><Check className="h-4 w-4" /> Lezárt</span>
+                    <span className="text-primary bg-violet-700 text-sm flex items-center gap-2 px-2 py-1 rounded-full"><Check className="h-4 w-4" /> Lezárt</span>
                 )}
                 <p className="text-muted-foreground text-sm">
                     <span className="font-bold">{userName} </span>

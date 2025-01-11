@@ -64,6 +64,7 @@ export type IssueWithItsSpecificData = {
 }
 
 export type IssueDescriptionTypeForComponent = {
+    id: number
     issueDescription: string
     userId: string
     userName: string

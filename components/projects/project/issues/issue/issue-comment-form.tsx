@@ -96,7 +96,7 @@ export default function IssueCommentForm({
                     <Button 
                         className="bg-emerald hover:bg-emerald-hover ml-auto block mt-4"
                         type="submit"
-                        disabled={isLoading || !isIssueOpen}
+                        disabled={isLoading || !isIssueOpen || !comment}
                     >
                         {isLoading ? <Loader2Icon className="animate-spin" /> : "Hozzászólás"}
                     </Button>

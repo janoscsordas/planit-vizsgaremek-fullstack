@@ -72,6 +72,7 @@ export default async function IssueReplies({
                                             issueReplyId={issueReply.id}
                                             issueId={issueId} 
                                             projectId={projectId}
+                                            issueReply={issueReply.reply}
                                         />
                                 }
                             </div>

@@ -7,6 +7,7 @@ import { Circle, Ellipsis } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { auth } from "@/auth"
 import IssueEdit from "./issue-buttons"
+import IssueCommentEditor from "./issue-comment-editor"
 
 export default async function IssueDescription({
     issueData
@@ -42,7 +43,11 @@ export default async function IssueDescription({
                         */}
                         {
                             session.user.id === issueData.userId && (
-                                <></>
+                                <IssueCommentEditor 
+                                    issueId={issueData.id} 
+                                    issueDescription={issueData.issueDescription} 
+                                    projectId={issueData.projectId}
+                                />
                             )
                         }
                     </div>

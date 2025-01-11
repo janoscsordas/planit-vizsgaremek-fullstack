@@ -129,6 +129,59 @@ export async function createIssueComment(comment: string, issueId: number, userI
     }
 }
 
+/* 
+    @params: issueId, issueReplyId, reply, projectId
+    returns a message as string and a success as a boolean
+*/
+export async function modifyIssueReply(issueId: number, issueReplyId: string, reply: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    if (!issueId || !issueReplyId) {
+        return {
+            success: false,
+            message: "Hiányzó adatokat adtál meg!"
+        }
+    }
+
+    try {
+        const validatedFields = issueCommentFormSchema.safeParse({
+            comment: reply
+        })
+
+        if (!validatedFields.success) {
+            throw new Error(validatedFields.error.errors[0]?.message)
+        }
+
+        await db
+            .update(ProjectIssueRepliesTable)
+            .set({ 
+                reply: validatedFields.data.comment
+            })
+            .where(and(
+                eq(ProjectIssueRepliesTable.issueId, issueId),
+                eq(ProjectIssueRepliesTable.id, issueReplyId)
+            ));
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése Közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/issues/${issueId}`)
+    return {    
+        success: true,
+        message: "Hozzászólás módosítva!"
+    }
+}
+
 
 /* 
     @params: issueId, issueReplyId, projectId
@@ -184,6 +237,53 @@ export async function deleteIssueReply(issueId: number, issueReplyId: string, pr
     }
 }
 
+/* 
+    @params: issueId, description, projectId
+    returns a message as string and a success as a boolean
+*/
+export async function updateIssueDescription(issueId: number, description: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    try {
+        const validatedFields = issueCommentFormSchema.safeParse({
+            comment: description
+        })
+
+        if (!validatedFields.success) {
+            throw new Error(validatedFields.error.errors[0]?.message)
+        }
+
+        await db
+            .update(ProjectIssuesTable)
+            .set({ 
+                issueDescription: validatedFields.data.comment
+            })
+            .where(eq(ProjectIssuesTable.id, issueId));
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése és frissítése közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/issues/${issueId}`)
+    return {    
+        success: true,
+        message: "Issue frissítve!"
+    }
+}
+
+/* 
+    @params: issueId, projectId, state of the issue (TRUE || False)
+    returns a message as string and a success as a boolean
+*/
 export async function modifyIssue(issueId: number, projectId: string, state: boolean) {
     const session = await auth()
 
@@ -215,6 +315,10 @@ export async function modifyIssue(issueId: number, projectId: string, state: boo
     }
 }
 
+/* 
+    @params: issueId, projectId
+    returns a message as string and a success as a boolean
+*/
 export async function removeIssue(issueId: number, projectId: string) {
     const session = await auth()
 
@@ -237,7 +341,7 @@ export async function removeIssue(issueId: number, projectId: string) {
     }
 
     revalidatePath(`/projects/${projectId}/issues`)
-    return {    
+    return {
         success: true,
         message: "Issue sikeresen törölve!"
     }
