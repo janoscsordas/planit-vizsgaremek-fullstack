@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { CircleDot, MessagesSquare, PlusIcon } from "lucide-react"
+import { CircleCheck, CircleDot, MessagesSquare, PlusIcon } from "lucide-react"
 import Link from "next/link"
 import IssuesFilter from "./issues-filter"
 import { Issue } from "@/lib/definitions/issues"
@@ -41,7 +41,13 @@ export default function IssuesTable({
                         className="flex items-start justify-between p-4 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 border-b border-b-muted"
                     >
                         <div className="flex items-start gap-2">
-                            <CircleDot className="w-4 h-4 mt-1 stroke-emerald" />
+                            {
+                                issue.isOpen ? (
+                                    <CircleDot className="w-4 h-4 mt-1 stroke-emerald" />
+                                ) : (
+                                    <CircleCheck className="w-4 h-4 mt-1 stroke-violet-700" />
+                                )
+                            }
                             <div>
                                 <div className="flex items-center gap-2">
                                     <Link 

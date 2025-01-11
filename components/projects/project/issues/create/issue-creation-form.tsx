@@ -82,6 +82,7 @@ export default function IssueCreationForm({
 
             if (response.success) {
                 router.push(`/projects/${projectId}/issues`)
+                toast.success(response.message, { duration: 5000, position: "top-center" })
             }
         } catch (error) {
             toast.error(

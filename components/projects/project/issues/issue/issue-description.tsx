@@ -5,12 +5,19 @@ import { hu } from "date-fns/locale/hu"
 import MarkdownDescription from "./markdown-description"
 import { Circle, Ellipsis } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { auth } from "@/auth"
+import IssueEdit from "./issue-buttons"
 
-export default function IssueDescription({
+export default async function IssueDescription({
     issueData
 }: {
     issueData: IssueDescriptionTypeForComponent
 }) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return null
+    }
 
     return (
         <section className="flex gap-3 w-full mt-9">
@@ -33,7 +40,11 @@ export default function IssueDescription({
                         {/* TODO: put this into a separate component and make the functionality for it
                             Only the admins the owner and the creator of the issue will be able to see this
                         */}
-                        <Ellipsis className="w-4 h-4" />
+                        {
+                            session.user.id === issueData.userId && (
+                                <></>
+                            )
+                        }
                     </div>
                 </div>
                 <div 

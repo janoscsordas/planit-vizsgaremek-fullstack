@@ -44,6 +44,7 @@ export default async function Page({
         with: {
             openedByUser: {
                 columns: {
+                    id: true,
                     name: true,
                     image: true
                 }

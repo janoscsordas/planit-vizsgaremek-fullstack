@@ -7,6 +7,7 @@ import IssueReplies from "./issue-replies"
 import { Suspense } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@radix-ui/themes"
+import IssueModify from "./issue-modify"
 
 
 export default function IssueWrapper({
@@ -32,6 +33,7 @@ export default function IssueWrapper({
                 issueData={
                     {
                         issueDescription: issueData.issueDescription,
+                        userId: issueData.openedByUser.id,
                         userName: issueData.openedByUser.name!,
                         userImage: issueData.openedByUser.image ?? "",
                         projectId: issueData.projectId,
@@ -48,10 +50,27 @@ export default function IssueWrapper({
                     </Skeleton>
                 </section>
             }>
-                <IssueReplies issueId={issueData.id} />
+                <IssueReplies 
+                    issueId={issueData.id} 
+                    projectId={issueData.projectId} 
+                />
             </Suspense>
             <hr className="my-4 border-2 border-foreground/30" />
-            <IssueCommentForm issueId={issueData.id} user={user} projectId={issueData.projectId} />
+            <IssueCommentForm 
+                issueId={issueData.id} 
+                user={user} 
+                projectId={issueData.projectId} 
+                isIssueOpen={issueData.isOpen}
+            />
+            {
+                issueData.openedByUser.id === user.id && (
+                    <IssueModify 
+                        issueId={issueData.id} 
+                        projectId={issueData.projectId} 
+                        issueState={issueData.isOpen}
+                    />
+                )
+            }
         </section>
     )
 }

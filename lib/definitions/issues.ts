@@ -39,6 +39,7 @@ export type IssueWithItsSpecificData = {
         name: string;
     };
     openedByUser: {
+        id: string;
         name: string | null;
         image: string | null;
     };
@@ -64,6 +65,7 @@ export type IssueWithItsSpecificData = {
 
 export type IssueDescriptionTypeForComponent = {
     issueDescription: string
+    userId: string
     userName: string
     userImage: string
     projectId: string

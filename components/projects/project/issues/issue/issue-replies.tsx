@@ -4,14 +4,23 @@ import { Avatar } from "@radix-ui/themes"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
 import { eq } from "drizzle-orm"
-import { Ellipsis } from "lucide-react"
 import MarkdownDescription from "./markdown-description"
+import IssueButtons from "./issue-buttons"
+import { auth } from "@/auth"
 
 export default async function IssueReplies({
+    projectId,
     issueId,
 }: {
+    projectId: string
     issueId: number
 }) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return null
+    }
+
     const issueReplies = await db.query.ProjectIssueRepliesTable.findMany({
         where: eq(ProjectIssueRepliesTable.issueId, issueId),
         columns: {
@@ -55,10 +64,16 @@ export default async function IssueReplies({
                                 </p>
                             </div>
                             <div>
-                                {/* TODO: put this into a separate component and make the functionality for it
-                                    Only the admins the owner and the creator of the issue will be able to see this
-                                */}
-                                <Ellipsis className="w-4 h-4" />
+                                {/* Only the creator of the reply will be able to edit it */}
+                                {
+                                    session.user.id === issueReply.repliedByUser.id 
+                                    && <IssueButtons 
+                                            user={session.user} 
+                                            issueReplyId={issueReply.id}
+                                            issueId={issueId} 
+                                            projectId={projectId}
+                                        />
+                                }
                             </div>
                         </div>
                         <div 

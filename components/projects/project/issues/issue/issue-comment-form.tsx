@@ -20,10 +20,12 @@ export default function IssueCommentForm({
     issueId,
     user,
     projectId,
+    isIssueOpen
 }: {
     issueId: number,
     user: User
     projectId: string
+    isIssueOpen: boolean
 }) {
     const [comment, setComment] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +37,11 @@ export default function IssueCommentForm({
     const handleCommentCreation = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsLoading(true)
+
+        if (!isIssueOpen) {
+            setIsLoading(false)
+            return;
+        }
 
         const validatedFields = issueCommentFormSchema.safeParse({
             comment: comment
@@ -82,13 +89,14 @@ export default function IssueCommentForm({
                         onChange={handleCommentChange} 
                         className="w-full max-w-none"
                         textareaProps={{
-                            placeholder: 'Ird be a hozzászólásodat...',
+                            placeholder: !isIssueOpen ? "Issue lezárva! Nem lehet hozzászólni!" : "Ide írhatod a hozzászólásodat",
+                            disabled: !isIssueOpen
                         }}
                     />
                     <Button 
                         className="bg-emerald hover:bg-emerald-hover ml-auto block mt-4"
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isLoading || !isIssueOpen}
                     >
                         {isLoading ? <Loader2Icon className="animate-spin" /> : "Hozzászólás"}
                     </Button>

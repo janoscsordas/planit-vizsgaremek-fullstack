@@ -5,8 +5,9 @@ import { db } from "@/database";
 import { ProjectIssueRepliesTable, ProjectIssuesTable } from "@/database/schema/projects";
 import { IssueCreationData } from "@/lib/definitions/issues";
 import { issueCommentFormSchema, issueCreationFormSchema } from "@/lib/schemas/issues";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function createNewIssue(issueData: IssueCreationData, userId: string, projectId: string) {
     const session = await auth()
@@ -125,5 +126,119 @@ export async function createIssueComment(comment: string, issueId: number, userI
     return {    
         success: true,
         message: "Hozzászólás elküldve!"
+    }
+}
+
+
+/* 
+    @params: issueId, issueReplyId, projectId
+    returns a message as string and a success as a boolean
+*/
+export async function deleteIssueReply(issueId: number, issueReplyId: string, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    if (!issueId || !issueReplyId) {
+        return {
+            success: false,
+            message: "Hiányzó adatokat adtál meg!"
+        }
+    }
+
+    try {
+        await db.transaction(async (tx) => {
+            // First we delete the comment
+            await tx
+                .delete(ProjectIssueRepliesTable)
+                .where(and(
+                    eq(ProjectIssueRepliesTable.issueId, issueId),
+                    eq(ProjectIssueRepliesTable.id, issueReplyId)
+                ))
+
+
+            // Then we decrement the comment count
+            await tx
+                .update(ProjectIssuesTable)
+                .set({ 
+                    replies: sql`${ProjectIssuesTable.replies} - 1`,
+                })
+                .where(eq(ProjectIssuesTable.id, issueId));
+        })
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/issues/${issueId}`)
+    return {    
+        success: true,
+        message: "Hozzászólás törölve!"
+    }
+}
+
+export async function modifyIssue(issueId: number, projectId: string, state: boolean) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    try {
+        await db
+            .update(ProjectIssuesTable)
+            .set({ 
+                isOpen: state
+            })
+            .where(eq(ProjectIssuesTable.id, issueId));
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/issues/${issueId}`)
+    return {    
+        success: true,
+        message: state ? "Issue sikeresen újra nyitva!" : "Issue sikeresen lezárva!"
+    }
+}
+
+export async function removeIssue(issueId: number, projectId: string) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return {
+            success: false,
+            message: "Jelentkezz be a folytatáshoz!"
+        }
+    }
+
+    try {
+        await db
+            .delete(ProjectIssuesTable)
+            .where(eq(ProjectIssuesTable.id, issueId));
+    } catch (error) {
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése Közben!"
+        }
+    }
+
+    revalidatePath(`/projects/${projectId}/issues`)
+    return {    
+        success: true,
+        message: "Issue sikeresen törölve!"
     }
 }

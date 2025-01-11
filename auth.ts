@@ -19,22 +19,54 @@ export const authConfig = {
             clientId: process.env.AUTH_GITHUB_ID!,
             clientSecret: process.env.AUTH_GITHUB_SECRET!,
             async profile(profile) {
-                // Check if the avatar URL starts with "private-avatars"
-                if (profile.avatar_url.startsWith('https://private-avatars')) {
-                  // Replace with the public URL
-                  profile.avatar_url = profile.avatar_url.replace('private-', '');
-                }
+                const existingUser = await db
+                    .select()
+                    .from(UsersTable)
+                    .where(eq(UsersTable.id, profile.id.toString()))
+                    .limit(1)
+
+                // getting back the user or undefined
+                const user = existingUser[0]
+
+                // If user exists and has an image, we use it instead of the one from GitHub
+                const imageUrl = user?.image || profile.avatar_url
+
+                // Fix private avatar URL only if using GitHub's avatar
+                const finalImageUrl = !user?.image && imageUrl.startsWith("https://private-avatars")
+                    ? imageUrl.replace('private-', '')
+                    : imageUrl;
+                
                 return {
                     id: profile.id.toString(),
                     name: profile.name,
                     email: profile.email,
-                    image: profile.avatar_url
+                    image: finalImageUrl
                 } as User;
             },
         }),
         Google({
             clientId: process.env.AUTH_GOOGLE_ID!,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET!
+            clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+            async profile(profile) {
+                const existingUser = await db
+                    .select()
+                    .from(UsersTable)
+                    .where(eq(UsersTable.id, profile.sub)) // Google uses 'sub' as the ID
+                    .limit(1)
+
+                // getting back the user or undefined
+                const user = existingUser[0]
+
+                // If user exists and has an image, we use it instead of the one from Google
+                const imageUrl = user?.image || profile.picture
+
+                return {
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    image: imageUrl
+                } as User
+            }
         }),
         Credentials({
             async authorize(credentials) {
