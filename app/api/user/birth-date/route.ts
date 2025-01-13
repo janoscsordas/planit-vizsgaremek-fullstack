@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { db } from "@/database";
 import { UsersTable } from "@/database/schema/user";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -39,8 +38,6 @@ export async function PUT(request: Request) {
 
         return NextResponse.json({ error: "Hiba történt a születési dátum megadása közben!" }, { status: 500 })
     }
-
-    revalidatePath('/profile')
 
     return NextResponse.json({ message: 'Születési dátum sikeresen megadva!' }, { status: 200 })
 }

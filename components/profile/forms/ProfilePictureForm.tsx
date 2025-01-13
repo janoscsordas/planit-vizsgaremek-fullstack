@@ -4,10 +4,12 @@ import { useToast } from "@/hooks/use-toast";
 import { UploadDropzone } from "@/lib/utils/uploadthing";
 import { differenceInDays } from "date-fns";
 import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 export default function ProfilePictureForm({ imageChangedAt, userId }: { imageChangedAt: Date | null, userId: string }) {
     const { toast } = useToast();
+    const router = useRouter();
 
     return (
         <section className="border border-muted rounded-md p-4 mt-6">
@@ -31,7 +33,7 @@ export default function ProfilePictureForm({ imageChangedAt, userId }: { imageCh
                         if (imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90) return `Legközelebb csak ${(90 - differenceInDays(new Date(), imageChangedAt)).toString()} nap múlva módosíthatod a profilképedet!`;
                         if (!ready) return "Adatok és egyebek betöltése";
                         if (isDragActive) return "Igen, ide húzd a képet!";
-                        return "Kattints ide, vagy húzd ide a feltölteni kivant képet";
+                        return "Kattints ide, vagy húzd ide a feltölteni kívánt képet";
                     }
                 }}
                 className={`ut-button:bg-emerald ut-button:text-primary-foreground ut-button:font-sans ${imageChangedAt && differenceInDays(new Date(), imageChangedAt) < 90 ? "ut-button:cursor-not-allowed ut-button:bg-emerald-hover ut-label:cursor-not-allowed pointer-events-none" : ""}`}
@@ -64,6 +66,10 @@ export default function ProfilePictureForm({ imageChangedAt, userId }: { imageCh
                         duration: 3000,
                         className: "bg-emerald-hover border-emerald text-primary-foreground font-sans",
                     })
+
+                    setTimeout(() => {
+                        router.refresh()
+                    }, 3000)
                 }}
                 onUploadError={(error: Error) => {
                     // Displaying the error with a toast message

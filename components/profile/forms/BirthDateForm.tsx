@@ -6,12 +6,14 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { useRouter } from 'next/navigation'
 
 export default function BirthDateForm({ 
     birthDate 
 }: {
     birthDate: Date | null
 }) {
+    const router = useRouter()
     const [birthDateState, setBirthDateState] = useState<Date | null>(null)
 
     useEffect(() => {
@@ -58,6 +60,10 @@ export default function BirthDateForm({
 
         toast.success(data.message, { duration: 3000 })
         setBirthDateState(validatedBirthDate.data)
+
+        setTimeout(() => {
+            router.refresh()
+        }, 3000)
     }
 
     return (

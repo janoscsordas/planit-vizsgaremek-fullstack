@@ -69,6 +69,15 @@ export default function SignUpForm() {
           variant: "destructive",
         })
       }
+      else {
+        // Handle general error
+        toast({
+          title: "Sikertelen regisztráció",
+          description: res.message,
+          duration: 5000,
+          variant: "destructive",
+        })
+      }
       return
     }
 

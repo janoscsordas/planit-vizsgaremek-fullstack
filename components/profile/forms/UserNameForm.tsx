@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
 import { userChangeFormSchema } from '@/lib/schemas/userSchema'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface UserData {
 	name: string
@@ -26,6 +27,7 @@ interface FormState {
 const COOLDOWN_DAYS = 90
 
 const UserForm = ({ userData }: { userData: UserData }) => {
+	const router = useRouter()
 	const [formState, setFormState] = useState<FormState>({
 		name: userData.name,
 		isLoading: false,
@@ -109,6 +111,10 @@ const UserForm = ({ userData }: { userData: UserData }) => {
 				description:
 					data.message || 'A felhasználónév sikeresen módosítva.',
 			})
+
+			setTimeout(() => {
+				router.refresh()
+			}, 3000)
 		} catch (error) {
 			const errorMessage =
 				error instanceof Error ? error.message : 'Váratlan hiba történt'

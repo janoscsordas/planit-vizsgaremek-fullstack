@@ -53,7 +53,7 @@ export const userPasswordChangeSchema = z.object({
 			message:
 				'A jelszónak tartalmaznia kell legalább egy speciális karaktert',
 		}),
-	newPassword: z
+	confirmPassword: z
 		.string()
 		.min(8, { message: 'Jelszó minimum 8 karakter lehet' })
 		.max(32, { message: 'Jelszó maximum 32 karakter lehet' })

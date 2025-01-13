@@ -8,16 +8,18 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { sendProjectInvites } from '@/actions/notifications.action'
 import { validEmailSchema } from '@/lib/schemas/notificationSchema'
+import { useRouter } from 'next/navigation'
 
 export default function MultiEmailInput({
     projectId,
 }: {
     projectId: string
 }) {
+  const router = useRouter()
   const [emails, setEmails] = useState<string[]>([])
   const [inputValue, setInputValue] = useState('')
 
-  const addEmail = (email: string) => {
+  const addEmail = async (email: string) => {
     const trimmedEmail = email.trim()
     if (validEmailSchema.safeParse({ email: trimmedEmail }).success && !emails.includes(trimmedEmail)) {
       setEmails([...emails, trimmedEmail])
@@ -42,7 +44,9 @@ export default function MultiEmailInput({
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addEmail(inputValue)
+    await addEmail(inputValue)
+
+    console.log(emails)
 
     if (!emails.length) {
       toast.error('Nem adtál meg email címet!', { duration: 3000, position: "top-center" })
@@ -62,7 +66,7 @@ export default function MultiEmailInput({
     toast.success("Meghívók elküldve!", { duration: 3000, position: "top-center" })
 
     setTimeout(() => {
-      window.location.reload()
+      router.refresh()
     }, 3000)
   }
 

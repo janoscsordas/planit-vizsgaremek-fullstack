@@ -125,7 +125,7 @@ export default function MessageComponent({
                            {message.is_edited && "Szerkesztve"}
                         </span>
                         {/* /TODO: Ideas for the username display */}
-                        <div>{message.user.name.split(" ")[1]}</div>
+                        <div>{message.user.name}</div>
                      </div>
                      {/* Message content */}
                      <div
