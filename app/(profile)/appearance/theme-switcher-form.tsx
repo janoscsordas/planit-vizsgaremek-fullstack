@@ -59,7 +59,7 @@ export default function ThemeSwitcherComponent() {
                 <Flex direction="column">
                 <Image
                     className="rounded-md"
-                    src="/darkMode.png"
+                    src="/systemMode.png"
                     alt="Rendszer"
                     width={180}
                     height={180}

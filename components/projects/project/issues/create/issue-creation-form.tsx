@@ -86,7 +86,7 @@ export default function IssueCreationForm({
             }
         } catch (error) {
             toast.error(
-                error instanceof Error ? error.message : "Hiba történt az Issue elkészítése közben!", 
+                error instanceof Error ? error.message : "Hiba történt a Probléma elkészítése közben!", 
                 { position: "top-center" });
         } finally {
             setIsLoading(false);
@@ -104,7 +104,7 @@ export default function IssueCreationForm({
                     <Input 
                         className="mt-2 w-full" 
                         type="text" 
-                        placeholder="Issue címe"
+                        placeholder="Probléma címe"
                         name="title"
                         id="title"
                         value={titleState}
@@ -119,7 +119,7 @@ export default function IssueCreationForm({
                             value={descriptionState}
                             onChange={handleDescriptionChange}
                             textareaProps={{
-                                placeholder: 'Issue leírása ide',
+                                placeholder: 'Probléma leírása ide',
                             }}
                         />
                     </div>

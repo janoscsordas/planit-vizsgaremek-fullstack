@@ -25,7 +25,7 @@ export default function TaskCombobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[350px] justify-between"
+            className="w-fit justify-between"
             disabled={disabled}
           >
             {selectedTaskId

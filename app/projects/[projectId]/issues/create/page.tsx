@@ -49,7 +49,7 @@ export default async function Page({
                         href: `/projects/${projectData.id}`,
                     },
                     {
-                        label: "Issues",
+                        label: "Problémák",
                         href: `/projects/${projectData.id}/issues`,
                     },
                     {
