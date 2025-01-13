@@ -91,6 +91,18 @@ export async function createIssueComment(comment: string, issueId: number, userI
         }
 
         const response = await db.transaction(async (tx) => {
+            const issue = await tx
+                .query.ProjectIssuesTable.findFirst({
+                    where: and(
+                        eq(ProjectIssuesTable.id, issueId),
+                        eq(ProjectIssuesTable.isOpen, true)
+                    )
+                });
+
+            if (!issue) {
+                return null
+            }
+
             // First we insert the comment
             const newReply = await tx
                 .insert(ProjectIssueRepliesTable)

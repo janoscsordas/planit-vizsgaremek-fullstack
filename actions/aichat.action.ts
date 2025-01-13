@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { OpenAI } from "openai";
 import { checkMessageLimit, cleanupExpiredCounts } from "@/lib/utils/rateLimiter";
+import { NUMBER_OF_TOKENS_FOR_AI_COMPLETION } from '@/lib/utils/globalVariables';
 
 const client = new OpenAI({
     baseURL: "https://api-inference.huggingface.co/v1/",
@@ -214,7 +215,7 @@ export async function sendMessageToAI(message: string, userId: string, conversat
     const chatCompletion = await client.chat.completions.create({
         model: "mistralai/Mistral-7B-Instruct-v0.3",
         messages: formattedMessages,
-        max_tokens: 1000
+        max_completion_tokens: NUMBER_OF_TOKENS_FOR_AI_COMPLETION
     });
 
     if (!chatCompletion.choices || chatCompletion.choices.length === 0) {

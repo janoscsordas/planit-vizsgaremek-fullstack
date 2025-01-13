@@ -78,7 +78,7 @@ export default function IssueCommentForm({
 
     return (
         <section className="flex gap-3 mt-6">
-            <div>
+            <div className="hidden sm:block">
                 <Avatar radius="full" src={user.image || ""} alt={user.name || "felhasználó"} fallback={user.name?.charAt(0) || "F"} />
             </div>
             <div className="w-full">

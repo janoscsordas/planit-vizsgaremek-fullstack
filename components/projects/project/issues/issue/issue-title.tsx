@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
-import { Check, CircleDot, Dot } from "lucide-react"
+import { Check, CircleDot, Dot, PlusIcon } from "lucide-react"
 import Link from "next/link"
 
 
@@ -33,7 +33,7 @@ export default function IssueTitle({
                 <div>
                     <Link href={`/projects/${projectId}/issues/create`}>
                         <Button variant={"outline"} className="border-emerald text-emerald" size={"sm"}>
-                            Új Probléma
+                            <PlusIcon className="w-4 h-4 block sm:hidden" /><span className="hidden sm:block">Új Probléma</span>
                         </Button>
                     </Link>
                 </div>
@@ -51,7 +51,7 @@ export default function IssueTitle({
                     `${formatDistance(openedAt, new Date(), { 
                         addSuffix: true, locale: hu 
                     })}`}
-                    <span> - {numberOfReplies} hozzászólás</span>
+                    <span className="hidden sm:inline"> - {numberOfReplies} hozzászólás</span>
                 </p>
             </div>
         </div>

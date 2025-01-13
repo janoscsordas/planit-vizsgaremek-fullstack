@@ -3,7 +3,7 @@
 import { TextField } from "@radix-ui/themes";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 export default function IssuesSearch() {
@@ -12,28 +12,41 @@ export default function IssuesSearch() {
     const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
     const [debouncedQuery] = useDebounce(searchQuery, 300)
     
-    // Update URL whenever debounced value changes
-    useEffect(() => {
+    // Memoized URL update function
+    const updateURL = useCallback((query: string) => {
       const params = new URLSearchParams(searchParams.toString())
-      
-      if (debouncedQuery) {
-        params.set('q', debouncedQuery)
+
+      if (query) {
+        params.set('q', query)
       } else {
         params.delete('q')
       }
-      
-      router.push(`?${params.toString()}`)
-    }, [debouncedQuery, router, searchParams])
+
+      router.replace(`?${params.toString()}`, { scroll: false })
+    }, [searchParams, router])
+
+    // Update URL whenever debounced value changes
+    useEffect(() => {
+      updateURL(debouncedQuery)
+    }, [debouncedQuery, updateURL])
   
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value)
     }
 
     return (
-        <TextField.Root name="search" id="search" value={searchQuery} onChange={handleSearch} placeholder="Problémák keresése..." className="my-3" color="green">
-            <TextField.Slot>
-                <Search className="w-4 h-4" />
-            </TextField.Slot>
+        <TextField.Root 
+          name="search" 
+          id="search" 
+          value={searchQuery} 
+          onChange={handleSearch} 
+          placeholder="Problémák keresése..." 
+          className="my-3" 
+          color="green"
+        >
+          <TextField.Slot>
+              <Search className="w-4 h-4" />
+          </TextField.Slot>
         </TextField.Root>
     )
 }
