@@ -114,7 +114,7 @@ const TaskItem = React.memo(({ task }: { task: EnrichedTask }) => {
                variant="secondary"
                className={cn(
                   "px-1 py-0 text-xs",
-                  task.priority === "low" && "bg-blue-500/10 text-blue-500",
+                  task.priority === "low" && "bg-green-500/10 text-green-500",
                   task.priority === "medium" &&
                      "bg-yellow-500/10 text-yellow-500",
                   task.priority === "high" && "bg-red-500/10 text-red-500"

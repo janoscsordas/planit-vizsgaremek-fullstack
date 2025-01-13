@@ -116,7 +116,7 @@ export default function IssueCommentEditor({
                         value={description} 
                         onChange={handleDescriptionChange}
                         textareaProps={{
-                            placeholder: "Issue leírása...",
+                            placeholder: "Probléma leírása...",
                             disabled: isLoading,
                         }}
                     />
