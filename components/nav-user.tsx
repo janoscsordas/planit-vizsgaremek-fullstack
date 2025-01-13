@@ -52,7 +52,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <Avatar
                     src={userSession.user.image}
                     alt="Profilkép"
-                    className="cursor-pointer rounded-lg hover:opacity-80 transition-opacity w-8 h-8"
+                    className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-8 h-8"
                     fallback={userSession.user.name?.charAt(0) || "?"}
                   />
                 ) : (
@@ -74,7 +74,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-full"
               side={isMobile ? "bottom" : "right"}
               align="end"
               sideOffset={4}
@@ -92,7 +92,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                     <Avatar
                       radius="full"
                       fallback={userSession.user.name?.charAt(0) || "?"}
-                      className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-8 h-8"
+                      className="cursor-pointer hover:opacity-80 transition-opacity w-8 h-8"
                     />
                   )}
                   <div className="grid flex-1 text-left text-sm leading-tight">

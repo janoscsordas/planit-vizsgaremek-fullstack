@@ -1,39 +1,39 @@
-"use client";
+"use client"
 
-import React, { useState, useMemo } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useMemo } from "react"
+import dynamic from "next/dynamic"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronRight, Circle, Clock, Loader2, SquarePen } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/ui/collapsible"
+import { ChevronRight, Circle, Clock, Loader2, SquarePen } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { format } from "date-fns";
-import { hu } from "date-fns/locale/hu";
-import { EnrichedTask } from "@/lib/definitions/tasks";
+} from "@/components/ui/tooltip"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { format } from "date-fns"
+import { hu } from "date-fns/locale/hu"
+import { EnrichedTask } from "@/lib/definitions/tasks"
 
 // Lazy load heavy components
 export const TaskDelete = dynamic(() => import("./task-delete"), {
   loading: () => (
     <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />
   ),
-});
+})
 
 const TaskCreate = dynamic(() => import("./task-create"), {
   loading: () => (
     <Loader2 className="w-3 h-3 ml-auto text-muted-foreground animate-spin" />
   ),
-});
+})
 
 export const EditAndShowSheet = dynamic(
   () => import("@/components/projects/tasks/EditAndShowSheet"),
@@ -42,13 +42,13 @@ export const EditAndShowSheet = dynamic(
       <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />
     ),
   }
-);
+)
 
 interface TaskGroupProps {
-  title: string;
-  count: number;
-  tasks: EnrichedTask[];
-  projectId: string;
+  title: string
+  count: number
+  tasks: EnrichedTask[]
+  projectId: string
 }
 
 // Memoized Assigned Avatars Component
@@ -76,70 +76,78 @@ export const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
       ))}
     </TooltipProvider>
   </div>
-));
+))
 
 // Memoized Task Item Component
 const TaskItem = React.memo(({ task }: { task: EnrichedTask }) => {
   return (
-    <div className="group flex items-center gap-2 rounded-md px-2 py-1 hover:bg-muted/50 transition-colors duration-200">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Circle
-          className={cn(
-            "h-2 w-2",
-            task.status === "in progress" && "fill-blue-500",
-            task.status === "finished" && "fill-green-500",
-            task.status === "pending" && "fill-yellow-500"
-          )}
-        />
-        <span className="uppercase" title={"ID: " + task.id}>
-          ID-{task.id.slice(0, 2)}
-        </span>
+    <div className="flex flex-col gap-2 px-2 py-1 transition-colors duration-200 rounded-md md:flex-row md:items-center group hover:bg-muted/50">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground md:flex-row md:gap-1">
+        <div className="flex items-center gap-3">
+          <Circle
+            className={cn(
+              "h-2 w-2",
+              task.status === "in progress" && "fill-blue-500",
+              task.status === "finished" && "fill-green-500",
+              task.status === "pending" && "fill-yellow-500"
+            )}
+          />
+          <span className="uppercase" title={"ID: " + task.id}>
+            ID-{task.id.slice(0, 2)}
+          </span>
+        </div>
         <EditAndShowSheet task={task}>
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 p-0 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200"
+            className="w-6 h-6 p-0 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200"
           >
-            <SquarePen className="h-3 w-3" />
+            <SquarePen className="w-3 h-3" />
           </Button>
         </EditAndShowSheet>
       </div>
-      <span className="text-sm font-medium flex-grow" title={task.taskName}>
-        {task.taskName && task.taskName.length > 70
-          ? `${task.taskName.slice(0, 70)}...`
-          : task.taskName || ""}
-      </span>
-      <div className="flex items-center gap-2 ml-auto">
-        <Badge
-          variant="secondary"
-          className={cn(
-            "px-1 py-0 text-xs",
-            task.priority === "low" && "bg-green-500/10 text-green-500",
-            task.priority === "medium" && "bg-yellow-500/10 text-yellow-500",
-            task.priority === "high" && "bg-red-500/10 text-red-500"
-          )}
+      <div className="flex flex-col w-full gap-2 md:flex-row md:items-center">
+        <span
+          className="flex-grow overflow-hidden text-sm font-medium break-words text-ellipsis"
+          title={task.taskName}
+          style={{
+            maxWidth: "calc(var(--vw) * 30)",
+          }}
         >
-          {task.priority === "low"
-            ? "Alacsony"
-            : task.priority === "medium"
-              ? "Közepes"
-              : "Magas"}
-        </Badge>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Clock className="h-3 w-3" />
-          {format(task.createdAt, "MMM d", { locale: hu })}
+          {task.taskName}
+        </span>
+        <div className="flex items-center gap-2 ml-auto">
+          <Badge
+            variant="secondary"
+            className={cn(
+              "px-1 py-0 text-xs",
+              task.priority === "low" && "bg-green-500/10 text-green-500",
+              task.priority === "medium" && "bg-yellow-500/10 text-yellow-500",
+              task.priority === "high" && "bg-red-500/10 text-red-500"
+            )}
+          >
+            {task.priority === "low"
+              ? "Alacsony"
+              : task.priority === "medium"
+                ? "Közepes"
+                : "Magas"}
+          </Badge>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="w-3 h-3" />
+            {format(task.createdAt, "MMM d", { locale: hu })}
+          </div>
+          <AssignedAvatars assigns={task.assigns} />
+          <TaskDelete taskId={task.id} projectId={task.projectId} />
         </div>
-        <AssignedAvatars assigns={task.assigns} />
-        <TaskDelete taskId={task.id} projectId={task.projectId} />
       </div>
     </div>
-  );
-});
+  )
+})
 
 // Main TaskGroup Component
 const TaskGroup = React.memo(
   ({ title, count, tasks, projectId }: TaskGroupProps) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(true)
 
     // Memoize status information
     const statusInfo = useMemo(() => {
@@ -148,19 +156,19 @@ const TaskGroup = React.memo(
           return {
             color: "fill-blue-500 text-blue-500",
             label: "Folyamatban",
-          };
+          }
         case "Finished":
           return {
             color: "fill-green-500 text-green-500",
             label: "Befejezett",
-          };
+          }
         default:
           return {
             color: "fill-yellow-500 text-yellow-500",
             label: "Elvégzendő",
-          };
+          }
       }
-    }, [title]);
+    }, [title])
 
     // Memoize task rendering
     const renderedTasks = useMemo(() => {
@@ -172,11 +180,11 @@ const TaskGroup = React.memo(
               Még nem készítettél ide feladatot.
             </span>
           </div>
-        );
+        )
       }
 
-      return tasks.map((task) => <TaskItem key={task.id} task={task} />);
-    }, [tasks]);
+      return tasks.map((task) => <TaskItem key={task.id} task={task} />)
+    }, [tasks])
 
     return (
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
@@ -206,8 +214,8 @@ const TaskGroup = React.memo(
           <div className="pl-6 space-y-1">{renderedTasks}</div>
         </CollapsibleContent>
       </Collapsible>
-    );
+    )
   }
-);
+)
 
-export default TaskGroup;
+export default TaskGroup
