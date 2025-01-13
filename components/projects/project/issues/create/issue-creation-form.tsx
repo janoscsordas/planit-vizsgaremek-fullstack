@@ -100,7 +100,7 @@ export default function IssueCreationForm({
             </div>
             <form className="w-full mb-5" onSubmit={handleIssueCreation}>
                 <div className="space-y-4">
-                    <Label htmlFor="title" className="text-[1rem] font-bold">Issue címe</Label>
+                    <Label htmlFor="title" className="text-[1rem] font-bold">Probléma címe</Label>
                     <Input 
                         className="mt-2 w-full" 
                         type="text" 
@@ -114,7 +114,7 @@ export default function IssueCreationForm({
                     />
                     {error.issueName && <span className="text-xs text-red-500 my-1">{error.issueName}</span>}
                     <div>
-                        <Label className="text-[1rem] font-bold mb-4">Issue leírása</Label>
+                        <Label className="text-[1rem] font-bold mb-4">Probléma leírása</Label>
                         <MDEditor
                             value={descriptionState}
                             onChange={handleDescriptionChange}
@@ -157,7 +157,7 @@ export default function IssueCreationForm({
                     </div>
                     {error.labels && <span className="text-xs text-red-500 my-1">{error.labels}</span>}
                     <div>
-                        <Button className="bg-emerald hover:bg-emerald-hover" type="submit">Issue létrehozása</Button>
+                        <Button className="bg-emerald hover:bg-emerald-hover" type="submit">Probléma létrehozása</Button>
                     </div>
                 </div>
             </form>

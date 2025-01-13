@@ -97,7 +97,7 @@ export default async function Page({
                         href: `/projects/${issueData.project.id}`,
                     },
                     {
-                        label: "Issues",
+                        label: "Problémák",
                         href: `/projects/${issueData.project.id}/issues`,
                     },
                     {

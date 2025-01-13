@@ -51,7 +51,7 @@ const generateNavItems = (
          isActive: pathName === `/projects/${projectId}/messages`,
       },
       {
-         title: "Issues",
+         title: "Problémák",
          url: `/projects/${projectId}/issues`,
          icon: CircleDot,
          isActive: pathName === `/projects/${projectId}/issues` || pathName === `/projects/${projectId}/issues/create`,

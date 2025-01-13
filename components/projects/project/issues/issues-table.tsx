@@ -28,7 +28,7 @@ export default function IssuesTable({
                     <IssuesFilter numberOfClosedIssues={countOfIssues.closed} numberOfOpenIssues={countOfIssues.open} />
                     <Link href={`/projects/${projectId}/issues/create`}>
                         <Button variant={"outline"} className="border-emerald text-emerald">
-                            <PlusIcon /> Új issue
+                            <PlusIcon /> Új Probléma
                         </Button>
                     </Link>
                 </div>
@@ -86,7 +86,7 @@ export default function IssuesTable({
                     </div>
                 )) : (
                     <div className="text-center text-muted-foreground text-md">
-                        Még nincs megnyitott issue, vagy a szűrés nem adott vissza eredményt.
+                        Még nincs megnyitott probléma, vagy a szűrés nem adott vissza eredményt.
                     </div>
                 )}
             </div>

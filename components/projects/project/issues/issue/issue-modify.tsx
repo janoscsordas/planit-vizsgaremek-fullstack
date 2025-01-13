@@ -66,7 +66,7 @@ export default function IssueModify({
 
     return (
         <section className="w-full flex justify-center flex-col items-center gap-2">
-            <h3 className="text-xl font-semibold">Issue Beállítások</h3>
+            <h3 className="text-xl font-semibold">Probléma Beállítások</h3>
             <div className="flex items-center gap-2">
                 <form 
                     onSubmit={handleIssueModify}
@@ -95,7 +95,7 @@ export default function IssueModify({
                         <AlertDialogHeader>
                             <AlertDialogTitle>Figyelem!</AlertDialogTitle>
                             <AlertDialogDescription>
-                                Biztosan törölni szeretnéd az Issue-t?
+                                Biztosan törölni szeretnéd az Problémát?
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

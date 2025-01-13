@@ -30,7 +30,7 @@ export default function IssuesSearch() {
     }
 
     return (
-        <TextField.Root name="search" id="search" value={searchQuery} onChange={handleSearch} placeholder="Issue-k keresése..." className="my-3" color="green">
+        <TextField.Root name="search" id="search" value={searchQuery} onChange={handleSearch} placeholder="Problémák keresése..." className="my-3" color="green">
             <TextField.Slot>
                 <Search className="w-4 h-4" />
             </TextField.Slot>

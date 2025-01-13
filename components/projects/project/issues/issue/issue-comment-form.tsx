@@ -89,7 +89,7 @@ export default function IssueCommentForm({
                         onChange={handleCommentChange} 
                         className="w-full max-w-none"
                         textareaProps={{
-                            placeholder: !isIssueOpen ? "Issue lezárva! Nem lehet hozzászólni!" : "Ide írhatod a hozzászólásodat",
+                            placeholder: !isIssueOpen ? "Probléma lezárva! Nem lehet hozzászólni!" : "Ide írhatod a hozzászólásodat",
                             disabled: !isIssueOpen
                         }}
                     />

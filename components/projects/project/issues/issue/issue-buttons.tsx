@@ -41,8 +41,6 @@ export default function IssueButtons({
                 <DropdownMenuContent side="bottom" align="end">
                     <DropdownMenuLabel>Menü</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {/* TODO: Modify issue reply functionalities etc. */}
-                    <DropdownMenuItem>Szerkesztés</DropdownMenuItem>
                     <AlertDialogTrigger asChild>
                         <DropdownMenuItem className="text-red-500">Hozzászólás törlése</DropdownMenuItem>
                     </AlertDialogTrigger>

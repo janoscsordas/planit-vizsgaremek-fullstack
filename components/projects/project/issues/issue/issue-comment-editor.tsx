@@ -106,9 +106,9 @@ export default function IssueCommentEditor({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] md:max-w-[800px]">
                 <DialogHeader>
-                <DialogTitle>Issue leírás szerkesztése</DialogTitle>
+                <DialogTitle>Probléma leírás szerkesztése</DialogTitle>
                     <DialogDescription>
-                        Itt tudod szerkeszteni az Issue-d kommentjét.
+                        Itt tudod szerkeszteni a problémád kommentjét.
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleIssueDescriptionChange}>

@@ -33,7 +33,7 @@ export default function IssueTitle({
                 <div>
                     <Link href={`/projects/${projectId}/issues/create`}>
                         <Button variant={"outline"} className="border-emerald text-emerald" size={"sm"}>
-                            Új Issue
+                            Új Probléma
                         </Button>
                     </Link>
                 </div>

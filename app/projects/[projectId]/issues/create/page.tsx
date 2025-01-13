@@ -53,7 +53,7 @@ export default async function Page({
                         href: `/projects/${projectData.id}/issues`,
                     },
                     {
-                        label: "Új issue",
+                        label: "Új probléma",
                         href: `/projects/${projectData.id}/issues/create`,
                         active: true,
                     }

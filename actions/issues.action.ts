@@ -49,14 +49,14 @@ export async function createNewIssue(issueData: IssueCreationData, userId: strin
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma elkészítése közben!"
         }
     }
 
     revalidatePath(`/projects/${projectId}/issues`)
     return {    
         success: true,
-        message: "Issue elkészítve!"
+        message: "Probléma sikeresen elkészítve!"
     }
 }
 
@@ -171,7 +171,7 @@ export async function modifyIssueReply(issueId: number, issueReplyId: string, re
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése Közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma szerkesztése közben!"
         }
     }
 
@@ -226,7 +226,7 @@ export async function deleteIssueReply(issueId: number, issueReplyId: string, pr
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma kommentjének törlése közben!"
         }
     }
 
@@ -269,14 +269,14 @@ export async function updateIssueDescription(issueId: number, description: strin
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése és frissítése közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma frissítése közben!"
         }
     }
 
     revalidatePath(`/projects/${projectId}/issues/${issueId}`)
     return {    
         success: true,
-        message: "Issue frissítve!"
+        message: "Probléma frissítve!"
     }
 }
 
@@ -304,14 +304,14 @@ export async function modifyIssue(issueId: number, projectId: string, state: boo
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma szerkesztése közben!"
         }
     }
 
     revalidatePath(`/projects/${projectId}/issues/${issueId}`)
     return {    
         success: true,
-        message: state ? "Issue sikeresen újra nyitva!" : "Issue sikeresen lezárva!"
+        message: state ? "Probléma sikeresen újra nyitva!" : "Probléma sikeresen lezárva!"
     }
 }
 
@@ -336,13 +336,13 @@ export async function removeIssue(issueId: number, projectId: string) {
     } catch (error) {
         return {
             success: false,
-            message: error instanceof Error ? error.message : "Hiba törént az Issue elkészítése Közben!"
+            message: error instanceof Error ? error.message : "Hiba törént a probléma törlése közben!"
         }
     }
 
     revalidatePath(`/projects/${projectId}/issues`)
     return {
         success: true,
-        message: "Issue sikeresen törölve!"
+        message: "Probléma sikeresen törölve!"
     }
 }
