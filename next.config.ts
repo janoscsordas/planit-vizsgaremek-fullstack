@@ -27,6 +27,12 @@ const nextConfig: NextConfig = {
         hostname: 'cuigfae3o8.ufs.sh',
         pathname: '/f/**',
         port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/photo**',
+        port: '',
       }
     ]
   },

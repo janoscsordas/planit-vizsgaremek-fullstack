@@ -2,9 +2,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Bot, ClipboardList, FolderGit2, LogIn, MessagesSquare, Presentation } from "lucide-react"
+import { Bot, ClipboardList, FolderGit2, LogIn, MessagesSquare } from "lucide-react"
 import CookieConsent from "@/components/CookieConsent"
 import BackToTop from "@/components/back-to-top"
+import AutoSlideshow from "@/components/auto-slideshow"
 
 export default function Home() {
    return (
@@ -56,13 +57,7 @@ export default function Home() {
             <div className="py-24 md:pt-24 lg:pt-64">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                   <div className="md:order-2">
-                     <Image
-                        src="https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7LqR8BDVjxOln8NI5mATXedhLVBWkrFJHazpM"
-                        width={1920}
-                        height={1080}
-                        alt="placeholder"
-                        className="w-600 h-400 rounded-lg shadow-md block mx-auto md:mx-0 rotate-1 pointer-events-none"
-                     />
+                     <AutoSlideshow />
                   </div>
                   <div className="md:order-1">
                      <h3 className="text-center md:text-left text-2xl font-semibold mb-4">
