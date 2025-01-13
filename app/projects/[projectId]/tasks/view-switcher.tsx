@@ -5,12 +5,16 @@ import { EnrichedTask } from "@/lib/definitions/tasks"
 import dynamic from "next/dynamic"
 
 const TasksListView = dynamic(
-  () => import("@/components/projects/tasks-list/task-list")
-, { ssr: false })
+  () => import("@/components/projects/tasks-list/task-list"),
+  { ssr: false }
+)
 const TaskKanbanView = dynamic(
-  () => import("@/components/projects/project/dnd-tasks/DndTaskMain")
-, { ssr: false })
-const ViewChanger = dynamic(() => import("./view-switcher-buttons"), { ssr: false })
+  () => import("@/components/projects/project/dnd-tasks/DndTaskMain"),
+  { ssr: false }
+)
+const ViewChanger = dynamic(() => import("./view-switcher-buttons"), {
+  ssr: false,
+})
 
 export default function TaskViewSwitcher({
   tasks,

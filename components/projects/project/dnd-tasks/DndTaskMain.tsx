@@ -24,7 +24,6 @@ const COLUMNS: ColumnType[] = [
   { id: "in progress", title: "Folyamatban" },
   { id: "finished", title: "Befejezett" },
 ]
-
 type DndTaskMainProps = {
   enrichedTasks: EnrichedTask[]
   projectId: string
@@ -82,7 +81,7 @@ export default function DndTaskMain({
   }
 
   return (
-    <div className="">
+    <div>
       <div className="mb-4">
         <CreateTask>
           <Button variant={"outline"}>
