@@ -11,4 +11,4 @@ export const ISSUE_LABELS = [
     { id: 6, name: 'kérdés', color: 'bg-gray-100 hover:bg-gray-200', textColor: 'text-gray-800' },
 ];
 
-export const NUMBER_OF_TOKENS_FOR_AI_COMPLETION = 500
+export const NUMBER_OF_TOKENS_FOR_AI_COMPLETION = 2000

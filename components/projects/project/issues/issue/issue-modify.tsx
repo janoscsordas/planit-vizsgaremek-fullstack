@@ -67,9 +67,10 @@ export default function IssueModify({
 
     return (
         <section className="flex flex-col items-center justify-center w-full px-auto gap-2">
-            <div className="border p-4 rounded-lg">
+            <div className="border p-6 rounded-lg">
                 <h3 className="text-xl font-semibold pb-6 text-center">Probléma Beállítások</h3>
-                <div className="flex items-center justify-center gap-8">
+                <hr className="border-t-2 border-dashed" />
+                <div className="flex items-center justify-center gap-8 pt-6">
                     <form
                         onSubmit={handleIssueModify}
                     >
@@ -113,7 +114,7 @@ export default function IssueModify({
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
-            </div>
+                </div>
             </div>
         </section>
     )

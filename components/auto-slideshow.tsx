@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 const images = [
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-  "https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7LqR8BDVjxOln8NI5mATXedhLVBWkrFJHazpM"
+  "https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7K8Y9UZJUir0wlpbAF8Yd21jVhgquCLoNkP3I",
+  "https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7GnAHShP6DJbjHam9vUCFZ53WrdALqlcuhk7T",
+  "https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN7lbsQCSMlnf6zTRBbUmCeJX5pK8ghq9jsFDN0",
+  "https://cuigfae3o8.ufs.sh/f/P2M7SP8XUkN767sYGWpixfvSGDP2C4V0AjTwNZ9sWk5rKnFu"
 ]
 
 export default function AutoSlideshow() {

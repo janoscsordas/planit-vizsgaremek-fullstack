@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Bot, ClipboardList, FolderGit2, LogIn, MessagesSquare } from "lucide-react"
+import { Bot, CircleCheck, ClipboardList, LogIn, MessageCircle } from "lucide-react"
 import CookieConsent from "@/components/CookieConsent"
 import BackToTop from "@/components/back-to-top"
 import AutoSlideshow from "@/components/auto-slideshow"
@@ -87,7 +87,7 @@ export default function Home() {
                <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-cyan-700 border-2 transition-all">
                   <CardHeader>
                      <div className="p-5 bg-cyan-700 rounded-full w-max mx-auto mb-6 mt-2">
-                        <MessagesSquare
+                        <MessageCircle
                            className="w-max block mx-auto text-white"
                            width={48}
                            height={48}
@@ -126,24 +126,22 @@ export default function Home() {
                      </p>
                   </CardContent>
                </Card>
-               <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-orange-700 border-2 transition-all">
+               <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-red-700 border-2 transition-all">
                   <CardHeader>
-                     <div className="p-5 bg-orange-700 rounded-full w-max mx-auto mb-6 mt-2">
-                        <FolderGit2
+                     <div className="p-5 bg-red-700 rounded-full w-max mx-auto mb-6 mt-2">
+                        <CircleCheck
                            className="w-max block mx-auto text-white"
                            width={48}
                            height={48}
                         />
                      </div>
                      <CardTitle className="text-center text-2xl font-bold mb-4">
-                        Project Management
+                        Problémák kezelése
                      </CardTitle>
                   </CardHeader>
                   <CardContent>
                      <p className="text-muted-foreground text-center">
-                        A project management funkció segíti a csapatokat a
-                        projektek egyszerű kezelésében és a munkafolyamatok
-                        hatékony nyomon követésében.
+                        A problémák kezelése funkció lehetőséget nyújt a csapattagok számára, hogy létrehozzanak problémákat, vagy hozzászóljanak egy már meglévőhöz.
                      </p>
                   </CardContent>
                </Card>
