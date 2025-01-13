@@ -19,7 +19,7 @@ export interface Issue {
 export type IssueCreationData = {
     issueName: string;
     issueDescription: string;
-    taskIssueId?: string | undefined;
+    taskIssueId?: string | null;
     labels: string[] | null;
 }
 

@@ -41,7 +41,7 @@ export async function createNewIssue(issueData: IssueCreationData, userId: strin
             .values({
                 issueName: validatedFields.data.issueName,
                 issueDescription: validatedFields.data.issueDescription,
-                taskIssueId: validatedFields.data.taskIssueId,
+                taskIssueId: validatedFields.data.taskIssueId || null,
                 labels: validatedFields.data.labels,
                 projectId: projectId,
                 openedBy: userId
