@@ -8,8 +8,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { userPasswordChangeSchema } from '@/lib/schemas/userSchema';
+import { useRouter } from 'next/navigation';
 
 const PasswordChangeForm = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         password: '',
         confirmPassword: '',
@@ -67,6 +69,8 @@ const PasswordChangeForm = () => {
             // Validate inputs
             await validatePasswords();
 
+            console.log(formData)
+
             // Send POST request to the api endpoint
             const response = await fetch('/api/user', {
                 method: 'POST',
@@ -94,6 +98,9 @@ const PasswordChangeForm = () => {
 
             // Reset the form
             resetForm();
+            setTimeout(() => {
+                router.refresh()
+            }, 3000)
         } catch (error) {
             // Set status to error with specific or hard coded message
             setStatus({

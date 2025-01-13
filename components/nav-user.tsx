@@ -52,7 +52,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <Avatar
                     src={userSession.user.image}
                     alt="Profilkép"
-                    className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-8 h-8"
+                    className="cursor-pointer rounded-lg hover:opacity-80 transition-opacity w-8 h-8"
                     fallback={userSession.user.name?.charAt(0) || "?"}
                   />
                 ) : (

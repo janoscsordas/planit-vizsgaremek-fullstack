@@ -3,9 +3,9 @@ import { auth } from '@/auth'
 import { eq } from 'drizzle-orm'
 import { db } from '@/database'
 import { NextResponse } from 'next/server'
-import { userChangeFormSchema } from '@/lib/schemas/userSchema'
+import { userChangeFormSchema, userPasswordChangeSchema } from '@/lib/schemas/userSchema'
 import { differenceInDays } from 'date-fns'
-import { hash } from 'bcryptjs'
+import { compare, hash } from 'bcryptjs'
 import { removeDeletedUsersMessages } from '@/actions/message.action'
 
 // API Route for updating the user's password
@@ -25,6 +25,41 @@ export async function POST(request: Request) {
 			})
 		}
 
+		const validatePasswords = await userPasswordChangeSchema.safeParseAsync({
+			password,
+			confirmPassword,
+		})
+
+		if (!validatePasswords.success) {
+			return NextResponse.json({
+				error: validatePasswords.error.errors[0].message,
+			})
+		}
+
+		const getUsersPassword = await db.query.UsersTable.findFirst({
+			where: eq(UsersTable.id, session.user.id),
+			columns: {
+				password: true,
+			},
+		})
+
+		if (!getUsersPassword || !getUsersPassword.password) {
+			return NextResponse.json({
+				error: 'Hiba a jelszóváltoztatás közben vagy OAuth-al regisztráltál!',
+			})
+		}
+
+		const passwordMatch = await compare(
+			validatePasswords.data.password,
+			getUsersPassword.password
+		)
+
+		if (passwordMatch) {
+			return NextResponse.json({
+				error: 'Ugyanarra nem változtathatod meg a jelszavad!',
+			})
+		}
+
 		const hashedPassword = await hash(password, 10)
 
 		if (!hashedPassword) {
@@ -35,7 +70,7 @@ export async function POST(request: Request) {
 
 		const updatePassword = await db
 			.update(UsersTable)
-			.set({ password: hashedPassword })
+			.set({ password: validatePasswords.data.password })
 			.where(eq(UsersTable.id, session.user.id))
 
 		if (!updatePassword) {
@@ -43,7 +78,7 @@ export async function POST(request: Request) {
 				error: 'Hiba a jelszóváltoztatás közben!',
 			})
 		}
-
+		
 		return NextResponse.json({ message: 'Sikeres jelszóváltoztatás!' })
 	} catch (error: any | unknown) {
 		return NextResponse.json({ error: error.error })
@@ -104,7 +139,7 @@ export async function PUT(request: Request) {
 			.update(UsersTable)
 			.set({ name: validatedData.data.name, nameChangedAt: new Date() })
 			.where(eq(UsersTable.id, session.user.id))
-
+		
 		return NextResponse.json(
 			{ message: 'Profil sikeresen szerkesztve!' },
 			{ status: 200 }
