@@ -189,7 +189,7 @@ export default function Home() {
             Válasszon az ingyenes és a megfizethető csomagjaink közül!
           </p>
           <div className="grid items-center max-w-lg grid-cols-1 mx-auto mt-16 gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-            <div className="p-8 rounded-3xl rounded-t-3xl bg-primary ring-1 ring-gray-900/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
+            <div className="p-8 rounded-3xl rounded-t-3xl bg-primary-foreground ring-1 ring-gray-900/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
               <h3
                 id="tier-hobby"
                 className="font-semibold text-base/7 text-emerald"
@@ -197,7 +197,7 @@ export default function Home() {
                 Ingyenes
               </h3>
               <p className="flex items-baseline mt-4 gap-x-2">
-                <span className="text-5xl font-semibold tracking-tight text-primary-foreground">
+                <span className="text-5xl font-semibold tracking-tight text-primary">
                   0 HUF
                 </span>
                 <span className="text-base text-muted-foreground">/hó</span>
@@ -261,12 +261,12 @@ export default function Home() {
               <Link
                 href="/signup"
                 aria-describedby="tier-hobby"
-                className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-emerald ring-1 ring-inset ring-emerald hover:ring-emerald-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald sm:mt-10"
+                className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-emerald ring-1 ring-inset ring-emerald hover:ring-emerald-hover hover:text-emerald-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald sm:mt-10"
               >
                 Kezd el most!
               </Link>
             </div>
-            <div className="relative p-8 shadow-2xl rounded-3xl bg-emerald-900 ring-1 ring-gray-900/10 sm:p-10">
+            <div className="relative p-8 shadow-2xl rounded-3xl bg-emerald-hover dark:bg-emerald-900 ring-1 ring-gray-900/10 sm:p-10">
               <h3
                 id="tier-enterprise"
                 className="font-semibold text-base/7 text-emerald"

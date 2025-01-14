@@ -32,7 +32,7 @@ export default function BackToTop() {
   return (
     <Button
       type="button"
-      className="fixed bottom-8 right-8 z-50 rounded-full p-4 transition ease-in-out text-emerald-hover"
+      className="fixed bottom-8 right-8 z-50 rounded-full p-4 transition ease-in-out text-white hover:text-emerald bg-emerald-hover border hover:bg-primary-foreground"
       onClick={scrollToTop}
     >
       <ChevronUp height={16} width={16} /> <span>Vissza a tetejére</span>
