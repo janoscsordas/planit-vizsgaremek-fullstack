@@ -52,12 +52,12 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <Avatar
                     src={userSession.user.image}
                     alt="Profilkép"
-                    className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-8 h-8"
+                    className="cursor-pointer rounded-lg hover:opacity-80 transition-opacity w-8 h-8"
                     fallback={userSession.user.name?.charAt(0) || "?"}
                   />
                 ) : (
                   <Avatar
-                    radius="full"
+                    radius="large"
                     fallback={userSession.user.name?.charAt(0) || "?"}
                     className="cursor-pointer hover:opacity-80 transition-opacity w-8 h-8"
                   />
@@ -74,7 +74,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-full"
+              className="w-[--radix-dropdown-menu-trigger-width] min-w-56"
               side={isMobile ? "bottom" : "right"}
               align="end"
               sideOffset={4}
