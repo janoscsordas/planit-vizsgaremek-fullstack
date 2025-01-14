@@ -1,6 +1,6 @@
 import { boolean, integer, pgEnum, pgTable, serial, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { UsersTable } from "@/database/schema/user";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 
 export const projectTierEnum = pgEnum('project_tier', ['free', 'paid'])
 export const projectStatusEnum = pgEnum('project_status', ['active', 'completed', 'archived'])

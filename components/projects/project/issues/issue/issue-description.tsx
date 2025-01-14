@@ -3,10 +3,9 @@ import { Avatar, Badge } from "@radix-ui/themes"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
 import MarkdownDescription from "./markdown-description"
-import { Circle, Ellipsis } from "lucide-react"
+import { Circle } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { auth } from "@/auth"
-import IssueEdit from "./issue-buttons"
 import IssueCommentEditor from "./issue-comment-editor"
 
 export default async function IssueDescription({

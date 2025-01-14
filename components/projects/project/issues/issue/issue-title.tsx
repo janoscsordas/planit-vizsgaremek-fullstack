@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
-import { Check, CircleDot, Dot, PlusIcon } from "lucide-react"
+import { Check, CircleDot, PlusIcon } from "lucide-react"
 import Link from "next/link"
 
 

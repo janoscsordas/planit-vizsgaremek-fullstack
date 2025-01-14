@@ -6,7 +6,6 @@ import { Session } from "next-auth"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import Image from "next/image"
-import { Badge } from "../ui/badge"
 
 export default function Navbar({
   breadCrumb,

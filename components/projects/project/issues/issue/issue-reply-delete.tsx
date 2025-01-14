@@ -2,15 +2,7 @@
 
 import { deleteIssueReply } from "@/actions/issues.action"
 import {
-    AlertDialog,
     AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
@@ -49,17 +41,12 @@ export default function IssueReplyDelete({
     }
 
     return (
-        <>
-            
-                <AlertDialogAction 
-                    onClick={handleIssueReplyRemoval} 
-                    className="bg-red-500 hover:bg-red-600 text-white"
-                    disabled={isLoading}
-                >
-                    {isLoading ? (<Loader2 className="h-4 w-4 animate-spin" />) : "Törlés"}
-                </AlertDialogAction>
-                
-            
-        </>
+        <AlertDialogAction 
+            onClick={handleIssueReplyRemoval} 
+            className="bg-red-500 hover:bg-red-600 text-white"
+            disabled={isLoading}
+        >
+            {isLoading ? (<Loader2 className="h-4 w-4 animate-spin" />) : "Törlés"}
+        </AlertDialogAction>
     )
 }

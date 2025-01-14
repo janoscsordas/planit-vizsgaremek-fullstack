@@ -22,7 +22,6 @@ import {
    MessageCircle,
    Users,
    Settings2,
-   Presentation,
    CircleDot,
 } from "lucide-react"
 
