@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   addAssignsToTask,
@@ -7,10 +7,10 @@ import {
   updateTaskDescription,
   updateTaskName,
   updateTaskPriority,
-} from "@/actions/projectTask.action"
-import { type TaskStatus } from "@/lib/definitions/tasks"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/actions/projectTask.action";
+import { type TaskStatus } from "@/lib/definitions/tasks";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   SelectLabel,
   Select,
@@ -18,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -26,13 +26,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
-import { SelectGroup } from "@radix-ui/react-select"
-import { Avatar, Badge } from "@radix-ui/themes"
-import { formatDistance } from "date-fns"
-import { hu } from "date-fns/locale"
+} from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { SelectGroup } from "@radix-ui/react-select";
+import { Avatar, Badge } from "@radix-ui/themes";
+import { formatDistance } from "date-fns";
+import { hu } from "date-fns/locale";
 import {
   ArrowDown,
   ArrowRight,
@@ -41,8 +41,8 @@ import {
   Edit2,
   Loader2,
   Search,
-} from "lucide-react"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+} from "lucide-react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,41 +51,56 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Member } from "@/lib/definitions/projects"
+} from "@/components/ui/dropdown-menu";
+import { Member } from "@/lib/definitions/projects";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { EnrichedTask } from "@/lib/definitions/tasks"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { EnrichedTask } from "@/lib/definitions/tasks";
+import { cn } from "@/lib/utils";
+import { useTaskContext } from "@/hooks/useTaskContext";
 
 export default function EditAndShowSheet({
   task,
   children,
 }: {
-  task: EnrichedTask
-  children: React.ReactNode
+  task: EnrichedTask;
+  children: React.ReactNode;
 }) {
+  const { setTasks } = useTaskContext();
+
   const handlePriorityChange = async (priority: string) => {
-    const response = await updateTaskPriority(task.id, priority, task.projectId)
+    const response = await updateTaskPriority(
+      task.id,
+      priority,
+      task.projectId
+    );
 
     if (!response.success) {
       toast("Hiba történt!", {
         description: response.message,
         position: "bottom-left",
-      })
-      return
+      });
+      return;
     }
+
+    setTasks((prevTasks) =>
+      prevTasks.map((t) =>
+        t.id === task.id
+          ? { ...t, priority: priority as "low" | "medium" | "high" }
+          : t
+      )
+    );
 
     toast("Siker!", {
       description: response.message,
       position: "bottom-left",
-    })
-  }
+    });
+  };
 
   return (
     <Sheet>
@@ -200,40 +215,46 @@ export default function EditAndShowSheet({
         </section>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 // child component for changing the task's status inside the sheet
 function TaskStatus({ task }: { task: EnrichedTask }) {
+  const { setTasks } = useTaskContext();
+
   // handling status change for the specific task
   const handleStatusChange = async (changedStatus: string) => {
-    const { status } = task
+    const { status } = task;
 
     if (status === changedStatus) {
-      return
+      return;
     }
 
     // changing changedStatus into unknown then into Status so it works
-    const statusToEnum: TaskStatus = changedStatus as unknown as TaskStatus
+    const statusToEnum: TaskStatus = changedStatus as unknown as TaskStatus;
     const response = await changeTaskStatus(
       statusToEnum,
       task.id,
       task.projectId
-    )
+    );
 
     if (!response.success) {
       toast("Hiba történt!", {
         description: response.message,
         position: "bottom-left",
-      })
-      return
+      });
+      return;
     }
+
+    setTasks((prevTasks) =>
+      prevTasks.map((t) => (t.id === task.id ? { ...t, status: statusToEnum } : t))
+    );
 
     toast("Sikeres módosítás", {
       description: response.message,
       position: "bottom-left",
-    })
-  }
+    });
+  };
 
   return (
     <DropdownMenu>
@@ -277,34 +298,42 @@ function TaskStatus({ task }: { task: EnrichedTask }) {
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 function TaskDescription({ task }: { task: EnrichedTask }) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [taskDescription, setTaskDescription] = useState(task.taskDescription)
-  const [isLoading, setIsLoading] = useState(false)
+  const { setTasks } = useTaskContext();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskDescription, setTaskDescription] = useState(task.taskDescription);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setIsLoading(true)
-    setIsEditing(true)
+    setIsLoading(true);
+    setIsEditing(true);
     try {
       if (taskDescription === task.taskDescription) {
-        setIsEditing(false)
-        return
+        setIsEditing(false);
+        return;
       }
 
       const response = await updateTaskDescription(
         task.id,
         taskDescription,
         task.projectId
-      )
+      );
 
       if (response.success) {
+        setTasks((prevTasks) =>
+          prevTasks.map((t) =>
+            t.id === task.id ? { ...t, taskDescription } : t
+          )
+        );
+
         toast("Sikeres módosítás!", {
           description: response.message,
           position: "bottom-left",
-        })
+        });
       }
     } catch (error) {
       toast("Hiba történt!", {
@@ -313,12 +342,12 @@ function TaskDescription({ task }: { task: EnrichedTask }) {
             ? error.message
             : "Hiba történt a feladat leírásának módosítása Közben!",
         position: "bottom-left",
-      })
+      });
     } finally {
-      setIsLoading(false)
-      setIsEditing(false)
+      setIsLoading(false);
+      setIsEditing(false);
     }
-  }
+  };
 
   return (
     <div className="md:w-[62%] md:border-r border-b w-full md:pr-3 p-2">
@@ -359,31 +388,39 @@ function TaskDescription({ task }: { task: EnrichedTask }) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function TaskTitle({ task }: { task: EnrichedTask }) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [taskTitle, setTaskTitle] = useState<string>(task.taskName)
+  const { setTasks } = useTaskContext();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [taskTitle, setTaskTitle] = useState<string>(task.taskName);
 
   const handleSubmit = async () => {
-    setIsEditing(true)
-    setIsLoading(true)
+    setIsEditing(true);
+    setIsLoading(true);
 
     try {
       if (taskTitle === task.taskName) {
-        setIsEditing(false)
-        return
+        setIsEditing(false);
+        return;
       }
 
-      const response = await updateTaskName(task.id, taskTitle, task.projectId)
+      const response = await updateTaskName(task.id, taskTitle, task.projectId);
 
       if (response.success) {
+        setTasks((prevTasks) =>
+          prevTasks.map((t) =>
+            t.id === task.id ? { ...t, taskName: taskTitle } : t
+          )
+        );
+
         toast("Sikeres módosítás!", {
           description: response.message,
           position: "bottom-left",
-        })
+        });
       }
     } catch (error) {
       toast("Hiba történt!", {
@@ -392,12 +429,12 @@ function TaskTitle({ task }: { task: EnrichedTask }) {
             ? error.message
             : "Hiba történt a feladat nevének módosítása Közben!",
         position: "bottom-left",
-      })
+      });
     } finally {
-      setIsLoading(false)
-      setIsEditing(false)
+      setIsLoading(false);
+      setIsEditing(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-between gap-10">
@@ -440,43 +477,45 @@ function TaskTitle({ task }: { task: EnrichedTask }) {
         </>
       )}
     </div>
-  )
+  );
 }
 
 // Type definitions to improve type safety
 interface UserAssignment {
-  id: string
-  name: string | null
-  image: string | null
-  isChecked?: boolean
+  id: string;
+  name: string | null;
+  image: string | null;
+  isChecked?: boolean;
 }
 
 interface AssignTaskProps {
-  members: Member[]
+  members: Member[];
   projectOwner?: {
-    id: string
-    name: string | null
-    image: string | null
-    email: string | null
-  }
-  task: EnrichedTask
+    id: string;
+    name: string | null;
+    image: string | null;
+    email: string | null;
+  };
+  task: EnrichedTask;
 }
 
 function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
+  const { setTasks } = useTaskContext();
+
   // State management
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(
     new Set(task.assigns.map((assign) => assign.userId))
-  )
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // When opening the popover, reset the selected users to match current assignments
   useEffect(() => {
     if (isPopoverOpen) {
-      setSelectedUsers(new Set(task.assigns.map((assign) => assign.userId)))
+      setSelectedUsers(new Set(task.assigns.map((assign) => assign.userId)));
     }
-  }, [isPopoverOpen, task.assigns])
+  }, [isPopoverOpen, task.assigns]);
 
   // Memoized list of all users including project owner
   const allUsers = useMemo<UserAssignment[]>(
@@ -497,7 +536,7 @@ function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
       })),
     ],
     [projectOwner, members]
-  )
+  );
 
   // Memoized and filtered users based on search query
   const filteredUsers = useMemo<UserAssignment[]>(
@@ -511,82 +550,88 @@ function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
           isChecked: task.assigns.some((assign) => assign.userId === user.id),
         })),
     [allUsers, searchQuery, task.assigns]
-  )
+  );
 
   // Toggle user selection
   const toggleUserSelection = useCallback(
     async (userId: string) => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         if (selectedUsers.has(userId)) {
           // Remove user for selectedUsers
           setSelectedUsers((prev) => {
-            const updated = new Set(prev)
-            updated.delete(userId)
-            return updated
-          })
+            const updated = new Set(prev);
+            updated.delete(userId);
+            return updated;
+          });
         } else {
           // Add user
-          setSelectedUsers((prev) => new Set(prev).add(userId))
+          setSelectedUsers((prev) => new Set(prev).add(userId));
         }
       } catch (error) {
         toast.error("Hiba történt", {
           description: error instanceof Error ? error.message : "Szerverhiba",
           position: "bottom-left",
-        })
+        });
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     },
     [removeUserFromTaskAssignsAction, task.id, task.projectId, task.assigns]
-  )
+  );
 
   // Handle task assignment
   const handleTaskAssignment = async () => {
-    if (isLoading) return
+    if (isLoading) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const selectedUserIds = Array.from(selectedUsers)
+      const selectedUserIds = Array.from(selectedUsers);
 
       // Find new assignments (users not currently assigned)
       const newAssignments = selectedUserIds.filter(
         (userId) => !task.assigns.some((assign) => assign.userId === userId)
-      )
+      );
 
       // Find users to remove (currently assigned but not in selected)
       const usersToRemove = task.assigns
         .filter((assign) => !selectedUserIds.includes(assign.userId))
-        .map((assign) => assign.userId)
+        .map((assign) => assign.userId);
 
       // Add new assignments
       if (newAssignments.length > 0) {
-        await addAssignsToTask(newAssignments, task.id, task.projectId)
+        await addAssignsToTask(newAssignments, task.id, task.projectId);
       }
 
       // Remove unselected users
       for (const userId of usersToRemove) {
-        await removeUserFromTaskAssignsAction(userId, task.id, task.projectId)
+        await removeUserFromTaskAssignsAction(userId, task.id, task.projectId);
       }
 
       // Provide feedback
       if (newAssignments.length > 0 || usersToRemove.length > 0) {
         toast.success("Feladat sikeresen frissítve!", {
           position: "bottom-left",
-        })
+        });
       }
 
-      setIsPopoverOpen(false)
+      setIsPopoverOpen(false);
+
+      setTasks((prevTasks) =>
+        prevTasks.map((t) =>
+          t.id === task.id ? { ...t, assigns: task.assigns } : t
+        )
+      );
     } catch (error) {
       toast.error("Hiba történt a feladat kiosztása közben", {
         description: error instanceof Error ? error.message : "Szerverhiba",
         position: "bottom-left",
-      })
+      });
     } finally {
-      setIsLoading(false)
-      setIsPopoverOpen(false)
+      setIsLoading(false);
+      setIsPopoverOpen(false);
     }
-  }
+  };
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -659,5 +704,5 @@ function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 "use client"
 
-import { Suspense, useId, useState, useMemo } from "react"
-import type { Task, EnrichedTask } from "@/lib/definitions/tasks"
+import { Suspense, useEffect, useId, useMemo } from "react"
+import type { EnrichedTask } from "@/lib/definitions/tasks"
 import { Column } from "./Column"
 import { DndContext, DragEndEvent } from "@dnd-kit/core"
 import { restrictToWindowEdges } from "@dnd-kit/modifiers"
@@ -11,6 +11,7 @@ import Loading from "@/app/projects/[projectId]/tasks/loading"
 import CreateTask from "../../tasks/CreateTask"
 import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
+import { useTaskContext } from "@/hooks/useTaskContext"
 
 export type TaskStatus = "pending" | "in progress" | "finished"
 
@@ -34,7 +35,12 @@ export default function DndTaskMain({
   enrichedTasks,
   projectId,
 }: DndTaskMainProps) {
-  const [tasks, setTasks] = useState<EnrichedTask[]>(enrichedTasks)
+  const { tasks, setTasks } = useTaskContext()
+
+  useEffect(() => {
+    setTasks(enrichedTasks)
+  }, [enrichedTasks, setTasks])
+
   const id = useId()
 
   // Sort function
