@@ -14,8 +14,8 @@ export default async function ProjectsPage() {
 
   return (
     <NotificationsProvider userId={session.user.id}>
-      <Navbar breadCrumb={
-        [
+      <Navbar
+        breadCrumb={[
           {
             label: "Főoldal",
             href: "/",
@@ -23,10 +23,11 @@ export default async function ProjectsPage() {
           {
             label: `${session.user.name} projektjei`,
             href: `/projects`,
-            active: true
+            active: true,
           },
-        ]
-      } session={session} />
+        ]}
+        session={session}
+      />
       <Projects userSession={session.user} />
     </NotificationsProvider>
   )

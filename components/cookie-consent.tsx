@@ -28,26 +28,26 @@ const CookieConsent = () => {
         isClosing ? "opacity-0 translate-y-10" : "opacity-100 translate-y-0"
       }`}
     >
-      <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+      <h3 className="flex items-center gap-2 mb-2 text-lg font-semibold">
         <Cookie size={20} /> Süti beállítások
       </h3>
 
-      <p className="text-muted-foreground mb-4">
+      <p className="mb-4 text-muted-foreground">
         A weboldalunk sütiket használ a jobb működéshez és a felhasználói élmény
         javításához. A további böngészéshez kérjük, tekintse át{" "}
         <a
           href="/privacy-policy"
-          className="text-emerald hover:underline font-medium"
+          className="font-medium text-emerald hover:underline"
         >
           Adatvédelmi szabályzatunkat
         </a>
         .
       </p>
 
-      <div className="flex gap-4 justify-end">
+      <div className="flex justify-end gap-4">
         <button
           onClick={handleAccept}
-          className="bg-emerald hover:bg-emerald/90 px-6 py-2 text-sm font-medium rounded-md text-black transition-colors"
+          className="px-6 py-2 text-sm font-medium text-black transition-colors rounded-md bg-emerald hover:bg-emerald/90"
         >
           Elfogadom
         </button>

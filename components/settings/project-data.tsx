@@ -20,8 +20,8 @@ export default function ProjectData({
 	projectData: ProjectData
 }) {
 	return (
-		<div className="space-y-4 border rounded-md p-6 mt-6">
-			<h4 className="font-medium text-sm">Projekt információk</h4>
+		<div className="p-6 mt-6 space-y-4 border rounded-md">
+			<h4 className="text-sm font-medium">Projekt információk</h4>
 			<div className="">
 				<DataList.Root>
 					<DataList.Item align="center">
@@ -104,7 +104,7 @@ export default function ProjectData({
 							Utolsó névváltoztatás
 						</DataList.Label>
 						<DataList.Value>
-							<p className="flex justify-center items-center text-xs font-semibold text-emerald">
+							<p className="flex items-center justify-center text-xs font-semibold text-emerald">
 								{projectData.projectNameChangedAt
 									? format(
 											projectData.projectNameChangedAt,

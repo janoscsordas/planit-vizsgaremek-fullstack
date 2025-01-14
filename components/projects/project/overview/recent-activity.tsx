@@ -61,7 +61,7 @@ export default function RecentActivity({
               className="font-medium text-center text-muted-foreground"
               colSpan={3}
             >
-              Nincs adat. Készíts új feladatot.
+              Nincs adat. Készíts új feladatot!
             </TableCell>
           </TableRow>
         )}

@@ -14,9 +14,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       className="p-4 border rounded-md hover:border-emerald group"
     >
       <div className="flex items-center justify-between gap-8">
-        <div className="flex flex-row justify-between w-full items-center gap-4">
+        <div className="flex flex-row items-center justify-between w-full gap-4">
           <div className="flex items-center gap-4">
-            <p className="text-primary text-[1.1rem] font-bold">
+            <p className="text-primary md:text-[1.1rem] text-sm font-bold">
               {project.name}
             </p>
             <Badge color={project.tier === "free" ? "amber" : "violet"}>
@@ -28,14 +28,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               project.status === "active"
                 ? "green"
                 : project.status === "completed"
-                ? "blue"
-                : "crimson"
+                  ? "blue"
+                  : "crimson"
             }
           >
             {project.status}
           </Badge>
         </div>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <ArrowRight width="20" height="20" className="text-emerald" />
         </div>
       </div>

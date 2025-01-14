@@ -9,22 +9,25 @@ import { signup } from "@/actions/user.action"
 import { signupSchema } from "@/lib/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
-import { useFormStatus } from 'react-dom'
+import { useFormStatus } from "react-dom"
 import SignupPasswordInput from "@/components/auth/signup-password-input"
 import { Spinner } from "@radix-ui/themes"
-import {MAX_EMAIL_LENGTH, MAX_USERNAME_LENGTH} from "@/lib/utils/globalVariables";
+import {
+  MAX_EMAIL_LENGTH,
+  MAX_USERNAME_LENGTH,
+} from "@/lib/utils/globalVariables"
 
 type FieldErrors = {
-  [key: string]: string;
+  [key: string]: string
 }
 
 // Create a submit button component to handle loading state
 function SubmitButton() {
   const { pending } = useFormStatus()
-  
+
   return (
-    <Button 
-      className="w-full bg-emerald hover:bg-emerald-hover" 
+    <Button
+      className="w-full bg-emerald hover:bg-emerald-hover"
       disabled={pending}
     >
       {pending ? <Spinner /> : "Regisztráció"}
@@ -40,13 +43,15 @@ export default function SignUpForm() {
   async function handleSubmit(formData: FormData) {
     setFieldErrors({}) // Reset errors on new submission
 
-    const data = Object.fromEntries(formData.entries()) as z.infer<typeof signupSchema>
+    const data = Object.fromEntries(formData.entries()) as z.infer<
+      typeof signupSchema
+    >
 
     const result = signupSchema.safeParse(data)
 
     if (!result.success) {
       const zodErrors = result.error.errors.reduce((acc: FieldErrors, curr) => {
-        const field = curr.path[0]?.toString() || 'general'
+        const field = curr.path[0]?.toString() || "general"
         acc[field] = curr.message
         return acc
       }, {})
@@ -57,10 +62,10 @@ export default function SignUpForm() {
     const res = await signup(data)
 
     if (!res.success && res.message) {
-      if (typeof res.message === 'object') {
+      if (typeof res.message === "object") {
         // Handle field-specific errors from the server
         setFieldErrors(res.message)
-        
+
         // Handle general error
         toast({
           title: "Sikertelen regisztráció",
@@ -68,8 +73,7 @@ export default function SignUpForm() {
           duration: 5000,
           variant: "destructive",
         })
-      }
-      else {
+      } else {
         // Handle general error
         toast({
           title: "Sikertelen regisztráció",
@@ -82,8 +86,9 @@ export default function SignUpForm() {
     }
 
     toast({
-      title: "Sikeres regisztráció",
-      description: "3 másodpercen belül átirányítunk a bejelentkezési oldalra. Kérjük, ellenőrizze email címét.",
+      title: "Sikeres regisztráció!",
+      description:
+        "3 másodpercen belül átirányítunk a bejelentkezési oldalra. Kérjük, ellenőrítd le az email címedet!",
       duration: 3000,
       className: "bg-emerald text-white dark:text-black border-emerald-hover",
     })
@@ -98,7 +103,7 @@ export default function SignUpForm() {
       <div>
         <Label htmlFor="name">Felhasználónév</Label>
         <Input
-          className={`mb-2 ${typeof fieldErrors === 'object' && fieldErrors.name ? 'border-red-500' : ''}`}
+          className={`mb-2 ${typeof fieldErrors === "object" && fieldErrors.name ? "border-red-500" : ""}`}
           type="text"
           name="name"
           id="name"
@@ -106,14 +111,14 @@ export default function SignUpForm() {
           required
           maxLength={MAX_USERNAME_LENGTH}
         />
-        {typeof fieldErrors === 'object' && fieldErrors.name && (
-          <p className="text-sm text-red-500 mt-1">{fieldErrors.name}</p>
+        {typeof fieldErrors === "object" && fieldErrors.name && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.name}</p>
         )}
       </div>
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
-          className={`mb-2 ${typeof fieldErrors === 'object' && fieldErrors.email ? 'border-red-500' : ''}`}
+          className={`mb-2 ${typeof fieldErrors === "object" && fieldErrors.email ? "border-red-500" : ""}`}
           type="email"
           name="email"
           id="email"
@@ -121,14 +126,14 @@ export default function SignUpForm() {
           required
           maxLength={MAX_EMAIL_LENGTH}
         />
-        {typeof fieldErrors === 'object' && fieldErrors.email && (
-          <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
+        {typeof fieldErrors === "object" && fieldErrors.email && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.email}</p>
         )}
       </div>
       <div>
         <SignupPasswordInput name="password" />
-        {typeof fieldErrors === 'object' && fieldErrors.password && (
-          <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
+        {typeof fieldErrors === "object" && fieldErrors.password && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.password}</p>
         )}
       </div>
       <SubmitButton />

@@ -15,25 +15,29 @@ export default function Navbar({
   session: Session
 }) {
   return (
-      <nav className="flex justify-between items-center p-4 border-b-2 border-foreground/10">
-        {/* Icon link to homepage **Only visible below sm** */}
-        <Link href="/" className="block sm:hidden">
-          <Image src="/icon.png" alt="PlanitApp Logo" className="w-auto h-auto" width={28} height={28} />
+    <nav className="flex items-center justify-between p-4 border-b-2 border-foreground/10">
+      {/* Icon link to homepage **Only visible below sm** */}
+      <Link href="/" className="block sm:hidden">
+        <Image
+          src="/icon.png"
+          alt="PlanitApp Logo"
+          className="w-auto h-auto"
+          width={28}
+          height={28}
+        />
+      </Link>
+      {/* breadcrumbs */}
+      <BreadcrumbComponent breadcrumbs={breadCrumb} />
+      <div className="flex items-center gap-4">
+        {/* AI Chat */}
+        <Link href="/chat" className="mr-5">
+          <Button variant="outline">🤖 Planie AI</Button>
         </Link>
-        {/* breadcrumbs */}
-        <BreadcrumbComponent breadcrumbs={breadCrumb} />
-        <div className="flex items-center gap-4">
-          {/* AI Chat */}
-          <Link href="/chat" className="mr-5">
-            <Button variant="outline">
-              🤖 Planie AI
-            </Button>
-          </Link>
-          {/* notifications */}
-          <NotificationBell />
-          {/* profile avatar */}
-          <ProfileAvatar session={session} />
-        </div>
-      </nav>
+        {/* notifications */}
+        <NotificationBell />
+        {/* profile avatar */}
+        <ProfileAvatar session={session} />
+      </div>
+    </nav>
   )
 }

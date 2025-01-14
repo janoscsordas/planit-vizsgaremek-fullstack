@@ -11,19 +11,18 @@ import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from "react-dom"
 import { Spinner } from "@radix-ui/themes"
-import {MAX_EMAIL_LENGTH} from "@/lib/utils/globalVariables";
-
+import { MAX_EMAIL_LENGTH } from "@/lib/utils/globalVariables"
 
 type FieldErrors = {
-  [key: string]: string;
+  [key: string]: string
 }
 
 function SubmitButton() {
   const { pending } = useFormStatus()
-  
+
   return (
-    <Button 
-      className="w-full bg-emerald hover:bg-emerald-hover" 
+    <Button
+      className="w-full bg-emerald hover:bg-emerald-hover"
       disabled={pending}
     >
       {pending ? <Spinner /> : "Bejelentkezés"}
@@ -31,7 +30,13 @@ function SubmitButton() {
   )
 }
 
-export default function LoginForm({ errorMessage, message }: { errorMessage: string | undefined, message: string | undefined }) {
+export default function LoginForm({
+  errorMessage,
+  message,
+}: {
+  errorMessage: string | undefined
+  message: string | undefined
+}) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors | string>({})
   const router = useRouter()
   const [showMessage, setShowMessage] = useState(!!errorMessage)
@@ -52,14 +57,16 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
   async function handleSubmit(formData: FormData) {
     setFieldErrors({}) // Reset errors on new submission
 
-    const data = Object.fromEntries(formData.entries()) as z.infer<typeof loginSchema>
+    const data = Object.fromEntries(formData.entries()) as z.infer<
+      typeof loginSchema
+    >
 
     // Add client-side validation
     const result = loginSchema.safeParse(data)
 
     if (!result.success) {
       const zodErrors = result.error.errors.reduce((acc: FieldErrors, curr) => {
-        const field = curr.path[0]?.toString() || 'general'
+        const field = curr.path[0]?.toString() || "general"
         acc[field] = curr.message
         return acc
       }, {})
@@ -70,9 +77,9 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
     const res = await login(data)
 
     if (!res.success && res.message) {
-      if (typeof res.message === 'object') {
+      if (typeof res.message === "object") {
         setFieldErrors(res.message)
-        
+
         // Show the first error message in the toast
         const firstError = Object.values(res.message)[0]
         toast({
@@ -84,7 +91,7 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
       }
       return
     }
-    
+
     router.push("/projects")
   }
 
@@ -103,7 +110,7 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
-          className={`mb-2 ${typeof fieldErrors === 'object' && fieldErrors.email ? 'border-red-500' : ''}`}
+          className={`mb-2 ${typeof fieldErrors === "object" && fieldErrors.email ? "border-red-500" : ""}`}
           type="email"
           name="email"
           id="email"
@@ -111,14 +118,14 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
           required
           maxLength={MAX_EMAIL_LENGTH}
         />
-        {typeof fieldErrors === 'object' && fieldErrors.email && (
-          <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
+        {typeof fieldErrors === "object" && fieldErrors.email && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.email}</p>
         )}
       </div>
       <div>
         <Label htmlFor="password">Jelszó</Label>
         <Input
-          className={`mb-2 ${typeof fieldErrors === 'object' && fieldErrors.password ? 'border-red-500' : ''}`}
+          className={`mb-2 ${typeof fieldErrors === "object" && fieldErrors.password ? "border-red-500" : ""}`}
           type="password"
           name="password"
           id="password"
@@ -127,11 +134,11 @@ export default function LoginForm({ errorMessage, message }: { errorMessage: str
           maxLength={32}
           required
         />
-        {typeof fieldErrors === 'object' && fieldErrors.password && (
-          <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
+        {typeof fieldErrors === "object" && fieldErrors.password && (
+          <p className="mt-1 text-sm text-red-500">{fieldErrors.password}</p>
         )}
       </div>
       <SubmitButton />
     </form>
-  );
+  )
 }

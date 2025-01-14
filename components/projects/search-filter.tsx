@@ -1,5 +1,5 @@
-import {Button, Select, TextField} from "@radix-ui/themes"
-import {Filter, Search} from "lucide-react"
+import { Button, Select, TextField } from "@radix-ui/themes"
+import { Filter, Search } from "lucide-react"
 import Link from "next/link"
 
 type SearchFiltersProps = {
@@ -16,7 +16,7 @@ export default function SearchFilter({
   onStatusChange,
 }: SearchFiltersProps) {
   return (
-    <div className="flex items-center gap-4 p-4 w-full sm:w-3/4 mx-auto">
+    <div className="flex items-center w-full gap-4 p-4 mx-auto sm:w-3/4">
       <Link href="/projects/create">
         <Button
           size="2"

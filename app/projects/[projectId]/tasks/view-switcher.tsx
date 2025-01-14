@@ -36,7 +36,7 @@ function TaskViewContent({
       case "kanbantable":
         return <TaskKanbanView enrichedTasks={tasks} projectId={projectId} />
 
-      default: // list view
+      default: // List view
         return <TasksListView enrichedTasks={tasks} projectId={projectId} />
     }
   }
@@ -74,12 +74,10 @@ export default function TaskViewSwitcher({
     setViewMode(newView)
     localStorage.setItem("taskViewMode", newView)
   }
-  
-  
 
   return (
     <TasksProvider>
-      <TaskViewContent 
+      <TaskViewContent
         viewMode={viewMode}
         handleViewChange={handleViewChange}
         tasks={tasks}

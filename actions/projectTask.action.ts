@@ -28,6 +28,7 @@ export type State = {
   message?: string | null
 }
 
+// Create task
 export async function createTask(prevState: State, formData: FormData) {
   const session = await auth()
 
@@ -48,7 +49,7 @@ export async function createTask(prevState: State, formData: FormData) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message:
-        "Hiba! A megadott adatok nem megfelelőek! A feladat elkészítése sikertelen.",
+        "Hiba! A megadott adatok nem megfelelőek! A feladat elkészítése sikertelen!",
     }
   }
 
@@ -79,6 +80,7 @@ export async function createTask(prevState: State, formData: FormData) {
   }
 }
 
+// Delete task
 export async function deleteTask(taskId: string, projectId: string) {
   const session = await auth()
 
@@ -106,6 +108,7 @@ export async function deleteTask(taskId: string, projectId: string) {
   }
 }
 
+// Update task priority
 export async function updateTaskPriority(
   taskId: string,
   priority: string,
@@ -129,7 +132,7 @@ export async function updateTaskPriority(
     return {
       success: false,
       message:
-        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen.",
+        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen!",
     }
   }
 
@@ -154,6 +157,7 @@ export async function updateTaskPriority(
   }
 }
 
+// Update task description
 export async function updateTaskDescription(
   taskId: string,
   description: string,
@@ -177,7 +181,7 @@ export async function updateTaskDescription(
     return {
       success: false,
       message:
-        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen.",
+        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen!",
     }
   }
 
@@ -201,6 +205,7 @@ export async function updateTaskDescription(
   }
 }
 
+// Update task name
 export async function updateTaskName(
   taskId: string,
   name: string,
@@ -221,7 +226,7 @@ export async function updateTaskName(
     return {
       success: false,
       message:
-        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen.",
+        "Hiba! A megadott adatok nem megfelelőek! A feladat módosítása sikertelen!",
     }
   }
 
@@ -243,6 +248,7 @@ export async function updateTaskName(
   return { success: true, message: "A feladat címe sikeresen módosítva!" }
 }
 
+// Change task status
 export async function changeTaskStatus(
   status: TaskStatus,
   taskId: string,
@@ -291,6 +297,7 @@ export async function changeTaskStatus(
   return { success: true, message: "A feladat státusza sikeresen módosítva!" }
 }
 
+// Assign users to task
 export async function addAssignsToTask(
   assigns: string[],
   taskId: string,
@@ -306,7 +313,7 @@ export async function addAssignsToTask(
   }
 
   try {
-    // adding assigned user's ids to the taskassigns table with the specific task's id
+    // Adding assigned user's ids to the task assigns table with the specific task id
     await db.insert(ProjectTaskAssignsTable).values(
       assigns.map((assign) => {
         return {
@@ -329,6 +336,7 @@ export async function addAssignsToTask(
   return { success: true, message: "A feladat hozzaadva!" }
 }
 
+// Remove user from task assigns
 export async function removeUserFromTaskAssignsAction(
   userId: string,
   taskId: string,

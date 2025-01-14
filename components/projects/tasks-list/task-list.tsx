@@ -142,9 +142,9 @@ export default function TaskList({
                 />
               ))
             ) : (
-              <div className="py-4 text-muted-foreground text-center text-sm">
+              <div className="py-4 text-sm text-center text-muted-foreground">
                 <h1>
-                  Nincs találat a szűrésre vagy még nem készítettél feladatot.
+                  Nincs találat a szűrésre vagy még nem készítettél feladatot!
                 </h1>
               </div>
             )}

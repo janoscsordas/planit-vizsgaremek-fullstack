@@ -14,8 +14,8 @@ export default async function CreateProject() {
   return (
     <NotificationsProvider userId={session.user.id}>
       {/* navbar + breadcrumbs */}
-      <Navbar breadCrumb={
-        [
+      <Navbar
+        breadCrumb={[
           {
             label: "Főoldal",
             href: "/",
@@ -28,9 +28,10 @@ export default async function CreateProject() {
             label: "Új projekt készítése",
             href: `/projects/create`,
             active: true,
-          }
-        ]
-      } session={session} />
+          },
+        ]}
+        session={session}
+      />
 
       {/* create project form */}
       <CreateForm />

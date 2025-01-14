@@ -30,7 +30,7 @@ export function TaskCard({ task }: TaskCardProps) {
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className="p-5 transition-shadow duration-200 rounded-lg shadow-lg select-none bg-white dark:bg-neutral-800 hover:shadow-xl touch-none"
+        className="p-5 transition-shadow duration-200 bg-white rounded-lg shadow-lg select-none dark:bg-neutral-800 hover:shadow-xl touch-none"
         style={style}
       >
         <div className="flex items-start justify-between" title={task.taskName}>
@@ -42,7 +42,7 @@ export function TaskCard({ task }: TaskCardProps) {
               ID-{task.id.slice(0, 2)}
             </span>
             <h3
-              className="overflow-hidden font-semibold text-primary break-words text-ellipsis"
+              className="overflow-hidden font-semibold break-words text-primary text-ellipsis"
               style={{
                 maxWidth: "calc(var(--vw) * 30)",
               }}

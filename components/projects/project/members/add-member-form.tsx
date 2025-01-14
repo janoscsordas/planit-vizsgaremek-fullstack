@@ -1,34 +1,33 @@
-'use client'
+"use client"
 
-import React, { useState, KeyboardEvent } from 'react'
-import { Send, X } from 'lucide-react'
+import React, { useState, KeyboardEvent } from "react"
+import { Send, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
-import { sendProjectInvites } from '@/actions/notifications.action'
-import { validEmailSchema } from '@/lib/schemas/notificationSchema'
-import { useRouter } from 'next/navigation'
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import { sendProjectInvites } from "@/actions/notifications.action"
+import { validEmailSchema } from "@/lib/schemas/notificationSchema"
+import { useRouter } from "next/navigation"
 
-export default function MultiEmailInput({
-    projectId,
-}: {
-    projectId: string
-}) {
+export default function MultiEmailInput({ projectId }: { projectId: string }) {
   const router = useRouter()
   const [emails, setEmails] = useState<string[]>([])
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState("")
 
   const addEmail = async (email: string) => {
     const trimmedEmail = email.trim()
-    if (validEmailSchema.safeParse({ email: trimmedEmail }).success && !emails.includes(trimmedEmail)) {
+    if (
+      validEmailSchema.safeParse({ email: trimmedEmail }).success &&
+      !emails.includes(trimmedEmail)
+    ) {
       setEmails([...emails, trimmedEmail])
-      setInputValue('')
+      setInputValue("")
     }
   }
 
   const removeEmail = (emailToRemove: string) => {
-    setEmails(emails.filter(email => email !== emailToRemove))
+    setEmails(emails.filter((email) => email !== emailToRemove))
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +35,7 @@ export default function MultiEmailInput({
   }
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === ',') {
+    if (e.key === "Enter" || e.key === ",") {
       e.preventDefault()
       addEmail(inputValue)
     }
@@ -49,7 +48,10 @@ export default function MultiEmailInput({
     console.log(emails)
 
     if (!emails.length) {
-      toast.error('Nem adtál meg email címet!', { duration: 3000, position: "top-center" })
+      toast.error("Nem adtál meg email címet!", {
+        duration: 3000,
+        position: "top-center",
+      })
       setEmails([])
       return
     }
@@ -57,13 +59,20 @@ export default function MultiEmailInput({
     const response = await sendProjectInvites(projectId, emails)
 
     if (!response.success) {
-        toast.error("Hiba törtent!", { description: response.message, duration: 3000, position: "top-center" })
-        setEmails([])
-        return
+      toast.error("Hiba törtent!", {
+        description: response.message,
+        duration: 3000,
+        position: "top-center",
+      })
+      setEmails([])
+      return
     }
 
     setEmails([])
-    toast.success("Meghívók elküldve!", { duration: 3000, position: "top-center" })
+    toast.success("Meghívók elküldve!", {
+      duration: 3000,
+      position: "top-center",
+    })
 
     setTimeout(() => {
       router.refresh()
@@ -74,7 +83,11 @@ export default function MultiEmailInput({
     <form className="w-full" onSubmit={handleFormSubmit}>
       <div className="flex flex-wrap gap-2 p-2 border rounded-md bg-background">
         {emails.map((email, index) => (
-          <Badge key={index} variant="secondary" className="flex items-center gap-1">
+          <Badge
+            key={index}
+            variant="secondary"
+            className="flex items-center gap-1"
+          >
             {email}
             <button
               onClick={() => removeEmail(email)}
@@ -85,23 +98,26 @@ export default function MultiEmailInput({
             </button>
           </Badge>
         ))}
-        <div className='relative w-full'>
-            <Input
-              id="email-input"
-              type="email"
-              placeholder="Írj be egy emailt, majd üss Entert..."
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-              className="flex-grow min-w-[200px] border-none focus:ring-0"
-            />
-            <Button variant={"ghost"} className='absolute top-1/2 right-[1px] -translate-y-1/2' >
-                <Send size={16} className="text-muted-foreground" />
-            </Button>
+        <div className="relative w-full">
+          <Input
+            id="email-input"
+            type="email"
+            placeholder="Írj be egy emailt, majd üss Entert..."
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            className="flex-grow min-w-[200px] border-none focus:ring-0"
+          />
+          <Button
+            variant={"ghost"}
+            className="absolute top-1/2 right-[1px] -translate-y-1/2"
+          >
+            <Send size={16} className="text-muted-foreground" />
+          </Button>
         </div>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
-        {emails.length} email cím megadva
+        {emails.length} email cím megadva!
       </p>
     </form>
   )

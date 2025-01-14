@@ -10,7 +10,6 @@ import {
 } from "@react-email/components"
 import * as React from "react"
 
-
 // Memoize styles to prevent recreation on each render
 const styles = {
   verificationButton: {
@@ -21,7 +20,7 @@ const styles = {
     color: "#ffffff",
     fontWeight: "600",
     margin: "15px 0",
-    padding: "16px 32px", 
+    padding: "16px 32px",
     textDecoration: "none",
   },
   body: {
@@ -41,7 +40,7 @@ const styles = {
   title: {
     color: "#45CB85",
     fontWeight: "700",
-    lineHeight: "1.2", 
+    lineHeight: "1.2",
     margin: "0 0 30px",
   },
   nameHeading: {
@@ -67,7 +66,7 @@ const styles = {
   footerText: {
     color: "#888",
     margin: "0 0 10px",
-  }
+  },
 }
 
 // Format date function
@@ -107,45 +106,66 @@ const VerificationEmail = function VerificationEmail({
             <Heading style={styles.title} className="sm:text-5xl">
               Sikeres regisztráció!
             </Heading>
-            <Heading style={styles.nameHeading} className="sm:text-3xl sm:mb-4 mb-3 text-xl">
+            <Heading
+              style={styles.nameHeading}
+              className="mb-3 text-xl sm:text-3xl sm:mb-4"
+            >
               Kedves {name}!
             </Heading>
-            <Heading style={styles.subtitle} className="sm:text-lg text-base">
+            <Heading style={styles.subtitle} className="text-base sm:text-lg">
               Köszönjük, hogy regisztrált a planitapp.hu-n!
             </Heading>
 
-            <Button href={verificationLink} style={styles.verificationButton} className="sm:text-base text-sm">
+            <Button
+              href={verificationLink}
+              style={styles.verificationButton}
+              className="text-sm sm:text-base"
+            >
               Tovább a hitelesítéshez
             </Button>
 
-            <Text style={{ ...styles.body, marginTop: "30px" }} className="sm:text-base text-sm">
+            <Text
+              style={{ ...styles.body, marginTop: "30px" }}
+              className="text-sm sm:text-base"
+            >
               Ha a gomb nem működik, kattintson ide:{" "}
-              <Link style={styles.link} href={verificationLink || "https://planitapp.hu"} className="sm:text-base text-sm">
+              <Link
+                style={styles.link}
+                href={verificationLink || "https://planitapp.hu"}
+                className="text-sm sm:text-base"
+              >
                 {verificationLink}
               </Link>
             </Text>
 
-            <Text style={styles.body} className="sm:text-base text-sm">
+            <Text style={styles.body} className="text-sm sm:text-base">
               Ha bármilyen kérdése van, kérjük lépjen velünk kapcsolatba az
               alábbi email címen:{" "}
-              <Link style={styles.link} href="mailto:support@planitapp.hu" className="sm:text-base text-sm">
+              <Link
+                style={styles.link}
+                href="mailto:support@planitapp.hu"
+                className="text-sm sm:text-base"
+              >
                 support@planitapp.hu
               </Link>
             </Text>
 
-            <Text style={styles.body} className="sm:text-base text-sm">
+            <Text style={styles.body} className="text-sm sm:text-base">
               Ha nem Ön regisztrált, kérjük, hagyja figyelmen kívül ezt az
               emailt!
             </Text>
 
             <Container style={styles.footer}>
-              <Text style={styles.footerText} className="sm:text-sm text-xs">
+              <Text style={styles.footerText} className="text-xs sm:text-sm">
                 Üdvözlettel, a Planitapp csapata!
               </Text>
               <Text style={styles.timestamp} className="sm:text-xs text-[10px]">
                 {formattedDate}
               </Text>
-              <Text style={styles.disclaimer} className="sm:text-xs text-[10px]">
+              <Text
+                style={styles.disclaimer}
+                className="sm:text-xs text-[10px]"
+              >
                 Ez egy regisztrációs email, kérjük ne válaszoljon rá!
               </Text>
             </Container>

@@ -1,37 +1,30 @@
-import LoginForm from "./login-form";
-import Image from "next/image";
-import Link from "next/link";
-import AuthButtons from "@/components/auth/auth-buttons";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import LoginForm from "./login-form"
+import Image from "next/image"
+import Link from "next/link"
+import AuthButtons from "@/components/auth/auth-buttons"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
-export default async function Login({ 
-  searchParams 
-}: { 
-  searchParams: Promise<{ errorMessage?: string, message?: string }>
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: Promise<{ errorMessage?: string; message?: string }>
 }) {
-  const session = await auth();
+  const session = await auth()
   const { errorMessage, message } = await searchParams
 
   if (session?.user) {
-    return redirect("/projects");
+    return redirect("/projects")
   }
 
   return (
-    <div className="py-12 min-h-screen w-full flex flex-col gap-8 items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen gap-8 py-12">
       <Link href={"/"}>
-        <Image
-            src="/icon.png"
-            alt="Icon"
-            width={68}
-            height={68}
-        />
+        <Image src="/icon.png" alt="Icon" width={68} height={68} />
       </Link>
       <div className="border border-border p-8 w-[85%] sm:w-[350px] rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-1">
-          Üdv újra itt!
-        </h1>
-        <p className="text-sm text-muted-foreground text-center mb-3">
+        <h1 className="mb-1 text-2xl font-bold text-center">Üdv újra itt!</h1>
+        <p className="mb-3 text-sm text-center text-muted-foreground">
           Jelentkezz be a fiókodba
         </p>
 
@@ -41,8 +34,8 @@ export default async function Login({
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t"></span>
           </div>
-          <div className="relative flex justify-center text-xs uppercase my-4">
-            <span className="bg-background px-2 text-muted-foreground">
+          <div className="relative flex justify-center my-4 text-xs uppercase">
+            <span className="px-2 bg-background text-muted-foreground">
               Vagy
             </span>
           </div>
@@ -50,13 +43,13 @@ export default async function Login({
 
         <AuthButtons />
 
-        <p className="flex gap-1 justify-center items-center text-sm text-center mt-4 text-muted-foreground">
+        <p className="flex items-center justify-center gap-1 mt-4 text-sm text-center text-muted-foreground">
           Nincs még fiókod?
-          <Link href="/signup" className="text-emerald underline">
+          <Link href="/signup" className="underline text-emerald">
             Regisztrálj!
           </Link>
         </p>
       </div>
     </div>
-  );
+  )
 }

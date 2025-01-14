@@ -449,7 +449,7 @@ export default function Home() {
                 <ul className="space-y-2">
                   <li>
                     <Link
-                      href="/privacy-policy"
+                      href="/"
                       className="transition-colors hover:text-foreground"
                     >
                       Adatvédelmi szabályzat

@@ -7,7 +7,7 @@ export default function DialogLogoutButton() {
   return (
     <AlertDialogAction
       onClick={() => signOut()}
-      className="bg-red-500 hover:bg-red-600 text-white"
+      className="text-white bg-red-500 hover:bg-red-600"
     >
       Kijelentkezés
     </AlertDialogAction>

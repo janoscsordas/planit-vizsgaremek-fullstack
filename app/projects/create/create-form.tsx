@@ -13,17 +13,17 @@ export default function CreateForm() {
     <form action={formAction}>
       <div className="w-[90%] md:w-[80%] xl:w-2/5 mx-auto border-[1px] border-foreground/10 rounded-lg mt-8 dark:bg-foreground/10">
         <div className="border-b-[1px] border-foreground/10 pb-2 p-4">
-          <h2 className="text-primary text-md font-bold pb-1">
+          <h2 className="pb-1 font-bold text-primary text-md">
             Projekt létrehozása
           </h2>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground">
             Projekt létrehozásához adj meg egy nevet.
           </p>
         </div>
         <div>
           <div className="flex items-center gap-2">
             <div className="flex flex-col w-full border-b-[1px] border-foreground/10 py-2">
-              <div className="flex justify-between items-center gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <p className="w-[25%] text-muted-foreground text-sm font-bold p-4">
                   Projekt neve
                 </p>
@@ -44,20 +44,27 @@ export default function CreateForm() {
               >
                 {state.errors?.name &&
                   state.errors.name.map((error: string) => (
-                    <p className="text-red-500 my-2 text-sm" key={error}>
+                    <p className="my-2 text-sm text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
               </div>
-              <div id="messages" aria-live="polite" aria-atomic="true" className="flex justify-end px-4 mb-2">
-                  {state.message && <p className="text-red-500 my-2 text-sm">{state.message}</p>}
+              <div
+                id="messages"
+                aria-live="polite"
+                aria-atomic="true"
+                className="flex justify-end px-4 mb-2"
+              >
+                {state.message && (
+                  <p className="my-2 text-sm text-red-500">{state.message}</p>
+                )}
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-row items-center gap-2">
-          <div className="flex justify-between items-center gap-2 w-full p-4">
-            <p className="hidden sm:block text-muted-foreground text-sm">
+          <div className="flex items-center justify-between w-full gap-2 p-4">
+            <p className="hidden text-sm sm:block text-muted-foreground">
               Később megváltoztathatod a projekt nevét
             </p>
             <Button

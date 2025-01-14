@@ -32,7 +32,7 @@ export default async function ProjectPage({
     ? project.data[0]
     : project.data
 
-  // fetching analytics
+  // Fetching analytics
   const analyticsForCards = await fetchAnalyticsForProject(projectData.id)
   const recentActivity = await fetchRecentActivity(projectData.id)
 

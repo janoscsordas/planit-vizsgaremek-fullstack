@@ -13,7 +13,7 @@ export default function ProfileNavbar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-col space-y-8 mb-8 md:mb-0 md:flex-row md:space-x-12 md:space-y-0">
+    <div className="flex flex-col mb-8 space-y-8 md:mb-0 md:flex-row md:space-x-12 md:space-y-0">
       <aside className="-mx-0 md:-mx-4 md:w-64">
         <nav className="flex space-x-2 md:flex-col md:space-x-0 md:space-y-1">
           {navLinks.map((link) => {

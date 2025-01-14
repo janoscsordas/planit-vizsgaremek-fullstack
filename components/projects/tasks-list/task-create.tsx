@@ -89,7 +89,7 @@ export default function TaskCreate({
                 }}
               />
               <span className="absolute right-0 text-xs -bottom-6 text-muted-foreground">
-                Még {256 - descriptionLength} karaktert írhatsz
+                Még {256 - descriptionLength} karaktert írhatsz!
               </span>
             </div>
           </div>

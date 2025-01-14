@@ -42,7 +42,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
           <DropdownMenu>
             <DropdownMenuTrigger
               asChild
-              className="outline-none bg-sidebar-accent dark:bg-sidebar-accent-dark border-t border-sidebar-accent-dark rounded-lg focus:ring-2 focus:ring-emerald-hover"
+              className="border-t rounded-lg outline-none bg-sidebar-accent dark:bg-sidebar-accent-dark border-sidebar-accent-dark focus:ring-2 focus:ring-emerald-hover"
             >
               <SidebarMenuButton
                 size="lg"
@@ -52,18 +52,18 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <Avatar
                     src={userSession.user.image}
                     alt="Profilkép"
-                    className="cursor-pointer rounded-lg hover:opacity-80 transition-opacity w-8 h-8"
+                    className="w-8 h-8 transition-opacity rounded-lg cursor-pointer hover:opacity-80"
                     fallback={userSession.user.name?.charAt(0) || "?"}
                   />
                 ) : (
                   <Avatar
                     radius="large"
                     fallback={userSession.user.name?.charAt(0) || "?"}
-                    className="cursor-pointer hover:opacity-80 transition-opacity w-8 h-8"
+                    className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
                   />
                 )}
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
+                <div className="grid flex-1 text-sm leading-tight text-left">
+                  <span className="font-semibold truncate">
                     {userSession.user.name}
                   </span>
                   <span className="truncate text-muted-foreground text-[10px]">
@@ -85,21 +85,21 @@ export function NavUser({ userSession }: { userSession: Session }) {
                     <Avatar
                       src={userSession.user.image}
                       alt="Profilkép"
-                      className="cursor-pointer rounded-full hover:opacity-80 transition-opacity w-8 h-8"
+                      className="w-8 h-8 transition-opacity rounded-full cursor-pointer hover:opacity-80"
                       fallback={userSession.user.name?.charAt(0) || "?"}
                     />
                   ) : (
                     <Avatar
                       radius="full"
                       fallback={userSession.user.name?.charAt(0) || "?"}
-                      className="cursor-pointer hover:opacity-80 transition-opacity w-8 h-8"
+                      className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
                     />
                   )}
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
+                  <div className="grid flex-1 text-sm leading-tight text-left">
+                    <span className="font-semibold truncate">
                       {userSession.user.name}
                     </span>
-                    <span className="truncate text-muted-foreground text-xs">
+                    <span className="text-xs truncate text-muted-foreground">
                       {userSession.user.email}
                     </span>
                   </div>
@@ -129,9 +129,8 @@ export function NavUser({ userSession }: { userSession: Session }) {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem className="text-red-500 focus:bg-red-500/80 focus:text-white cursor-pointer">
+                <DropdownMenuItem className="text-red-500 cursor-pointer focus:bg-red-500/80 focus:text-white">
                   <LogOutIcon />
-                  {/* Alert dialog kijelentkezés megerősítéséhez */}
                   Kijelentkezés
                 </DropdownMenuItem>
               </AlertDialogTrigger>

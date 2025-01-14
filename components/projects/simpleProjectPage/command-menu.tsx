@@ -1,7 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { ClipboardPlus, MessageCircle, Monitor, User, Users } from "lucide-react"
+import {
+  ClipboardPlus,
+  MessageCircle,
+  Monitor,
+  User,
+  Users,
+} from "lucide-react"
 import { usePathname } from "next/navigation"
 
 import {
@@ -24,7 +30,7 @@ export default function CommandMenu() {
   const [open, setOpen] = React.useState(false)
 
   const pathname = usePathname()
-  const projectId = pathname.split("/")[2] 
+  const projectId = pathname.split("/")[2]
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -93,6 +99,6 @@ export default function CommandMenu() {
           </CommandList>
         </CommandDialog>
       </div>
-    </>  
+    </>
   )
 }
