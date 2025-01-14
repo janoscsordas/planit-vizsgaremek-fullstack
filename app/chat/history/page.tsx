@@ -3,7 +3,7 @@ import { db } from "@/database"
 import { eq, and, ilike, desc } from "drizzle-orm"
 import { ChatConversationsTable } from "@/database/schema/chat"
 import { redirect } from "next/navigation"
-import HistoryCard from "@/components/aichat/HistoryCard"
+import HistoryCard from "@/components/aichat/history-card"
 import SearchForm from "./search-form"
 
 export default async function Page({ 

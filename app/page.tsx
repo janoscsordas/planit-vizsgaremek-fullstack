@@ -9,7 +9,7 @@ import {
   LogIn,
   MessageCircle,
 } from "lucide-react"
-import CookieConsent from "@/components/CookieConsent"
+import CookieConsent from "@/components/cookie-consent"
 import BackToTop from "@/components/back-to-top"
 import AutoSlideshow from "@/components/auto-slideshow"
 

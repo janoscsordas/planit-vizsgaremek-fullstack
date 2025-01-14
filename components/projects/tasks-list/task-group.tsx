@@ -36,7 +36,7 @@ const TaskCreate = dynamic(() => import("./task-create"), {
 })
 
 export const EditAndShowSheet = dynamic(
-  () => import("@/components/projects/tasks/EditAndShowSheet"),
+  () => import("@/components/projects/tasks/edit-and-show-sheet"),
   {
     loading: () => (
       <Loader2 className="w-3 h-3 text-muted-foreground animate-spin" />

@@ -12,7 +12,7 @@ import { Avatar, IconButton } from '@radix-ui/themes'
 import { User } from 'next-auth'
 import { BookOpen, LogOut, MoveLeftIcon, PlusIcon, UserIcon } from 'lucide-react'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
-import DialogLogoutButton from '../projects/DialogLogoutButton'
+import DialogLogoutButton from '../projects/dialog-logout-button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 
 export default function ChatSidebar({ user }: { user: User }) {

@@ -1,6 +1,6 @@
 import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
-import MessageComponent from './MessageComponent'
+import MessageComponent from './message-component'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 

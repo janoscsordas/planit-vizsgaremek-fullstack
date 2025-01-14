@@ -1,5 +1,5 @@
 import { auth } from "@/auth"
-import ChatSidebar from "@/components/aichat/ChatSidebar"
+import ChatSidebar from "@/components/aichat/chat-sidebar"
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
 

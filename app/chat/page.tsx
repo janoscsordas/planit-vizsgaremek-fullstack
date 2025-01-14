@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import ChatComponent from "@/components/aichat/ChatComponent";
+import ChatComponent from "@/components/aichat/chat-component";
 import { redirect } from "next/navigation";
 
 

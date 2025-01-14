@@ -1,5 +1,5 @@
-import AnalyticsCards from "@/components/projects/project/overview/AnalyticsCards"
-import RecentActivity from "@/components/projects/project/overview/RecentActivity"
+import AnalyticsCards from "@/components/projects/project/overview/analytics-cards"
+import RecentActivity from "@/components/projects/project/overview/recent-activity"
 import { getProjectById } from "@/actions/projects.action"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"

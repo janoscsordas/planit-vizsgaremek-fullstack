@@ -10,7 +10,7 @@ import { signupSchema } from "@/lib/schemas/userSchema"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { useFormStatus } from 'react-dom'
-import SignupPasswordInput from "@/components/auth/SignupPasswordInput"
+import SignupPasswordInput from "@/components/auth/signup-password-input"
 import { Spinner } from "@radix-ui/themes"
 import {MAX_EMAIL_LENGTH, MAX_USERNAME_LENGTH} from "@/lib/utils/globalVariables";
 

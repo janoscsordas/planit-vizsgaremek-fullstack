@@ -1,5 +1,5 @@
 import { ProjectData } from "@/lib/definitions/projects"
-import ProjectCard from "./ProjectCard"
+import ProjectCard from "./project-card"
 import { Plus } from "lucide-react"
 import { Button, Spinner } from "@radix-ui/themes"
 import Link from "next/link"

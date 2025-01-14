@@ -1,12 +1,12 @@
 import ProjectHeader from '../header'
 import { getProjectById } from '@/actions/projects.action'
-import DeleteProject from './components/delete-project'
-import ProjectNameForm from './components/project-name-form'
-import UpgradeToPro from './components/upgrade-to-pro'
-import ChangeStatus from './components/change-status'
+import DeleteProject from '../../../../components/settings/delete-project'
+import ProjectNameForm from '../../../../components/settings/project-name-form'
+import UpgradeToPro from '../../../../components/settings/upgrade-to-pro'
+import ChangeStatus from '../../../../components/settings/change-status'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import ProjectData from './components/project-data'
+import ProjectData from '../../../../components/settings/project-data'
 
 export default async function Settings({
 	params,

@@ -1,9 +1,9 @@
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
-import CommandMenu from '@/components/projects/simpleProjectPage/CommandMenu'
+import CommandMenu from '@/components/projects/simpleProjectPage/command-menu'
 import BreadcrumbComponent from '@/components/Breadcrumb'
 import { Breadcrumb } from '@/components/Breadcrumb'
-import NotificationBell from '@/components/projects/notification/NotificationBell'
+import NotificationBell from '@/components/projects/notification/notification-bell'
 
 export default function ProjectHeader({
 	breadCrumb,

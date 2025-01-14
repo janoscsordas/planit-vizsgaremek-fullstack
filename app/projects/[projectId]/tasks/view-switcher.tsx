@@ -10,7 +10,7 @@ const TasksListView = dynamic(
   { ssr: false }
 )
 const TaskKanbanView = dynamic(
-  () => import("@/components/projects/project/dnd-tasks/DndTaskMain"),
+  () => import("@/components/projects/project/dnd-tasks/dnd-task-main"),
   { ssr: false }
 )
 const ViewChanger = dynamic(() => import("./view-switcher-buttons"), {

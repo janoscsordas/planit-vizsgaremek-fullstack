@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import ProfileHeaderNavButtons from "./ProfileHeaderNavButtons";
+import ProfileHeaderNavButtons from "./profile-header-nav-buttons";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Cake } from "lucide-react";
 

@@ -1,5 +1,5 @@
-import ProfileNavbar from "@/components/profile/ProfileNavbar"
-import ProfileHeader from "../ProfileHeader"
+import ProfileNavbar from "@/components/profile/profile-navbar"
+import ProfileHeader from "../profile-header"
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
 import ThemeSwitcherWrapper from "./theme-switcher-wrapper";

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import CreateTask from "@/components/projects/tasks/CreateTask"
+import CreateTask from "@/components/projects/tasks/create-task"
 import { PlusIcon } from "lucide-react"
 import Loading from "@/components/projects/project/Loading"
 

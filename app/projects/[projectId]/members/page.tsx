@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import ProjectHeader from "../header"
-import AddMemberForm from "@/components/projects/project/members/AddMemberForm"
-import MemberComponent from "@/components/projects/project/members/MemberComponent"
+import AddMemberForm from "@/components/projects/project/members/add-member-form"
+import MemberComponent from "@/components/projects/project/members/member-component"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { db } from "@/database"
@@ -11,7 +11,7 @@ import { Suspense } from "react"
 import { notFound, redirect } from "next/navigation"
 import { formatDate } from "date-fns"
 import { Avatar } from "@radix-ui/themes"
-import KickMemberComponent from "@/components/projects/project/members/KickMemberComponent"
+import KickMemberComponent from "@/components/projects/project/members/kick-member-component"
 
 export default async function Members({
    params,

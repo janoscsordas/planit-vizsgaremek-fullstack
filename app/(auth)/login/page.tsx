@@ -1,7 +1,7 @@
 import LoginForm from "./login-form";
 import Image from "next/image";
 import Link from "next/link";
-import AuthButtons from "@/components/auth/AuthButtons";
+import AuthButtons from "@/components/auth/auth-buttons";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 

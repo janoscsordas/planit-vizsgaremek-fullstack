@@ -10,7 +10,7 @@ import {
 	DialogFooter,
 } from '../ui/dialog'
 import { Button } from '../ui/button'
-import DeleteAccountButton from './DeleteAccountButton'
+import DeleteAccountButton from './delete-account-button'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { useState, useEffect } from 'react'

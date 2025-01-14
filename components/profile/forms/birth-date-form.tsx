@@ -82,7 +82,7 @@ export default function BirthDateForm({
                             readOnly
                             className='cursor-not-allowed selection:bg-emerald'
                         />
-                        <p className='text-muted-foreground text-xs mt-1'>Ez a beállított születési dátumod! (Hónap/Nap/Év)</p>
+                        <p className='text-muted-foreground text-xs mt-1'>Ez a beállított születési dátumod!</p>
                     </>
                 ) : (
                     <form onSubmit={handleDateSubmit}>

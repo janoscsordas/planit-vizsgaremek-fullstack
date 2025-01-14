@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import MainChatComponent from "@/components/aichat/MainChatComponent";
+import MainChatComponent from "@/components/aichat/main-chat-component";
 import { db } from "@/database";
 import { ChatConversationsTable, ChatMessagesTable } from "@/database/schema/chat";
 import { eq } from "drizzle-orm";

@@ -6,7 +6,7 @@ import { hu } from "date-fns/locale"
 import { EnrichedTask } from "@/lib/definitions/tasks"
 import { AssignedAvatars } from "@/components/projects/tasks-list/task-group"
 import { Button } from "@/components/ui/button"
-import EditAndShowSheet from "../../tasks/EditAndShowSheet"
+import EditAndShowSheet from "../../tasks/edit-and-show-sheet"
 
 type TaskCardProps = {
   task: EnrichedTask

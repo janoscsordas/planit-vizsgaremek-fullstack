@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { User } from "next-auth";
 import { Suspense, useEffect, useRef, useState } from "react";
 import Loading from "./Loading";
-import MessageCards from "./MessageCards";
+import MessageCards from "./message-cards";
 import { Spinner } from "@radix-ui/themes";
 import { sendNewMessage } from "@/actions/aichat.action";
 import { z } from "zod";

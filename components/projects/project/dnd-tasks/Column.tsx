@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core"
-import { TaskCard } from "./TaskCard"
+import { TaskCard } from "./task-card"
 import { EnrichedTask } from "@/lib/definitions/tasks"
-import { ColumnType } from "./DndTaskMain"
+import { ColumnType } from "./dnd-task-main"
 import { Circle } from "lucide-react"
 import { cn } from "@/lib/utils"
 

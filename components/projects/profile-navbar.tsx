@@ -20,7 +20,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import DialogLogoutButton from './DialogLogoutButton'
+import DialogLogoutButton from './dialog-logout-button'
 import { LogOutIcon, UserIcon } from 'lucide-react'
 import { Session } from 'next-auth'
 

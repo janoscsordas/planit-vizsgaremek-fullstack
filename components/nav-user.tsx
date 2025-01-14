@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Session } from "next-auth"
 import Link from "next/link"
-import DialogLogoutButton from "./projects/DialogLogoutButton"
+import DialogLogoutButton from "./projects/dialog-logout-button"
 import {
   AlertDialog,
   AlertDialogCancel,

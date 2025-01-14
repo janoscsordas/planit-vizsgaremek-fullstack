@@ -2,8 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { useState, useMemo } from "react"
-import SearchFilter from "@/components/projects/SearchFilter"
-import ProjectList from "@/components/projects/ProjectList"
+import SearchFilter from "@/components/projects/search-filter"
+import ProjectList from "@/components/projects/project-list"
 import { ProjectData } from "@/lib/definitions/projects"
 import { User } from "next-auth"
 
