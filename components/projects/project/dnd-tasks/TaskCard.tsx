@@ -20,6 +20,7 @@ export function TaskCard({ task }: TaskCardProps) {
   const style = transform
     ? {
         transform: `translate(${transform.x}px, ${transform.y}px)`,
+        zIndex: 1,
       }
     : undefined
 
@@ -29,13 +30,10 @@ export function TaskCard({ task }: TaskCardProps) {
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className="p-5 transition-shadow duration-200 rounded-lg shadow-lg select-none bg-neutral-800 hover:shadow-xl"
+        className="p-5 transition-shadow duration-200 rounded-lg shadow-lg select-none bg-white dark:bg-neutral-800 hover:shadow-xl touch-none"
         style={style}
       >
-        <div
-          className="flex items-start justify-between"
-          title={task.taskName}
-        >
+        <div className="flex items-start justify-between" title={task.taskName}>
           <div className="flex flex-row gap-3 lg:flex-col lg:items-start lg:gap-0">
             <span
               className="uppercase text-[0.7rem] text-gray-400"
@@ -44,7 +42,7 @@ export function TaskCard({ task }: TaskCardProps) {
               ID-{task.id.slice(0, 2)}
             </span>
             <h3
-              className="overflow-hidden font-semibold text-white break-words text-ellipsis"
+              className="overflow-hidden font-semibold text-primary break-words text-ellipsis"
               style={{
                 maxWidth: "calc(var(--vw) * 30)",
               }}
@@ -54,7 +52,7 @@ export function TaskCard({ task }: TaskCardProps) {
           </div>
           <div className="flex flex-col items-end gap-1">
             <Button
-              variant="ghost"
+              variant="link"
               size="icon"
               className="w-6 h-6 p-0 text-gray-500 transition-opacity duration-200 hover:text-gray-300 hover:opacity-100"
               onPointerDown={(e) => e.stopPropagation()}
@@ -66,7 +64,9 @@ export function TaskCard({ task }: TaskCardProps) {
             {!task.assigns.length ? (
               <span className="w-6 h-6" />
             ) : (
-              <AssignedAvatars assigns={task.assigns} />
+              <span className="relative">
+                <AssignedAvatars assigns={task.assigns} />
+              </span>
             )}
           </div>
         </div>
@@ -79,14 +79,15 @@ export function TaskCard({ task }: TaskCardProps) {
           {task.taskDescription}
         </p>
         <div className="flex items-center justify-between gap-3 mt-3 text-xs text-gray-400">
-          <div className="">
+          <div>
             <Badge
+              variant="soft"
               color={
                 task.priority === "low"
                   ? "green"
                   : task.priority === "medium"
-                    ? "yellow"
-                    : "red"
+                    ? "orange"
+                    : "tomato"
               }
             >
               {task.priority === "low"

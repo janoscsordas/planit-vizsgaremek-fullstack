@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useId, useState } from "react"
+import { Suspense, useId, useState, useMemo } from "react"
 import type { Task, EnrichedTask } from "@/lib/definitions/tasks"
 import { Column } from "./Column"
 import { DndContext, DragEndEvent } from "@dnd-kit/core"
@@ -24,6 +24,7 @@ const COLUMNS: ColumnType[] = [
   { id: "in progress", title: "Folyamatban" },
   { id: "finished", title: "Befejezett" },
 ]
+
 type DndTaskMainProps = {
   enrichedTasks: EnrichedTask[]
   projectId: string
@@ -36,7 +37,31 @@ export default function DndTaskMain({
   const [tasks, setTasks] = useState<EnrichedTask[]>(enrichedTasks)
   const id = useId()
 
-  // Handle the drag end event where a task is dropped into a new column (or the same column)
+  // Sort function
+  const sortTasks = (a: EnrichedTask, b: EnrichedTask) => {
+    // Sort by priority (high > medium > low)
+    const priorityOrder = { high: 3, medium: 2, low: 1 }
+    if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+      return priorityOrder[b.priority] - priorityOrder[a.priority]
+    }
+
+    // If priority is the same, sort by creation date (newest first)
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  }
+
+  // Memoized sorted tasks for each column
+  const sortedColumnTasks = useMemo(() => {
+    return COLUMNS.reduce(
+      (acc, column) => {
+        acc[column.id] = tasks
+          .filter((task) => task.status === column.id)
+          .sort(sortTasks)
+        return acc
+      },
+      {} as Record<TaskStatus, EnrichedTask[]>
+    )
+  }, [tasks])
+
   async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     if (!over) return
@@ -44,11 +69,9 @@ export default function DndTaskMain({
     const taskId = active.id as string
     const newStatus = over.id as TaskStatus
 
-    // Find the task being dragged
     const task = tasks.find((task) => task.id === taskId)
     if (!task) return
 
-    // If the task is dragged into the same column, do nothing
     if (task.status === newStatus) {
       return
     }
@@ -101,7 +124,7 @@ export default function DndTaskMain({
               <Column
                 key={column.id}
                 column={column}
-                tasks={tasks.filter((task) => task.status === column.id)}
+                tasks={sortedColumnTasks[column.id]}
               />
             ))}
           </Suspense>
