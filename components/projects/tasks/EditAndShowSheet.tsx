@@ -3,6 +3,7 @@
 import {
   addAssignsToTask,
   changeTaskStatus,
+  deleteTask,
   removeUserFromTaskAssignsAction,
   updateTaskDescription,
   updateTaskName,
@@ -41,6 +42,7 @@ import {
   Edit2,
   Loader2,
   Search,
+  Trash2Icon,
 } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -211,11 +213,44 @@ export default function EditAndShowSheet({
                 </SelectContent>
               </Select>
             </div>
+            <DeleteTask task={task} />
           </div>
         </section>
       </SheetContent>
     </Sheet>
   );
+}
+
+function DeleteTask({ task }: { task: EnrichedTask }) {
+  const { setTasks } = useTaskContext();
+
+  const handleDeleteTask = async () => {
+    const response = await deleteTask(task.id, task.projectId);
+
+    if (!response.success) {
+      toast.error("Hiba történt!", {
+        description: response.message,
+        position: "top-center",
+      });
+      return;
+    }
+
+    if (response.success) {
+      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== task.id));
+      toast.success("Feladat törlése sikeres!", {
+        position: "top-center",
+      });
+    }
+  }
+
+  return (
+    <button 
+      className="w-max hover:underline text-xs flex items-center gap-2 text-red-500 mt-4"
+      onClick={handleDeleteTask}
+    >
+      <Trash2Icon className="w-4 h-4" /> Feladat törlése
+    </button>
+  )
 }
 
 // child component for changing the task's status inside the sheet
