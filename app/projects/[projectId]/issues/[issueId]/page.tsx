@@ -5,6 +5,35 @@ import { and, eq } from "drizzle-orm"
 import { notFound, redirect } from "next/navigation"
 import ProjectHeader from "../../header"
 import IssueWrapper from "@/components/projects/project/issues/issue/issue-wrapper"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Problémák`,
+    description: `${projectName} projekt problémái`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Problémák`,
+      description: `${projectName} projekt problémái`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Page({
   params,

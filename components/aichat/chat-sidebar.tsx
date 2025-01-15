@@ -96,6 +96,7 @@ export default function ChatSidebar({ user }: { user: User }) {
                       <Avatar
                         src={user.image || ""}
                         radius={"full"}
+                        alt={user.name || "Felhasználó"}
                         className="rounded-full"
                         fallback={user.name?.charAt(0) || "F"}
                       />

@@ -3,6 +3,38 @@ import { getProjectById } from "@/actions/projects.action"
 import MessageComponent from "./message-component"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { db } from "@/database"
+import { ProjectsTable } from "@/database/schema/projects"
+import { eq } from "drizzle-orm"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Üzenetek`,
+    description: `${projectName} üzenetei`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Üzenetek`,
+      description: `${projectName} üzenetei`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Messages({
   params,

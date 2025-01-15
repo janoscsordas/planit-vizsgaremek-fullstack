@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { auth } from "@/auth"
@@ -7,10 +6,19 @@ import { NotificationsProvider } from "@/context/NotificationsContext"
 import { db } from "@/database"
 import { ProjectsTable } from "@/database/schema/projects"
 import { eq } from "drizzle-orm"
+import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Planitapp - Projekt",
-  description: "Planitapp oldalon a felhasználó projektjeinek kezelése",
+  title: "Planitapp - Projektek",
+  description: "Planitapp - Projektek",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Projektek",
+    description: "Planitapp - Projektek",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
 }
 
 export default async function Layout({

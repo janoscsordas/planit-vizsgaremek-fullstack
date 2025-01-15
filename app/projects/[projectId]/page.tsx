@@ -8,6 +8,31 @@ import {
   fetchAnalyticsForProject,
   fetchRecentActivity,
 } from "@/actions/analytics.action"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const project = await getProjectById(params.projectId)
+  const projectData = Array.isArray(project.data) 
+    ? project.data[0] 
+    : project.data
+
+  return {
+    title: `Planitapp - ${projectData?.name}`,
+    description: `Planitapp oldalon a ${projectData?.name} projekt kezelése`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectData?.name}`,
+      description: `Planitapp oldalon a ${projectData?.name} projekt kezelése`,
+      siteName: "Planitapp", 
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function ProjectPage({
   params,
@@ -57,7 +82,7 @@ export default async function ProjectPage({
           <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-4">
             <AnalyticsCards analyticsForCards={analyticsForCards} />
           </div>
-          <div className="">
+          <div>
             <div className="p-6 mt-4 border rounded-lg shadow lg:mt-8 border-border ">
               <h1 className="text-xl font-bold">Legutóbbi tevékenységek</h1>
               <p className="mt-1 mb-6 text-sm text-muted-foreground">

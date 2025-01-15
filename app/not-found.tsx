@@ -24,6 +24,7 @@ export default function NotFound() {
       <Link
         href="/"
         className="px-6 py-3 text-sm font-semibold text-center text-black rounded-md shadow-sm bg-emerald"
+        aria-label="Vissza a főoldalra"
       >
         <span className="relative z-10">Vissza a főoldalra</span>
         <div className="absolute inset-0 transition-transform duration-300 ease-in-out -translate-x-full group-hover:translate-x-0" />

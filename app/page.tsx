@@ -12,6 +12,20 @@ import {
 import CookieConsent from "@/components/cookie-consent"
 import BackToTop from "@/components/back-to-top"
 import AutoSlideshow from "@/components/auto-slideshow"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Főoldal",
+  description: "Planitapp - Kövesd nyomon a terveid!",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Főoldal",
+    description: "Planitapp - Kövesd nyomon a terveid!",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default function Home() {
   return (
@@ -25,7 +39,7 @@ export default function Home() {
 
         <BackToTop />
 
-        <Link className="block pointer-events-none w-max" href={"/"}>
+        <Link className="block pointer-events-none w-max" href={"/"} aria-label="Vissza a főoldalra">
           <Image
             className="hidden select-none sm:block"
             src="/full-logo.png"
@@ -43,7 +57,7 @@ export default function Home() {
         </Link>
         <div className="relative flex justify-end">
           <div className="-z-[2] absolute -top-16 border border-emerald h-12 w-36 "></div>
-          <Link className="absolute -top-16" href={"/login"}>
+          <Link className="absolute -top-16" href={"/login"} aria-label="Belépés">
             <Button className="flex items-center w-36 text-lg p-6 px-10 uppercase transition transform translate-x-[4px] translate-y-[4px] hover:translate-x-0 hover:translate-y-0 bg-emerald hover:bg-emerald rounded-none select-none">
               <LogIn /> Belépés
             </Button>
@@ -76,7 +90,7 @@ export default function Home() {
               </p>
               <div className="relative block mx-auto mt-10 w-max md:mx-0">
                 <div className="-z-[2] absolute border border-emerald h-12 w-36"></div>
-                <Link href={"/signup"}>
+                <Link href={"/signup"} aria-label="Regisztráció">
                   <Button className="w-36 text-lg p-6 px-10 uppercase transition transform hover:translate-x-[-4px] hover:translate-y-[-4px] bg-emerald hover:bg-emerald rounded-none select-none">
                     Vágj bele!
                   </Button>
@@ -261,6 +275,7 @@ export default function Home() {
               <Link
                 href="/signup"
                 aria-describedby="tier-hobby"
+                aria-label="Kezd el most!"
                 className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-emerald ring-1 ring-inset ring-emerald hover:ring-emerald-hover hover:text-emerald-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald sm:mt-10"
               >
                 Kezd el most!
@@ -388,6 +403,7 @@ export default function Home() {
                 <Link
                   href="/"
                   className="flex items-center mb-2 pointer-events-none"
+                  aria-label="Vissza a főoldalra"
                 >
                   <Image
                     src="/full-logo.png"
@@ -412,6 +428,7 @@ export default function Home() {
                     <Link
                       href="#pricing"
                       className="transition-colors hover:text-foreground"
+                      aria-label="Vissza az árakra"
                     >
                       Árazás
                     </Link>
@@ -420,6 +437,7 @@ export default function Home() {
                     <Link
                       href="#"
                       className="transition-colors hover:text-foreground"
+                      aria-label="Vissza a funkciókra"
                     >
                       Funkciók
                     </Link>
@@ -428,6 +446,7 @@ export default function Home() {
                     <Link
                       href="#"
                       className="transition-colors hover:text-foreground"
+                      aria-label="Vissza a támogatásra"
                     >
                       Támogatás
                     </Link>
@@ -436,6 +455,7 @@ export default function Home() {
                     <Link
                       href="#"
                       className="transition-colors hover:text-foreground"
+                      aria-label="Vissza a kapcsolatra"
                     >
                       Kapcsolat
                     </Link>
@@ -451,6 +471,7 @@ export default function Home() {
                     <Link
                       href="/"
                       className="transition-colors hover:text-foreground"
+                      aria-label="Vissza az adatvédelmi szabályzatra"
                     >
                       Adatvédelmi szabályzat
                     </Link>
@@ -460,6 +481,7 @@ export default function Home() {
                       <Link
                         href="#"
                         className="transition-colors hover:text-foreground"
+                        aria-label={`Vissza az ${item} szabályzatra`}
                       >
                         {item}
                       </Link>

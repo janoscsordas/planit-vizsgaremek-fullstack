@@ -4,6 +4,20 @@ import Link from "next/link"
 import AuthButtons from "@/components/auth/auth-buttons"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Bejelentkezés",
+  description: "Planitapp - Bejelentkezés",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Bejelentkezés",
+    description: "Planitapp - Bejelentkezés",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function Login({
   searchParams,
@@ -19,7 +33,7 @@ export default async function Login({
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen gap-8 py-12">
-      <Link href={"/"}>
+      <Link href={"/"} aria-label="Vissza a főoldalra">
         <Image src="/icon.png" alt="Icon" width={68} height={68} />
       </Link>
       <div className="border border-border p-8 w-[85%] sm:w-[350px] rounded-lg">
@@ -45,7 +59,7 @@ export default async function Login({
 
         <p className="flex items-center justify-center gap-1 mt-4 text-sm text-center text-muted-foreground">
           Nincs még fiókod?
-          <Link href="/signup" className="underline text-emerald">
+          <Link href="/signup" className="underline text-emerald" aria-label="Regisztrálj">
             Regisztrálj!
           </Link>
         </p>

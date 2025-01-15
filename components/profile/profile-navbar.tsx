@@ -26,6 +26,7 @@ export default function ProfileNavbar() {
                 className={`text-sm font-medium rounded-md px-4 py-2 text-foreground ${
                   isActive(link.href) ? "bg-emerald-hover" : "hover:bg-muted"
                 }`}
+                aria-current={isActive(link.href) ? "page" : undefined}
               >
                 {link.name}
               </Link>

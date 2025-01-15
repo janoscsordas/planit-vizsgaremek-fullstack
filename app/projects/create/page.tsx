@@ -3,6 +3,20 @@ import CreateForm from "./create-form"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import { NotificationsProvider } from "@/context/NotificationsContext"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Készíts projektet",
+  description: "Planitapp - Készíts projektet",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Készíts projektet",
+    description: "Planitapp - Készíts projektet",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function CreateProject() {
   const session = await auth()

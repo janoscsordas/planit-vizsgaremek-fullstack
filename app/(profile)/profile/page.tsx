@@ -14,6 +14,25 @@ import { Avatar, Badge } from "@radix-ui/themes"
 import { formatDate } from "date-fns"
 import Image from "next/image"
 import BirthDateForm from "@/components/profile/forms/birth-date-form"
+import { Metadata } from "next"
+
+export async function generateMetadata(): Promise<Metadata> {
+  const session = await auth()
+  const userName = session?.user?.name || "Profil"
+
+  return {
+    title: `Planitapp - ${userName}`,
+    description: "Planitapp felhasználói profil kezelése",
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${userName}`,
+      description: "Planitapp felhasználói profil kezelése",
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function ProfilePage() {
   const session = await auth()

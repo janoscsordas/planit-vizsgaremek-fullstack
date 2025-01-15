@@ -45,6 +45,7 @@ export default function HistoryCard({
           <Avatar
             className="w-4 h-4"
             src={user.image || ""}
+            alt={user.name || ""}
             fallback={user.name?.charAt(0) || "F"}
             radius="full"
           />

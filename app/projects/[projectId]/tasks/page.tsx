@@ -6,6 +6,35 @@ import { desc, eq } from "drizzle-orm"
 import { notFound, redirect } from "next/navigation"
 import TaskViewSwitcher from "./view-switcher"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Feladatok`,
+    description: `${projectName} projekt feladatainak kezelése`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Feladatok`,
+      description: `${projectName} projekt feladatainak kezelése`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Tasks({
   params,

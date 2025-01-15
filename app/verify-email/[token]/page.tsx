@@ -16,11 +16,11 @@ export default async function VerifyEmailPage({ params }: Props) {
 
   if (result.success) {
     redirect(
-      `/login?message=${encodeURIComponent("Email cím sikeresen megerősítve")}`
+      `/login?message=${encodeURIComponent("Email cím sikeresen megerősítve!")}`
     )
   } else {
     redirect(
-      `/login?errorMessage=${encodeURIComponent("Email cím megerősítése sikertelen")}`
+      `/login?errorMessage=${encodeURIComponent("Email cím megerősítése sikertelen!")}`
     )
   }
 }

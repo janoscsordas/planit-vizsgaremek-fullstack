@@ -6,6 +6,20 @@ import { redirect } from "next/navigation"
 import { NotificationsProvider } from "@/context/NotificationsContext"
 import { Suspense } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Értesítések",
+  description: "Planitapp - Értesítések",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Értesítések",
+    description: "Planitapp - Értesítések",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function NotificationsPage() {
   const session = await auth()

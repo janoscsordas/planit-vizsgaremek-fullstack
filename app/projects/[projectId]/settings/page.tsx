@@ -7,6 +7,38 @@ import ChangeStatus from "../../../../components/settings/change-status"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import ProjectData from "../../../../components/settings/project-data"
+import { Metadata } from "next"
+import { db } from "@/database"
+import { eq } from "drizzle-orm"
+import { ProjectsTable } from "@/database/schema/projects"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Beállítások`,
+    description: `${projectName} projekt beállításai`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Beállítások`,
+      description: `${projectName} projekt beállításai`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Settings({
   params,

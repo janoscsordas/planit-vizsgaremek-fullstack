@@ -5,6 +5,35 @@ import { db } from "@/database"
 import { notFound, redirect } from "next/navigation"
 import IssueCreationForm from "@/components/projects/project/issues/create/issue-creation-form"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Problémák létrehozása`,
+    description: `${projectName} projekt problémák létrehozása`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Problémák létrehozása`,
+      description: `${projectName} projekt problémák létrehozása`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Page({
   params,

@@ -34,6 +34,7 @@ export default function CreateForm() {
                   placeholder="Projekt neve"
                   aria-describedby="name-errors"
                   className="w-[75%] bg-muted-foreground/5 m-4 mt-0 mb-0"
+                  maxLength={32}
                 />
               </div>
               <div

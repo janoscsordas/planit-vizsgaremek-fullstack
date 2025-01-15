@@ -33,6 +33,7 @@ export default function ProfileAvatar({ session }: { session: Session }) {
             {session.user.image ? (
               <Avatar
                 radius="full"
+                alt="Avatar"
                 src={session.user.image}
                 fallback={session.user.name?.charAt(0) || "?"}
                 className="transition-opacity cursor-pointer hover:opacity-80"
@@ -40,6 +41,7 @@ export default function ProfileAvatar({ session }: { session: Session }) {
             ) : (
               <Avatar
                 radius="full"
+                alt="Avatar"
                 fallback={session.user.name?.charAt(0) || "?"}
                 className="transition-opacity cursor-pointer hover:opacity-80"
               />
@@ -55,7 +57,7 @@ export default function ProfileAvatar({ session }: { session: Session }) {
               </span>
             </div>
             <DropdownMenuSeparator />
-            <Link href="/profile" className="no-underline">
+            <Link href="/profile" className="no-underline" aria-label="Profil">
               <DropdownMenuItem className="cursor-pointer">
                 <UserIcon className="w-4 h-4 mr-2" />
                 Profil

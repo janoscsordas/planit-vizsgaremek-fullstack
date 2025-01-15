@@ -4,6 +4,20 @@ import Link from "next/link"
 import AuthButtons from "@/components/auth/auth-buttons"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Regisztráció",
+  description: "Planitapp - Regisztráció",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Regisztráció",
+    description: "Planitapp - Regisztráció",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function SignUp() {
   const session = await auth()

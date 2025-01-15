@@ -59,6 +59,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                   <Avatar
                     radius="large"
                     fallback={userSession.user.name?.charAt(0) || "?"}
+                    alt="Profilkép"
                     className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
                   />
                 )}
@@ -92,6 +93,7 @@ export function NavUser({ userSession }: { userSession: Session }) {
                     <Avatar
                       radius="full"
                       fallback={userSession.user.name?.charAt(0) || "?"}
+                      alt="Profilkép"
                       className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
                     />
                   )}

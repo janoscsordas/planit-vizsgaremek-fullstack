@@ -3,6 +3,20 @@ import ProfileHeader from "../profile-header"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import ThemeSwitcherWrapper from "./theme-switcher-wrapper"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Megjelenés",
+  description: "Planitapp - Megjelenés",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Megjelenés",
+    description: "Planitapp - Megjelenés",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function AppearancePage() {
   const session = await auth()

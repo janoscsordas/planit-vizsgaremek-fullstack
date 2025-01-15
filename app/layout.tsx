@@ -11,6 +11,14 @@ import { ThemeProvider } from "@/app/(profile)/appearance/theme-provider"
 export const metadata: Metadata = {
   title: "Planitapp - Kövesd nyomon a terveid!",
   description: "Planitapp - Kövesd nyomon a terveid!",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Kövesd nyomon a terveid!",
+    description: "Planitapp - Kövesd nyomon a terveid!",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
 }
 
 export default async function RootLayout({

@@ -12,6 +12,35 @@ import { notFound, redirect } from "next/navigation"
 import { formatDate } from "date-fns"
 import { Avatar } from "@radix-ui/themes"
 import KickMemberComponent from "@/components/projects/project/members/kick-member-component"
+import { Metadata } from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { projectId: string }
+}): Promise<Metadata> {
+  const projectData = await db.query.ProjectsTable.findFirst({
+    columns: {
+      name: true,
+    },
+    where: eq(ProjectsTable.id, params.projectId),
+  })
+
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Tagok`,
+    description: `${projectName} projekt tagjainak kezelése`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Tagok`,
+      description: `${projectName} projekt tagjainak kezelése`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
 
 export default async function Members({
   params,

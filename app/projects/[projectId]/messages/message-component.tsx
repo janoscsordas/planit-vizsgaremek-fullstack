@@ -101,8 +101,9 @@ export default function MessageComponent({
               <Avatar
                 src={message.user.image}
                 fallback={message.user.name.charAt(0)}
+                alt={message.user.name}
                 radius="full"
-                className="mr-2"
+                className="w-8 h-8 mr-2 md:w-10 md:h-10"
               />
             )}
             <div
@@ -141,7 +142,9 @@ export default function MessageComponent({
                     <Avatar
                       src={message.user.image ?? undefined}
                       fallback={message.user.name.charAt(0)}
+                      alt={message.user.name}
                       radius="full"
+                      className="w-8 h-8 md:w-10 md:h-10"
                     />
                   </button>
                 </DropdownMenuTrigger>

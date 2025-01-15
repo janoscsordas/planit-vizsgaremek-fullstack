@@ -20,6 +20,7 @@ export default function ErrorPage() {
         <Link
           href="/login"
           className="inline-block px-4 py-2 mt-4 rounded bg-emerald text-primary hover:bg-emerald-hover"
+          aria-label="Vissza az autentikációs oldalra"
         >
           Vissza az autentikációs oldalra
         </Link>

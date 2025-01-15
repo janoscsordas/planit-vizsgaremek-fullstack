@@ -3,6 +3,20 @@ import { redirect } from "next/navigation"
 import Projects from "@/components/projects/Projects"
 import Navbar from "@/components/projects/Navbar"
 import { NotificationsProvider } from "@/context/NotificationsContext"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Planitapp - Projektek",
+  description: "Planitapp - Projektek",
+  publisher: "Planitapp",
+  openGraph: {
+    title: "Planitapp - Projektek",
+    description: "Planitapp - Projektek",
+    siteName: "Planitapp",
+    locale: "hu-HU",
+    type: "website",
+  },
+}
 
 export default async function ProjectsPage() {
   const session = await auth()
