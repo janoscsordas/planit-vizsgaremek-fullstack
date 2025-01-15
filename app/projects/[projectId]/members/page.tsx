@@ -17,13 +17,15 @@ import { Metadata } from "next"
 export async function generateMetadata({
   params,
 }: {
-  params: { projectId: string }
+  params: Promise<{ projectId: string }>
 }): Promise<Metadata> {
+  const { projectId } = await params
+
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
       name: true,
     },
-    where: eq(ProjectsTable.id, params.projectId),
+    where: eq(ProjectsTable.id, projectId),
   })
 
   const projectName = projectData?.name || "Projekt"
@@ -48,13 +50,16 @@ export default async function Members({
   children: React.ReactNode
   params: Promise<{ projectId: string }>
 }>) {
-  const session = await auth()
+  const [session, resolvedParams] = await Promise.all([
+    auth(),
+    Promise.resolve(params)
+  ])
 
   if (!session || !session.user) {
     return redirect("/login")
   }
 
-  const { projectId } = await params
+  const { projectId } = resolvedParams
 
   const projectData = await db.query.ProjectsTable.findFirst({
     where: eq(ProjectsTable.id, projectId),

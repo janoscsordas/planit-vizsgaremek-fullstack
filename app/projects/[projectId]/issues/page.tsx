@@ -10,13 +10,15 @@ import { Metadata } from "next"
 export async function generateMetadata({
   params,
 }: {
-  params: { projectId: string }
+  params: Promise<{ projectId: string }>
 }): Promise<Metadata> {
+  const { projectId } = await params
+
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
       name: true,
     },
-    where: eq(ProjectsTable.id, params.projectId),
+    where: eq(ProjectsTable.id, projectId),
   })
 
   const projectName = projectData?.name || "Projekt"
@@ -108,13 +110,16 @@ export default async function Page({
   params: Promise<{ projectId: string }>
   searchParams: Promise<{ q?: string; status?: string; page?: string }>
 }) {
-  const session = await auth()
+  const [session, resolvedParams] = await Promise.all([
+    auth(),
+    Promise.resolve(params)
+  ])
 
   if (!session || !session.user || !session.user.id) {
     return redirect("/login")
   }
 
-  const { projectId } = await params
+  const { projectId } = resolvedParams
   const { q, status, page } = await searchParams
 
   const parsedPage = parseInt(page || "1")

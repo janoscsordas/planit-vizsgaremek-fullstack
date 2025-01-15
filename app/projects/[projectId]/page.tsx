@@ -13,9 +13,11 @@ import { Metadata } from "next"
 export async function generateMetadata({
   params,
 }: {
-  params: { projectId: string }
+  params: Promise<{ projectId: string }>
 }): Promise<Metadata> {
-  const project = await getProjectById(params.projectId)
+  const { projectId } = await params
+
+  const project = await getProjectById(projectId)
   const projectData = Array.isArray(project.data) 
     ? project.data[0] 
     : project.data
@@ -39,13 +41,16 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ projectId: string }>
 }) {
-  const session = await auth()
+  const [session, resolvedParams] = await Promise.all([
+    auth(),
+    Promise.resolve(params)
+  ])
 
   if (!session || !session.user) {
     redirect("/login")
   }
 
-  const { projectId } = await params
+  const { projectId } = resolvedParams
 
   const project = await getProjectById(projectId)
 

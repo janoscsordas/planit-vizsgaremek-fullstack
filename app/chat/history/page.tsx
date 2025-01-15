@@ -5,21 +5,7 @@ import { ChatConversationsTable } from "@/database/schema/chat"
 import { redirect } from "next/navigation"
 import HistoryCard from "@/components/aichat/history-card"
 import SearchForm from "./search-form"
-import { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Planitapp - Chat előzmények",
-  description: "Planitapp AI chat. Beszélgess Planie-vel!",
-  publisher: "Planitapp",
-  openGraph: {
-    title: "Planitapp - Chat előzmények",
-    description: "Planitapp AI chat. Beszélgess Planie-vel!",
-    url: "https://planitapp.hu/chat",
-    siteName: "Planitapp",
-    locale: "hu-HU",
-    type: "website",
-  },
-}
 
 export default async function Page({
   searchParams,

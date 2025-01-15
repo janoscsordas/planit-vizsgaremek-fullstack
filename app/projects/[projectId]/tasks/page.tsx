@@ -8,48 +8,9 @@ import TaskViewSwitcher from "./view-switcher"
 import { auth } from "@/auth"
 import { Metadata } from "next"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { projectId: string }
-}): Promise<Metadata> {
-  const projectData = await db.query.ProjectsTable.findFirst({
-    columns: {
-      name: true,
-    },
-    where: eq(ProjectsTable.id, params.projectId),
-  })
-
-  const projectName = projectData?.name || "Projekt"
-
-  return {
-    title: `Planitapp - ${projectName} - Feladatok`,
-    description: `${projectName} projekt feladatainak kezelése`,
-    publisher: "Planitapp",
-    openGraph: {
-      title: `Planitapp - ${projectName} - Feladatok`,
-      description: `${projectName} projekt feladatainak kezelése`,
-      siteName: "Planitapp",
-      locale: "hu-HU",
-      type: "website",
-    },
-  }
-}
-
-export default async function Tasks({
-  params,
-}: Readonly<{
-  params: Promise<{ projectId: string }>
-}>) {
-  const session = await auth()
-
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login")
-  }
-
-  const { projectId } = await params
-
-  const projectData = await db.query.ProjectsTable.findFirst({
+// Fetching the Project Data
+async function getProjectData(projectId: string) {
+  return db.query.ProjectsTable.findFirst({
     columns: {
       id: true,
       userId: true,
@@ -117,6 +78,48 @@ export default async function Tasks({
       },
     },
   })
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ projectId: string }>
+}): Promise<Metadata> {
+  const { projectId } = await params
+
+  const projectData = await getProjectData(projectId)
+  const projectName = projectData?.name || "Projekt"
+
+  return {
+    title: `Planitapp - ${projectName} - Feladatok`,
+    description: `${projectName} projekt feladatainak kezelése`,
+    publisher: "Planitapp",
+    openGraph: {
+      title: `Planitapp - ${projectName} - Feladatok`,
+      description: `${projectName} projekt feladatainak kezelése`,
+      siteName: "Planitapp",
+      locale: "hu-HU",
+      type: "website",
+    },
+  }
+}
+
+export default async function Tasks({
+  params,
+}: Readonly<{
+  params: Promise<{ projectId: string }>
+}>) {
+  const [session, resolvedParams] = await Promise.all([
+    auth(),
+    Promise.resolve(params)
+  ])
+
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login")
+  }
+
+  const { projectId } = resolvedParams
+  const projectData = await getProjectData(projectId)
 
   if (!projectData) {
     return notFound()
