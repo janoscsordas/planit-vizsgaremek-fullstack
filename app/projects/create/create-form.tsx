@@ -71,10 +71,11 @@ export default function CreateForm() {
             <Button
               type="submit"
               aria-describedby="submit-message"
+              aria-label="Küldés"
               size="2"
-              variant="outline"
+              variant="soft"
               color="green"
-              className="bg-[#00A36C] hover:bg-[#00A36C]/90 text-primary font-medium w-max cursor-pointer"
+              className="bg-[#006642] hover:bg-[#00A36C]/40 transition-colors text-primary font-medium w-max cursor-pointer"
             >
               Létrehozás
             </Button>

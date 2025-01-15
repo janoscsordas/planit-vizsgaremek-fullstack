@@ -61,6 +61,7 @@ export default function PaginationControls({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="p-2"
+        aria-label="Előző oldal"
       >
         <ChevronLeft className="w-4 h-4" />
       </Button>
@@ -76,6 +77,7 @@ export default function PaginationControls({
                 size="sm"
                 onClick={() => onPageChange(page as number)}
                 className="px-3 py-2"
+                aria-label="Oldal"
               >
                 {page}
               </Button>
@@ -90,6 +92,7 @@ export default function PaginationControls({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="p-2"
+        aria-label="Következő oldal"
       >
         <ChevronRight className="w-4 h-4" />
       </Button>

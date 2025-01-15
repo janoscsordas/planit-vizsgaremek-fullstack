@@ -192,7 +192,7 @@ export default function IssueCreationForm({
             <span className="my-1 text-xs text-red-500">{error.labels}</span>
           )}
           <div>
-            <Button className="bg-emerald hover:bg-emerald-hover" type="submit">
+            <Button className="bg-emerald hover:bg-emerald-hover" type="submit" aria-label="Probléma leírása">
               Probléma létrehozása
             </Button>
           </div>

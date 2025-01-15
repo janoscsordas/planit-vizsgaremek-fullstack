@@ -111,6 +111,7 @@ export default function MultiEmailInput({ projectId }: { projectId: string }) {
           <Button
             variant={"ghost"}
             className="absolute top-1/2 right-[1px] -translate-y-1/2"
+            aria-label="Meghívó elküldése"
           >
             <Send size={16} className="text-muted-foreground" />
           </Button>

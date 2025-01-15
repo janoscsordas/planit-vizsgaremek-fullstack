@@ -10,7 +10,7 @@ export default function DeleteProject({
   return (
     <>
       <section className="p-4 mt-6 mb-10 border border-red-600 rounded-md">
-        <h4 className="font-medium text-red-500 text-md">Veszélyes zóna!</h4>
+        <h1 className="font-medium text-red-500 text-md">Veszélyes zóna!</h1>
         <p className="text-sm text-muted-foreground">
           A változtások nem visszavonhatóak!
         </p>

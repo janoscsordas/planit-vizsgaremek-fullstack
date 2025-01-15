@@ -36,18 +36,21 @@ const generateNavItems = (
       url: `/projects/${projectId}`,
       icon: Binoculars,
       isActive: pathName === `/projects/${projectId}`,
+      "aria-current": pathName === `/projects/${projectId}` ? "page" : undefined,
     },
     {
       title: "Feladatok",
       url: `/projects/${projectId}/tasks`,
       icon: ClipboardList,
       isActive: pathName === `/projects/${projectId}/tasks`,
+      "aria-current": pathName === `/projects/${projectId}/tasks` ? "page" : undefined,
     },
     {
       title: "Üzenetek",
       url: `/projects/${projectId}/messages`,
       icon: MessageCircle,
       isActive: pathName === `/projects/${projectId}/messages`,
+      "aria-current": pathName === `/projects/${projectId}/messages` ? "page" : undefined,
     },
     {
       title: "Problémák",
@@ -56,12 +59,18 @@ const generateNavItems = (
       isActive:
         pathName === `/projects/${projectId}/issues` ||
         pathName === `/projects/${projectId}/issues/create`,
+      "aria-current":
+        pathName === `/projects/${projectId}/issues` ||
+        pathName === `/projects/${projectId}/issues/create`
+          ? "page"
+          : undefined,
     },
     {
       title: "Tagok",
       url: `/projects/${projectId}/members`,
       icon: Users,
       isActive: pathName === `/projects/${projectId}/members`,
+      "aria-current": pathName === `/projects/${projectId}/members` ? "page" : undefined,
     },
   ]
   if (isOwner) {
@@ -70,6 +79,7 @@ const generateNavItems = (
       url: `/projects/${projectId}/settings`,
       icon: Settings2,
       isActive: pathName === `/projects/${projectId}/settings`,
+      "aria-current": pathName === `/projects/${projectId}/settings` ? "page" : undefined,
     })
   }
 

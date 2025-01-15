@@ -36,7 +36,8 @@ export function NavMain({
               <CollapsibleTrigger asChild>
                 <Link href={item.url}>
                   <SidebarMenuButton
-                    tooltip={item.title}
+                    aria-label={item.title}
+                    aria-hidden={false}
                     className={`w-full ${
                       item.isActive ? "bg-emerald-hover text-white" : ""
                     }`}

@@ -63,7 +63,7 @@ export default function AuthButtons() {
           <Spinner />
         ) : (
           <>
-            <Image src="/google.svg" alt="Google" width={16} height={16} />{" "}
+            <Image src="/google.svg" alt="Google logo" width={16} height={16} />{" "}
             Google
           </>
         )}
@@ -80,7 +80,7 @@ export default function AuthButtons() {
           <Spinner />
         ) : (
           <>
-            <Image src="/github.svg" alt="Github" width={16} height={16} />{" "}
+            <Image src="/github.svg" alt="Github logo" width={16} height={16} />{" "}
             Github
           </>
         )}

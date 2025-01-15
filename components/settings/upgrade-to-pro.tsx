@@ -5,7 +5,7 @@ export default function UpgradeToPro() {
     <form action="">
       <div className="p-4 mt-6 border rounded-md">
         <div className="space-y-2">
-          <h4 className="text-sm font-medium">Szolgáltatás módosítása</h4>
+          <h1 className="text-sm font-medium">Szolgáltatás módosítása</h1>
           <Button disabled title="Változtatás Pro-ra" variant="outline">
             <h2 className="text-sm font-medium">Váltás Pro-ra</h2>
           </Button>

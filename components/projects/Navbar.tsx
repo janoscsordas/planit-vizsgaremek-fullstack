@@ -17,7 +17,7 @@ export default function Navbar({
   return (
     <nav className="flex items-center justify-between p-4 border-b-2 border-foreground/10">
       {/* Icon link to homepage **Only visible below sm** */}
-      <Link href="/" className="block sm:hidden">
+      <Link href="/" className="block sm:hidden" aria-label="Főoldal">
         <Image
           src="/icon.png"
           alt="PlanitApp Logo"
@@ -31,7 +31,7 @@ export default function Navbar({
       <div className="flex items-center gap-4">
         {/* AI Chat */}
         <Link href="/chat" className="mr-5">
-          <Button variant="outline">🤖 Planie AI</Button>
+          <Button variant="outline" aria-label="Planie Ai">🤖 Planie AI</Button>
         </Link>
         {/* notifications */}
         <NotificationBell />

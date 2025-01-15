@@ -20,9 +20,10 @@ export default function SearchFilter({
       <Link href="/projects/create">
         <Button
           size="2"
-          variant="outline"
+          variant="soft"
           color="green"
-          className="bg-[#00A36C] hover:bg-[#00A36C]/50 transition-colors text-primary font-medium w-max cursor-pointer"
+          className="bg-[#006642] hover:bg-[#00A36C]/50 transition-colors text-primary font-medium w-max cursor-pointer"
+          aria-label="Új projekt készítése"
         >
           Új projekt
         </Button>
@@ -50,12 +51,13 @@ export default function SearchFilter({
         <Select.Trigger
           variant="soft"
           color="green"
-          className="appearance-none [&>svg]:hidden"
+          className="appearance-none [&>svg]:hidden hover:cursor-pointer"
+          aria-label="Filter projekt"
         />
-        <Select.Content color="green">
+        <Select.Content color="green" aria-label="Filter projekt">
           <Select.Group>
             <Select.Item value="all">
-              <Filter height="18" width="18" />
+              <Filter height="18" width="18" aria-label="Filter projekt" />
             </Select.Item>
             <Select.Item value="active">Aktív</Select.Item>
             <Select.Item value="completed">Befejezett</Select.Item>

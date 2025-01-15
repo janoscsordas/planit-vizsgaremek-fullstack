@@ -32,6 +32,7 @@ export default function TaskDelete({
       variant="ghost"
       size="icon"
       className="w-6 h-6 p-0 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200"
+      aria-label="Törlés"
     >
       <Trash2 className="w-3 h-3" />
     </Button>

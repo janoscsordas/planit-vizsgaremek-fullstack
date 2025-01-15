@@ -43,7 +43,7 @@ export default function ChangeStatus({
   return (
     <div className="p-6 mt-6 space-y-4 border rounded-md">
       <div className="space-y-2">
-        <h4 className="text-sm font-medium">Státusz megváltoztatása</h4>
+        <h1 className="text-sm font-medium">Státusz megváltoztatása</h1>
         <p className="my-1 mb-4 text-xs text-muted-foreground">
           Itt megváltoztathatod a projekt státuszát.
         </p>
@@ -53,22 +53,18 @@ export default function ChangeStatus({
               name="status"
               defaultValue={projectStatus}
               onValueChange={handleRadioChange}
+              aria-label="Projekt státusz"
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="active" id="r1" />
+                <RadioGroupItem value="active" id="r1" aria-label="Aktív" />
                 <Label htmlFor="r1">Aktív</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="completed" id="r2" />
+                <RadioGroupItem value="completed" id="r2" aria-label="Elvégzett" />
                 <Label htmlFor="r2">Elvégzett</Label>
               </div>
               <div className="flex items-center space-x-2 text-muted-foreground">
-                <RadioGroupItem
-                  value="archived"
-                  id="r3"
-                  disabled
-                  // TODO: Toast bro
-                />
+                <RadioGroupItem value="archived" id="r3" disabled aria-label="Archivált" />
                 <Label htmlFor="r3">Archivált</Label>
               </div>
             </RadioGroup>

@@ -35,7 +35,7 @@ export default function ThemeSwitcherComponent() {
             <Image
               className="rounded-md"
               src="/light-mode.png"
-              alt="Világos"
+              alt="Light mode"
               width={180}
               height={180}
             />
@@ -47,7 +47,7 @@ export default function ThemeSwitcherComponent() {
             <Image
               className="rounded-md"
               src="/dark-mode.png"
-              alt="Sötét"
+              alt="Dark mode"
               width={180}
               height={180}
             />
@@ -59,7 +59,7 @@ export default function ThemeSwitcherComponent() {
             <Image
               className="rounded-md"
               src="/system-mode.png"
-              alt="Rendszer"
+              alt="System mode"
               width={180}
               height={180}
             />

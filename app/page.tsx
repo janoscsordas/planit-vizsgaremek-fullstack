@@ -39,7 +39,11 @@ export default function Home() {
 
         <BackToTop />
 
-        <Link className="block pointer-events-none w-max" href={"/"} aria-label="Vissza a főoldalra">
+        <Link
+          className="block pointer-events-none w-max"
+          href={"/"}
+          aria-label="Vissza a főoldalra"
+        >
           <Image
             className="hidden select-none sm:block"
             src="/full-logo.png"
@@ -57,7 +61,11 @@ export default function Home() {
         </Link>
         <div className="relative flex justify-end">
           <div className="-z-[2] absolute -top-16 border border-emerald h-12 w-36 "></div>
-          <Link className="absolute -top-16" href={"/login"} aria-label="Belépés">
+          <Link
+            className="absolute -top-16"
+            href={"/login"}
+            aria-label="Belépés"
+          >
             <Button className="flex items-center w-36 text-lg p-6 px-10 uppercase transition transform translate-x-[4px] translate-y-[4px] hover:translate-x-0 hover:translate-y-0 bg-emerald hover:bg-emerald rounded-none select-none">
               <LogIn /> Belépés
             </Button>
@@ -80,9 +88,9 @@ export default function Home() {
               <AutoSlideshow />
             </div>
             <div className="md:order-1">
-              <h3 className="mb-4 text-2xl font-semibold text-center md:text-left">
+              <h2 className="mb-4 text-2xl font-semibold text-center md:text-left">
                 Könnyed csapatmunka és feladatkövetés.
-              </h3>
+              </h2>
               <p className="text-center md:text-left text-muted-foreground ">
                 A Planitapp lehetővé teszi a csapatok számára, hogy átláthatóan
                 kezeljék a projekteket és feladatokat. A felhasználók
@@ -102,34 +110,25 @@ export default function Home() {
         <h1 className="mt-24 mb-10 text-5xl font-bold text-center">
           Amit kínálunk
         </h1>
-        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-8 mb-8 place-items-center place-content-center md:pt-24 2xl:mb-16">
-        <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-cyan-700 border-2 transition-all bg-primary-foreground shadow-none">
+        <div className="grid grid-cols-1 gap-8 mb-8 xl:grid-cols-2 2xl:grid-cols-4 place-items-center place-content-center md:pt-24 2xl:mb-16">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] h-full rounded-xl hover:border-cyan-700 border-2 transition-all bg-primary-foreground shadow-none">
             <CardHeader className="pb-2">
               <div className="p-3 mb-3 rounded-lg bg-cyan-700 w-max">
-                <MessageCircle
-                  className="text-white"
-                  width={32}
-                  height={32}
-                />
+                <MessageCircle className="text-white" width={32} height={32} />
               </div>
-              <CardTitle className="text-lg font-bold">
-                Team Chat
-              </CardTitle>
+              <CardTitle className="text-lg font-bold">Team Chat</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                A team chat funkcióval a projekt tagjai könnyedén tudnak ötleteket megosztani és kommunikálni egymással.
+                A team chat funkcióval a projekt tagjai könnyedén tudnak
+                ötleteket megosztani és kommunikálni egymással.
               </p>
             </CardContent>
           </Card>
-          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-emerald-700 border-2 transition-all bg-primary-foreground shadow-none">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] h-full rounded-xl hover:border-emerald-700 border-2 transition-all bg-primary-foreground shadow-none">
             <CardHeader className="pb-2">
               <div className="p-3 mb-3 rounded-lg bg-emerald-700 w-max">
-                <ClipboardList
-                  className="text-white"
-                  width={32}
-                  height={32}
-                />
+                <ClipboardList className="text-white" width={32} height={32} />
               </div>
               <CardTitle className="text-lg font-bold">
                 Task Management
@@ -137,18 +136,15 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                A task management funkcióval a projekt tagok kezelhetik a feladatokat és nyomon követhetik a folyamatokat.
+                A task management funkcióval a projekt tagok kezelhetik a
+                feladatokat és nyomon követhetik a folyamatokat.
               </p>
             </CardContent>
           </Card>
-          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-red-700 border-2 transition-all bg-primary-foreground shadow-none">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] h-full rounded-xl hover:border-red-700 border-2 transition-all bg-primary-foreground shadow-none">
             <CardHeader className="pb-2">
-              <div className="p-3 mb-3 rounded-lg bg-red-700 w-max">
-                <CircleCheck
-                  className="text-white"
-                  width={32}
-                  height={32}
-                />
+              <div className="p-3 mb-3 bg-red-700 rounded-lg w-max">
+                <CircleCheck className="text-white" width={32} height={32} />
               </div>
               <CardTitle className="text-lg font-bold">
                 Problémák Kezelése
@@ -156,18 +152,15 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                A problémák kezelése funkcióval a tagok létre tudnak hozni problémákat, vagy hozzá tudnak szólni meglévőhöz.
+                A problémák kezelése funkcióval a tagok létre tudnak hozni
+                problémákat, vagy hozzá tudnak szólni meglévőhöz.
               </p>
             </CardContent>
           </Card>
-          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-yellow-700 border-2 transition-all bg-primary-foreground shadow-none">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] h-full rounded-xl hover:border-yellow-700 border-2 transition-all bg-primary-foreground shadow-none">
             <CardHeader className="pb-2">
-              <div className="p-3 mb-3 rounded-lg bg-yellow-700 w-max">
-                <Bot
-                  className="text-white"
-                  width={32}
-                  height={32}
-                />
+              <div className="p-3 mb-3 bg-yellow-700 rounded-lg w-max">
+                <Bot className="text-white" width={32} height={32} />
               </div>
               <CardTitle className="text-lg font-bold">
                 AI Asszisztens
@@ -175,8 +168,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Planie AI asszisztensünk segít a projektek és
-                feladatok hatékonyabb kezelésében, közben segíti a csapatmunkát.
+                Planie AI asszisztensünk segít a projektek és feladatok
+                hatékonyabb kezelésében, közben segíti a csapatmunkát.
               </p>
             </CardContent>
           </Card>
@@ -274,7 +267,7 @@ export default function Home() {
                 Kezd el most!
               </Link>
             </div>
-            <div className="relative p-8 shadow-2xl rounded-3xl bg-emerald-hover dark:bg-emerald-900 ring-1 ring-gray-900/10 sm:p-10">
+            <div className="relative p-8 shadow-2xl rounded-3xl bg-emerald-hover dark:bg-emerald-950 ring-1 ring-gray-900/10 sm:p-10">
               <h3
                 id="tier-enterprise"
                 className="font-semibold text-base/7 text-emerald"
@@ -285,7 +278,7 @@ export default function Home() {
                 <span className="text-5xl font-semibold tracking-tight text-white">
                   2.990 HUF
                 </span>
-                <span className="text-base text-gray-400">/hó</span>
+                <span className="text-base text-muted-foreground">/hó</span>
               </p>
               <p className="mt-6 text-gray-300 text-base/7">
                 Tökéletes választás a vállalatoknak, akik nagy csapatokkal és

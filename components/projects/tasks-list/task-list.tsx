@@ -109,10 +109,10 @@ export default function TaskList({
             value={priorityFilter}
             onValueChange={setPriorityFilter}
           >
-            <SelectTrigger className="w-max sm:w-[180px]">
-              <SelectValue defaultValue="all" placeholder="Priorítás" />
+            <SelectTrigger className="w-max sm:w-[180px]" aria-label="Priorítás">
+              <SelectValue defaultValue="all" placeholder="Priorítás" aria-label="Priorítás" />
             </SelectTrigger>
-            <SelectContent id="priority">
+            <SelectContent id="priority" aria-label="Priorítás">
               <SelectItem defaultChecked value="all">
                 Összes
               </SelectItem>
@@ -122,7 +122,7 @@ export default function TaskList({
             </SelectContent>
           </Select>
           <CreateTask>
-            <Button variant={"outline"}>
+            <Button variant={"outline"} aria-label="Feladat készítés">
               <PlusIcon className="w-4 h-4" />
             </Button>
           </CreateTask>

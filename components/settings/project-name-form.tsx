@@ -138,7 +138,7 @@ const ProjectNameForm = ({
       className="p-6 mt-6 space-y-4 border rounded-md"
     >
       <div className="space-y-2">
-        <h4 className="text-sm font-medium">Projektnév módosítása</h4>
+        <h1 className="text-sm font-medium">Projektnév módosítása</h1>
 
         <Input
           type="text"
