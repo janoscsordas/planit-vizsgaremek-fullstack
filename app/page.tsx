@@ -102,88 +102,81 @@ export default function Home() {
         <h1 className="mt-24 mb-10 text-5xl font-bold text-center">
           Amit kínálunk
         </h1>
-        <div className="grid grid-cols-1 gap-8 mb-8 xl:grid-cols-2 place-items-center place-content-center md:pt-24 2xl:mb-16">
-          <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-cyan-700 border-2 transition-all">
-            <CardHeader>
-              <div className="p-5 mx-auto mt-2 mb-6 rounded-full bg-cyan-700 w-max">
+        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-8 mb-8 place-items-center place-content-center md:pt-24 2xl:mb-16">
+        <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-cyan-700 border-2 transition-all bg-primary-foreground shadow-none">
+            <CardHeader className="pb-2">
+              <div className="p-3 mb-3 rounded-lg bg-cyan-700 w-max">
                 <MessageCircle
-                  className="block mx-auto text-white w-max"
-                  width={48}
-                  height={48}
+                  className="text-white"
+                  width={32}
+                  height={32}
                 />
               </div>
-              <CardTitle className="mb-4 text-2xl font-bold text-center">
-                Chat
+              <CardTitle className="text-lg font-bold">
+                Team Chat
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                A chat funkció lehetővé teszi a csapatok számára, hogy
-                egyszerűen kommunikáljanak egymással, valamint megosszák
-                gondolataikat és ötleteiket.
+              <p className="text-muted-foreground">
+                A team chat funkcióval a projekt tagjai könnyedén tudnak ötleteket megosztani és kommunikálni egymással.
               </p>
             </CardContent>
           </Card>
-          <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-emerald-700 border-2 transition-all">
-            <CardHeader>
-              <div className="p-5 mx-auto mt-2 mb-6 rounded-full bg-emerald-700 w-max">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-emerald-700 border-2 transition-all bg-primary-foreground shadow-none">
+            <CardHeader className="pb-2">
+              <div className="p-3 mb-3 rounded-lg bg-emerald-700 w-max">
                 <ClipboardList
-                  className="block mx-auto text-white w-max"
-                  width={48}
-                  height={48}
+                  className="text-white"
+                  width={32}
+                  height={32}
                 />
               </div>
-              <CardTitle className="mb-4 text-2xl font-bold text-center">
+              <CardTitle className="text-lg font-bold">
                 Task Management
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                A task management funkció lehetővé teszi a csapatok számára,
-                hogy egyszerűen kezeljék a feladatokat, valamint nyomon
-                követhessék a munkafolyamatot.
+              <p className="text-muted-foreground">
+                A task management funkcióval a projekt tagok kezelhetik a feladatokat és nyomon követhetik a folyamatokat.
               </p>
             </CardContent>
           </Card>
-          <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-red-700 border-2 transition-all">
-            <CardHeader>
-              <div className="p-5 mx-auto mt-2 mb-6 bg-red-700 rounded-full w-max">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-red-700 border-2 transition-all bg-primary-foreground shadow-none">
+            <CardHeader className="pb-2">
+              <div className="p-3 mb-3 rounded-lg bg-red-700 w-max">
                 <CircleCheck
-                  className="block mx-auto text-white w-max"
-                  width={48}
-                  height={48}
+                  className="text-white"
+                  width={32}
+                  height={32}
                 />
               </div>
-              <CardTitle className="mb-4 text-2xl font-bold text-center">
-                Problémák kezelése
+              <CardTitle className="text-lg font-bold">
+                Problémák Kezelése
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                A problémák kezelése funkció lehetőséget nyújt a csapattagok
-                számára, hogy létrehozzanak problémákat, vagy hozzászóljanak egy
-                már meglévőhöz.
+              <p className="text-muted-foreground">
+                A problémák kezelése funkcióval a tagok létre tudnak hozni problémákat, vagy hozzá tudnak szólni meglévőhöz.
               </p>
             </CardContent>
           </Card>
-          <Card className="min-w-[20rem] max-w-[23rem] p-6 h-[30rem] rounded-3xl hover:border-yellow-700 border-2 transition-all">
-            <CardHeader>
-              <div className="p-5 mx-auto mt-2 mb-6 bg-yellow-700 rounded-full w-max">
+          <Card className="lg:min-w-[14rem] xl:max-w-[18rem] max-w-[48rem] rounded-xl hover:border-yellow-700 border-2 transition-all bg-primary-foreground shadow-none">
+            <CardHeader className="pb-2">
+              <div className="p-3 mb-3 rounded-lg bg-yellow-700 w-max">
                 <Bot
-                  className="block mx-auto text-white w-max"
-                  width={48}
-                  height={48}
+                  className="text-white"
+                  width={32}
+                  height={32}
                 />
               </div>
-              <CardTitle className="mb-4 text-2xl font-bold text-center">
-                AI asszisztens
+              <CardTitle className="text-lg font-bold">
+                AI Asszisztens
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                Az AI asszisztens intelligens javaslatokkal segít a projektek és
-                feladatok hatékony kezelésében, miközben támogatja a
-                csapatmunkát és a kommunikációt.
+              <p className="text-muted-foreground">
+                Planie AI asszisztensünk segít a projektek és
+                feladatok hatékonyabb kezelésében, közben segíti a csapatmunkát.
               </p>
             </CardContent>
           </Card>
@@ -196,7 +189,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-semibold text-base/7 text-emerald">Árazás</h2>
             <p className="mt-2 text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
-              Válaszd ki a csapatod számára a megfelelő tervet!
+              Válaszd ki a csapatod számára a megfelelő csomagot!
             </p>
           </div>
           <p className="max-w-2xl mx-auto mt-6 text-lg font-medium text-center text-pretty text-muted-foreground sm:text-xl/8">
@@ -276,7 +269,7 @@ export default function Home() {
                 href="/signup"
                 aria-describedby="tier-hobby"
                 aria-label="Kezd el most!"
-                className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-emerald ring-1 ring-inset ring-emerald hover:ring-emerald-hover hover:text-emerald-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald sm:mt-10"
+                className="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-emerald ring-1 ring-inset ring-emerald hover:ring-emerald-hover hover:text-emerald-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald sm:mt-10 transition"
               >
                 Kezd el most!
               </Link>
@@ -290,7 +283,7 @@ export default function Home() {
               </h3>
               <p className="flex items-baseline mt-4 gap-x-2">
                 <span className="text-5xl font-semibold tracking-tight text-white">
-                  3.990 HUF
+                  2.990 HUF
                 </span>
                 <span className="text-base text-gray-400">/hó</span>
               </p>
