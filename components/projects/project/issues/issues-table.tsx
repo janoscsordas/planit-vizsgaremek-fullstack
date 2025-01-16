@@ -24,7 +24,7 @@ const IssueRow = memo(
             <CircleCheck className="w-4 h-4 mt-1 stroke-violet-700" />
           )}
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center md:gap-2">
               <Link
                 href={`/projects/${projectId}/issues/${issue.id}`}
                 className="font-medium text-primary hover:text-emerald-hover"
