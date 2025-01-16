@@ -13,7 +13,7 @@ Next, run the development server:
 bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ## 📖 Documentation
 Open [link](link) to read the full documentation.
@@ -31,25 +31,25 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 🚀 Előkészületek
 
-Először, töltsd le a függőségeket:
+Először, töltse le a függőségeket:
 
 ```bash
 bun install
 ```
 
-Következőnek, indítsd el a fejlesztői szervert:
+Következőképp, indítsa el a fejlesztői szervert:
 
 ```bash
 bun run dev
 ```
 
-Nyisd meg a [http://localhost:3000](http://localhost:3000) a böngésződdel, hogy lásd az eredményt.
+Nyissa meg a [http://localhost:3000](http://localhost:3000)-et a böngészőben a folytatáshoz.
 
 ## 📖 Dokumentáció
-Nyisd meg az alábbi [linket](link) a teljes dokumentáció elolvasásához.
+Az alábbi linken megtekintheti a teljes dokumentációt. [link](link)
 
 ## 📄 Licenc
-A MIT licenc alatt terjesztve. További információért lásd az alábbi `LICENC`-et.
+MIT licenc alatt kiterjesztve. További információért tekintse meg a `LICENSE`-t.
 
 ## 📬Elérhetőségek
 
