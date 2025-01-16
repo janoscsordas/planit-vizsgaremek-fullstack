@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { encryptMessage } from "../actions/encryptDecryptMessages.action";
+import { encryptMessage } from "../../actions/encryptDecryptMessages.action";
 import crypto from "crypto";
 
 // Constants matching your implementation
