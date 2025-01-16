@@ -7,10 +7,13 @@ import { z } from "zod"
 const ENCRYPTION_ALGORITHM = "aes-256-gcm"
 const IV_LENGTH = 16
 const TAG_LENGTH = 16
-const ENCRYPTION_KEY = process.env.MESSAGES_ENCRYPTION_KEY as string
 
-if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 32) {
-  throw new Error("Encryption key must be 32 characters long")
+function getEncryptionKey() {
+  const key = process.env.MESSAGES_ENCRYPTION_KEY as string
+  if (!key || key.length !== 32) {
+    throw new Error("Encryption key must be 32 characters long")
+  }
+  return key
 }
 
 /**
@@ -19,6 +22,8 @@ if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 32) {
  * @returns Base64 encoded string containing encrypted content, IV, and auth tag
  */
 export async function encryptMessage(content: string): Promise<string> {
+  const ENCRYPTION_KEY = getEncryptionKey()
+
   // Validated content
   const validatedContent = z.string().min(1).safeParse(content)
 
@@ -60,6 +65,7 @@ export async function encryptMessage(content: string): Promise<string> {
 export async function decryptMessage(
   encryptedContent: string
 ): Promise<string> {
+  const ENCRYPTION_KEY = getEncryptionKey()
   
   // Decode the combined buffer
   const combinedBuffer = Buffer.from(encryptedContent, "base64")
