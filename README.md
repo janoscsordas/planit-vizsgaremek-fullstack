@@ -53,7 +53,7 @@ MIT licenc alatt kiterjesztve. További információért tekintse meg a `LICENSE
 
 ## 📬Elérhetőségek
 
-| Name:             | Email-address:            | Github profile:                    |
+| Név:              | Email-cím:            | Github profil:                    |
 | ----------------- | ------------------------- | ---------------------------------- |
 | Csordás János     | janoscsordas072@gmail.com | https://github.com/janoscsordas    |
 | Vásári András     | andrasvasari47@gmail.com  | https://github.com/arris05         |
