@@ -18,12 +18,8 @@ interface PageProps {
   projectId: string
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ projectId: string }>
-}): Promise<Metadata> {
-  const { projectId } = await params
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { projectId } = props
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -48,19 +44,14 @@ export async function generateMetadata({
   }
 }
 
-export default async function Members({
-  params
-}: {
-  children: React.ReactNode
-  params: PageProps
-}) {
+export default async function Members(props: PageProps) {
   const session = await auth()
 
   if (!session || !session.user) {
     return redirect("/login")
   }
 
-  const { projectId } = params
+  const { projectId } = props
 
   const projectData = await db.query.ProjectsTable.findFirst({
     where: eq(ProjectsTable.id, projectId),
