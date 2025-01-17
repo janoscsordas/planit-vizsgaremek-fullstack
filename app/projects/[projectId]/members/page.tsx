@@ -14,12 +14,9 @@ import { Avatar } from "@radix-ui/themes"
 import KickMemberComponent from "@/components/projects/project/members/kick-member-component"
 import { Metadata } from "next"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ projectId: string }>
-}): Promise<Metadata> {
-  const { projectId } = await params
+
+export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -44,22 +41,14 @@ export async function generateMetadata({
   }
 }
 
-export default async function Members({
-  params,
-}: Readonly<{
-  children: React.ReactNode
-  params: Promise<{ projectId: string }>
-}>) {
-  const [session, resolvedParams] = await Promise.all([
-    auth(),
-    Promise.resolve(params)
-  ])
+export default async function Members({ params }: { params: any }) {
+  const session = await auth()
 
   if (!session || !session.user) {
     return redirect("/login")
   }
 
-  const { projectId } = resolvedParams
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     where: eq(ProjectsTable.id, projectId),

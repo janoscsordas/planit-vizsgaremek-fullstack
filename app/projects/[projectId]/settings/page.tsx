@@ -15,7 +15,7 @@ import { ProjectsTable } from "@/database/schema/projects"
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ projectId: string }>
+  params: any
 }): Promise<Metadata> {
   const { projectId } = await params
 
@@ -44,19 +44,16 @@ export async function generateMetadata({
 
 export default async function Settings({
   params,
-}: Readonly<{
-  params: Promise<{ projectId: string }>
-}>) {
-  const [session, resolvedParams] = await Promise.all([
-    auth(),
-    Promise.resolve(params)
-  ])
+}: {
+  params: any
+}) {
+  const session = await auth()
 
   if (!session || !session.user) {
     return redirect("/login")
   }
 
-  const { projectId } = resolvedParams
+  const { projectId } = params
 
   const project = await getProjectById(projectId)
 

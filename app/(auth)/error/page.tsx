@@ -1,12 +1,8 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
 export default function ErrorPage() {
-  const searchParams = useSearchParams()
-  const error = searchParams.get("error")
-  const message = searchParams.get("message")
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -15,7 +11,7 @@ export default function ErrorPage() {
           Autentikációs Hiba!
         </h1>
         <p className="text-gray-300">
-          {message || error || "Hiba történt az Autentikáció közben!"}
+          Hiba történt az Autentikáció közben!
         </p>
         <Link
           href="/login"
