@@ -16,10 +16,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       <div className="flex items-center justify-between gap-8">
         <div className="flex flex-row items-center justify-between w-full gap-4">
           <div className="flex items-center gap-4">
-            <p className="text-primary md:text-[1.1rem] text-sm font-bold">
+            <p className="w-24 text-sm font-bold break-words text-primary md:w-auto lg:text-lg">
               {project.name}
             </p>
-            <Badge color={project.tier === "free" ? "amber" : "violet"}>
+            <Badge
+              color={project.tier === "free" ? "amber" : "violet"}
+              className="hidden sm:block"
+            >
               {project.tier}
             </Badge>
           </div>

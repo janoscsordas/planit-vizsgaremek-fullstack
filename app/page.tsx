@@ -278,7 +278,7 @@ export default function Home() {
                 <span className="text-5xl font-semibold tracking-tight text-white">
                   2.990 HUF
                 </span>
-                <span className="text-base text-muted-foreground">/hó</span>
+                <span className="text-base text-gray-300">/hó</span>
               </p>
               <p className="mt-6 text-gray-300 text-base/7">
                 Tökéletes választás a vállalatoknak, akik nagy csapatokkal és

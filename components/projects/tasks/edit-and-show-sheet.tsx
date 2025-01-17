@@ -31,7 +31,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { SelectGroup } from "@radix-ui/react-select"
-import { Avatar, Badge } from "@radix-ui/themes"
+import { Badge } from "@radix-ui/themes"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale"
 import {
@@ -65,6 +65,7 @@ import { Label } from "@/components/ui/label"
 import { EnrichedTask } from "@/lib/definitions/tasks"
 import { cn } from "@/lib/utils"
 import { useTaskContext } from "@/hooks/useTaskContext"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function EditAndShowSheet({
   task,
@@ -137,7 +138,7 @@ export default function EditAndShowSheet({
             </div>
             <div className="flex flex-col mt-3 mb-4">
               <p className="text-muted-foreground text-[.8rem]">
-                Kiosztva a Következö{task.assigns.length > 1 ? "k" : ""}
+                Kiosztva a Következő{task.assigns.length > 1 ? "k" : ""}
                 nek:
               </p>
               <ul className="flex flex-col gap-2 mt-4">
@@ -146,12 +147,15 @@ export default function EditAndShowSheet({
                     <li key={assign.id} className="flex items-center gap-2">
                       <Avatar
                         className="w-6 h-6 mx-2 rounded-full"
-                        src={assign.user.image!}
-                        fallback={
-                          assign.user.name?.charAt(0).toUpperCase() || "U"
-                        }
-                        alt={assign.user.name!}
-                      />
+                      >
+                        <AvatarImage 
+                          src={assign.user.image!}
+                          alt={assign.user.name!}
+                        />
+                        <AvatarFallback>
+                          {assign.user.name?.charAt(0).toUpperCase() || "U"}
+                        </AvatarFallback>
+                      </Avatar>
                       <span
                         className="text-muted-foreground text-[.8rem]"
                         title={assign.user.name!}
@@ -703,11 +707,16 @@ function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
                     className="flex items-center space-x-2 text-sm font-medium"
                   >
                     <Avatar
-                      src={member.image ?? ""}
-                      fallback={member.name?.charAt(0).toUpperCase() ?? "??"}
-                      alt={member.name ?? "Ismeretlen"}
                       className="w-6 h-6 rounded-full"
-                    />
+                    >
+                      <AvatarImage
+                        src={member.image ?? ""}
+                        alt={member.name ?? "Ismeretlen"}
+                      />
+                      <AvatarFallback>
+                        {member.name?.charAt(0).toUpperCase() ?? "??"}
+                      </AvatarFallback>
+                    </Avatar>
                     <span title={member.name ?? "Ismeretlen"}>
                       {member.name
                         ? `${member.name.slice(0, 20)}${member.name.length > 20 ? "..." : ""}`
