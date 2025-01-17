@@ -15,7 +15,7 @@ import KickMemberComponent from "@/components/projects/project/members/kick-memb
 import { Metadata } from "next"
 
 
-export async function generateMetadata({ params }: { params: { projectId: string }}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
   const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: { projectId: string
   }
 }
 
-export default async function Members({ params }: { params: { projectId: string } }) {
+export default async function Members({ params }: { params: any }) {
   const session = await auth()
 
   if (!session || !session.user) {
