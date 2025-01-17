@@ -2,8 +2,6 @@
 
 import { Bell, ChevronsUpDown, LogOutIcon, Sparkles, User } from "lucide-react"
 
-import { Avatar } from "@radix-ui/themes"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,6 +29,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { AlertDialogFooter, AlertDialogHeader } from "./ui/alert-dialog"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 export function NavUser({ userSession }: { userSession: Session }) {
   const { isMobile } = useSidebar()
@@ -48,21 +47,18 @@ export function NavUser({ userSession }: { userSession: Session }) {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
-                {userSession.user.image ? (
-                  <Avatar
-                    src={userSession.user.image}
-                    alt="Profilkép"
-                    className="w-8 h-8 transition-opacity rounded-lg cursor-pointer hover:opacity-80"
-                    fallback={userSession.user.name?.charAt(0) || "?"}
+                <Avatar 
+                  className="w-8 h-8 transition-opacity rounded-md cursor-pointer hover:opacity-80"
+                >
+                  <AvatarImage 
+                    className="rounded-none"
+                    src={userSession.user.image || ""} 
+                    alt="Profilkép" 
                   />
-                ) : (
-                  <Avatar
-                    radius="large"
-                    fallback={userSession.user.name?.charAt(0) || "?"}
-                    alt="Profilkép"
-                    className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
-                  />
-                )}
+                  <AvatarFallback>
+                    {userSession.user.name?.charAt(0) || "?"}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="grid flex-1 text-sm leading-tight text-left">
                   <span className="font-semibold truncate">
                     {userSession.user.name}
@@ -82,21 +78,18 @@ export function NavUser({ userSession }: { userSession: Session }) {
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  {userSession.user.image ? (
-                    <Avatar
-                      src={userSession.user.image}
-                      alt="Profilkép"
-                      className="w-8 h-8 transition-opacity rounded-full cursor-pointer hover:opacity-80"
-                      fallback={userSession.user.name?.charAt(0) || "?"}
+                  <Avatar 
+                    className="w-8 h-8"
+                  >
+                    <AvatarImage
+                      className="rounded-none" 
+                      src={userSession.user.image || ""} 
+                      alt="Profilkép" 
                     />
-                  ) : (
-                    <Avatar
-                      radius="full"
-                      fallback={userSession.user.name?.charAt(0) || "?"}
-                      alt="Profilkép"
-                      className="w-8 h-8 transition-opacity cursor-pointer hover:opacity-80"
-                    />
-                  )}
+                    <AvatarFallback>
+                      {userSession.user.name?.charAt(0) || "?"}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="grid flex-1 text-sm leading-tight text-left">
                     <span className="font-semibold truncate">
                       {userSession.user.name}
