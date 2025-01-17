@@ -10,9 +10,9 @@ import { Metadata } from "next"
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ projectId: string }>
+  params: any
 }): Promise<Metadata> {
-  const { projectId } = await params
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -107,7 +107,7 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ projectId: string }>
+  params: any
   searchParams: Promise<{ q?: string; status?: string; page?: string }>
 }) {
   const [session, resolvedParams] = await Promise.all([

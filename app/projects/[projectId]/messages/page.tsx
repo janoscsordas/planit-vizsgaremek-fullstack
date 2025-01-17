@@ -11,9 +11,9 @@ import { Metadata } from "next"
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ projectId: string }>
+  params: any
 }): Promise<Metadata> {
-  const { projectId } = await params
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -40,20 +40,16 @@ export async function generateMetadata({
 
 export default async function Messages({
   params,
-}: Readonly<{
-  children: React.ReactNode
-  params: Promise<{ projectId: string }>
-}>) {
-  const [session, resolvedParams] = await Promise.all([
-    auth(),
-    Promise.resolve(params)
-  ])
+}: {
+  params: any
+}) {
+  const session = await auth()
 
   if (!session || !session.user || !session.user.id) {
     return redirect("/login")
   }
 
-  const { projectId } = resolvedParams
+  const { projectId } = params
 
   const project = await getProjectById(projectId)
 
