@@ -15,11 +15,13 @@ import KickMemberComponent from "@/components/projects/project/members/kick-memb
 import { Metadata } from "next"
 
 interface PageProps {
-  projectId: string
+  params: {
+    projectId: string;
+  }
 }
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const { projectId } = props
+  const { projectId } = props.params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -51,7 +53,7 @@ export default async function Members(props: PageProps) {
     return redirect("/login")
   }
 
-  const { projectId } = props
+  const { projectId } = props.params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     where: eq(ProjectsTable.id, projectId),
