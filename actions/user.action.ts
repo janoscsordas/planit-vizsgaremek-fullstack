@@ -97,7 +97,7 @@ export async function login({
     if (!userExists.success || !userExists.data) {
       return {
         success: false,
-        message: { credentials: "Hibás email cím vagy jelszó!" },
+        message: { credentials: userExists.message || "Hiba történt!" },
       }
     }
 
