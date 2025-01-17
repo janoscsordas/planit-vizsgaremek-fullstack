@@ -351,3 +351,34 @@ export async function removeUserFromProject(projectId: string, userId: string) {
     success: true,
   }
 }
+
+export async function changeMembershipStatus(projectId: string, memberId: string, isAdmin: boolean) {
+  await checkUserSession()
+
+  try {
+    // if isAdmin is true, set role to member, else set role to admin
+    await db
+      .update(ProjectMembersTable)
+      .set({ role: isAdmin ? "member" : "admin" })
+      .where(
+        and(
+          eq(ProjectMembersTable.id, memberId),
+          eq(ProjectMembersTable.projectId, projectId)
+        )
+      )
+  } catch (error) {
+    return {
+      message:
+        error instanceof Error
+          ? error.message
+          : "A tag státuszának módosítása sikertelen!",
+      success: false,
+    }
+  }
+
+  revalidatePath(`/projects/${projectId}/members`)
+  return {
+    message: "A tag státusza sikeresen módosítva!",
+    success: true,
+  }
+}

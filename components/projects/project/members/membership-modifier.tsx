@@ -1,6 +1,6 @@
 "use client"
 
-import { removeUserFromProject } from "@/actions/projects.action"
+import { changeMembershipStatus, removeUserFromProject } from "@/actions/projects.action"
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -20,20 +20,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Ban, Loader2 } from "lucide-react"
+import { Ban, Loader2, UserCheck, UserMinus } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
-export default function KickMemberButton({
+export default function MembershipModifierComponent({
   memberId,
   memberName,
   projectId,
   children,
+  isAdmin
 }: {
   memberId: string
   memberName: string
   projectId: string
   children: React.ReactNode
+  isAdmin: boolean
 }) {
   const [removing, setRemoving] = useState(false)
 
@@ -51,6 +53,17 @@ export default function KickMemberButton({
     toast.success(response.message, { duration: 3000, position: "top-center" })
   }
 
+  const handleMembershipChange = async (isAdmin: boolean) => {
+    const response = await changeMembershipStatus(projectId, memberId, isAdmin)
+
+    if (!response.success) {
+      toast.error(response.message, { duration: 3000, position: "top-center" })
+      return
+    }
+
+    toast.success(response.message, { duration: 3000, position: "top-center" })
+  }
+
   return (
     <AlertDialog>
       <DropdownMenu>
@@ -60,6 +73,19 @@ export default function KickMemberButton({
             {memberName}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => handleMembershipChange(isAdmin)}>
+            {
+              isAdmin ? (
+                <div className="flex items-center gap-2">
+                  <UserMinus className="w-4 h-4 mr-2" /> Taggá fokozás
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 mr-2" /> Adminná tétel
+                </div>
+              )
+            }
+          </DropdownMenuItem>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>
               <div className="flex items-center gap-2 text-red-500">

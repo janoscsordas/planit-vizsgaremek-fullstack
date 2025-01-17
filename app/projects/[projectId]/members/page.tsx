@@ -11,8 +11,8 @@ import { Suspense } from "react"
 import { notFound, redirect } from "next/navigation"
 import { formatDate } from "date-fns"
 import { Avatar } from "@radix-ui/themes"
-import KickMemberComponent from "@/components/projects/project/members/kick-member-component"
 import { Metadata } from "next"
+import MembershipModifierComponent from "@/components/projects/project/members/membership-modifier"
 
 
 export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
@@ -88,6 +88,7 @@ export default async function Members({ params }: { params: any }) {
   }
 
   const isOwner = projectData.userId === session.user.id
+  const isUserAdmin = projectData.members.some((member) => member.userId === session.user.id && member.role === "admin")
 
   return (
     <>
@@ -108,7 +109,7 @@ export default async function Members({ params }: { params: any }) {
         <h1 className="text-2xl font-bold">Tagok</h1>
         <div className="mt-8 border p-4 rounded-xl w-full lg:w-[75%]">
           <h1 className="mb-1 font-bold text-md">Projekt tagjai</h1>
-          {isOwner ? (
+          {isOwner || isUserAdmin ? (
             <>
               <p className="text-sm text-muted-foreground">
                 Adj hozzá tagokat a projektedhez!
@@ -138,10 +139,11 @@ export default async function Members({ params }: { params: any }) {
               isOwner ? (
                 <div className="flex items-center mt-6" key={member.id}>
                   <span className="flex items-center justify-center overflow-hidden rounded-full shrink-0 h-9 w-9">
-                    <KickMemberComponent
+                    <MembershipModifierComponent
                       memberId={member.id}
                       memberName={member.user.name!}
                       projectId={projectData.id}
+                      isAdmin={member.role === "admin"}
                     >
                       <button>
                         <Avatar
@@ -151,7 +153,7 @@ export default async function Members({ params }: { params: any }) {
                           fallback={member.user.name?.charAt(0) || ""}
                         />
                       </button>
-                    </KickMemberComponent>
+                    </MembershipModifierComponent>
                   </span>
                   <div className="ml-4 space-y-1">
                     <p className="flex items-center gap-1 text-sm font-medium leading-none tracking-tighter">
