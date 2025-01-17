@@ -22,7 +22,7 @@ export default function SearchFilter({
           size="2"
           variant="soft"
           color="green"
-          className="bg-[#006642] hover:bg-[#00A36C]/50 transition-colors text-primary font-medium w-max cursor-pointer"
+          className="bg-[#006642] hover:bg-[#00A36C]/50 transition-colors text-primary font-medium w-max cursor-pointer sm:text-sm text-xs"
           aria-label="Új projekt készítése"
         >
           Új projekt
