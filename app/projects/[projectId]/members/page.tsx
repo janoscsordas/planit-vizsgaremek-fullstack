@@ -14,14 +14,9 @@ import { Avatar } from "@radix-ui/themes"
 import KickMemberComponent from "@/components/projects/project/members/kick-member-component"
 import { Metadata } from "next"
 
-interface PageProps {
-  params: {
-    projectId: string;
-  }
-}
 
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const { projectId } = props.params
+export async function generateMetadata({ params }: { params: { projectId: string }}): Promise<Metadata> {
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     columns: {
@@ -46,14 +41,14 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-export default async function Members(props: PageProps) {
+export default async function Members({ params }: { params: { projectId: string } }) {
   const session = await auth()
 
   if (!session || !session.user) {
     return redirect("/login")
   }
 
-  const { projectId } = props.params
+  const { projectId } = params
 
   const projectData = await db.query.ProjectsTable.findFirst({
     where: eq(ProjectsTable.id, projectId),
