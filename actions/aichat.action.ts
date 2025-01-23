@@ -67,7 +67,7 @@ export async function initiateConversation({
       .insert(ChatConversationsTable)
       .values({
         userId,
-        title: message.trim().slice(0, 32) + "...",
+        title: validatedFields.data.message.length > 32 ? validatedFields.data.message.trim().slice(0, 32) + "..." : validatedFields.data.message.trim(),
       })
       .returning({
         id: ChatConversationsTable.id,

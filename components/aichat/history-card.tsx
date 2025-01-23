@@ -1,13 +1,13 @@
 "use client"
 
 import { deleteConversation } from "@/actions/aichat.action"
-import { Avatar } from "@radix-ui/themes"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
 import { Trash2Icon } from "lucide-react"
 import { User } from "next-auth"
 import Link from "next/link"
 import { toast } from "sonner"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export default function HistoryCard({
   user,
@@ -42,13 +42,10 @@ export default function HistoryCard({
       </Link>
       <div className="flex items-center justify-between w-full gap-2 pt-2 mt-1 border-t border-muted">
         <div className="flex items-center gap-2">
-          <Avatar
-            className="w-4 h-4"
-            src={user.image || ""}
-            alt={user.name || ""}
-            fallback={user.name?.charAt(0) || "F"}
-            radius="full"
-          />
+          <Avatar className="w-5 h-5">
+            <AvatarImage src={user.image || ""} />
+            <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
+          </Avatar>
           <p className="text-xs">{user.name}</p>
           <p className="text-[.65rem] text-muted-foreground">
             Készítetted{" "}
