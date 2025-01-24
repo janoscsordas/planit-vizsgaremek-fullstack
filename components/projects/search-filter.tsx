@@ -1,5 +1,5 @@
 import { Button, Select, TextField } from "@radix-ui/themes"
-import { Filter, Search } from "lucide-react"
+import { Filter, PlusIcon, Search } from "lucide-react"
 import Link from "next/link"
 
 type SearchFiltersProps = {
@@ -22,10 +22,11 @@ export default function SearchFilter({
           size="2"
           variant="soft"
           color="green"
-          className="bg-[#006642] hover:bg-[#00A36C]/50 transition-colors text-primary text-xs md:text-sm font-medium w-max cursor-pointer"
+          className="bg-[#006642] hover:bg-[#00A36C]/50 transition-colors text-primary text-xs md:text-sm font-medium w-fit cursor-pointer"
           aria-label="Új projekt készítése"
         >
-          Új projekt
+          <PlusIcon className="w-4 h-4 block sm:hidden" />
+          <span className="hidden sm:block">Új projekt</span>
         </Button>
       </Link>
 
@@ -37,6 +38,8 @@ export default function SearchFilter({
         radius="large"
         size="2"
         color="green"
+        name="search"
+        id="search"
       >
         <TextField.Slot>
           <Search height="16" width="16" />

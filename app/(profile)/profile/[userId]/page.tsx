@@ -51,25 +51,27 @@ export default async function ProfilePage({
                 <BackButton />
             </header>
             <Card className="w-[90%] md:max-w-2xl mx-auto">
-                <CardHeader className="flex flex-row items-center gap-4">
-                <Avatar className="w-24 h-24">
-                    <AvatarImage src={user.image || ""} alt={user.name!} />
-                    <AvatarFallback>
-                        {user.name!
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                    <CardTitle className="text-2xl">{user.name}</CardTitle>
-                    <p className="text-muted-foreground">@{user.name}</p>
-                </div>
-                {isUsersOwnPage && (
-                    <Link href={`/profile`}>
-                        <Button>Profil Szerkesztése</Button>
-                    </Link>
-                )}
+                <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-row items-center gap-4">
+                        <Avatar className="w-24 h-24">
+                            <AvatarImage src={user.image || ""} alt={user.name!} />
+                            <AvatarFallback>
+                                {user.name!
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                            <CardTitle className="text-2xl">{user.name}</CardTitle>
+                            <p className="text-muted-foreground">@{user.name}</p>
+                        </div>
+                    </div>
+                    {isUsersOwnPage && (
+                        <Link href={`/profile`}>
+                            <Button>Profil Szerkesztése</Button>
+                        </Link>
+                    )}
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-start gap-2 sm:gap-0 sm:flex-row sm:items-center sm:space-x-4 text-sm text-muted-foreground">
