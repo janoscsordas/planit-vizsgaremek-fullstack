@@ -13,6 +13,8 @@ import { formatDate } from "date-fns"
 import { Avatar } from "@radix-ui/themes"
 import { Metadata } from "next"
 import MembershipModifierComponent from "@/components/projects/project/members/membership-modifier"
+import Link from "next/link"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
@@ -128,6 +130,7 @@ export default async function Members({ params }: { params: any }) {
           )}
           <Separator orientation="horizontal" className="mt-6 mb-4" />
           <MemberComponent
+            id={projectData.owner.id}
             ownerId={projectData.owner.id}
             image={projectData.owner.image}
             name={projectData.owner.name}
@@ -156,9 +159,16 @@ export default async function Members({ params }: { params: any }) {
                     </MembershipModifierComponent>
                   </span>
                   <div className="ml-4 space-y-1">
-                    <p className="flex items-center gap-1 text-sm font-medium leading-none tracking-tighter">
-                      {member.user.name}
-                    </p>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href={`/profile/${member.user.id}`} className="flex items-center gap-1 hover:underline text-sm font-medium leading-none tracking-tighter">
+                          {member.user.name}
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent align="start">
+                        profil megtekintése
+                      </TooltipContent>
+                    </Tooltip>
                     <p className="text-xs text-muted-foreground">
                       {member.user.email}
                     </p>
@@ -175,6 +185,7 @@ export default async function Members({ params }: { params: any }) {
               ) : (
                 <MemberComponent
                   key={member.id}
+                  id={member.user.id}
                   image={member.user.image}
                   name={member.user.name}
                   email={member.user.email}
