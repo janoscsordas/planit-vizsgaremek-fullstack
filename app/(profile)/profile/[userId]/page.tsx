@@ -53,12 +53,12 @@ export default async function ProfilePage({
             <Card className="w-[90%] md:max-w-2xl mx-auto">
                 <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar className="w-24 h-24">
-                    <AvatarImage src={user.image || ""} alt={user?.name!} />
+                    <AvatarImage src={user.image || ""} alt={user.name!} />
                     <AvatarFallback>
-                    {user.name!
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+                        {user.name!
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
                     </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
