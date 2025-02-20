@@ -406,73 +406,62 @@ export default function Home() {
               </div>
               <div></div>
               <div>
-                <h3 className="mb-2 text-lg font-semibold uppercase">
-                  szolgáltatások
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      href="#pricing"
-                      className="transition-colors hover:text-foreground"
-                      aria-label="Vissza az árakra"
-                    >
-                      Árazás
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="transition-colors hover:text-foreground"
-                      aria-label="Vissza a funkciókra"
-                    >
-                      Funkciók
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="transition-colors hover:text-foreground"
-                      aria-label="Vissza a támogatásra"
-                    >
-                      Támogatás
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="transition-colors hover:text-foreground"
-                      aria-label="Vissza a kapcsolatra"
-                    >
-                      Kapcsolat
-                    </Link>
-                  </li>
-                </ul>
+                <div className="flex flex-col mb-4">
+                  <h3 className="mb-2 text-lg font-semibold uppercase">
+                    szolgáltatások
+                  </h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <Link
+                        href="#pricing"
+                        className="transition-colors hover:text-foreground"
+                        aria-label="Vissza az árakra"
+                      >
+                        Árazás
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="https://github.com/janoscsordas/planit-vizsgaremek-fullstack/issues"
+                        className="transition-colors hover:text-foreground"
+                        aria-label="Vissza a kapcsolatra"
+                      >
+                        Kapcsolat
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="flex flex-col mb-4">
+                  <h3 className="mb-2 text-lg font-semibold uppercase">
+                    szabályzat
+                  </h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <Link
+                        href="https://github.com/janoscsordas/planit-vizsgaremek-fullstack"
+                        className="transition-colors hover:text-foreground"
+                        aria-label="Vissza az adatvédelmi szabályzatra"
+                      >
+                        Adatvédelmi szabályzat
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div>
                 <h3 className="mb-2 text-lg font-semibold uppercase">
-                  szabályzat
+                  dokumentáció
                 </h3>
                 <ul className="space-y-2">
                   <li>
                     <Link
-                      href="/"
+                      href="https://docs.planitapp.hu"
                       className="transition-colors hover:text-foreground"
                       aria-label="Vissza az adatvédelmi szabályzatra"
                     >
-                      Adatvédelmi szabályzat
+                      Dokumentáció
                     </Link>
                   </li>
-                  {["ÁSZF", "Süti szabályzat"].map((item) => (
-                    <li key={item}>
-                      <Link
-                        href="#"
-                        className="transition-colors hover:text-foreground"
-                        aria-label={`Vissza az ${item} szabályzatra`}
-                      >
-                        {item}
-                      </Link>
-                    </li>
-                  ))}
                 </ul>
               </div>
             </div>
