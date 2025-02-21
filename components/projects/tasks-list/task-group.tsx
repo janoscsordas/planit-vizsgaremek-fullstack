@@ -58,7 +58,7 @@ export const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
       {assigns.map((assign) => (
         <Tooltip key={assign.id}>
           <TooltipTrigger asChild>
-            <Avatar className="w-6 h-6 cursor-default select-none">
+            {/* <Avatar className="w-6 h-6 cursor-default select-none">
               <AvatarImage
                 src={assign.user.image || undefined}
                 alt={assign.user.name || ""}
@@ -67,7 +67,39 @@ export const AssignedAvatars = React.memo(({ assigns }: { assigns: any[] }) => (
               <AvatarFallback>
                 {assign.user.name.charAt(0).toUpperCase()}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
+            {assigns.indexOf(assign) < 3 ? (
+              <Avatar className="w-6 h-6 cursor-default select-none">
+                <AvatarImage
+                  src={assign.user.image || undefined}
+                  alt={assign.user.name || ""}
+                  loading="lazy"
+                />
+                <AvatarFallback>
+                  {assign.user.name.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            ) : assigns.length > 3 && assigns.indexOf(assign) === 3 ? (
+              <Tooltip key="more">
+                <TooltipTrigger asChild>
+                  <Avatar className="w-6 h-6 cursor-default select-none text-xs">
+                    <AvatarImage
+                      src={undefined}
+                      alt={assigns.length - 3 + "További felhasználó" || ""}
+                      loading="lazy"
+                    />
+                    <AvatarFallback>+{assigns.length - 3}</AvatarFallback>
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {assigns.slice(3).map((assign) => (
+                    <p key={assign.id}>
+                      {assign.user.name || "Ismeretlen Felhasználó"}
+                    </p>
+                  ))}
+                </TooltipContent>
+              </Tooltip>
+            ) : null}
           </TooltipTrigger>
           <TooltipContent>
             <p>{assign.user.name || "Ismeretlen Felhasználó"}</p>

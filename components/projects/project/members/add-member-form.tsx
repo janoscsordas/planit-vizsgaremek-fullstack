@@ -106,7 +106,7 @@ export default function MultiEmailInput({ projectId }: { projectId: string }) {
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
-            className="flex-grow min-w-[200px] border-none focus:ring-0"
+            className="flex-grow min-w-[200px] border-none focus:ring-0 focus:ring-offset-0 md:placeholder:text-base placeholder:text-xs"
           />
           <Button
             variant={"ghost"}
