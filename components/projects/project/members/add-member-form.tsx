@@ -59,7 +59,7 @@ export default function MultiEmailInput({ projectId }: { projectId: string }) {
     const response = await sendProjectInvites(projectId, emails)
 
     if (!response.success) {
-      toast.error("Hiba törtent!", {
+      toast.error("Hiba történt!", {
         description: response.message,
         duration: 3000,
         position: "top-center",
