@@ -7,6 +7,7 @@ import { UsersTable } from "@/database/schema/user"
 import { validEmailSchema } from "@/lib/schemas/notificationSchema"
 import { supabase } from "@/lib/utils/supabase"
 import { count, eq, inArray } from "drizzle-orm"
+import { revalidatePath } from "next/cache"
 
 export async function sendProjectInvites(projectId: string, emails: string[]) {
   const session = await auth()
@@ -85,11 +86,7 @@ export async function sendProjectInvites(projectId: string, emails: string[]) {
         receiverId: id.id,
       }))
     )
-
-    return {
-      success: true,
-      message: "Meghívók elküldve a létező email címeknek!",
-    }
+    
   } catch (error) {
     return {
       success: false,
@@ -98,6 +95,12 @@ export async function sendProjectInvites(projectId: string, emails: string[]) {
           ? error.message
           : "Hiba történt a meghívók elküldése közben!",
     }
+  }
+
+  revalidatePath(`/projects/${projectId}/members`)
+  return {
+    success: true,
+    message: "Meghívók elküldve a létező email címeknek!",
   }
 }
 
@@ -145,11 +148,6 @@ export async function acceptInvitation(
 
     // Deleting the invitation
     await supabase.from("notifications").delete().eq("id", invitationId)
-
-    return {
-      success: true,
-      message: "Meghívó sikeresen elfogadva! A projekthez adás sikeres!",
-    }
   } catch (error) {
     return {
       success: false,
@@ -158,6 +156,12 @@ export async function acceptInvitation(
           ? error.message
           : "Hiba történt a meghívó elfogadása közben!",
     }
+  }
+
+  revalidatePath("/notifications")
+  return {
+    success: true,
+    message: "Meghívó sikeresen elfogadva! A projekthez adás sikeres!",
   }
 }
 
@@ -181,11 +185,6 @@ export async function declineInvitation(invitationId: number) {
   try {
     // Deleting the declined invitation
     await supabase.from("notifications").delete().eq("id", invitationId)
-
-    return {
-      success: true,
-      message: "Meghívó sikeresen törölve!",
-    }
   } catch (error) {
     return {
       success: false,
@@ -194,5 +193,11 @@ export async function declineInvitation(invitationId: number) {
           ? error.message
           : "Hiba történt a meghívó elutasítása közben!",
     }
+  }
+
+  revalidatePath("/notifications")
+  return {
+    success: true,
+    message: "Meghívó sikeresen törölve!",
   }
 }
