@@ -9,7 +9,6 @@ import {
   LogIn,
   MessageCircle,
 } from "lucide-react"
-import CookieConsent from "@/components/cookie-consent"
 import BackToTop from "@/components/back-to-top"
 import AutoSlideshow from "@/components/auto-slideshow"
 import { Metadata } from "next"
@@ -379,9 +378,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <CookieConsent />
-
         <footer className="absolute left-0 right-0 py-12 border-t-2 bg-card text-muted-foreground">
           <div className="container flex flex-col items-center justify-center px-4 mx-auto">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
