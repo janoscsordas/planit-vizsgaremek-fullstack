@@ -15,6 +15,7 @@ import { Metadata } from "next"
 import MembershipModifierComponent from "@/components/projects/project/members/membership-modifier"
 import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import PendingInvites from "@/components/projects/project/members/pending-invites"
 
 
 export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
@@ -114,7 +115,7 @@ export default async function Members({ params }: { params: any }) {
           {isOwner || isUserAdmin ? (
             <>
               <p className="text-sm text-muted-foreground">
-                Adj hozzá tagokat a projektedhez!
+                Adj hozzá tagokat a projektedhez! <br />Mielőtt a gombra kattintanál üss ENTER-t, hogy az e-mail cím felkerüljön a meghívni kívánt felhasználók közé.
               </p>
               <p className="mb-4 text-sm text-muted-foreground">
                 Ha el szeretnél távolítani valakit, kattints a profilképére!
@@ -128,6 +129,13 @@ export default async function Members({ params }: { params: any }) {
               Itt láthatod a projekt tagjait
             </p>
           )}
+          {isOwner || isUserAdmin ? (
+            <>
+              <Separator orientation="horizontal" className="mt-6 mb-4" />
+              <h2 className="text-sm font-semibold">Elfogadásra váró meghívók</h2>
+              <PendingInvites projectId={projectData.id} />
+            </>
+          ) : null}
           <Separator orientation="horizontal" className="mt-6 mb-4" />
           <MemberComponent
             id={projectData.owner.id}

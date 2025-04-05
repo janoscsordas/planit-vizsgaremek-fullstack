@@ -16,7 +16,7 @@ bun run dev
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ## 📖 Documentation
-Open [link](link) to read the full documentation.
+Open [link](https://docs.planitapp.hu/) to read the full documentation.
 
 ## 📄 License
 Distributed under the MIT License. See `LICENSE` for more information.
@@ -46,7 +46,7 @@ bun run dev
 Nyissa meg a [http://localhost:3000](http://localhost:3000)-et a böngészőben a folytatáshoz.
 
 ## 📖 Dokumentáció
-Az alábbi linken megtekintheti a teljes dokumentációt. [link](link)
+Az alábbi linken megtekintheti a teljes dokumentációt. [link](https://docs.planitapp.hu/)
 
 ## 📄 Licenc
 MIT licenc alatt kiterjesztve. További információért tekintse meg a `LICENSE`-t.

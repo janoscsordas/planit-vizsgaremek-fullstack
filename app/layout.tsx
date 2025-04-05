@@ -7,6 +7,7 @@ import { Providers } from "@/lib/providers/providers"
 import { Toaster } from "@/components/ui/toaster"
 import { Toaster as Sonner } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/app/(profile)/appearance/theme-provider"
+import CookieConsent from "@/components/cookie-consent"
 
 export const metadata: Metadata = {
   title: "Planitapp - Kövesd nyomon a terveid!",
@@ -42,6 +43,7 @@ export default async function RootLayout({
             <Providers>{children}</Providers>
             <Toaster />
             <Sonner />
+            <CookieConsent />
           </Theme>
         </ThemeProvider>
       </body>

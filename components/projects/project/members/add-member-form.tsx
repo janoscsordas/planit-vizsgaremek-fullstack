@@ -59,7 +59,7 @@ export default function MultiEmailInput({ projectId }: { projectId: string }) {
     const response = await sendProjectInvites(projectId, emails)
 
     if (!response.success) {
-      toast.error("Hiba törtent!", {
+      toast.error("Hiba történt!", {
         description: response.message,
         duration: 3000,
         position: "top-center",
@@ -106,7 +106,7 @@ export default function MultiEmailInput({ projectId }: { projectId: string }) {
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
-            className="flex-grow min-w-[200px] border-none focus:ring-0"
+            className="flex-grow min-w-[200px] border-none focus:ring-0 focus:ring-offset-0 md:placeholder:text-base placeholder:text-xs"
           />
           <Button
             variant={"ghost"}

@@ -147,7 +147,7 @@ export async function createIssueComment(
       message:
         error instanceof Error
           ? error.message
-          : "Hiba törént az Issue elkészítése közben!",
+          : "Hiba törént az probléma elkészítése közben!",
     }
   }
 

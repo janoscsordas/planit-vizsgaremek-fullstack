@@ -3,6 +3,7 @@
 import React, { createContext, useState, useEffect } from "react"
 import { supabase } from "@/lib/utils/supabase"
 import { Notification } from "@/lib/definitions/notifications"
+import { enrichNotifications } from "@/lib/utils/enrichNotifications"
 
 interface NotificationContextType {
   notifications: Notification[]
@@ -23,61 +24,6 @@ export const NotificationsProvider = ({
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
 
-  // Fetch additional details for notifications
-  const enrichNotifications = async (rawNotifications: Notification[]) => {
-    if (rawNotifications.length === 0) {
-      return []
-    }
-
-    // Extract unique sender and project IDs
-    const uniqueSenderIds = [
-      ...new Set(rawNotifications.map((notification) => notification.senderId)),
-    ]
-    const uniqueProjectIds = [
-      ...new Set(
-        rawNotifications.map((notification) => notification.senderProjectId)
-      ),
-    ]
-
-    try {
-      // Fetch sender and project details
-      const [senderResponse, projectResponse] = await Promise.all([
-        fetch("/api/user/details", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userIds: uniqueSenderIds }),
-        }),
-        fetch("/api/projects/details", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ projectIds: uniqueProjectIds }),
-        }),
-      ])
-
-      const senderDetails = await senderResponse.json()
-      const projectDetails = await projectResponse.json()
-
-      // Merge sender and project details with notifications
-      const enrichedNotifications = rawNotifications.map((notification) => {
-        return {
-          ...notification,
-          senderName: senderDetails[notification.senderId]?.name,
-          senderImage: senderDetails[notification.senderId]?.image,
-          projectName: projectDetails[notification.senderProjectId]?.name,
-        }
-      })
-
-      return enrichedNotifications as Notification[]
-    } catch (error) {
-      console.error("Error enriching notifications:", error)
-      return rawNotifications
-    }
-  }
-
   // Setup realtime subscription
   useEffect(() => {
     // Get the initial data
@@ -96,9 +42,12 @@ export const NotificationsProvider = ({
         },
         async (payload) => {
           const newNotification = payload.new as Notification
+          const enrichedNotification = await enrichNotifications([
+           newNotification, 
+          ])
           setNotifications((prevNotifications) => [
-            newNotification,
             ...prevNotifications,
+            enrichedNotification[0],
           ])
         }
       )

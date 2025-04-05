@@ -104,7 +104,7 @@ export default function EditAndShowSheet({
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="w-full sm:w-[75%]">
+      <SheetContent className="w-full sm:w-[75%] overflow-scroll">
         <SheetHeader className="pt-10 space-y-1">
           <SheetTitle className="text-[1.4rem]">
             <TaskTitle task={task} />
@@ -145,10 +145,8 @@ export default function EditAndShowSheet({
                 {task.assigns.length > 0 ? (
                   task.assigns.map((assign) => (
                     <li key={assign.id} className="flex items-center gap-2">
-                      <Avatar
-                        className="w-6 h-6 mx-2 rounded-full"
-                      >
-                        <AvatarImage 
+                      <Avatar className="w-6 h-6 mx-2 rounded-full">
+                        <AvatarImage
                           src={assign.user.image!}
                           alt={assign.user.name!}
                         />
@@ -318,17 +316,26 @@ function TaskStatus({ task }: { task: EnrichedTask }) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => handleStatusChange("pending")}>
-            <Badge className="px-2 py-[.1rem] rounded-md w-full" color="orange">
+            <Badge
+              className="flex items-center justify-center rounded-md w-full"
+              color="orange"
+            >
               Elvégzendő
             </Badge>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleStatusChange("in progress")}>
-            <Badge className="px-2 py-[.1rem] rounded-md w-full" color="blue">
+            <Badge
+              className="flex items-center justify-center rounded-md w-full"
+              color="blue"
+            >
               Folyamatban
             </Badge>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleStatusChange("finished")}>
-            <Badge className="px-2 py-[.1rem] rounded-md w-full" color="green">
+            <Badge
+              className="flex items-center justify-center rounded-md w-full"
+              color="green"
+            >
               Befejezett
             </Badge>
           </DropdownMenuItem>
@@ -706,9 +713,7 @@ function AssignTask({ members, projectOwner, task }: AssignTaskProps) {
                     htmlFor={`user-${member.id}`}
                     className="flex items-center space-x-2 text-sm font-medium"
                   >
-                    <Avatar
-                      className="w-6 h-6 rounded-full"
-                    >
+                    <Avatar className="w-6 h-6 rounded-full">
                       <AvatarImage
                         src={member.image ?? ""}
                         alt={member.name ?? "Ismeretlen"}

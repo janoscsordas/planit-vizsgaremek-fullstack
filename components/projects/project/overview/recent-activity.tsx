@@ -61,7 +61,10 @@ export default function RecentActivity({
               className="font-medium text-center text-muted-foreground"
               colSpan={3}
             >
-              Nincs adat. Készíts új feladatot!
+              <div className="md:block flex justify-center items-center flex-col">
+                Nincs adat.
+                <span className="font-semibold"> Készíts új feladatot!</span>
+              </div>
             </TableCell>
           </TableRow>
         )}

@@ -18,8 +18,8 @@ export async function generateMetadata({
   const { projectId } = params
 
   const project = await getProjectById(projectId)
-  const projectData = Array.isArray(project.data) 
-    ? project.data[0] 
+  const projectData = Array.isArray(project.data)
+    ? project.data[0]
     : project.data
 
   return {
@@ -29,18 +29,14 @@ export async function generateMetadata({
     openGraph: {
       title: `Planitapp - ${projectData?.name}`,
       description: `Planitapp oldalon a ${projectData?.name} projekt kezelése`,
-      siteName: "Planitapp", 
+      siteName: "Planitapp",
       locale: "hu-HU",
       type: "website",
     },
   }
 }
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: any
-}) {
+export default async function ProjectPage({ params }: { params: any }) {
   const session = await auth()
 
   if (!session || !session.user) {
@@ -79,7 +75,7 @@ export default async function ProjectPage({
         ]}
       />
       <main className="px-6 py-2">
-        <h1 className="text-2xl font-bold">{projectData.name}</h1>
+        <h1 className="text-2xl font-bold break-all">{projectData.name}</h1>
         <div>
           <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-4">
             <AnalyticsCards analyticsForCards={analyticsForCards} />

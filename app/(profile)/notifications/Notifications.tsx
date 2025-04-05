@@ -5,9 +5,9 @@ import {
   declineInvitation,
 } from "@/actions/notifications.action"
 import { Button } from "@/components/ui/button"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import { useNotifications } from "@/hooks/useNotifications"
-import { Avatar } from "@radix-ui/themes"
 import { formatDistance } from "date-fns"
 import { hu } from "date-fns/locale/hu"
 import { toast } from "sonner"
@@ -57,20 +57,18 @@ function NotificationCard({
   projectName: string | undefined
   created_at: Date
 }) {
-  if (!senderName || !senderImage || !projectName) {
-    return null
-  }
-
   return (
     <Card className="w-full p-4 transition-all ease-in border-2 hover:border-emerald-hover">
       <div className="flex flex-col items-center justify-between gap-2 lg:flex-row">
         <div className="flex items-center gap-2">
-          <Avatar
-            src={senderImage}
-            radius="full"
-            alt={senderName}
-            fallback={senderName.charAt(0)}
-          />
+          <Avatar>
+            <AvatarImage
+              src={senderImage}
+              alt={senderName}
+              className="rounded-full"
+            />
+            <AvatarFallback>{senderName ? senderName.charAt(0).toUpperCase() : "U"}</AvatarFallback>
+          </Avatar>
           <div className="flex flex-col gap-2 md:mt-0">
             <p className="text-sm font-medium">{senderName}</p>
             <p className="text-xs text-muted-foreground">
