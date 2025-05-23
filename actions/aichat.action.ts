@@ -19,7 +19,7 @@ import {
 import { NUMBER_OF_TOKENS_FOR_AI_COMPLETION } from "@/lib/utils/globalVariables"
 
 const client = new OpenAI({
-  baseURL: "https://api-inference.huggingface.co/v1/",
+  baseURL: "https://router.huggingface.co/together/v1",
   apiKey: process.env.HUGGING_FACE_API_KEY!,
 })
 
